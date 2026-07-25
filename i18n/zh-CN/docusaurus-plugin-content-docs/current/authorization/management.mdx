@@ -1,0 +1,12 @@
+---
+title: 精确授权管理
+slug: /authorization/management/
+---
+
+# 精确授权管理
+
+Portal Open API 为后端自动化提供 Application 边界内的 RBAC 资源：角色、权限、角色权限绑定与用户角色分配。这些 endpoint 不是浏览器 API。
+
+使用 M2M 机密 ApplicationClient，并为操作请求精确 scope。通用读写 scope 不会隐含更窄的 RBAC 管理能力。变更客户端必须发送当前强 `If-Match` ETag；发生冲突时重新加载资源并显式决策，不要覆盖新版本。
+
+权限授予接受精确键，以及受支持的 `resource:*` / `*:*` 通配符。资源与 action 匹配区分大小写；无效或有歧义的标识一律拒绝。

@@ -1,0 +1,18 @@
+---
+title: Application-level SSO
+slug: /enterprise/sso/
+---
+
+# Application-level SSO
+
+Enterprise identity-provider connections belong to an Application. Vertex can broker OIDC or SAML authentication for
+that Application's users, then issue tokens for its ApplicationClients. Provider discovery and selection are scoped
+to the current public `clientId`.
+
+Store client secrets, SAML keys, and provider credentials only in server-side encrypted configuration. Register exact
+callback URLs with the upstream provider. Validate issuer, state, nonce, signatures, audience, and time constraints;
+do not accept a provider response for another Application.
+
+Organizations may group users after authentication but do not own, override, or inherit SSO connections.
+
+For social providers, follow the field-by-field [Google and GitHub setup guide](../google-github/).

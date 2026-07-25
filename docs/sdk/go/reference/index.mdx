@@ -1,0 +1,1870 @@
+---
+
+title: Go API reference
+
+slug: /sdk/go/reference/
+
+pagination_next: null
+
+pagination_prev: null
+
+---
+
+
+
+# Go API reference
+
+
+## github.com/axis-iam/vertex-sdk-go
+
+```text
+package iam // import "."
+
+Package iam is the entry point for github.com/axis-iam/vertex-sdk-go, a Go SDK
+that integrates with the IAM Authentication Center.
+
+It exposes:
+
+  - SDKConfig — runtime configuration for the SDK
+  - SDK — orchestrator that wires JWT verification, permission resolution and
+    optional startup-time permission registration
+  - Shortcut constructors for net/http middleware via the
+    github.com/axis-iam/vertex-sdk-go/middleware sub-package
+
+Framework-specific adapters live in their own submodules to avoid pulling
+unrelated router dependencies into callers:
+
+  - github.com/axis-iam/vertex-sdk-go/chi
+  - github.com/axis-iam/vertex-sdk-go/gin
+  - github.com/axis-iam/vertex-sdk-go/echo
+
+CONSTANTS
+
+const PermissionsSyncScope = "permissions:sync"
+
+VARIABLES
+
+var (
+	// ErrPortalOpenAPIConfig identifies invalid Portal Open API client configuration.
+	ErrPortalOpenAPIConfig = errors.New("iam portal open api: config error")
+	// ErrPortalOpenAPIToken identifies token acquisition or token response failures.
+	ErrPortalOpenAPIToken = errors.New("iam portal open api: token error")
+	// ErrPortalOpenAPIRequest identifies Portal resource request failures.
+	ErrPortalOpenAPIRequest = errors.New("iam portal open api: request error")
+)
+
+FUNCTIONS
+
+func FromContext(ctx context.Context) *authz.User
+    FromContext returns the authenticated IAM user carried by ctx, if any.
+
+func MustUser(ctx context.Context) (*authz.User, error)
+    MustUser returns the authenticated IAM user or authz.ErrUnauthenticated.
+
+func PermissionDeclarationRevision(declaration PermissionManifestDeclaration) (string, error)
+
+TYPES
+
+type APIError struct {
+	Status int
+	Body   string
+}
+    APIError is returned for non-2xx responses from the IAM server.
+
+func (e *APIError) Error() string
+
+func (e *APIError) IsRetryable() bool
+    IsRetryable reports whether the error should trigger retries.
+
+type AccountOrganization struct {
+	OrganizationID string `json:"organizationId"`
+	Name           string `json:"name"`
+	Slug           string `json:"slug,omitempty"`
+	Role           string `json:"role"`
+	JoinedAt       string `json:"joinedAt,omitempty"`
+	Current        bool   `json:"current"`
+}
+    AccountOrganization is the current user's Application-scoped Organization
+    membership.
+
+type AccountPermissionSummary struct {
+	ApplicationID  string   `json:"applicationId"`
+	OrganizationID string   `json:"organizationId,omitempty"`
+	Roles          []string `json:"roles"`
+	Permissions    []string `json:"permissions"`
+}
+    AccountPermissionSummary is the current user's IAM-resolved permission
+    summary.
+
+type AccountSecuritySummary struct {
+	EmailVerified             bool `json:"emailVerified"`
+	PasswordCredentialPresent bool `json:"passwordCredentialPresent"`
+	MFAEnrolled               bool `json:"mfaEnrolled"`
+	TOTPEnrolled              bool `json:"totpEnrolled"`
+	WebAuthnEnrolled          bool `json:"webAuthnEnrolled"`
+	ActiveSessionCount        int  `json:"activeSessionCount"`
+}
+    AccountSecuritySummary is the current user's secret-free security summary.
+
+type AccountUpdateProfileRequest struct {
+	Username    string `json:"username,omitempty"`
+	DisplayName string `json:"displayName,omitempty"`
+	AvatarURL   string `json:"avatarUrl,omitempty"`
+}
+    AccountUpdateProfileRequest is the safe scalar profile update request.
+
+type AuthOption func(*middleware.AuthConfig)
+    AuthOption configures the Authenticate middleware.
+
+func WithAuthResponder(r middleware.ErrorResponder) AuthOption
+    WithAuthResponder substitutes the ErrorResponder used when authentication
+    fails.
+
+type AuthorizationCreateOptions struct{ IdempotencyKey string }
+    AuthorizationCreateOptions carries an optional retry-safe Idempotency-Key.
+
+type AuthorizationPageMetadata struct {
+	Size          int   `json:"size"`
+	Number        int   `json:"number"`
+	TotalElements int64 `json:"totalElements"`
+	TotalPages    int   `json:"totalPages"`
+}
+    AuthorizationPageMetadata is the nested Spring PagedModel metadata.
+
+type AuthorizationPageOptions struct {
+	Page *int
+	Size *int
+}
+    AuthorizationPageOptions selects a zero-based page with a maximum size of
+    100.
+
+type Client struct {
+	// Has unexported fields.
+}
+    Client is a low-level HTTP client against the IAM server's /open/v1 API.
+    It is safe for concurrent use.
+
+func NewClient(cfg *SDKConfig) (*Client, error)
+    NewClient constructs a Client from cfg. cfg.Validate() is called;
+    callers should normally use New (in sdk.go) which also builds the verifier,
+    resolver and registrar.
+
+func (c *Client) AcceptOrganizationInvitation(ctx context.Context, invitationToken, accessToken string) (*PublicOrganizationInvitationAcceptResponse, error)
+    AcceptOrganizationInvitation calls the public invitation accept endpoint.
+    Pass an empty accessToken to receive IAM's login-required continuation when
+    unauthenticated.
+
+func (c *Client) ChangePassword(ctx context.Context, accessToken string, input PasswordChangeRequest) error
+    ChangePassword calls the authenticated password-change endpoint.
+
+func (c *Client) CheckAccountPermission(ctx context.Context, accessToken, permission, organizationID string) (*PermissionCheckResponse, error)
+    CheckAccountPermission checks one permission through IAM. Wildcard semantics
+    are backend-owned.
+
+func (c *Client) Config() *SDKConfig
+    Config returns a pointer to the underlying config. Callers must not mutate
+    fields used by the SDK (Endpoint, ClientID, ...).
+
+func (c *Client) Endpoint() string
+    Endpoint returns the normalized IAM endpoint (no trailing slash).
+
+func (c *Client) GetAccountPermissionSummary(ctx context.Context, accessToken, organizationID string) (*AccountPermissionSummary, error)
+    GetAccountPermissionSummary resolves current-user permissions in the active
+    or explicit Organization context.
+
+func (c *Client) GetAccountProfile(ctx context.Context, accessToken string) (*UserProfile, error)
+    GetAccountProfile calls GET /api/v1/auth/me/profile with the user's bearer
+    token.
+
+func (c *Client) GetAccountSecuritySummary(ctx context.Context, accessToken string) (*AccountSecuritySummary, error)
+    GetAccountSecuritySummary calls GET /api/v1/auth/me/security with the user's
+    bearer token.
+
+func (c *Client) GetCurrentAccountOrganization(ctx context.Context, accessToken string) (*AccountOrganization, error)
+    GetCurrentAccountOrganization calls GET
+    /api/v1/auth/me/organizations/current.
+
+func (c *Client) GetMe(ctx context.Context, accessToken string) (*UserProfile, error)
+    GetMe calls GET /api/v1/auth/me/profile with the user's bearer access token.
+    It is uncached; use SDK.GetMe for the short-TTL profile cache. The returned
+    Metadata is profile metadata, not authorization attributes.
+
+func (c *Client) HTTP() *http.Client
+    HTTP exposes the underlying http.Client (e.g. for test override).
+
+func (c *Client) HasAccountOrganizationMembership(ctx context.Context, accessToken, organizationID string) (bool, error)
+    HasAccountOrganizationMembership derives membership from the Organization
+    list.
+
+func (c *Client) JWKS(ctx context.Context, jwksURL string) ([]byte, error)
+    JWKS returns the raw JWKS JSON body served by the issuer's well-known
+    endpoint. Used by the jwt sub-package.
+
+func (c *Client) ListAccountOrganizations(ctx context.Context, accessToken string) ([]AccountOrganization, error)
+    ListAccountOrganizations calls GET /api/v1/auth/me/organizations.
+
+func (c *Client) ListAccountSessions(ctx context.Context, accessToken string) ([]SessionView, error)
+    ListAccountSessions lists the current user's active sessions.
+
+func (c *Client) ListPermissions(ctx context.Context, clientID string) (*ListPermissionsResponse, error)
+    ListPermissions calls GET /open/v1/apps/{cid}/permissions.
+
+func (c *Client) LogoutAccount(ctx context.Context, accessToken, refreshToken string) error
+    LogoutAccount blacklists the current token/session and optionally revokes a
+    refresh token.
+
+func (c *Client) PreviewOrganizationInvitation(ctx context.Context, invitationToken string) (*PublicOrganizationInvitationPreview, error)
+    PreviewOrganizationInvitation calls the public invitation preview endpoint
+    without bearer auth.
+
+func (c *Client) RequestPasswordReset(ctx context.Context, email, redirectURI string) error
+    RequestPasswordReset starts the opaque public forgot-password flow.
+
+func (c *Client) ResetPassword(ctx context.Context, token, newPassword string) error
+    ResetPassword completes the public password reset flow.
+
+func (c *Client) ResolvePermissions(ctx context.Context, clientID string, roles []string) (*ResolvePermissionsResponse, error)
+    ResolvePermissions calls POST /open/v1/permissions:resolve.
+
+func (c *Client) RevokeAccountSession(ctx context.Context, accessToken, sessionID string) error
+    RevokeAccountSession revokes one session owned by the current user.
+
+func (c *Client) RevokeOtherAccountSessions(ctx context.Context, accessToken string) error
+    RevokeOtherAccountSessions revokes all sessions except the current token's
+    sid.
+
+func (c *Client) SendEmailVerification(ctx context.Context, email string) (*EmailVerificationResponse, error)
+    SendEmailVerification starts the opaque public email verification send flow.
+
+func (c *Client) SetHTTPClient(h *http.Client)
+    SetHTTPClient lets callers inject a custom http.Client. Intended for tests.
+
+func (c *Client) SwitchAccountOrganization(ctx context.Context, accessToken, organizationID string) (*OrganizationSwitchResponse, error)
+    SwitchAccountOrganization validates membership and returns the server
+    continuation.
+
+func (c *Client) UpdateAccountProfile(ctx context.Context, accessToken string, input AccountUpdateProfileRequest) (*UserProfile, error)
+    UpdateAccountProfile calls PATCH /api/v1/auth/me/profile with safe scalar
+    profile fields.
+
+func (c *Client) VerifyEmail(ctx context.Context, token string) (*EmailVerificationResponse, error)
+    VerifyEmail verifies a public email-verification token.
+
+type CreateOrganizationInvitationRequest struct {
+	Email     string                  `json:"email"`
+	Role      *OrganizationMemberRole `json:"role,omitempty"`
+	SendEmail *bool                   `json:"sendEmail,omitempty"`
+}
+    CreateOrganizationInvitationRequest is the strict invitation create payload.
+
+type CreateOrganizationRequest struct {
+	Name string `json:"name"`
+	Slug string `json:"slug"`
+}
+    CreateOrganizationRequest is the strict Organization create payload.
+
+type CreatePermissionRequest struct {
+	Resource    string  `json:"resource"`
+	Action      string  `json:"action"`
+	Name        string  `json:"name"`
+	Description *string `json:"description,omitempty"`
+}
+    CreatePermissionRequest is the strict canonical permission create payload.
+
+type CreateRegistrationGrantRequest struct {
+	Type          CreateRegistrationGrantType `json:"type"`
+	DisplayName   *string                     `json:"displayName,omitempty"`
+	AllowedEmail  *string                     `json:"allowedEmail,omitempty"`
+	AllowedDomain *string                     `json:"allowedDomain,omitempty"`
+	ExpiresAt     *string                     `json:"expiresAt,omitempty"`
+	MaxUses       *int                        `json:"maxUses,omitempty"`
+}
+
+type CreateRegistrationGrantType string
+    CreateRegistrationGrantRequest describes a manual EMAIL_LINK or ACCESS_CODE
+    grant.
+
+const (
+	CreateRegistrationGrantEmailLink  CreateRegistrationGrantType = "EMAIL_LINK"
+	CreateRegistrationGrantAccessCode CreateRegistrationGrantType = "ACCESS_CODE"
+)
+type CreateRoleRequest struct {
+	Key         string  `json:"key"`
+	Name        string  `json:"name"`
+	Description *string `json:"description,omitempty"`
+}
+    CreateRoleRequest is the strict role create payload.
+
+type CreateUserRoleRequest struct {
+	RoleID    string             `json:"roleId"`
+	Condition *UserRoleCondition `json:"condition,omitempty"`
+}
+    CreateUserRoleRequest is the typed POST assignment payload.
+
+type CreatedRegistrationGrant struct {
+	Grant                  RegistrationGrant `json:"grant"`
+	RegistrationGrantToken *string           `json:"registrationGrantToken"`
+	RegistrationAccessCode *string           `json:"registrationAccessCode"`
+}
+    CreatedRegistrationGrant contains the one-time raw proof returned only by
+    create.
+
+type EmailVerificationResponse struct {
+	Message           string `json:"message"`
+	RetryAfterSeconds *int   `json:"retryAfterSeconds"`
+}
+    EmailVerificationResponse is returned by public email verification helpers.
+
+type FailMode int
+    FailMode controls how the SDK behaves when the permission resolver errors.
+
+const (
+	// FailClose denies the request when resolution fails. Default.
+	FailClose FailMode = iota
+	// FailOpen allows the request through with an empty permission set.
+	FailOpen
+)
+type ListPermissionsResponse struct {
+	Permissions []PermissionDefinitionDTO `json:"permissions"`
+}
+    ListPermissionsResponse is the response body for GET
+    /open/v1/apps/{cid}/permissions.
+
+type Organization struct {
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	Slug      string `json:"slug"`
+	Version   int64  `json:"version"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+	ETag      string `json:"-"`
+}
+    Organization is an Application-bound Organization. ETag is populated for
+    create, get, and update responses.
+
+type OrganizationCreateOptions struct {
+	IdempotencyKey string
+}
+    OrganizationCreateOptions carries an optional Idempotency-Key for
+    exactly-once creates.
+
+type OrganizationIfMatchOptions struct {
+	IfMatch string
+}
+    OrganizationIfMatchOptions carries an optional quoted ETag/version
+    precondition.
+
+type OrganizationInvitation struct {
+	ID             string                               `json:"id"`
+	Email          string                               `json:"email"`
+	Role           OrganizationMemberRole               `json:"role"`
+	Status         OrganizationInvitationStatus         `json:"status"`
+	DeliveryStatus OrganizationInvitationDeliveryStatus `json:"deliveryStatus"`
+	ExpiresAt      string                               `json:"expiresAt"`
+	CreatedAt      string                               `json:"createdAt"`
+	UpdatedAt      string                               `json:"updatedAt"`
+}
+    OrganizationInvitation is a safe invitation detail. It never contains a
+    redemption proof.
+
+type OrganizationInvitationDeliveryStatus string
+    OrganizationInvitationDeliveryStatus is the invitation email delivery
+    outcome.
+
+const (
+	OrganizationInvitationDeliveryNotRequested OrganizationInvitationDeliveryStatus = "NOT_REQUESTED"
+	OrganizationInvitationDeliverySent         OrganizationInvitationDeliveryStatus = "SENT"
+	OrganizationInvitationDeliveryFailed       OrganizationInvitationDeliveryStatus = "FAILED"
+)
+type OrganizationInvitationListOptions struct {
+	Status *OrganizationInvitationStatus
+	Page   *int
+	Size   *int
+}
+    OrganizationInvitationListOptions filters invitation lifecycle state and
+    pages results.
+
+type OrganizationInvitationPage struct {
+	Content []OrganizationInvitation `json:"content"`
+	Page    OrganizationPageMetadata `json:"page"`
+}
+    OrganizationInvitationPage is a page of invitation details and delivery
+    states.
+
+type OrganizationInvitationStatus string
+    OrganizationInvitationStatus is an Organization invitation lifecycle state.
+
+const (
+	OrganizationInvitationPending   OrganizationInvitationStatus = "PENDING"
+	OrganizationInvitationAccepted  OrganizationInvitationStatus = "ACCEPTED"
+	OrganizationInvitationCancelled OrganizationInvitationStatus = "CANCELLED"
+	OrganizationInvitationExpired   OrganizationInvitationStatus = "EXPIRED"
+)
+type OrganizationListOptions struct {
+	Search    *string
+	Page      *int
+	Size      *int
+	Sort      []string
+	Direction []OrganizationSortDirection
+}
+    OrganizationListOptions filters, pages, and sorts Organization results.
+
+type OrganizationMember struct {
+	MembershipID string                 `json:"membershipId"`
+	UserID       string                 `json:"userId"`
+	Email        string                 `json:"email"`
+	DisplayName  string                 `json:"displayName"`
+	Role         OrganizationMemberRole `json:"role"`
+	JoinedAt     string                 `json:"joinedAt"`
+	UpdatedAt    string                 `json:"updatedAt"`
+	Version      int64                  `json:"version"`
+}
+    OrganizationMember is an Organization membership detail, including its
+    optimistic-lock version.
+
+type OrganizationMemberListOptions struct {
+	Search *string
+	Page   *int
+	Size   *int
+}
+    OrganizationMemberListOptions filters and pages Organization members.
+
+type OrganizationMemberPage struct {
+	Content []OrganizationMember     `json:"content"`
+	Page    OrganizationPageMetadata `json:"page"`
+}
+    OrganizationMemberPage is a page of Organization membership details.
+
+type OrganizationMemberRole string
+    OrganizationMemberRole is the Organization role returned and accepted by the
+    Open API.
+
+const (
+	OrganizationMemberRoleOwner  OrganizationMemberRole = "OWNER"
+	OrganizationMemberRoleAdmin  OrganizationMemberRole = "ADMIN"
+	OrganizationMemberRoleMember OrganizationMemberRole = "MEMBER"
+)
+type OrganizationPage struct {
+	Content []Organization           `json:"content"`
+	Page    OrganizationPageMetadata `json:"page"`
+}
+    OrganizationPage is a page of Application-bound Organizations.
+
+type OrganizationPageMetadata struct {
+	Size          int   `json:"size"`
+	Number        int   `json:"number"`
+	TotalElements int64 `json:"totalElements"`
+	TotalPages    int   `json:"totalPages"`
+}
+    OrganizationPageMetadata is the nested Spring PagedModel metadata.
+
+type OrganizationSortDirection string
+    OrganizationSortDirection controls Organization list sorting.
+
+const (
+	OrganizationSortAscending  OrganizationSortDirection = "ASC"
+	OrganizationSortDescending OrganizationSortDirection = "DESC"
+)
+type OrganizationSwitchResponse struct {
+	OrganizationID       string `json:"organizationId"`
+	Continuation         string `json:"continuation"`
+	TokenRefreshRequired bool   `json:"tokenRefreshRequired"`
+	Message              string `json:"message,omitempty"`
+}
+    OrganizationSwitchResponse is returned after requesting a current
+    Organization switch.
+
+type PasswordChangeRequest struct {
+	CurrentPassword string `json:"currentPassword"`
+	NewPassword     string `json:"newPassword"`
+}
+    PasswordChangeRequest is the authenticated password-change body.
+
+type Permission struct {
+	ID          string  `json:"id"`
+	Resource    string  `json:"resource"`
+	Action      string  `json:"action"`
+	Key         string  `json:"key"`
+	Name        string  `json:"name"`
+	Description *string `json:"description"`
+	Source      string  `json:"source"`
+	Version     int64   `json:"version"`
+	CreatedAt   string  `json:"createdAt"`
+	UpdatedAt   string  `json:"updatedAt"`
+	ETag        string  `json:"-"`
+}
+    Permission is a canonical resource:action grant and its response ETag.
+
+type PermissionCheckResponse struct {
+	ApplicationID  string   `json:"applicationId"`
+	OrganizationID string   `json:"organizationId,omitempty"`
+	Permission     string   `json:"permission"`
+	Allowed        bool     `json:"allowed"`
+	Roles          []string `json:"roles"`
+}
+    PermissionCheckResponse is returned by current-user permission checks.
+
+type PermissionDefinitionDTO struct {
+	Resource    string `json:"resource"`
+	Action      string `json:"action"`
+	Description string `json:"description,omitempty"`
+}
+    PermissionDefinitionDTO mirrors the request/response shape used by the
+    /open/v1/apps/{cid}/permissions endpoints. It is intentionally duplicated
+    here (rather than imported from authz) to keep the client package free of
+    circular dependencies.
+
+type PermissionManifest struct {
+	ManifestID  string                          `json:"manifestId"`
+	Revision    string                          `json:"revision"`
+	Permissions []PermissionManifestDeclaration `json:"permissions"`
+}
+
+type PermissionManifestClient struct {
+	// Has unexported fields.
+}
+
+func NewPermissionManifestClient(cfg PermissionManifestClientConfig) (*PermissionManifestClient, error)
+
+func (c *PermissionManifestClient) ClearPermissionManifestTokenCache()
+
+func (c *PermissionManifestClient) UpsertPermissionManifest(ctx context.Context, manifest PermissionManifest, idempotencyKey string) (*PermissionManifestResult, error)
+
+func (c *PermissionManifestClient) ValidatePermissionManifest(ctx context.Context, manifest PermissionManifest) (*PermissionManifestResult, error)
+
+type PermissionManifestClientConfig struct {
+	IssuerEndpoint    string
+	PortalAPIEndpoint string
+	ClientID          string
+	ClientSecret      string
+	Timeout           time.Duration
+	TokenSkew         time.Duration
+	MaxRetries        int
+	MaxRetryDelay     time.Duration
+	HTTPClient        *http.Client
+	Observer          func(PermissionManifestObservation)
+}
+
+type PermissionManifestContinueEvent struct {
+	Mode    string
+	Outcome string
+	Status  int
+	Code    string
+}
+
+type PermissionManifestCounts struct {
+	Created     int `json:"created"`
+	Updated     int `json:"updated"`
+	Unchanged   int `json:"unchanged"`
+	Resurrected int `json:"resurrected"`
+	Conflict    int `json:"conflict"`
+	Drift       int `json:"drift"`
+}
+
+type PermissionManifestDeclaration struct {
+	Resource    string  `json:"resource"`
+	Action      string  `json:"action"`
+	Name        string  `json:"name"`
+	Description *string `json:"description"`
+}
+
+func (d PermissionManifestDeclaration) Key() string
+
+type PermissionManifestDrift struct {
+	Key    string `json:"key"`
+	Kind   string `json:"kind"`
+	Source string `json:"source"`
+}
+
+type PermissionManifestError struct {
+	Status            int
+	Code              string
+	Message           string
+	CorrelationID     string
+	RetryAfterSeconds int
+	Body              string
+}
+
+func (e *PermissionManifestError) Error() string
+
+type PermissionManifestFailurePolicy int
+
+const (
+	PermissionManifestFailurePolicyUnset PermissionManifestFailurePolicy = iota
+	PermissionManifestFailFast
+	PermissionManifestContinue
+)
+type PermissionManifestItem struct {
+	Key       string `json:"key"`
+	Operation string `json:"operation"`
+	Reason    string `json:"reason"`
+}
+
+type PermissionManifestMode string
+
+const (
+	PermissionManifestValidate PermissionManifestMode = "validate"
+	PermissionManifestUpsert   PermissionManifestMode = "upsert"
+)
+type PermissionManifestObservation struct {
+	Mode     PermissionManifestMode
+	Outcome  string
+	Status   int
+	Duration time.Duration
+}
+
+type PermissionManifestResult struct {
+	Mode        PermissionManifestMode    `json:"mode"`
+	ManifestID  string                    `json:"manifestId"`
+	Revision    string                    `json:"revision"`
+	Fingerprint string                    `json:"fingerprint"`
+	Applied     bool                      `json:"applied"`
+	Results     []PermissionManifestItem  `json:"results"`
+	Drift       []PermissionManifestDrift `json:"drift"`
+	Counts      PermissionManifestCounts  `json:"counts"`
+}
+
+type PermissionManifestStartupMode int
+
+const (
+	PermissionManifestDisabled PermissionManifestStartupMode = iota
+	PermissionManifestCIValidate
+	PermissionManifestDeploymentUpsert
+	PermissionManifestDevelopmentStartup
+)
+type PermissionManifestStartupOptions struct {
+	Mode            PermissionManifestStartupMode
+	FailurePolicy   PermissionManifestFailurePolicy
+	IdempotencyKey  string
+	OnContinueError func(PermissionManifestContinueEvent)
+}
+
+type PermissionManifestStartupResult struct {
+	NetworkAttempted bool
+	Continued        bool
+	Result           *PermissionManifestResult
+}
+
+func RunPermissionManifestStartup(ctx context.Context, client *PermissionManifestClient, manifest PermissionManifest, options PermissionManifestStartupOptions) (PermissionManifestStartupResult, error)
+
+type PermissionPage struct {
+	Content []Permission              `json:"content"`
+	Page    AuthorizationPageMetadata `json:"page"`
+}
+    PermissionPage is a deterministic page of permissions.
+
+type PortalOpenAPIClient struct {
+	// Has unexported fields.
+}
+    PortalOpenAPIClient is a server-side M2M client for iam-portal /open/v1/**.
+
+    It obtains client_credentials machine tokens with explicit
+    portal:openapi:read or portal:openapi:write scope, caches read/write tokens
+    separately, and sends only Authorization: Bearer <machine_token> to Portal
+    resource endpoints.
+
+func NewPortalOpenAPIClient(cfg PortalOpenAPIClientConfig) (*PortalOpenAPIClient, error)
+    NewPortalOpenAPIClient constructs a server-side confidential Portal Open API
+    client.
+
+func (c *PortalOpenAPIClient) CancelOrganizationInvitation(ctx context.Context, organizationID, invitationID string) error
+    CancelOrganizationInvitation uses only organization_invitations:write.
+    Portal owns terminal-state/idempotency semantics.
+
+func (c *PortalOpenAPIClient) ClearTokenCache(scopes ...PortalOpenAPIScope)
+    ClearTokenCache clears cached read/write tokens, or only one scope when
+    provided.
+
+func (c *PortalOpenAPIClient) CreateOrganization(ctx context.Context, request CreateOrganizationRequest, options *OrganizationCreateOptions) (*Organization, error)
+    CreateOrganization uses only organizations:write and applies Idempotency-Key
+    when supplied.
+
+func (c *PortalOpenAPIClient) CreateOrganizationInvitation(ctx context.Context, organizationID string, request CreateOrganizationInvitationRequest, options *OrganizationCreateOptions) (*OrganizationInvitation, error)
+    CreateOrganizationInvitation uses only organization_invitations:write and
+    applies Idempotency-Key when supplied.
+
+func (c *PortalOpenAPIClient) CreatePermission(ctx context.Context, req CreatePermissionRequest, options *AuthorizationCreateOptions) (*Permission, error)
+    CreatePermission uses only permissions:write and validates canonical grant
+    grammar.
+
+func (c *PortalOpenAPIClient) CreateRegistrationGrant(ctx context.Context, request CreateRegistrationGrantRequest) (*CreatedRegistrationGrant, error)
+    CreateRegistrationGrant creates an EMAIL_LINK or ACCESS_CODE grant with
+    exactly one matching proof.
+
+func (c *PortalOpenAPIClient) CreateRole(ctx context.Context, req CreateRoleRequest, options *AuthorizationCreateOptions) (*Role, error)
+    CreateRole uses only roles:write and applies Idempotency-Key when supplied.
+
+func (c *PortalOpenAPIClient) CreateUserRole(ctx context.Context, userID string, req CreateUserRoleRequest, options *AuthorizationCreateOptions) (*UserRoleAssignment, error)
+    CreateUserRole uses only user_roles:write and the typed POST assignment
+    route.
+
+func (c *PortalOpenAPIClient) DeleteOrganization(ctx context.Context, organizationID string, options *OrganizationIfMatchOptions) error
+    DeleteOrganization uses only organizations:write and applies If-Match when
+    supplied.
+
+func (c *PortalOpenAPIClient) DeletePermission(ctx context.Context, id, ifMatch string) error
+    DeletePermission uses only permissions:write and requires a strong If-Match
+    ETag.
+
+func (c *PortalOpenAPIClient) DeleteRole(ctx context.Context, id, ifMatch string) error
+    DeleteRole uses only roles:write and requires a strong If-Match ETag.
+
+func (c *PortalOpenAPIClient) DeleteUserRole(ctx context.Context, userID, assignmentID, ifMatch string) error
+    DeleteUserRole uses only user_roles:write and requires If-Match.
+
+func (c *PortalOpenAPIClient) GetMachineToken(ctx context.Context, scope PortalOpenAPIScope) (*PortalOpenAPIMachineToken, error)
+    GetMachineToken returns a cached or freshly requested machine token for an
+    explicit scope.
+
+func (c *PortalOpenAPIClient) GetOrganization(ctx context.Context, organizationID string) (*Organization, error)
+    GetOrganization uses only organizations:read and exposes the returned ETag.
+
+func (c *PortalOpenAPIClient) GetOrganizationInvitation(ctx context.Context, organizationID, invitationID string) (*OrganizationInvitation, error)
+    GetOrganizationInvitation uses only organization_invitations:read.
+
+func (c *PortalOpenAPIClient) GetOrganizationMember(ctx context.Context, organizationID, membershipID string) (*OrganizationMember, error)
+    GetOrganizationMember uses only organization_members:read.
+
+func (c *PortalOpenAPIClient) GetPermission(ctx context.Context, id string) (*Permission, error)
+    GetPermission uses only permissions:read and exposes the returned ETag.
+
+func (c *PortalOpenAPIClient) GetRegistrationGrant(ctx context.Context, grantID string) (*RegistrationGrant, error)
+    GetRegistrationGrant returns a safe grant detail using
+    registration_grants:read.
+
+func (c *PortalOpenAPIClient) GetRole(ctx context.Context, id string) (*Role, error)
+    GetRole uses only roles:read and exposes the returned ETag.
+
+func (c *PortalOpenAPIClient) ListOrganizationInvitations(ctx context.Context, organizationID string, options OrganizationInvitationListOptions) (*OrganizationInvitationPage, error)
+    ListOrganizationInvitations uses only organization_invitations:read.
+
+func (c *PortalOpenAPIClient) ListOrganizationMembers(ctx context.Context, organizationID string, options OrganizationMemberListOptions) (*OrganizationMemberPage, error)
+    ListOrganizationMembers uses only organization_members:read.
+
+func (c *PortalOpenAPIClient) ListOrganizations(ctx context.Context, options OrganizationListOptions) (*OrganizationPage, error)
+    ListOrganizations uses only organizations:read.
+
+func (c *PortalOpenAPIClient) ListPermissions(ctx context.Context, options AuthorizationPageOptions) (*PermissionPage, error)
+    ListPermissions uses only permissions:read.
+
+func (c *PortalOpenAPIClient) ListRegistrationGrantRedemptions(ctx context.Context, grantID string, page, size *int) (*RegistrationGrantRedemptionPage, error)
+    ListRegistrationGrantRedemptions lists masked history using its dedicated
+    exact scope.
+
+func (c *PortalOpenAPIClient) ListRegistrationGrants(ctx context.Context, options RegistrationGrantListOptions) (*RegistrationGrantPage, error)
+    ListRegistrationGrants lists grants using only registration_grants:read.
+
+func (c *PortalOpenAPIClient) ListRolePermissions(ctx context.Context, roleID string, options AuthorizationPageOptions) (*RolePermissionBindingPage, error)
+    ListRolePermissions uses only role_permissions:read and exposes the role
+    ETag.
+
+func (c *PortalOpenAPIClient) ListRoles(ctx context.Context, options AuthorizationPageOptions) (*RolePage, error)
+    ListRoles uses only roles:read.
+
+func (c *PortalOpenAPIClient) ListUserRoles(ctx context.Context, userID string, options AuthorizationPageOptions) (*UserRoleAssignmentPage, error)
+    ListUserRoles uses only user_roles:read.
+
+func (c *PortalOpenAPIClient) PauseRegistrationGrant(ctx context.Context, grantID string) (*RegistrationGrant, error)
+    PauseRegistrationGrant pauses a grant using registration_grants:write.
+
+func (c *PortalOpenAPIClient) RemoveOrganizationMember(ctx context.Context, organizationID, membershipID string) error
+    RemoveOrganizationMember uses only organization_members:write. Last-owner
+    conflicts remain typed Portal errors.
+
+func (c *PortalOpenAPIClient) ReplaceRolePermissions(ctx context.Context, roleID string, permissionIDs []string, ifMatch string) (*RolePermissionSet, error)
+    ReplaceRolePermissions uses only role_permissions:write and requires
+    If-Match.
+
+func (c *PortalOpenAPIClient) RequestJSON(ctx context.Context, method, path string, body any, out any) error
+    RequestJSON calls a Portal /open/v1/** JSON endpoint with a bearer machine
+    token.
+
+    GET uses portal:openapi:read. POST, PUT, PATCH, and DELETE use
+    portal:openapi:write. The resource request never sends Basic auth,
+    X-IAM-Client-Id, X-Application-Id, or X-App-Key.
+
+func (c *PortalOpenAPIClient) ResendOrganizationInvitation(ctx context.Context, organizationID, invitationID string) (*OrganizationInvitation, error)
+    ResendOrganizationInvitation uses only organization_invitations:write.
+    Retry-After is preserved on PortalOpenAPIError.
+
+func (c *PortalOpenAPIClient) ResumeRegistrationGrant(ctx context.Context, grantID string) (*RegistrationGrant, error)
+    ResumeRegistrationGrant resumes a grant using registration_grants:write.
+
+func (c *PortalOpenAPIClient) RevokeRegistrationGrant(ctx context.Context, grantID string, reason *string) (*RegistrationGrant, error)
+    RevokeRegistrationGrant revokes a grant using registration_grants:write.
+    Reason is optional.
+
+func (c *PortalOpenAPIClient) UpdateOrganization(ctx context.Context, organizationID string, request UpdateOrganizationRequest, options *OrganizationIfMatchOptions) (*Organization, error)
+    UpdateOrganization uses only organizations:write and applies If-Match when
+    supplied.
+
+func (c *PortalOpenAPIClient) UpdateOrganizationMemberRole(ctx context.Context, organizationID, membershipID string, role OrganizationMemberRole, options *OrganizationIfMatchOptions) (*OrganizationMember, error)
+    UpdateOrganizationMemberRole uses only organization_members:write and
+    applies If-Match when supplied.
+
+func (c *PortalOpenAPIClient) UpdatePermission(ctx context.Context, id string, req UpdatePermissionRequest, ifMatch string) (*Permission, error)
+    UpdatePermission uses only permissions:write and requires a strong If-Match
+    ETag.
+
+func (c *PortalOpenAPIClient) UpdateRole(ctx context.Context, id string, req UpdateRoleRequest, ifMatch string) (*Role, error)
+    UpdateRole uses only roles:write and requires a strong If-Match ETag.
+
+func (c *PortalOpenAPIClient) UpdateUserRole(ctx context.Context, userID, assignmentID string, req UpdateUserRoleRequest, ifMatch string) (*UserRoleAssignment, error)
+    UpdateUserRole uses only user_roles:write and requires If-Match.
+
+type PortalOpenAPIClientConfig struct {
+	// Issuer is the IAM issuer/auth server base URL. Tokens are requested from
+	// {Issuer}/oauth2/token.
+	Issuer string
+	// PortalEndpoint is the iam-portal base URL used for /open/v1/** resource requests.
+	PortalEndpoint string
+	// ClientID is the M2M confidential ApplicationClient.clientId.
+	ClientID string
+	// ClientSecret is the M2M confidential ApplicationClient secret. Never expose
+	// it to browser or native client code.
+	ClientSecret string
+	// Timeout is applied when HTTPClient is nil. Default 5s.
+	Timeout time.Duration
+	// TokenSkew is subtracted from expires_in before caching. Default 30s.
+	TokenSkew time.Duration
+	// HTTPClient optionally overrides the HTTP transport. If nil, a client with
+	// Timeout is created.
+	HTTPClient *http.Client
+}
+    PortalOpenAPIClientConfig configures the server-side confidential client for
+    iam-portal /open/v1/** requests.
+
+type PortalOpenAPIError struct {
+	Status     int
+	Code       string
+	Body       string
+	RetryAfter string
+}
+    PortalOpenAPIError describes a failed Portal /open/v1/** resource request.
+
+func (e *PortalOpenAPIError) Error() string
+
+func (e *PortalOpenAPIError) Unwrap() error
+    Unwrap lets callers use errors.Is(err, ErrPortalOpenAPIRequest).
+
+type PortalOpenAPIMachineToken struct {
+	AccessToken string
+	Scope       PortalOpenAPIScope
+	ExpiresAt   time.Time
+}
+    PortalOpenAPIMachineToken is a cached machine token for one explicit scope.
+
+type PortalOpenAPIScope string
+    PortalOpenAPIScope is one of the explicit M2M scopes supported by
+    iam-portal.
+
+const (
+	// PortalOpenAPIReadScope is the explicit client_credentials scope for read calls.
+	PortalOpenAPIReadScope PortalOpenAPIScope = "portal:openapi:read"
+	// PortalOpenAPIWriteScope is the explicit client_credentials scope for write calls.
+	PortalOpenAPIWriteScope PortalOpenAPIScope = "portal:openapi:write"
+	// RegistrationGrantsReadScope is required for registration-grant list and detail requests.
+	RegistrationGrantsReadScope PortalOpenAPIScope = "registration_grants:read"
+	// RegistrationGrantsWriteScope is required for registration-grant create and lifecycle requests.
+	RegistrationGrantsWriteScope PortalOpenAPIScope = "registration_grants:write"
+	// RegistrationGrantsRedemptionsReadScope is required for redemption-history requests.
+	RegistrationGrantsRedemptionsReadScope PortalOpenAPIScope = "registration_grants:redemptions:read"
+	// OrganizationsReadScope is required for Organization list and detail requests.
+	OrganizationsReadScope PortalOpenAPIScope = "organizations:read"
+	// OrganizationsWriteScope is required for Organization create, update, and delete requests.
+	OrganizationsWriteScope PortalOpenAPIScope = "organizations:write"
+	// OrganizationInvitationsReadScope is required for Organization invitation list and detail requests.
+	OrganizationInvitationsReadScope PortalOpenAPIScope = "organization_invitations:read"
+	// OrganizationInvitationsWriteScope is required for Organization invitation lifecycle requests.
+	OrganizationInvitationsWriteScope PortalOpenAPIScope = "organization_invitations:write"
+	// OrganizationMembersReadScope is required for Organization member list and detail requests.
+	OrganizationMembersReadScope PortalOpenAPIScope = "organization_members:read"
+	// OrganizationMembersWriteScope is required for Organization member role and removal requests.
+	OrganizationMembersWriteScope PortalOpenAPIScope = "organization_members:write"
+	// RolesReadScope is required for role list and detail requests.
+	RolesReadScope PortalOpenAPIScope = "roles:read"
+	// RolesWriteScope is required for role lifecycle requests.
+	RolesWriteScope PortalOpenAPIScope = "roles:write"
+	// PermissionsReadScope is required for permission list and detail requests.
+	PermissionsReadScope PortalOpenAPIScope = "permissions:read"
+	// PermissionsWriteScope is required for permission lifecycle requests.
+	PermissionsWriteScope PortalOpenAPIScope = "permissions:write"
+	// RolePermissionsReadScope is required for role binding list requests.
+	RolePermissionsReadScope PortalOpenAPIScope = "role_permissions:read"
+	// RolePermissionsWriteScope is required for role binding replacement.
+	RolePermissionsWriteScope PortalOpenAPIScope = "role_permissions:write"
+	// UserRolesReadScope is required for user assignment list requests.
+	UserRolesReadScope PortalOpenAPIScope = "user_roles:read"
+	// UserRolesWriteScope is required for user assignment lifecycle requests.
+	UserRolesWriteScope PortalOpenAPIScope = "user_roles:write"
+)
+type PortalOpenAPITokenError struct {
+	Status int
+	Code   string
+	Body   string
+}
+    PortalOpenAPITokenError describes a failed /oauth2/token request or invalid
+    token response.
+
+func (e *PortalOpenAPITokenError) Error() string
+
+func (e *PortalOpenAPITokenError) Unwrap() error
+    Unwrap lets callers use errors.Is(err, ErrPortalOpenAPIToken).
+
+type PreparedPermissionManifest struct {
+	Mode        PermissionManifestMode          `json:"mode"`
+	ManifestID  string                          `json:"manifestId"`
+	Revision    string                          `json:"revision"`
+	Fingerprint string                          `json:"fingerprint"`
+	Permissions []PermissionManifestDeclaration `json:"permissions"`
+}
+
+func PreparePermissionManifest(manifest PermissionManifest, mode PermissionManifestMode) (PreparedPermissionManifest, error)
+
+type PublicOrganizationInvitationAcceptResponse struct {
+	Status           string `json:"status"`
+	Continuation     string `json:"continuation,omitempty"`
+	ApplicationID    string `json:"applicationId"`
+	OrganizationID   string `json:"organizationId"`
+	OrganizationName string `json:"organizationName"`
+	Role             string `json:"role"`
+	AcceptedAt       string `json:"acceptedAt,omitempty"`
+}
+    PublicOrganizationInvitationAcceptResponse is the invitation accept result.
+
+type PublicOrganizationInvitationPreview struct {
+	ApplicationID    string `json:"applicationId"`
+	ApplicationName  string `json:"applicationName"`
+	OrganizationID   string `json:"organizationId"`
+	OrganizationName string `json:"organizationName"`
+	InviteeEmail     string `json:"inviteeEmail"`
+	Role             string `json:"role"`
+	Status           string `json:"status"`
+	ExpiresAt        string `json:"expiresAt"`
+}
+    PublicOrganizationInvitationPreview is the safe public invitation preview.
+
+type RegistrationGrant struct {
+	ID            string                  `json:"id"`
+	Type          RegistrationGrantType   `json:"type"`
+	Status        RegistrationGrantStatus `json:"status"`
+	DisplayName   *string                 `json:"displayName"`
+	AllowedEmail  *string                 `json:"allowedEmail"`
+	AllowedDomain *string                 `json:"allowedDomain"`
+	ExpiresAt     *string                 `json:"expiresAt"`
+	MaxUses       *int                    `json:"maxUses"`
+	UsedCount     int                     `json:"usedCount"`
+	SourceType    string                  `json:"sourceType"`
+	CreatedAt     string                  `json:"createdAt"`
+	UpdatedAt     string                  `json:"updatedAt"`
+	RevokedAt     *string                 `json:"revokedAt"`
+	RevokeReason  *string                 `json:"revokeReason"`
+}
+    RegistrationGrant is a safe grant detail. It never contains a raw proof.
+
+type RegistrationGrantListOptions struct {
+	Type   *RegistrationGrantType
+	Status *RegistrationGrantStatus
+	Search *string
+	Page   *int
+	Size   *int
+}
+    RegistrationGrantListOptions filters the grant list using the API's page
+    parameters.
+
+type RegistrationGrantPage struct {
+	Content []RegistrationGrant           `json:"content"`
+	Page    RegistrationGrantPageMetadata `json:"page"`
+}
+    RegistrationGrantPage is a page of safe registration grants.
+
+type RegistrationGrantPageMetadata struct {
+	Size          int   `json:"size"`
+	Number        int   `json:"number"`
+	TotalElements int64 `json:"totalElements"`
+	TotalPages    int   `json:"totalPages"`
+}
+    RegistrationGrantPageMetadata is the nested Spring PagedModel metadata.
+
+type RegistrationGrantRedemption struct {
+	ID            string  `json:"id"`
+	Result        string  `json:"result"`
+	Email         *string `json:"email"`
+	AuthMethod    *string `json:"authMethod"`
+	IDPID         *string `json:"idpId"`
+	ClientID      *string `json:"clientId"`
+	RedeemedAt    string  `json:"redeemedAt"`
+	FailureReason *string `json:"failureReason"`
+}
+    RegistrationGrantRedemption is a safe masked redemption-history entry.
+
+type RegistrationGrantRedemptionPage struct {
+	Content []RegistrationGrantRedemption `json:"content"`
+	Page    RegistrationGrantPageMetadata `json:"page"`
+}
+    RegistrationGrantRedemptionPage is a page of safe masked redemption history.
+
+type RegistrationGrantStatus string
+    RegistrationGrantStatus is a safe lifecycle status returned by iam-portal.
+
+const (
+	RegistrationGrantActive   RegistrationGrantStatus = "ACTIVE"
+	RegistrationGrantPaused   RegistrationGrantStatus = "PAUSED"
+	RegistrationGrantRedeemed RegistrationGrantStatus = "REDEEMED"
+	RegistrationGrantExpired  RegistrationGrantStatus = "EXPIRED"
+	RegistrationGrantRevoked  RegistrationGrantStatus = "REVOKED"
+)
+type RegistrationGrantType string
+    RegistrationGrantType is one safe registration-grant type returned by the
+    API.
+
+const (
+	RegistrationGrantEmailLink     RegistrationGrantType = "EMAIL_LINK"
+	RegistrationGrantAccessCode    RegistrationGrantType = "ACCESS_CODE"
+	RegistrationGrantOrgInvitation RegistrationGrantType = "ORG_INVITATION"
+)
+type ResolveMode int
+    ResolveMode controls how the SDK loads role→permission mappings.
+
+const (
+	// ResolveOnDemand resolves permissions on the first request for a role
+	// set and caches the result. This is the default.
+	ResolveOnDemand ResolveMode = iota
+	// ResolveFullSync pre-loads every role→permission mapping at startup.
+	ResolveFullSync
+)
+type ResolvePermissionsRequest struct {
+	ClientID string   `json:"clientId"`
+	Roles    []string `json:"roles"`
+}
+    ResolvePermissionsRequest is the request body for
+    /open/v1/permissions:resolve.
+
+type ResolvePermissionsResponse struct {
+	Permissions []string `json:"permissions"`
+}
+    ResolvePermissionsResponse is the response body for
+    /open/v1/permissions:resolve.
+
+type Role struct {
+	ID          string  `json:"id"`
+	Key         string  `json:"key"`
+	Name        string  `json:"name"`
+	Description *string `json:"description"`
+	System      bool    `json:"system"`
+	Version     int64   `json:"version"`
+	CreatedAt   string  `json:"createdAt"`
+	UpdatedAt   string  `json:"updatedAt"`
+	ETag        string  `json:"-"`
+}
+    Role is an Application-scoped role and its strong response ETag.
+
+type RolePage struct {
+	Content []Role                    `json:"content"`
+	Page    AuthorizationPageMetadata `json:"page"`
+}
+    RolePage is a deterministic page of roles.
+
+type RolePermissionBinding struct {
+	RoleID       string `json:"roleId"`
+	PermissionID string `json:"permissionId"`
+	CreatedAt    string `json:"createdAt"`
+}
+    RolePermissionBinding describes one persisted role-permission mapping.
+
+type RolePermissionBindingPage struct {
+	Content []RolePermissionBinding   `json:"content"`
+	Page    AuthorizationPageMetadata `json:"page"`
+	ETag    string                    `json:"-"`
+}
+    RolePermissionBindingPage is a page of mappings plus the role ETag.
+
+type RolePermissionSet struct {
+	RoleID        string   `json:"roleId"`
+	PermissionIDs []string `json:"permissionIds"`
+	Version       int64    `json:"version"`
+	ETag          string   `json:"-"`
+}
+    RolePermissionSet is the replacement result and new role version/ETag.
+
+type SDK struct {
+	// Has unexported fields.
+}
+    SDK is the high-level composite used by applications. It bundles a *Client,
+    a JWT verifier, and a permission resolver.
+
+    Applications typically construct an SDK once at startup, install its
+    Authenticate middleware on the router and use RequirePerm on individual
+    routes.
+
+func New(cfg *SDKConfig) (*SDK, error)
+    New constructs an SDK from cfg. It:
+
+     1. validates cfg
+     2. creates an IAM client
+     3. performs OIDC discovery to obtain jwks_uri
+     4. builds the JWT verifier and HTTP-backed permission resolver
+
+func (s *SDK) AcceptOrganizationInvitation(ctx context.Context, invitationToken, accessToken string) (*PublicOrganizationInvitationAcceptResponse, error)
+    AcceptOrganizationInvitation accepts or continues a public Organization
+    invitation flow.
+
+func (s *SDK) Authenticate(opts ...AuthOption) func(http.Handler) http.Handler
+    Authenticate returns a net/http middleware that validates the bearer JWT and
+    injects an authz.User into the request context.
+
+func (s *SDK) ChangePassword(ctx context.Context, accessToken string, input PasswordChangeRequest) error
+    ChangePassword changes the current user's password with bearer auth.
+
+func (s *SDK) CheckAccountPermission(ctx context.Context, accessToken, permission, organizationID string) (*PermissionCheckResponse, error)
+    CheckAccountPermission checks one permission through IAM.
+
+func (s *SDK) Client() *Client
+    Client returns the low-level HTTP client.
+
+func (s *SDK) GetAccountPermissionSummary(ctx context.Context, accessToken, organizationID string) (*AccountPermissionSummary, error)
+    GetAccountPermissionSummary resolves current-user permissions in IAM.
+
+func (s *SDK) GetAccountSecuritySummary(ctx context.Context, accessToken string) (*AccountSecuritySummary, error)
+    GetAccountSecuritySummary returns a secret-free current-user security
+    summary.
+
+func (s *SDK) GetCurrentAccountOrganization(ctx context.Context, accessToken string) (*AccountOrganization, error)
+    GetCurrentAccountOrganization returns the selected Organization context,
+    if any.
+
+func (s *SDK) GetMe(ctx context.Context, accessToken string, opts ...UserProfileOption) (*UserProfile, error)
+    GetMe returns the current user's latest profile from GET /api/v1/auth/me.
+    It uses a short local cache keyed by request user id when available, or by
+    a SHA-256 digest of the bearer token otherwise. Authorization checks should
+    use FromContext and resolved permissions instead of this profile response.
+    Profile metadata is not App User authorization attributes.
+
+func (s *SDK) HasAccountOrganizationMembership(ctx context.Context, accessToken, organizationID string) (bool, error)
+    HasAccountOrganizationMembership derives membership from the Organization
+    list.
+
+func (s *SDK) ListAccountOrganizations(ctx context.Context, accessToken string) ([]AccountOrganization, error)
+    ListAccountOrganizations lists the current user's Application-scoped
+    Organizations.
+
+func (s *SDK) ListAccountSessions(ctx context.Context, accessToken string) ([]SessionView, error)
+    ListAccountSessions lists the current user's active sessions.
+
+func (s *SDK) LogoutAccount(ctx context.Context, accessToken, refreshToken string) error
+    LogoutAccount logs out the current token/session and optionally revokes a
+    refresh token.
+
+func (s *SDK) PreviewOrganizationInvitation(ctx context.Context, invitationToken string) (*PublicOrganizationInvitationPreview, error)
+    PreviewOrganizationInvitation returns safe public invitation metadata
+    without bearer auth.
+
+func (s *SDK) RequestPasswordReset(ctx context.Context, email, redirectURI string) error
+    RequestPasswordReset starts the opaque public forgot-password flow.
+
+func (s *SDK) RequireAllPerms(perms []authz.PermissionKey, opts ...middleware.Option) func(http.Handler) http.Handler
+    RequireAllPerms is shorthand for middleware.RequireAllPerms using this SDK.
+
+func (s *SDK) RequireAnyPerm(perms []authz.PermissionKey, opts ...middleware.Option) func(http.Handler) http.Handler
+    RequireAnyPerm is shorthand for middleware.RequireAnyPerm using this SDK.
+
+func (s *SDK) RequireNoImpersonation(opts ...middleware.Option) func(http.Handler) http.Handler
+    RequireNoImpersonation is shorthand for middleware.RequireNoImpersonation
+    using this SDK.
+
+func (s *SDK) RequirePerm(perm authz.PermissionKey, opts ...middleware.Option) func(http.Handler) http.Handler
+    RequirePerm is shorthand for middleware.RequirePerm using this SDK.
+
+func (s *SDK) RequireStepUp(acr string, opts ...middleware.Option) func(http.Handler) http.Handler
+    RequireStepUp is shorthand for middleware.RequireStepUp using this SDK.
+
+func (s *SDK) ResetPassword(ctx context.Context, token, newPassword string) error
+    ResetPassword completes the public password reset flow.
+
+func (s *SDK) Resolver() authz.Resolver
+    Resolver returns the permission resolver.
+
+func (s *SDK) RevokeAccountSession(ctx context.Context, accessToken, sessionID string) error
+    RevokeAccountSession revokes one session owned by the current user.
+
+func (s *SDK) RevokeOtherAccountSessions(ctx context.Context, accessToken string) error
+    RevokeOtherAccountSessions revokes all sessions except the current token's
+    sid.
+
+func (s *SDK) SendEmailVerification(ctx context.Context, email string) (*EmailVerificationResponse, error)
+    SendEmailVerification starts the opaque public email verification send flow.
+
+func (s *SDK) SwitchAccountOrganization(ctx context.Context, accessToken, organizationID string) (*OrganizationSwitchResponse, error)
+    SwitchAccountOrganization validates membership and returns a refresh/reauth
+    continuation.
+
+func (s *SDK) UpdateAccountProfile(ctx context.Context, accessToken string, input AccountUpdateProfileRequest) (*UserProfile, error)
+    UpdateAccountProfile updates safe scalar profile fields for the current
+    user.
+
+func (s *SDK) Verifier() *iamjwt.Verifier
+    Verifier returns the JWT verifier.
+
+func (s *SDK) VerifyEmail(ctx context.Context, token string) (*EmailVerificationResponse, error)
+    VerifyEmail verifies a public email-verification token.
+
+type SDKConfig struct {
+	// Endpoint is the base URL of the IAM server, e.g. https://iam.example.com.
+	Endpoint string
+	// ClientID is ApplicationClient.clientId for the WEB/M2M confidential client
+	// used by this server-side SDK.
+	ClientID string
+	// ClientSecret authenticates the WEB/M2M confidential ApplicationClient.
+	ClientSecret string
+	// Audience expected in JWTs. Defaults to ClientID.
+	Audience string
+	// Issuer expected in JWTs. Defaults to Endpoint.
+	Issuer string
+
+	// JWKSRefresh is the interval at which the JWKS is refreshed. Default 1h.
+	JWKSRefresh time.Duration
+	// PermissionCacheTTL is the TTL of the role→permissions cache. Default 5m.
+	PermissionCacheTTL time.Duration
+	// PermissionCacheMax is the maximum number of cache entries. Default 10000.
+	PermissionCacheMax int64
+	// UserProfileCacheTTL is the TTL for explicit /api/v1/auth/me profile lookups. Default 1m.
+	UserProfileCacheTTL time.Duration
+	// UserProfileCacheMax is the maximum number of user profile cache entries. Default 10000.
+	UserProfileCacheMax int64
+	// DisableUserProfileCache disables caching for SDK.GetMe. Client.GetMe is always uncached.
+	DisableUserProfileCache bool
+
+	ResolveMode ResolveMode
+	FailMode    FailMode
+
+	HTTPTimeout time.Duration // default 5s
+	MaxRetries  int           // default 3
+}
+    SDKConfig is the runtime configuration accepted by New.
+
+func (c *SDKConfig) Validate() error
+    Validate normalises defaults and returns an error for missing required
+    fields.
+
+type SessionView struct {
+	SessionID  string `json:"sessionId"`
+	IPAddress  string `json:"ipAddress,omitempty"`
+	UserAgent  string `json:"userAgent,omitempty"`
+	DeviceID   string `json:"deviceId,omitempty"`
+	CreatedAt  string `json:"createdAt"`
+	LastSeenAt string `json:"lastSeenAt"`
+	Current    bool   `json:"current"`
+}
+    SessionView is the current user's session/device view.
+
+type UpdateOrganizationRequest struct {
+	Name *string `json:"name,omitempty"`
+	Slug *string `json:"slug,omitempty"`
+}
+    UpdateOrganizationRequest is the strict PATCH payload. Nil fields are
+    omitted.
+
+type UpdatePermissionRequest struct {
+	Name        *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+}
+    UpdatePermissionRequest is the strict permission PATCH payload.
+
+type UpdateRoleRequest struct {
+	Key         *string `json:"key,omitempty"`
+	Name        *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+}
+    UpdateRoleRequest is the strict role PATCH payload.
+
+type UpdateUserRoleRequest struct {
+	Condition *UserRoleCondition `json:"condition"`
+}
+    UpdateUserRoleRequest replaces an assignment condition.
+
+type UserProfile struct {
+	ID                  string               `json:"id,omitempty"` // legacy /api/v1/auth/me field
+	UserID              string               `json:"userId"`
+	ApplicationID       string               `json:"applicationId,omitempty"`
+	GlobalIdentityID    string               `json:"globalIdentityId,omitempty"`
+	Email               string               `json:"email"`
+	EmailVerified       bool                 `json:"emailVerified"`
+	Username            string               `json:"username"`
+	DisplayName         string               `json:"displayName,omitempty"`
+	AvatarURL           string               `json:"avatarUrl,omitempty"`
+	Status              string               `json:"status"`
+	CreatedAt           string               `json:"createdAt,omitempty"`
+	UpdatedAt           string               `json:"updatedAt,omitempty"`
+	CurrentOrganization *AccountOrganization `json:"currentOrganization,omitempty"`
+	Roles               []string             `json:"roles,omitempty"` // legacy /api/v1/auth/me field
+	// Metadata is /api/v1/auth/me profile metadata, not app-scoped authorization attributes.
+	Metadata map[string]any `json:"metadata,omitempty"`
+}
+    UserProfile is the response returned by GET /api/v1/auth/me/profile.
+
+    Metadata is profile metadata for display/profile reads. It is not App User
+    authorization attributes and must not be used as an authorization source.
+
+type UserProfileOption func(*userProfileOptions)
+    UserProfileOption configures SDK.GetMe profile lookup behavior.
+
+func BypassProfileCache() UserProfileOption
+    BypassProfileCache forces SDK.GetMe to call IAM even if a cached profile
+    exists. The fresh result replaces the cached entry.
+
+type UserRoleAssignment struct {
+	ID                   string  `json:"id"`
+	UserID               string  `json:"userId"`
+	RoleID               string  `json:"roleId"`
+	OrganizationID       *string `json:"organizationId"`
+	ConditionExpression  *string `json:"conditionExpression"`
+	ConditionDescription *string `json:"conditionDescription"`
+	Version              int64   `json:"version"`
+	CreatedAt            string  `json:"createdAt"`
+	UpdatedAt            string  `json:"updatedAt"`
+	ETag                 string  `json:"-"`
+}
+    UserRoleAssignment is an Application-scoped assignment with optimistic-lock
+    state.
+
+type UserRoleAssignmentPage struct {
+	Content []UserRoleAssignment      `json:"content"`
+	Page    AuthorizationPageMetadata `json:"page"`
+}
+    UserRoleAssignmentPage is a deterministic page of assignments.
+
+type UserRoleCondition struct {
+	Expression  *string `json:"expression"`
+	Description *string `json:"description"`
+}
+    UserRoleCondition carries the optional assignment expression and
+    description.
+
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/authz
+
+```text
+package authz // import "."
+
+Package authz contains the permission model primitives used by the SDK:
+PermissionKey, PermissionDefinition, the Resolver interface that maps roles →
+permissions, and the context-aware HasPermission helper.
+
+VARIABLES
+
+var (
+	ErrUnauthenticated = errors.New("authz: unauthenticated")
+	ErrForbidden       = errors.New("authz: forbidden")
+)
+    Errors returned from the context helpers.
+
+
+FUNCTIONS
+
+func HasAllPermissions(targets []PermissionKey, granted []string) bool
+    HasAllPermissions reports whether every target is satisfied by granted.
+
+func HasAnyPermission(targets []PermissionKey, granted []string) bool
+    HasAnyPermission reports whether at least one target is satisfied by
+    granted.
+
+func HasPermission(target PermissionKey, granted []string) bool
+    HasPermission reports whether any of the granted permission strings
+    satisfies target.
+
+func Matches(target PermissionKey, granted string) bool
+    Matches reports whether a granted permission string satisfies the target.
+    Matching rules (aligned with sdk-js / sdk-java):
+
+      - exact match: "orders:read" matches "orders:read"
+      - action wildcard: "orders:*" matches "orders:read" and "orders:create"
+      - full wildcard: "*:*" matches everything
+      - resource-agnostic action wildcard "*:read" is rejected
+      - malformed or non-canonical entries never match
+      - matching is case sensitive
+
+func MustPermission(ctx context.Context, perm PermissionKey) error
+    MustPermission returns an error if the current context does not satisfy
+    perm.
+
+func WithUser(ctx context.Context, u *User) context.Context
+    WithUser returns a new context carrying u.
+
+
+TYPES
+
+type Actor struct {
+	Subject string
+}
+    Actor is the delegating subject for impersonation (JWT act claim).
+
+type HttpResolver struct {
+	// Has unexported fields.
+}
+    HttpResolver resolves role → permission mappings via the IAM /open/v1 API
+    with a local ristretto cache and singleflight deduplication.
+
+func NewHttpResolver(client ResolveClient, opts HttpResolverOptions) (*HttpResolver, error)
+    NewHttpResolver wires up a resolver backed by ristretto.
+
+func (r *HttpResolver) Clear()
+    Clear evicts every cached entry.
+
+func (r *HttpResolver) Invalidate(clientID string, roles []string)
+    Invalidate drops the cached mapping for a (clientID, roles) pair.
+
+func (r *HttpResolver) Resolve(ctx context.Context, clientID string, roles []string) ([]string, error)
+    Resolve implements Resolver.
+
+type HttpResolverOptions struct {
+	TTL        time.Duration
+	MaxEntries int64
+	FailOpen   bool
+}
+    HttpResolverOptions configures an HttpResolver.
+
+type InvalidPermissionError struct{ Raw string }
+    InvalidPermissionError is returned when a permission string is malformed.
+
+func (e *InvalidPermissionError) Error() string
+
+type PermissionDefinition struct {
+	Resource    string
+	Action      string
+	Description string
+}
+    PermissionDefinition is a permission declaration — the registered form
+    uploaded to the IAM server and referenced by codegen.
+
+func (d PermissionDefinition) Key() PermissionKey
+    Key returns the PermissionKey corresponding to this definition.
+
+type PermissionKey struct {
+	Resource string
+	Action   string
+}
+    PermissionKey is the canonical identifier for a permission — a pair of
+    resource and action strings.
+
+func ParsePermission(s string) (PermissionKey, error)
+    ParsePermission parses a "resource:action" string. Empty components and
+    missing colons yield an error.
+
+func (k PermissionKey) Authority() string
+    Authority returns the "resource:action" string form used on the wire.
+
+func (k PermissionKey) IsConcrete() bool
+    IsConcrete reports whether the key is a canonical non-wildcard declaration
+    key.
+
+func (k PermissionKey) IsZero() bool
+    IsZero reports whether the key is empty.
+
+func (k PermissionKey) String() string
+    String implements fmt.Stringer and returns the same as Authority.
+
+type ResolveClient interface {
+	ResolvePermissions(ctx context.Context, clientID string, roles []string) (*ResolvePermissionsResponse, error)
+}
+    ResolveClient is the minimum surface HttpResolver needs from the IAM client.
+    It is satisfied by *iam.Client.
+
+type ResolvePermissionsResponse struct {
+	Permissions []string `json:"permissions"`
+}
+    ResolvePermissionsResponse must match the shape returned by the IAM server.
+    It is redeclared here (rather than imported from the top-level iam package)
+    to avoid an import cycle.
+
+type Resolver interface {
+	Resolve(ctx context.Context, clientID string, roles []string) ([]string, error)
+}
+    Resolver maps a (clientID, roles) tuple to the flat list of permissions the
+    user holds. Implementations may cache, fall back or fail open.
+
+type ResolverFunc func(ctx context.Context, clientID string, roles []string) ([]string, error)
+    ResolverFunc adapts a plain function into a Resolver.
+
+func (f ResolverFunc) Resolve(ctx context.Context, clientID string, roles []string) ([]string, error)
+    Resolve implements Resolver.
+
+type User struct {
+	Subject     string
+	AppID       string
+	Email       string
+	OrgID       string
+	OrgRole     string
+	WorkspaceID string
+	SessionID   string
+	Roles       []string
+	Permissions []string
+	AMR         []string
+	ACR         string
+	Actor       *Actor
+	Claims      map[string]any
+}
+    User is the authenticated caller as seen by the request-scoped context.
+
+func FromContext(ctx context.Context) *User
+    FromContext returns the User previously stored with WithUser, or nil.
+
+func (u *User) HasMFA() bool
+    HasMFA reports whether the JWT's amr claim includes an MFA factor.
+
+func (u *User) HasPermission(resource, action string) bool
+    HasPermission mirrors the package-level HasPermission against this user's
+    permission list.
+
+func (u *User) IsImpersonating() bool
+    IsImpersonating reports whether the current request is an admin acting as
+    another user.
+
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/cmd/iam-codegen
+
+```text
+iam-codegen generates constants locally and validates/upserts structured
+manifests explicitly.
+
+    iam-codegen generate — generate Go constants from a local structured manifest
+    iam-codegen upload   — validate/upsert a structured manifest from a server-only job
+
+See `iam-codegen help` for flag details.
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/cmd/iam-codegen/generator
+
+```text
+package generator // import "."
+
+Package generator renders Go source files for declared IAM permission
+definitions and parses existing permission.go sources.
+
+FUNCTIONS
+
+func ConstName(resource, action string) string
+    ConstName turns a resource+action pair into a valid Go identifier.
+    "signing-keys" + "read" becomes "SigningKeysRead". Callers must pass
+    concrete manifest keys; Render rejects wildcard declarations before naming.
+
+func Render(in Input) ([]byte, error)
+    Render produces the Go source for permissions.gen.go.
+
+
+TYPES
+
+type Input struct {
+	Package     string
+	GoImport    string // defaults to "github.com/axis-iam/vertex-sdk-go/authz"
+	Permissions []authz.PermissionDefinition
+}
+    Input drives the template.
+
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/examples/shared-permissions
+
+```text
+package sharedpermissions // import "."
+
+Code generated by iam-codegen from iam-permission-manifest.json. DO NOT EDIT.
+
+VARIABLES
+
+var All = []authz.PermissionDefinition{
+	{Resource: "orders", Action: "read", Description: "Read orders"},
+}
+var OrdersRead = authz.PermissionKey{Resource: "orders", Action: "read"}
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/iamtest
+
+```text
+package iamtest // import "."
+
+Package iamtest provides testing helpers for applications built on the IAM SDK:
+an httptest-backed mock IAM server, a MockResolver, and a context helper to
+inject roles/permissions into unit tests.
+
+FUNCTIONS
+
+func NewContext(ctx context.Context, opts ...Option) context.Context
+    NewContext returns a context carrying an authz.User built from opts.
+
+
+TYPES
+
+type AccountOrganizationDTO struct {
+	OrganizationID string `json:"organizationId"`
+	Name           string `json:"name"`
+	Slug           string `json:"slug,omitempty"`
+	Role           string `json:"role"`
+	JoinedAt       string `json:"joinedAt,omitempty"`
+	Current        bool   `json:"current"`
+}
+    AccountOrganizationDTO mirrors current-user organization membership
+    responses.
+
+type MockResolver struct {
+	// Has unexported fields.
+}
+    MockResolver is a deterministic authz.Resolver for unit tests.
+
+func NewMockResolver() *MockResolver
+    NewMockResolver returns a fresh MockResolver with no mappings.
+
+func (m *MockResolver) Given(role string, perms ...string) *MockResolver
+    Given maps role → perms. Chainable.
+
+func (m *MockResolver) Resolve(_ context.Context, _ string, roles []string) ([]string, error)
+    Resolve implements authz.Resolver. Returns the union of permissions for the
+    requested roles, deduplicated + sorted for reproducibility.
+
+type MockServer struct {
+	*httptest.Server
+
+	// Has unexported fields.
+}
+    MockServer is an httptest.Server that exposes the subset of IAM endpoints
+    the SDK needs: OIDC discovery, JWKS, resolve, and permission snapshots.
+
+func NewMockServer() (*MockServer, error)
+    NewMockServer spins up a server. Call s.Close() when done.
+
+func (m *MockServer) Given(role string, perms ...string) *MockServer
+    Given maps a role → perms for the resolve endpoint.
+
+func (m *MockServer) GivenUserProfile(subject string, profile UserProfileDTO) *MockServer
+    GivenUserProfile configures the response returned by /api/v1/auth/me for a
+    subject.
+
+func (m *MockServer) Issuer() string
+    Issuer returns the URL of the server (used as the JWT issuer).
+
+func (m *MockServer) MeCalls() int
+    MeCalls returns how many times /api/v1/auth/me was invoked.
+
+func (m *MockServer) TokenCalls(scope string) int
+    TokenCalls returns how many /oauth2/token requests used the given scope.
+
+func (m *MockServer) TokenFor(subject string, roles []string) (string, error)
+    TokenFor signs a JWT for the given subject + roles, with default validity of
+    5 minutes.
+
+func (m *MockServer) TokenForWith(subject string, roles []string, extra map[string]any) (string, error)
+    TokenForWith signs a JWT with extra claims merged in (typically app_id,
+    org_id, acr, etc.).
+
+func (m *MockServer) WithAudience(aud string) *MockServer
+    WithAudience sets the aud claim stamped by TokenFor.
+
+type Option func(*authz.User)
+    Option mutates a test *authz.User.
+
+func WithACR(acr string) Option
+    WithACR sets the ACR.
+
+func WithAppID(id string) Option
+    WithAppID sets the app_id claim.
+
+func WithEmail(email string) Option
+    WithEmail sets the email.
+
+func WithImpersonator(actor string) Option
+    WithImpersonator marks the user as impersonated by actor.
+
+func WithOrg(orgID, orgRole string) Option
+    WithOrg sets the org context.
+
+func WithPermissions(perms ...string) Option
+    WithPermissions sets the permissions.
+
+func WithRoles(roles ...string) Option
+    WithRoles sets the roles.
+
+func WithSubject(sub string) Option
+    WithSubject sets the user subject.
+
+type PermissionDefinitionDTO struct {
+	Resource    string `json:"resource"`
+	Action      string `json:"action"`
+	Description string `json:"description,omitempty"`
+}
+    PermissionDefinitionDTO mirrors the SDK's wire format (duplicated to avoid a
+    dependency on the top-level iam package).
+
+type UserProfileDTO struct {
+	UserID              string                  `json:"userId"`
+	ApplicationID       string                  `json:"applicationId,omitempty"`
+	GlobalIdentityID    string                  `json:"globalIdentityId,omitempty"`
+	Email               string                  `json:"email"`
+	EmailVerified       bool                    `json:"emailVerified"`
+	Username            string                  `json:"username"`
+	DisplayName         string                  `json:"displayName,omitempty"`
+	AvatarURL           string                  `json:"avatarUrl,omitempty"`
+	Status              string                  `json:"status"`
+	CreatedAt           string                  `json:"createdAt,omitempty"`
+	UpdatedAt           string                  `json:"updatedAt,omitempty"`
+	CurrentOrganization *AccountOrganizationDTO `json:"currentOrganization,omitempty"`
+	Roles               []string                `json:"roles,omitempty"`
+	Metadata            map[string]any          `json:"metadata,omitempty"`
+}
+    UserProfileDTO mirrors GET /api/v1/auth/me/profile.
+
+    Metadata is profile metadata for test profile responses, not App User
+    authorization attributes.
+
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/jwt
+
+```text
+package iamjwt // import "."
+
+Package iamjwt provides JWT verification against an IAM JWKS endpoint.
+Package name differs from the directory (iamjwt vs. jwt) to avoid collision with
+github.com/go-jose/go-jose/v4/jwt.
+
+TYPES
+
+type Actor struct {
+	Subject string `json:"sub"`
+}
+    Actor is the JWT act claim for delegated/impersonated sessions.
+
+type Claims struct {
+	jwt.Claims
+	AppID       string         `json:"app_id,omitempty"`
+	Email       string         `json:"email,omitempty"`
+	WorkspaceID string         `json:"workspace_id,omitempty"`
+	OrgID       string         `json:"org_id,omitempty"`
+	OrgSlug     string         `json:"org_slug,omitempty"`
+	OrgRole     string         `json:"org_role,omitempty"`
+	Roles       []string       `json:"roles,omitempty"`
+	AMR         []string       `json:"amr,omitempty"`
+	ACR         string         `json:"acr,omitempty"`
+	SessionID   string         `json:"sid,omitempty"`
+	Actor       *Actor         `json:"act,omitempty"`
+	Extra       map[string]any `json:"-"`
+}
+    Claims is the union of IAM-specific JWT fields overlaid on the standard
+    registered claims (iss, aud, sub, exp, ...).
+
+type JWKSOptions struct {
+	URL              string
+	Client           *http.Client
+	Refresh          time.Duration
+	RotationCooldown time.Duration
+}
+    JWKSOptions configures a JWKSProvider.
+
+type JWKSProvider struct {
+	// Has unexported fields.
+}
+    JWKSProvider fetches the IAM server's JSON Web Key Set and caches it with
+    background refresh. It is safe for concurrent use.
+
+func NewJWKSProvider(opts JWKSOptions) (*JWKSProvider, error)
+    NewJWKSProvider constructs a provider. The first fetch is lazy; call
+    Preload(ctx) to prime the cache eagerly.
+
+func (p *JWKSProvider) KeyByID(ctx context.Context, kid string) (*jose.JSONWebKey, error)
+    KeyByID returns the key matching kid. If the key is absent, the provider
+    force-refreshes once (subject to a cooldown) to pick up rotated keys.
+
+func (p *JWKSProvider) Preload(ctx context.Context) error
+    Preload fetches and caches the JWKS synchronously.
+
+type Verifier struct {
+	// Has unexported fields.
+}
+    Verifier validates IAM-issued JWTs.
+
+func NewVerifier(opts VerifierOptions) (*Verifier, error)
+    NewVerifier constructs a Verifier. Both JWKS and Issuer are required.
+
+func (v *Verifier) Verify(ctx context.Context, token string) (*Claims, error)
+    Verify parses and validates a JWT, returning the union claims struct.
+
+type VerifierOptions struct {
+	JWKS            *JWKSProvider
+	Issuer          string
+	Audience        string
+	SignatureAlgs   []jose.SignatureAlgorithm
+	ClockSkewLeeway time.Duration
+}
+    VerifierOptions configures a Verifier.
+
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/middleware
+
+```text
+package middleware // import "."
+
+Package middleware provides framework-agnostic net/http middleware that wires
+the IAM SDK into any Go router. Framework-specific adapters (chi, gin, echo)
+live in their own submodules and delegate here where possible.
+
+FUNCTIONS
+
+func Auth(cfg AuthConfig) func(http.Handler) http.Handler
+    Auth builds a middleware that validates the bearer JWT, resolves
+    permissions, and injects an *authz.User into the request context.
+
+func BearerToken(r *http.Request) string
+    BearerToken extracts the bearer token from the Authorization header,
+    or returns the empty string.
+
+func DefaultErrorResponder(w http.ResponseWriter, _ *http.Request, status int, code, message string)
+    DefaultErrorResponder emits a small JSON payload.
+
+func RequireAllPerms(perms []authz.PermissionKey, opts ...Option) func(http.Handler) http.Handler
+    RequireAllPerms passes only if the caller holds every perm.
+
+func RequireAnyPerm(perms []authz.PermissionKey, opts ...Option) func(http.Handler) http.Handler
+    RequireAnyPerm passes if the caller holds any one of perms.
+
+func RequireNoImpersonation(opts ...Option) func(http.Handler) http.Handler
+    RequireNoImpersonation rejects requests executed under an admin
+    impersonation token.
+
+func RequirePerm(perm authz.PermissionKey, opts ...Option) func(http.Handler) http.Handler
+    RequirePerm returns a middleware that rejects the request with 403 if the
+    context User does not satisfy perm.
+
+func RequireStepUp(acr string, opts ...Option) func(http.Handler) http.Handler
+    RequireStepUp enforces that the JWT's acr claim matches acr.
+
+
+TYPES
+
+type AuthConfig struct {
+	Verifier  *iamjwt.Verifier
+	Resolver  authz.Resolver
+	ClientID  string
+	Responder ErrorResponder
+}
+    AuthConfig is the configuration for Auth.
+
+type ErrorResponder func(w http.ResponseWriter, r *http.Request, status int, code, message string)
+    ErrorResponder renders an error to the client. Applications can replace the
+    default JSON responder to match their API conventions.
+
+type Option func(*options)
+    Option tunes a middleware helper.
+
+func WithResponder(r ErrorResponder) Option
+    WithResponder lets callers substitute their own ErrorResponder.
+
+
+```

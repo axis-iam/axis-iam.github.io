@@ -1,0 +1,57 @@
+---
+title: Getting started
+slug: /getting-started/
+---
+
+# Getting started
+
+This flow creates a browser client and a confidential resource-server client under one Application.
+
+## 1. Create the Application
+
+In Vertex Portal, create an Application and set its resource audience, for example `api://orders`. The audience is
+the identifier resource servers verify in access-token `aud`; it is not the Application UUID.
+
+## 2. Create ApplicationClients
+
+Create only the clients your architecture needs:
+
+| Runtime | Client type | Secret | Required controls |
+| --- | --- | --- | --- |
+| Browser SPA | `SPA` | None | Exact redirect URI, post-logout URI, allowed origin, Authorization Code + S256 PKCE |
+| Native app | `NATIVE` | None | Exact redirect URI and Authorization Code + S256 PKCE |
+| Web/BFF | `WEB` | Required | Server-held secret, S256 PKCE for interactive code flow |
+| Service/worker | `M2M` | Required | Server-held secret and exact requested scopes |
+
+`clientId` in SDK configuration always means `ApplicationClient.clientId`, not an internal record UUID. Never put a
+WEB or M2M client secret in browser code.
+
+## 3. Configure callbacks
+
+Register the exact callback and logout URLs used by the app. Wildcard callback hosts and implicit origin derivation
+are not supported security assumptions. A SPA also registers its exact browser origin.
+
+## 4. Complete authentication
+
+Use [Hosted authentication](../authentication/hosted/) for the smallest browser security surface, or choose
+[Embedded](../authentication/embedded/) / [Dialog](../authentication/dialog/) when the app must own more UI.
+Hosted authentication uses Authorization Code + S256 PKCE and validates OAuth state. Embedded password authentication
+is Direct Auth: the SDK submits credentials to `POST /api/v1/auth/login` and renews that session through
+`POST /api/v1/auth/token/refresh`. Dialog can present either flow; select the mode deliberately and apply its distinct
+security boundary.
+
+## 5. Protect the API
+
+The API verifies signature, issuer, audience, expiry, and the ApplicationClient context. It then resolves the token's
+roles to current permissions through `POST /open/v1/permissions:resolve`; it does not trust a stale permissions claim.
+
+```text
+browser -> Vertex authorize -> callback -> access token -> resource server
+                                                resource server -> permission resolve -> allow or deny
+```
+
+Continue with the [JavaScript quickstart](../sdk/javascript/) for browser authentication or a server SDK quickstart
+for [Java](../sdk/java/), [Go](../sdk/go/), or [Python](../sdk/python/). Each SDK page begins with its exact public
+installation command and release boundary. Use the
+[connected application checklist](./connect-application/) when configuring a real application, clients, policies,
+identity providers, and callbacks.

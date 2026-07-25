@@ -1,0 +1,16 @@
+---
+title: Application-level SCIM
+slug: /enterprise/scim/
+---
+
+# Application-level SCIM
+
+Inbound SCIM 2.0 provisioning is an Application-level enterprise integration. The service-provider endpoints live
+under `/open/v1/scim/v2`; provisioned identities resolve to App Users owned by the configured Application.
+
+Provisioning credentials are server-side secrets. Rotate them, scope network access, and monitor rejected requests.
+SCIM identifiers and uniqueness rules are evaluated inside the Application boundary. A SCIM user must not resolve to
+or mutate another Application's user.
+
+SCIM Groups do not turn an Axis Vertex Organization into a configuration tenant. Organization, SSO, and SCIM remain
+separate concepts even when an integration maps external groups into application business roles.

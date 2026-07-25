@@ -1,0 +1,18 @@
+---
+title: Hosted 认证
+slug: /authentication/hosted/
+---
+
+# Hosted 认证
+
+Hosted 认证将浏览器重定向到 Vertex authorization endpoint。Vertex 在自身 origin 上负责凭据输入、身份提供商选择、加强认证挑战和策略错误；应用负责发起请求、保存 OAuth state 与 PKCE verifier、校验回调并建立自身 UI 状态。
+
+## 浏览器流程
+
+1. 生成不可预测的 `state` 与 PKCE verifier。
+2. 派生 S256 challenge，并为 SPA 公开客户端发起授权。
+3. Vertex 完成用户认证，将 authorization code 返回精确注册的 URI。
+4. 校验 `state`，用 verifier 交换 code，并移除回调参数。
+5. 仅向目标资源 audience 发送访问令牌。
+
+Hosted SPA 中不得出现 client secret。WEB/BFF 在服务端使用密钥与 PKCE verifier 完成交换。

@@ -1,0 +1,85 @@
+---
+title: Java SDK
+slug: /sdk/java/
+---
+
+# Java SDK
+
+The Java SDK integrates Spring Security resource servers. Version `0.1.0` is a self-hosted preview and has not been
+published to Maven Central or the Gradle Plugin Portal. It requires a WEB or M2M confidential ApplicationClient.
+
+## Install
+
+Route Axis Vertex coordinates to the self-hosted Maven repository in `settings.gradle.kts`. Maven Central remains
+available only for the SDK's third-party dependencies.
+
+```kotlin
+dependencyResolutionManagement {
+  repositories {
+    exclusiveContent {
+      forRepository {
+        maven {
+          name = "axisVertexPreview"
+          url = uri("https://vertex-packages.chaosguide.com/releases/0.1.0/maven")
+        }
+      }
+      filter { includeGroup("com.chaosguide.iam") }
+    }
+    mavenCentral()
+  }
+}
+```
+
+Add the exact core dependency in `build.gradle.kts`:
+
+```kotlin
+dependencies {
+  implementation("com.chaosguide.iam:vertex-sdk-core:0.1.0")
+}
+```
+
+## Quickstart
+
+```java
+import com.chaosguide.iam.vertex.EnableIamSecurity;
+import com.chaosguide.iam.vertex.authz.PermissionKey;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@EnableIamSecurity
+class VertexSecurityConfiguration {
+  static final PermissionKey ORDERS_READ = new PermissionKey("orders", "read");
+}
+```
+
+Configure the Spring backend with its own WEB/M2M confidential client under the same Application as the browser client:
+
+```yaml
+iam:
+  sdk:
+    endpoint: https://auth.example.com
+    client-id: ${IAM_CLIENT_ID}
+    client-secret: ${IAM_CLIENT_SECRET}
+    fail-mode: CLOSE
+```
+
+`endpoint` is the Vertex issuer. The client ID and secret belong to this backend, not the SPA/NATIVE client. The SDK
+derives issuer/JWKS metadata, verifies bearer tokens, and resolves current permissions through Vertex; it does not
+trust a permissions claim from the token. Keep the secret in server-side configuration.
+
+## Resource server and management boundary
+
+Use `@EnableIamSecurity` and `@RequirePerm` for incoming user bearer tokens. Use `PortalOpenApiClient` only for
+server-side management automation with a separate M2M client and exact scopes such as `roles:read` or
+`registration_grants:write`. Do not expose `PortalOpenApiClient`, its secret, or management responses to browser code.
+
+The Application resource audience is configured on the Application and copied into the browser/API deployment
+contract. Do not invent an `iam.sdk.resource-audience` property: the current Java SDK public configuration does not
+define one. Add any application-specific audience validator explicitly in the Spring Security resource-server layer.
+
+## Reference
+
+Gradle Javadoc owns the callable Java reference. The docs build links the generated output after checking public
+classes against the published module surface:
+
+- [Generated Java API reference](pathname:///generated/sdk/java/index.html)

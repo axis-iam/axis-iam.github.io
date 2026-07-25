@@ -1,0 +1,69 @@
+---
+title: Python SDK
+slug: /sdk/python/
+---
+
+# Python SDK
+
+Python distribution name 是 `axis-iam-vertex`，import namespace 是 `axis_vertex`。`0.1.0` 是自托管 preview wheel，尚未发布到 PyPI。
+
+## 安装
+
+使用精确的公开 wheel URL：
+
+```bash
+python -m pip install https://vertex-packages.chaosguide.com/releases/0.1.0/python/axis_iam_vertex-0.1.0-py3-none-any.whl
+```
+
+## FastAPI 快速入门
+
+```python
+import os
+from contextlib import asynccontextmanager
+from fastapi import Depends, FastAPI
+from axis_vertex import IamClient, IamConfig
+from axis_vertex.fastapi import require_permission
+
+iam = IamClient(IamConfig(
+    endpoint=os.environ["IAM_ENDPOINT"],
+    client_id=os.environ["IAM_CLIENT_ID"],
+    client_secret=os.environ["IAM_CLIENT_SECRET"],
+    resource_audience=os.environ["IAM_RESOURCE_AUDIENCE"],
+))
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    await iam.close()
+
+app = FastAPI(lifespan=lifespan)
+
+@app.get("/orders", dependencies=[Depends(require_permission(iam, "orders", "read"))])
+async def list_orders() -> dict[str, list[object]]:
+    return {"orders": []}
+```
+
+使用 WEB/M2M 机密 ApplicationClient，在服务端保存密钥，并在应用关闭时关闭异步客户端。认证、网络与解码失败一律拒绝。
+
+Portal 字段与环境变量映射如下：
+
+| 环境变量 | Portal 来源 |
+| --- | --- |
+| `IAM_ENDPOINT` | Vertex 公网 Auth URL |
+| `IAM_CLIENT_ID` | 当前 API 的 WEB/M2M 机密 client ID |
+| `IAM_CLIENT_SECRET` | 同一服务端 client 的只写 secret |
+| `IAM_RESOURCE_AUDIENCE` | Application resource audience |
+
+浏览器 SPA 使用另一个无 secret 的公开 client ID。`IamClient` 校验入站用户 access token，并用机密 client
+解析当前权限；认证、网络或解码错误均 fail closed。
+
+## 资源服务器与管理边界
+
+入站用户请求使用 `require_permission`。后端管理自动化才使用 `PortalOpenApiClient`，并配置独立的 M2M
+client 与每项操作所需的精确 scope。应用关闭时关闭两个 async client；不得向浏览器暴露 M2M 凭据。
+
+## API 参考
+
+- [生成的 Python API 参考](./reference/)
+
+参考文档通过 Python 原生文档检查，从 package 显式公开 export 生成。

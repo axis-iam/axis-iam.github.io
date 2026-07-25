@@ -1,0 +1,14 @@
+node_modules/
+build/
+.docusaurus/
+test-results/
+playwright-report/
+.pnpm-store-cold/
+.pnpm-store-cold-verified/
+.pnpm-store-i18n-cold/
+.pnpm-store-corrective-cold/
+.pnpm-store-public-cold/
+tmp/
+sources/
+__pycache__/
+*.py[cod]

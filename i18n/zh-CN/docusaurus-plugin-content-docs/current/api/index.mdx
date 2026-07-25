@@ -1,0 +1,23 @@
+---
+title: 公共 API 系列
+slug: /api/
+---
+
+# 公共 API 系列
+
+本页描述受支持的集成系列，不罗列所有内部 controller。
+
+| 系列 | 认证方式 | 目标调用方 |
+| --- | --- | --- |
+| OAuth 2.0 / OIDC discovery、authorize、token、logout、JWKS | 协议定义 | 浏览器、原生应用、WEB/BFF 与 M2M 客户端 |
+| `/api/v1/auth` 下的 Direct Auth 注册、登录、密码恢复与 refresh | 公开客户端上下文 | Embedded 认证与 Auth Dialog |
+| `/api/v1/auth/me/**`、session 与 logout | 用户 bearer token | 第一方应用 UI 与 SDK 账号接口 |
+| `/api/v1/apps/{clientId}` 下的认证方式、策略、品牌与 Registration Grant preview | 公开客户端上下文 | Hosted/Embedded 浏览器认证 |
+| `/open/v1/permissions:resolve` 与权限 snapshot | 机密客户端 | 资源服务器 |
+| `/open/v1/permission-manifests:sync` | 精确 scope M2M | CI 校验与部署 upsert |
+| `/open/v1/organizations`、角色、权限、用户角色分配与 Registration Grant | 精确 scope M2M | 后端管理自动化 |
+| `/open/v1/scim/v2/**` | Provisioning 凭据 | 企业 SCIM 客户端 |
+
+公开浏览器流程永远不发送机密 client secret。Portal/Admin 管理路由、内部服务路由、私有诊断与浏览器机密捷径不会因为存在 controller 就成为公共集成 API。可调用客户端接口参见 [SDK 参考](../sdk/javascript/)；运行时 endpoint 元数据以相关协议 discovery document 为准。
+
+构建同时发布[机器可读的 API family 清单](pathname:///api/public-api-families.json)。它是文档索引，不是 OpenAPI 契约，也不能替代运行时 OIDC discovery。

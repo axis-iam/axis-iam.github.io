@@ -1,0 +1,21 @@
+---
+title: Authorization
+slug: /authorization/
+---
+
+# Authorization
+
+Vertex uses case-sensitive `resource:action` permission keys such as `orders:read`. `orders:*` matches actions for one
+resource and `*:*` matches all valid permissions. Invalid keys and empty permission sets deny access.
+
+Access tokens carry identity and roles, not a final permissions contract. This keeps authorization changes effective
+without waiting for every token to expire.
+
+## Surfaces
+
+- [Current-user permissions](./current-user/) drive browser UI hints after login and refresh.
+- [Snapshot and resolve](./server-resolution/) provide confidential resource-server authorization.
+- [Permission Manifest](./permission-manifest/) validates or publishes an explicit permission definition.
+- [Exact management](./management/) uses narrow M2M scopes and optimistic concurrency for RBAC administration.
+
+Client-side permission gates improve UX; the resource server must independently enforce the same decision.

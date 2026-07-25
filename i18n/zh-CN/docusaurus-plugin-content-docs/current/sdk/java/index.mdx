@@ -1,0 +1,81 @@
+---
+title: Java SDK
+slug: /sdk/java/
+---
+
+# Java SDK
+
+Java SDK 集成 Spring Security 资源服务器。`0.1.0` 是自托管 preview，尚未发布到 Maven Central 或 Gradle Plugin Portal。它要求 WEB 或 M2M 机密 ApplicationClient。
+
+## 安装
+
+在 `settings.gradle.kts` 中将 Axis Vertex 坐标指向自托管 Maven repository。Maven Central 仅用于 SDK 的第三方依赖。
+
+```kotlin
+dependencyResolutionManagement {
+  repositories {
+    exclusiveContent {
+      forRepository {
+        maven {
+          name = "axisVertexPreview"
+          url = uri("https://vertex-packages.chaosguide.com/releases/0.1.0/maven")
+        }
+      }
+      filter { includeGroup("com.chaosguide.iam") }
+    }
+    mavenCentral()
+  }
+}
+```
+
+在 `build.gradle.kts` 中添加精确 core dependency：
+
+```kotlin
+dependencies {
+  implementation("com.chaosguide.iam:vertex-sdk-core:0.1.0")
+}
+```
+
+## 快速入门
+
+```java
+import com.chaosguide.iam.vertex.EnableIamSecurity;
+import com.chaosguide.iam.vertex.authz.PermissionKey;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@EnableIamSecurity
+class VertexSecurityConfiguration {
+  static final PermissionKey ORDERS_READ = new PermissionKey("orders", "read");
+}
+```
+
+Spring 后端使用同一个 Application 下独立的 WEB/M2M 机密 client：
+
+```yaml
+iam:
+  sdk:
+    endpoint: https://auth.example.com
+    client-id: ${IAM_CLIENT_ID}
+    client-secret: ${IAM_CLIENT_SECRET}
+    fail-mode: CLOSE
+```
+
+`endpoint` 是 Vertex issuer；client ID 与 secret 属于当前后端，不是 SPA/NATIVE client。SDK 推导 issuer/JWKS、
+校验 bearer token，并通过 Vertex 解析当前权限，不信任 token 中的 permissions claim。Secret 只能保存在服务端。
+
+## 资源服务器与管理边界
+
+入站用户 bearer token 使用 `@EnableIamSecurity` 与 `@RequirePerm`。服务端管理自动化才使用
+`PortalOpenApiClient`，并配置另一个只具备 `roles:read`、`registration_grants:write` 等精确 scope 的 M2M
+client。不能向浏览器暴露 `PortalOpenApiClient`、其 secret 或管理响应。
+
+Application resource audience 在 Application 上配置，并进入浏览器/API 部署合同。不要虚构
+`iam.sdk.resource-audience` 属性：当前 Java SDK 公开配置没有该字段。需要精确 audience 校验时，应在 Spring
+Security resource-server 层显式增加应用自己的 audience validator。
+
+## API 参考
+
+- [生成的 Java API 参考](pathname:///generated/sdk/java/index.html)
+
+Gradle Javadoc 是 Java 可调用接口的权威参考。文档构建会在链接生成结果前校验公开 class 与模块公开边界。

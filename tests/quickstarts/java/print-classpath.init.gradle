@@ -1,0 +1,9 @@
+gradle.afterProject { project ->
+    if (project.path == ':vertex-sdk-core') {
+        project.tasks.register('printQuickstartClasspath') {
+            doLast {
+                println project.sourceSets.main.compileClasspath.asPath
+            }
+        }
+    }
+}

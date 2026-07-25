@@ -1,0 +1,37 @@
+---
+title: 快速入门
+slug: /getting-started/
+---
+
+# 快速入门
+
+本流程在同一个 Application 下创建浏览器客户端与机密资源服务器客户端。
+
+## 1. 创建 Application
+
+在 Vertex Portal 中创建 Application，并设置资源 audience，例如 `api://orders`。资源服务器校验访问令牌的 `aud` 时使用该标识；它不是 Application UUID。
+
+## 2. 创建 ApplicationClient
+
+| 运行环境 | 客户端类型 | 密钥 | 必需控制 |
+| --- | --- | --- | --- |
+| 浏览器 SPA | `SPA` | 无 | 精确重定向 URI、登出 URI、允许 origin、Authorization Code + S256 PKCE |
+| 原生应用 | `NATIVE` | 无 | 精确重定向 URI、Authorization Code + S256 PKCE |
+| Web/BFF | `WEB` | 必需 | 服务端保存密钥；交互式 code flow 使用 S256 PKCE |
+| 服务/Worker | `M2M` | 必需 | 服务端保存密钥并请求精确 scope |
+
+SDK 配置中的 `clientId` 始终指 `ApplicationClient.clientId`，而不是内部记录 UUID。不要把 WEB 或 M2M 密钥放入浏览器代码。
+
+## 3. 配置回调
+
+注册应用实际使用的精确回调与登出 URL。不要依赖通配回调主机或隐式推导 origin；SPA 还需要注册精确的浏览器 origin。
+
+## 4. 完成认证
+
+若希望最小化浏览器安全责任，请使用 [Hosted 认证](../authentication/hosted/)；需要由应用控制更多 UI 时，选择 [Embedded](../authentication/embedded/) 或 [Dialog](../authentication/dialog/)。Hosted 使用 Authorization Code + S256 PKCE 并校验 OAuth state。Embedded 密码登录属于 Direct Auth：SDK 调用 `POST /api/v1/auth/login` 提交凭据，并通过 `POST /api/v1/auth/token/refresh` 刷新会话。Dialog 可以呈现这两种流程，但必须明确选择并遵守各自不同的安全边界。
+
+## 5. 保护 API
+
+API 校验签名、issuer、audience、有效期与 ApplicationClient 上下文，然后通过 `POST /open/v1/permissions:resolve` 将令牌角色解析为当前权限；不要信任过期的权限 claim。
+
+继续阅读 [JavaScript 快速入门](../sdk/javascript/)，或服务端的 [Java](../sdk/java/)、[Go](../sdk/go/) 与 [Python](../sdk/python/) 快速入门。每个 SDK 页面都先给出精确的公开安装命令与 release 边界。配置真实 Application、客户端、策略、身份提供商和回调时，请使用[新应用接入清单](./connect-application/)。

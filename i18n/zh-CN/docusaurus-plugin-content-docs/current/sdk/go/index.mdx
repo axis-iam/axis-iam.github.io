@@ -1,0 +1,91 @@
+---
+title: Go SDK
+slug: /sdk/go/
+---
+
+# Go SDK
+
+Go SDK 提供兼容 `net/http` 的认证与授权 middleware。它是 Vertex 客户端 SDK，不是独立服务端产品。root、Chi、Gin 与 Echo module 均已按精确版本 `v0.1.1` 公开提供。
+
+## 安装
+
+`net/http` 使用 root module：
+
+```bash
+go get github.com/axis-iam/vertex-sdk-go@v0.1.1
+```
+
+Chi 在同一条命令中安装 root 与 adapter module：
+
+```bash
+go get github.com/axis-iam/vertex-sdk-go@v0.1.1 github.com/axis-iam/vertex-sdk-go/chi@v0.1.1
+```
+
+Gin：
+
+```bash
+go get github.com/axis-iam/vertex-sdk-go@v0.1.1 github.com/axis-iam/vertex-sdk-go/gin@v0.1.1
+```
+
+Echo：
+
+```bash
+go get github.com/axis-iam/vertex-sdk-go@v0.1.1 github.com/axis-iam/vertex-sdk-go/echo@v0.1.1
+```
+
+## 快速入门
+
+```go
+package main
+
+import (
+  "net/http"
+  vertex "github.com/axis-iam/vertex-sdk-go"
+  "github.com/axis-iam/vertex-sdk-go/authz"
+)
+
+func routes(iam *vertex.SDK) http.Handler {
+  mux := http.NewServeMux()
+  mux.Handle("GET /orders", iam.RequirePerm(authz.PermissionKey{Resource: "orders", Action: "read"})(http.HandlerFunc(
+    func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusNoContent) },
+  )))
+  return iam.Authenticate()(mux)
+}
+```
+
+使用 issuer endpoint、WEB/M2M `ClientID`、服务端保存的 `ClientSecret` 与 resource audience 构造 SDK。身份或权限上下文缺失、无效时一律拒绝。
+
+```go
+import (
+  "log"
+  "os"
+  vertex "github.com/axis-iam/vertex-sdk-go"
+)
+
+func newVertexSDK() *vertex.SDK {
+  iam, err := vertex.New(&vertex.SDKConfig{
+    Endpoint:     os.Getenv("IAM_ENDPOINT"),
+    Issuer:       os.Getenv("IAM_ENDPOINT"),
+    ClientID:     os.Getenv("IAM_CLIENT_ID"),
+    ClientSecret: os.Getenv("IAM_CLIENT_SECRET"),
+    Audience:     os.Getenv("IAM_RESOURCE_AUDIENCE"),
+  })
+  if err != nil { log.Fatal(err) }
+  return iam
+}
+```
+
+`IAM_CLIENT_ID` 和 `IAM_CLIENT_SECRET` 属于 Go API 的 WEB/M2M 机密 client，不是浏览器 SPA。`Audience` 应显式
+设置为 Application resource audience；SDK 回退到 `ClientID` 不能替代 Application 合同。
+
+## 资源服务器与管理边界
+
+`SDK.Authenticate` 与 `SDK.RequirePerm` 保护入站用户 bearer 请求。`PortalOpenAPIClient` 是独立的服务端 M2M
+管理 client，需要 issuer、Portal endpoint、client ID 和 secret，并且只授予实际方法需要的精确管理 scope。
+浏览器或移动端不得创建该 client。
+
+## API 参考
+
+- [生成的 Go API 参考](./reference/)
+
+参考文档使用 Go toolchain 的 `go doc -all` 从公开 module package 生成。

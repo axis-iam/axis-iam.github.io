@@ -1,0 +1,30 @@
+{
+  "link.title.Build": {
+    "message": "构建",
+    "description": "The title of the footer links column with title=Build in the footer"
+  },
+  "link.title.Operate": {
+    "message": "运维",
+    "description": "The title of the footer links column with title=Operate in the footer"
+  },
+  "link.item.label.Getting started": {
+    "message": "快速入门",
+    "description": "The label of footer link with label=Getting started linking to /vertex/getting-started/"
+  },
+  "link.item.label.SDKs": {
+    "message": "SDKs",
+    "description": "The label of footer link with label=SDKs linking to /vertex/sdk/javascript/"
+  },
+  "link.item.label.Deployment": {
+    "message": "部署",
+    "description": "The label of footer link with label=Deployment linking to /vertex/deployment/"
+  },
+  "link.item.label.Webhooks": {
+    "message": "Webhook",
+    "description": "The label of footer link with label=Webhooks linking to /vertex/webhooks/"
+  },
+  "copyright": {
+    "message": "Copyright 2026 Axis IAM.",
+    "description": "The footer copyright"
+  }
+}

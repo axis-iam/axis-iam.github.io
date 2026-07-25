@@ -1,0 +1,73 @@
+---
+title: Python SDK
+slug: /sdk/python/
+---
+
+# Python SDK
+
+The Python distribution name is `axis-iam-vertex` and the import namespace is `axis_vertex`. Version `0.1.0` is a
+self-hosted preview wheel and has not been published to PyPI.
+
+## Install
+
+Install the exact public wheel URL:
+
+```bash
+python -m pip install https://vertex-packages.chaosguide.com/releases/0.1.0/python/axis_iam_vertex-0.1.0-py3-none-any.whl
+```
+
+## FastAPI quickstart
+
+```python
+import os
+from contextlib import asynccontextmanager
+from fastapi import Depends, FastAPI
+from axis_vertex import IamClient, IamConfig
+from axis_vertex.fastapi import require_permission
+
+iam = IamClient(IamConfig(
+    endpoint=os.environ["IAM_ENDPOINT"],
+    client_id=os.environ["IAM_CLIENT_ID"],
+    client_secret=os.environ["IAM_CLIENT_SECRET"],
+    resource_audience=os.environ["IAM_RESOURCE_AUDIENCE"],
+))
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    await iam.close()
+
+app = FastAPI(lifespan=lifespan)
+
+@app.get("/orders", dependencies=[Depends(require_permission(iam, "orders", "read"))])
+async def list_orders() -> dict[str, list[object]]:
+    return {"orders": []}
+```
+
+Use a WEB/M2M confidential ApplicationClient. Keep its secret server-side and close the async client during application
+shutdown. Authentication, network, and decode failures deny access.
+
+Map the configuration from Portal as follows:
+
+| Environment variable | Portal source |
+| --- | --- |
+| `IAM_ENDPOINT` | Vertex public Auth URL |
+| `IAM_CLIENT_ID` | This API's WEB/M2M confidential client ID |
+| `IAM_CLIENT_SECRET` | The same server client's write-only secret |
+| `IAM_RESOURCE_AUDIENCE` | Application resource audience |
+
+The browser SPA has a different public client ID and no secret. `IamClient` verifies incoming user access tokens and
+uses the confidential client to resolve current permissions; it fails closed on authentication, network, and decode
+errors.
+
+## Resource server and management boundary
+
+Use `require_permission` for incoming user requests. Use `PortalOpenApiClient` only for backend management automation,
+with a separate M2M client and the exact scopes required by each operation. Close both async clients during application
+shutdown and never expose M2M credentials to browser code.
+
+## Reference
+
+- [Generated Python API reference](./reference/)
+
+The reference is produced by Python's native documentation inspection from the package's explicit public exports.

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@axis-iam/vertex": ["../../../tmp/quickstarts/sdk-js/packages/core/dist/index.d.ts"],
+      "@axis-iam/vertex-react": ["../../../tmp/quickstarts/sdk-js/packages/react/dist/index.d.ts"]
+    }
+  },
+  "include": ["quickstart.tsx"]
+}

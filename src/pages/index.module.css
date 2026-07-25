@@ -1,0 +1,19 @@
+.hero { background: #171c1f; color: #f7faf9; min-height: min(72vh, 680px); display: flex; align-items: center; }
+.heroInner { width: min(1180px, calc(100% - 40px)); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr); gap: 56px; align-items: center; padding: 68px 0; }
+.copy h1 { color: #fff; font-size: 5rem; line-height: .96; letter-spacing: 0; margin: 10px 0 24px; }
+.kicker { color: #61d7ad; font-size: .82rem; font-weight: 750; text-transform: uppercase; letter-spacing: 0; }
+.lead { color: #dce4e1; max-width: 650px; font-size: 1.18rem; line-height: 1.65; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.visual { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 1px solid #49535a; border-radius: 6px; box-shadow: 18px 18px 0 #4d66e8; }
+.section { background: #f7f8fa; padding: 54px 0 70px; }
+.sectionInner { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+.sectionInner h2 { color: #172321; font-size: 1.8rem; margin-bottom: 24px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.tile { background: #fff; border: 1px solid #dce1e5; border-top: 3px solid #4d66e8; color: #30383d; min-height: 190px; padding: 25px; text-decoration: none; transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+.tile:nth-child(2n) { border-top-color: #ff7d6d; }
+.tile:nth-child(3n) { border-top-color: #2eb98b; }
+.tile:hover { border-color: #aab4bc; box-shadow: 0 10px 24px rgba(23, 28, 31, .09); transform: translateY(-2px); text-decoration: none; }
+.tile h3 { color: #263fc2; font-size: 1.05rem; }
+.tile p { color: #59636a; line-height: 1.55; }
+.tile span { color: #087758; font-weight: 750; font-size: .86rem; }
+@media (max-width: 780px) { .heroInner { grid-template-columns: 1fr; gap: 30px; padding: 48px 0; } .copy h1 { font-size: 3rem; } .visual { max-height: 320px; box-shadow: 8px 8px 0 #4d66e8; } .grid { grid-template-columns: 1fr; } .tile { min-height: auto; } }

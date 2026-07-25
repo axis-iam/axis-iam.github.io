@@ -1,0 +1,38 @@
+---
+title: Permission Manifest
+slug: /authorization/permission-manifest/
+---
+
+# Permission Manifest
+
+Permission Manifest 是应用发布到 Vertex 的、纳入版本控制的权限定义。每条声明包含稳定的
+`resource:action` 权限键、显示名称和可选描述。同一份 manifest 应用于生成应用常量，并在 CI 中检查已部署的权限目录。
+
+Manifest 只能发送到 `POST /open/v1/permission-manifests:sync`。请求模式只能是 `validate` 或 `upsert`：
+
+- `validate` 检查 canonical manifest 并报告目录差异，不写入变更。
+- `upsert` 创建或更新声明的权限。请提供 `Idempotency-Key`，使部署能够安全重放同一次写入。
+
+```json
+{
+  "mode": "validate",
+  "manifestId": "orders-api",
+  "revision": "2026-07-27",
+  "fingerprint": "<lowercase-sha256>",
+  "permissions": [
+    {
+      "resource": "orders",
+      "action": "read",
+      "name": "Read orders",
+      "description": "Read order details"
+    }
+  ]
+}
+```
+
+此接口仅供服务端使用。调用方必须是机密 M2M client，其 token 必须精确包含 `permissions:sync` scope。
+Issuer 与 Portal API endpoint 必须显式配置；除非部署明确选择了运行模式，否则应禁用启动时同步。Manifest
+无效、scope 缺失或多余、Application 上下文不明确、传输失败或响应格式错误时都必须 fail closed，不能假定同步成功后继续授权。
+
+不得记录 client secret、bearer token、请求体、manifest 描述、revision、fingerprint 或 idempotency key。
+运行指标只能包含经过脱敏的模式、结果、状态与耗时。

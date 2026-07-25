@@ -1,0 +1,27 @@
+---
+title: Public API families
+slug: /api/
+---
+
+# Public API families
+
+This page describes supported integration families, not every internal controller.
+
+| Family | Authentication | Intended caller |
+| --- | --- | --- |
+| OAuth 2.0 / OIDC discovery, authorize, token, logout, JWKS | Protocol-specific | Browsers, native apps, WEB/BFF, and M2M clients |
+| Direct Auth signup, login, password recovery, and refresh under `/api/v1/auth` | Public client context | Embedded authentication and Auth Dialog |
+| `/api/v1/auth/me/**`, sessions, and logout | User bearer token | First-party application UI and SDK account surfaces |
+| Auth methods, policy, branding, and registration-grant preview under `/api/v1/apps/{clientId}` | Public client context | Hosted/embedded browser authentication |
+| `/open/v1/permissions:resolve` and permission snapshot | Confidential client | Resource servers |
+| `/open/v1/permission-manifests:sync` | Exact-scope M2M | CI validation and deployment upsert |
+| `/open/v1/organizations`, roles, permissions, user-role assignments, and registration grants | Exact-scope M2M | Backend management automation |
+| `/open/v1/scim/v2/**` | Provisioning credential | Enterprise SCIM clients |
+
+Public browser flows never send confidential client secrets. Portal/Admin management routes, internal service routes,
+private diagnostics, and browser-confidential shortcuts are not public integration APIs merely because a controller
+exists. Use the [SDK references](../sdk/javascript/) for callable client surfaces and the relevant protocol discovery
+document for runtime endpoint metadata.
+
+The build also publishes a [machine-readable API family manifest](pathname:///api/public-api-families.json). It is a
+documentation index, not an OpenAPI contract and not a substitute for runtime OIDC discovery.

@@ -1,0 +1,94 @@
+---
+title: Go SDK
+slug: /sdk/go/
+---
+
+# Go SDK
+
+The Go SDK provides `net/http` compatible authentication and authorization middleware. It is a Vertex client SDK,
+not a separate server product. The root, Chi, Gin, and Echo modules are publicly available at exact version `v0.1.1`.
+
+## Install
+
+For `net/http`, install the root module:
+
+```bash
+go get github.com/axis-iam/vertex-sdk-go@v0.1.1
+```
+
+For Chi, install the root and adapter modules together:
+
+```bash
+go get github.com/axis-iam/vertex-sdk-go@v0.1.1 github.com/axis-iam/vertex-sdk-go/chi@v0.1.1
+```
+
+For Gin:
+
+```bash
+go get github.com/axis-iam/vertex-sdk-go@v0.1.1 github.com/axis-iam/vertex-sdk-go/gin@v0.1.1
+```
+
+For Echo:
+
+```bash
+go get github.com/axis-iam/vertex-sdk-go@v0.1.1 github.com/axis-iam/vertex-sdk-go/echo@v0.1.1
+```
+
+## Quickstart
+
+```go
+package main
+
+import (
+  "net/http"
+  vertex "github.com/axis-iam/vertex-sdk-go"
+  "github.com/axis-iam/vertex-sdk-go/authz"
+)
+
+func routes(iam *vertex.SDK) http.Handler {
+  mux := http.NewServeMux()
+  mux.Handle("GET /orders", iam.RequirePerm(authz.PermissionKey{Resource: "orders", Action: "read"})(http.HandlerFunc(
+    func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusNoContent) },
+  )))
+  return iam.Authenticate()(mux)
+}
+```
+
+Construct the SDK with issuer endpoint, WEB/M2M `ClientID`, server-held `ClientSecret`, and resource audience. Missing
+or invalid identity and permission context denies access.
+
+```go
+import (
+  "log"
+  "os"
+  vertex "github.com/axis-iam/vertex-sdk-go"
+)
+
+func newVertexSDK() *vertex.SDK {
+  iam, err := vertex.New(&vertex.SDKConfig{
+    Endpoint:     os.Getenv("IAM_ENDPOINT"),
+    Issuer:       os.Getenv("IAM_ENDPOINT"),
+    ClientID:     os.Getenv("IAM_CLIENT_ID"),
+    ClientSecret: os.Getenv("IAM_CLIENT_SECRET"),
+    Audience:     os.Getenv("IAM_RESOURCE_AUDIENCE"),
+  })
+  if err != nil { log.Fatal(err) }
+  return iam
+}
+```
+
+`IAM_CLIENT_ID` and `IAM_CLIENT_SECRET` belong to the Go API's WEB/M2M confidential client, not the browser SPA.
+Set `Audience` explicitly to the Application resource audience; its SDK fallback to `ClientID` is not a substitute
+for the Application contract.
+
+## Resource server and management boundary
+
+`SDK.Authenticate` and `SDK.RequirePerm` protect incoming user bearer requests. `PortalOpenAPIClient` is a separate
+server-side M2M management client with issuer, Portal endpoint, client ID, and secret. Grant it only the exact
+management scopes required by the called methods. Do not instantiate it in browser or mobile code.
+
+## Reference
+
+- [Generated Go API reference](./reference/)
+
+The reference is produced with the Go toolchain's `go doc -all` across public module packages.

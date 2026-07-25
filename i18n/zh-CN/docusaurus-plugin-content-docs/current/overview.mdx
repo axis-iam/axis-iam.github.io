@@ -1,0 +1,33 @@
+---
+id: overview
+title: Axis Vertex 概览
+slug: /
+description: Axis Vertex 以 Application 为中心的所有权与信任模型。
+---
+
+# Axis Vertex 概览
+
+Axis Vertex 是应用身份平台。一个 **Application** 拥有单个产品所使用的用户目录、ApplicationClient、角色、权限、B2B Organization、身份提供商连接、SCIM 连接与交付配置。访问令牌面向明确的 ApplicationClient 和资源 audience 签发。
+
+## 所有权模型
+
+| 资源 | 边界 | 用途 |
+| --- | --- | --- |
+| Workspace | 开发者控制台 | 拥有 Application 并提供配置默认值。 |
+| Application | 产品身份边界 | 拥有用户、客户端、授权、SSO、SCIM 与 Organization。 |
+| ApplicationClient | OAuth 客户端 | 定义客户端类型、重定向 URI、origin、grant 与密钥行为。 |
+| Organization | Application 所属的 B2B 分组 | 对 App User 分组，并可参与授权上下文。 |
+
+Organization 不是租户级配置层。SSO、SCIM、品牌、认证策略与交付配置仍属于 Application 级契约。
+
+## 集成入口
+
+- [快速入门](./getting-started/)：创建 Application、公开或机密 ApplicationClient，并发起第一个受保护请求。
+- [认证](./authentication/)：区分 Hosted、Embedded 与预构建 Dialog 的职责。
+- [授权](./authorization/)：覆盖浏览器 current-user 权限、服务端解析、Permission Manifest 与精确范围管理。
+- [SDK](./sdk/javascript/)：提供各语言集成面的精确公开安装命令。
+- [部署](./deployment/)：说明三服务拓扑与所需的有状态依赖。
+
+:::caution[Preview 分发]
+JavaScript、Java 与 Python `0.1.0` 产物是自托管 preview，不是 npm、Maven Central、Gradle Plugin Portal 或 PyPI release。Go root 与 adapter module 已按精确版本 `v0.1.1` 公开提供。
+:::

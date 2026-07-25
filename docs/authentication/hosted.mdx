@@ -1,0 +1,21 @@
+---
+title: Hosted authentication
+slug: /authentication/hosted/
+---
+
+# Hosted authentication
+
+Hosted authentication redirects the browser to the Vertex authorization endpoint. Vertex owns credential entry,
+provider choice, step-up challenges, and policy errors on its origin. The application owns starting the request,
+persisting OAuth state and the PKCE verifier, validating the callback, and establishing its own UI state.
+
+## Browser sequence
+
+1. Generate an unpredictable `state` and PKCE verifier.
+2. Derive the S256 challenge and start authorization for the SPA public client.
+3. Vertex authenticates the user and returns an authorization code to the exact registered URI.
+4. Validate `state`, exchange the code with the verifier, and remove callback parameters.
+5. Send the access token only to the intended resource audience.
+
+Never place a client secret in a hosted SPA. A WEB/BFF performs the exchange server-side with both its secret and
+PKCE verifier.

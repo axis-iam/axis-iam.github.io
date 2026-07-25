@@ -1,0 +1,41 @@
+---
+title: Permission Manifest
+slug: /authorization/permission-manifest/
+---
+
+# Permission Manifest
+
+A Permission Manifest is the version-controlled definition of the permissions an application publishes to Vertex.
+Each declaration contains a stable `resource:action` key, display name, and optional description. Use the same manifest
+to generate application constants and to check the deployed permission catalog in CI.
+
+Send manifests only to `POST /open/v1/permission-manifests:sync`. The request mode is either `validate` or `upsert`:
+
+- `validate` checks the canonical manifest and reports catalog differences without applying changes.
+- `upsert` creates or updates the declared permissions. Supply an `Idempotency-Key` so a deployment can safely replay
+  the same write.
+
+```json
+{
+  "mode": "validate",
+  "manifestId": "orders-api",
+  "revision": "2026-07-27",
+  "fingerprint": "<lowercase-sha256>",
+  "permissions": [
+    {
+      "resource": "orders",
+      "action": "read",
+      "name": "Read orders",
+      "description": "Read order details"
+    }
+  ]
+}
+```
+
+Call this server-only endpoint with a confidential M2M client whose token has exactly the `permissions:sync` scope.
+Keep the issuer and Portal API endpoint explicit, and keep startup synchronization disabled unless the deployment has
+chosen a mode deliberately. Invalid manifests, missing or extra scopes, ambiguous application context, transport
+failures, and malformed responses must fail closed; do not continue authorization from an assumed successful sync.
+
+Do not log client secrets, bearer tokens, request bodies, manifest descriptions, revisions, fingerprints, or
+idempotency keys. Operational telemetry should contain only a redacted mode, outcome, status, and duration.

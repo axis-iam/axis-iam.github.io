@@ -1,0 +1,14 @@
+---
+title: Embedded 认证
+slug: /authentication/embedded/
+---
+
+# Embedded 认证
+
+Embedded 模式在应用内渲染登录和注册控件。应用负责无障碍表单布局、错误位置、加载状态以及安全处理用户输入；Vertex 仍负责凭据校验、认证策略、限流、身份提供商发现与令牌签发。
+
+身份提供商按钮必须来自 Vertex 针对当前 SPA `clientId` 的 discovery。不要拼接私有提供商路由，也不要假设一个 Application 启用的提供商在另一个 Application 中可用。
+
+Embedded 密码认证属于 Direct Auth，不是 Authorization Code + PKCE。SDK 针对当前 SPA 公开客户端把凭据发送到 `POST /api/v1/auth/login`，并通过 `POST /api/v1/auth/token/refresh` 刷新会话。默认只在内存保存令牌，浏览器代码中不得加入 client secret，也不要在不受信任的非 SDK 客户端中自行复刻这些调用。
+
+Embedded 中的身份提供商按钮仍可启动 Hosted OAuth 重定向。该 provider 分支使用精确 origin 与 callback、OAuth `state` 和 S256 PKCE；密码分支不使用这些机制。两条分支的通用错误都应避免泄露账号是否存在。

@@ -1,0 +1,22 @@
+---
+title: Organizations
+slug: /organizations/
+---
+
+# Organizations
+
+An Organization is a B2B grouping owned by one Application. It groups App Users, memberships, invitations, and an
+optional Organization context used during authorization. Organization records cannot cross Application boundaries.
+
+Invitations are Application-level onboarding flows. An invite can create or attach the invited App User only within
+that Application. Membership roles affect the application's business context; they do not grant Portal developer
+access.
+
+## Explicit boundary
+
+An Organization is **not** a Workspace, tenant, Portal login context, SSO configuration owner, SCIM connection owner,
+or configuration inheritance layer. Branding, authentication policy, SMTP, templates, JWT configuration, SSO, and
+SCIM remain Application-level.
+
+Server-side management uses exact-scope M2M APIs and optimistic concurrency. End-user list, current Organization,
+switch, membership, and invitation acceptance use the authenticated account surface.

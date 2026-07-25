@@ -1,0 +1,25 @@
+[**Axis Vertex JavaScript SDK: react**](../../README.md)
+
+***
+
+[Axis Vertex JavaScript SDK: react](../../README.md) / [index](../README.md) / AccountLinkAuthorizeResult
+
+# Interface: AccountLinkAuthorizeResult
+
+## Properties
+
+### authorizationUrl
+
+> **authorizationUrl**: `string`
+
+***
+
+### expiresAt
+
+> **expiresAt**: `string`
+
+***
+
+### state
+
+> **state**: `string`

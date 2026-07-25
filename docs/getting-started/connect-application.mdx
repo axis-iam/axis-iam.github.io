@@ -1,0 +1,124 @@
+---
+title: Connect an application
+slug: /getting-started/connect-application/
+---
+
+# Connect an application
+
+Use this checklist when a new browser application and its backend start using Axis Vertex. Configuration is scoped
+to one Vertex Application. Organizations inside that Application do not own OAuth clients, identity providers, SMTP,
+or authentication policy.
+
+Define these values before opening Portal:
+
+```text
+VERTEX_ISSUER=https://auth.example.com
+APP_ORIGIN=https://app.example.com
+APP_CALLBACK=https://app.example.com/callback
+APP_LOGIN=https://app.example.com/login
+```
+
+## 1. Create the Application
+
+In Vertex Portal, open **Applications**, create an Application, and choose a resource audience such as
+`api://orders`. The audience identifies the API that accepts access tokens. It is not an Application UUID or OAuth
+client ID.
+
+On **Overview**, configure:
+
+- **Login initiation URI**: the connected application's route that starts sign-in, such as `APP_LOGIN`.
+- **Post-verification redirect URI**: where hosted email verification returns, usually `APP_LOGIN`.
+
+These continuation URLs do not replace OAuth callback URLs.
+
+## 2. Create the required clients
+
+Open **Clients** and create only the client types used by the application:
+
+| Runtime | Client | Secret | Typical use |
+| --- | --- | --- | --- |
+| Browser | `SPA` | No | Hosted PKCE, Embedded Direct Auth, or Dialog |
+| Server-rendered app/BFF | `WEB` | Yes | Server-side authorization-code exchange |
+| Backend automation | `M2M` | Yes | Exact-scope management and service calls |
+| Installed app | `NATIVE` | No | Authorization Code + PKCE |
+
+For a SPA, configure exact values:
+
+- Redirect URI: `APP_CALLBACK`
+- Post-logout redirect URI: `APP_LOGIN`
+- Allowed origin: `APP_ORIGIN` (origin only, with no path)
+
+The `clientId` copied from this page is the public `ApplicationClient.clientId` used by SDKs and public discovery
+routes. Never substitute the Application UUID. Keep WEB and M2M secrets in server-side secret storage; do not put
+them in browser environment variables, static bundles, URLs, or logs.
+
+## 3. Configure registration and authentication
+
+Open **Auth Policies**. Treat these controls separately:
+
+- **Signup mode** controls open signup, registration-grant-required signup, or disabled signup.
+- **Allowed registration grant types** applies only when signup requires a grant. An access code is created under
+  **Registration Grants**, is shown once, and is not an email OTP.
+- **Email verification** controls whether a newly registered email must be verified before sign-in.
+- **Password**, **Email magic link**, and **Email OTP** are login methods. Email OTP authenticates an existing active
+  user; it does not create an account.
+- **Social login** is the Application-level switch for configured identity providers.
+- **IdP auto-provisioning** allows a verified external identity to create a user in this Application on first sign-in.
+  Leave it off when every user must be pre-created.
+
+Email login and verification also require a ready platform SMTP configuration or an Application SMTP override.
+Enabling a policy switch alone does not make delivery ready.
+
+## 4. Configure identity providers
+
+Open **Identity Providers** to add Google, GitHub, a generic OIDC provider, or SAML. Provider configuration belongs to
+the same Application as the SPA client. See [Google and GitHub social login](../../enterprise/google-github/) for the
+upstream console steps and exact callback paths.
+
+The connected application callback (`APP_CALLBACK`) and the upstream provider callback are different:
+
+```text
+Google -> VERTEX_ISSUER/api/v1/identity-providers/oidc/callback
+GitHub -> VERTEX_ISSUER/api/v1/identity-providers/oauth2/callback
+Vertex -> APP_CALLBACK
+```
+
+## 5. Add SDK configuration
+
+Open **SDK Config**, select the actual client, and use the generated values for that runtime. A browser configuration
+normally includes:
+
+```env
+VITE_IAM_ISSUER_URI=https://auth.example.com
+VITE_IAM_CLIENT_ID=iam_public_client_id
+VITE_IAM_REDIRECT_URI=https://app.example.com/callback
+VITE_IAM_POST_LOGOUT_REDIRECT_URI=https://app.example.com/login
+VITE_IAM_RESOURCE_AUDIENCE=api://orders
+```
+
+Use a separate server-only configuration for an M2M client. Do not reuse its secret in the SPA.
+
+Continue with the SDK lane that matches the runtime:
+
+- Browser and Node.js: [JavaScript SDK](../../sdk/javascript/) with Hosted, Embedded, Dialog, callback, and Express examples.
+- Spring Boot API: [Java SDK](../../sdk/java/).
+- Go HTTP API: [Go SDK](../../sdk/go/).
+- FastAPI or other Python API: [Python SDK](../../sdk/python/).
+
+The browser client starts end-user authentication. The resource-server client verifies the resulting bearer token and
+resolves permissions. A management M2M client is separate and receives only the exact scopes needed by backend
+automation.
+
+## 6. Verify the integration
+
+Before releasing the connected application:
+
+1. Open `GET VERTEX_ISSUER/api/v1/apps/{clientId}/auth-methods` with the SPA client ID.
+2. Confirm each intended method is enabled, configured, and available for the required login or signup flow.
+3. Complete hosted sign-in, callback, reload, protected API access, and logout.
+4. If social sign-in should create users, test with an external identity that does not already exist in the
+   Application and confirm IdP auto-provisioning is enabled.
+5. Confirm the resource server rejects the wrong issuer, audience, Application client, and expired token.
+
+Do not work around an unavailable method in application code. Fix the reported policy, provider, SMTP, callback, or
+client configuration instead.

@@ -1,0 +1,15 @@
+---
+title: Current-user permissions
+slug: /authorization/current-user/
+---
+
+# Current-user permissions
+
+After login or token refresh, browser applications call `GET /api/v1/auth/me/permissions` using the user's bearer
+token. The response is the current Application-scoped permission set for that user and Organization context.
+
+Use this result for navigation, button visibility, and optimistic UI hints. Treat failure as an unknown/denied state;
+do not fall back to a JWT `permissions` claim or an old cached result. A resource API remains responsible for its own
+server-side check.
+
+Organization switching can require token refresh before relying on a new `org_id` claim or permission result.

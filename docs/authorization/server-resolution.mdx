@@ -1,0 +1,20 @@
+---
+title: Snapshot and resolve
+slug: /authorization/server-resolution/
+---
+
+# Snapshot and resolve
+
+Confidential resource servers have two read contracts:
+
+| Endpoint | Purpose |
+| --- | --- |
+| `POST /open/v1/permissions:resolve` | Resolve a concrete role set to the current effective permissions. |
+| `GET /open/v1/apps/{clientId}/permissions` | Fetch the full ApplicationClient permission snapshot. |
+
+`clientId` is the OAuth ApplicationClient identifier. Authenticate with a WEB or M2M confidential client and verify
+issuer and resource audience before authorizing the request. Resolution failures, malformed responses, and missing
+context deny access by default. SDK caches are bounded performance aids, not alternative authority.
+
+Use resolve for request-time role evaluation. Use the snapshot when a supported SDK explicitly maintains a local
+authorization view and can fail closed when it is unavailable or stale beyond policy.

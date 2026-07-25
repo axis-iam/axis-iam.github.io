@@ -1,0 +1,12 @@
+---
+title: Application 级 SCIM
+slug: /enterprise/scim/
+---
+
+# Application 级 SCIM
+
+入站 SCIM 2.0 provisioning 是 Application 级企业集成。服务提供商 endpoint 位于 `/open/v1/scim/v2`；被 provisioning 的身份解析为配置 Application 所属的 App User。
+
+Provisioning 凭据是服务端密钥。定期轮换凭据、限制网络访问并监控被拒请求。SCIM 标识与唯一性规则在 Application 边界内计算；SCIM 用户不能解析到或修改另一 Application 的用户。
+
+即使集成将外部 Group 映射为应用业务角色，SCIM Group 也不会把 Axis Vertex Organization 变成配置租户；Organization、SSO 与 SCIM 仍是独立概念。

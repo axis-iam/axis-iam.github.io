@@ -1,0 +1,164 @@
+---
+title: JavaScript SDK
+slug: /sdk/javascript/
+---
+
+# JavaScript SDK
+
+The JavaScript family owns browser authentication and Node.js framework integrations. Version `0.1.0` is available
+as self-hosted preview tarballs. These packages have not been published to the npm registry.
+
+## Install
+
+Install the core tarball and exactly one framework tarball together. For React:
+
+```bash
+npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-react-0.1.0.tgz
+```
+
+For Express:
+
+```bash
+npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-express-0.1.0.tgz
+```
+
+For NestJS:
+
+```bash
+npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-nestjs-0.1.0.tgz
+```
+
+## React SPA quickstart
+
+Create a `SPA` public ApplicationClient with an exact callback, logout URI, and allowed origin.
+
+```tsx
+import {IamProvider, SignIn, useAuth} from '@axis-iam/vertex-react';
+
+function Session() {
+  const {isAuthenticated, user, logout} = useAuth();
+  if (!isAuthenticated) return <SignIn />;
+  return <button onClick={() => void logout({redirect: true})}>Sign out {user?.name}</button>;
+}
+
+export function App() {
+  return (
+    <IamProvider
+      issuerUri="https://auth.example.com"
+      clientId="your-spa-public-client-id"
+      redirectUri="https://app.example.com/callback"
+      postLogoutRedirectUri="https://app.example.com/signed-out"
+    >
+      <Session />
+    </IamProvider>
+  );
+}
+```
+
+The provider uses Authorization Code + S256 PKCE and keeps tokens in memory by default. Browser code never receives a
+client secret. Use `@axis-iam/vertex/server`, Express, NestJS, or React server exports only in server runtimes with a
+WEB/M2M confidential client.
+
+## Browser configuration
+
+| Provider value | Portal source | Rule |
+| --- | --- | --- |
+| `issuerUri` | Vertex public Auth URL | HTTPS base URL, with no API path |
+| `clientId` | **Clients** -> SPA client ID | Public `ApplicationClient.clientId`, never the Application UUID |
+| `redirectUri` | SPA redirect URI | Exact allowlisted callback |
+| `postLogoutRedirectUri` | SPA post-logout URI | Exact allowlisted URI |
+| `audience` | Application resource audience | API identifier, not a client ID |
+| `tokenStorage` | Application decision | Memory by default; opt in to `sessionStorage` only after accepting its XSS risk |
+
+### Hosted redirect and callback
+
+Hosted is the default browser mode. It sends the user to the Vertex-hosted page and returns through the SPA callback.
+
+```tsx
+import {useEffect, useState} from 'react';
+import {SignIn, useAuth} from '@axis-iam/vertex-react';
+
+export function LoginPage() {
+  return <SignIn mode="redirect" />;
+}
+
+export function CallbackPage() {
+  const {handleRedirectCallback} = useAuth();
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    void handleRedirectCallback({cleanUrl: '/callback'}).then((result) => {
+      if (result.status === 'success') window.location.replace('/');
+      if (result.status === 'error') setError(result.error);
+    });
+  }, [handleRedirectCallback]);
+
+  if (error) return <p>Sign in failed. Return to the login page and try again.</p>;
+  return <p>Completing sign in...</p>;
+}
+```
+
+### Embedded
+
+Embedded keeps password and passwordless UI inside the application. The SDK discovers enabled and runtime-ready
+methods for the current SPA client; the application must not construct provider or Direct Auth endpoints itself.
+
+```tsx
+<SignIn mode="embedded" onSuccess={() => window.location.assign('/')} />
+```
+
+Email OTP signs in an existing active Application user. Signup is a separate `SignUp mode="embedded"` flow and must
+follow the Application signup mode, email-verification policy, and optional registration-grant contract.
+
+### Prebuilt Dialog
+
+Dialog is a controlled presentation of the same Hosted or Embedded engines, not a third authentication protocol.
+
+```tsx
+import {useState} from 'react';
+import {AuthDialog, SignInButton} from '@axis-iam/vertex-react';
+
+export function AuthEntry() {
+  const [open, setOpen] = useState(false);
+  return (
+    <AuthDialog open={open} onOpenChange={setOpen} mode="embedded" allowSignUp>
+      <SignInButton>Sign in</SignInButton>
+    </AuthDialog>
+  );
+}
+```
+
+Use `mode="redirect"` when the dialog should open the Hosted flow. In redirect mode, login and ordinary open signup
+share one hosted entry; do not add decorative tabs that lead to the same route.
+
+## Node.js resource server
+
+Node APIs use a different WEB/M2M confidential client under the same Application. The browser sends its bearer access
+token to the API; Express verifies the token and resolves current permissions through Vertex.
+
+```ts
+import express from 'express';
+import {permKey} from '@axis-iam/vertex';
+import {iamAuth, requirePerm} from '@axis-iam/vertex-express';
+
+const app = express();
+app.use(iamAuth({
+  endpoint: process.env.IAM_ENDPOINT!,
+  clientId: process.env.IAM_CLIENT_ID!,
+  clientSecret: process.env.IAM_CLIENT_SECRET!,
+  resourceAudience: process.env.IAM_RESOURCE_AUDIENCE!,
+}));
+app.get('/orders', requirePerm(permKey('orders', 'read')), (_request, response) => {
+  response.json({orders: []});
+});
+```
+
+`IAM_CLIENT_ID` and `IAM_CLIENT_SECRET` here belong to the server client, not the SPA. Use a separate exact-scope M2M
+client for Portal Open API management; never call management APIs from browser code.
+
+## Reference
+
+The build generates TypeDoc Markdown from each package entry point and checks it against package `exports`:
+
+- [Generated JavaScript API reference](./reference/)
+- Public packages: core, React, Express, NestJS, codegen, and testing

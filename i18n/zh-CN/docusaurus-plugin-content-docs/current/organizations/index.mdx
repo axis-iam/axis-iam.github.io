@@ -1,0 +1,16 @@
+---
+title: Organization
+slug: /organizations/
+---
+
+# Organization
+
+Organization 是单个 Application 所属的 B2B 分组。它包含 App User、成员关系、邀请，以及可选的授权 Organization 上下文。Organization 记录不能跨越 Application 边界。
+
+邀请是 Application 级的用户接入流程，只能在该 Application 内创建或关联受邀 App User。成员角色影响应用业务上下文，但不授予 Portal 开发者权限。
+
+## 明确边界
+
+Organization **不是** Workspace、租户、Portal 登录上下文、SSO 配置所有者、SCIM 连接所有者或配置继承层。品牌、认证策略、SMTP、模板、JWT 配置、SSO 与 SCIM 都保持 Application 级。
+
+服务端管理使用精确 scope 的 M2M API 与乐观并发。终端用户的列表、当前 Organization、切换、成员关系与邀请接受使用已认证账号接口。

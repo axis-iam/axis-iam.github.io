@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "product": "vertex",
+  "entries": [
+    {
+      "path": "/.well-known/openid-configuration",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "protocol-integration-test",
+      "symbol": "OidcProtocolIntegrationTest"
+    },
+    {
+      "path": "/oauth2/authorize",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "security-config",
+      "symbol": "ServerSecurityConfig"
+    },
+    {
+      "path": "/oauth2/token",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "security-config",
+      "symbol": "ServerSecurityConfig"
+    },
+    {
+      "path": "/connect/logout",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "security-config",
+      "symbol": "ServerSecurityConfig"
+    },
+    {
+      "path": "/oauth2/jwks",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "protocol-integration-test",
+      "symbol": "OidcProtocolIntegrationTest"
+    },
+    {
+      "path": "/api/v1/auth/signup",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "AuthController"
+    },
+    {
+      "path": "/api/v1/auth/login",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "AuthController"
+    },
+    {
+      "path": "/api/v1/auth/password/forgot",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "PasswordController"
+    },
+    {
+      "path": "/api/v1/auth/password/reset",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "PasswordController"
+    },
+    {
+      "path": "/api/v1/auth/token/refresh",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "AuthController"
+    },
+    {
+      "path": "/api/v1/auth/me/**",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "AccountController"
+    },
+    {
+      "path": "/api/v1/auth/sessions",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "SessionController"
+    },
+    {
+      "path": "/api/v1/auth/sessions/{sid}",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "SessionController"
+    },
+    {
+      "path": "/api/v1/auth/logout",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "SessionController"
+    },
+    {
+      "path": "/api/v1/apps/{clientId}/auth-methods",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "AuthMethodsPublicController"
+    },
+    {
+      "path": "/api/v1/apps/{clientId}/auth-policy",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "AuthPolicyPublicController"
+    },
+    {
+      "path": "/api/v1/apps/{clientId}/branding",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "BrandingPublicController"
+    },
+    {
+      "path": "/api/v1/apps/{clientId}/registration-grants:preview",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "RegistrationGrantPreviewController"
+    },
+    {
+      "path": "/open/v1/permissions:resolve",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "OpenPermissionController"
+    },
+    {
+      "path": "/open/v1/apps/{clientId}/permissions",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "OpenPermissionController"
+    },
+    {
+      "path": "/open/v1/permission-manifests:sync",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "PermissionManifestController"
+    },
+    {
+      "path": "/open/v1/organizations",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "OpenOrgController"
+    },
+    {
+      "path": "/open/v1/roles",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "OpenRoleController"
+    },
+    {
+      "path": "/open/v1/permissions",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "OpenPermissionController"
+    },
+    {
+      "path": "/open/v1/users/{userId}/roles",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "OpenUserRoleController"
+    },
+    {
+      "path": "/open/v1/registration-grants",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "OpenRegistrationGrantController"
+    },
+    {
+      "path": "/open/v1/scim/v2/**",
+      "source": "vertexBackend",
+      "revision": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+      "evidenceKind": "controller",
+      "symbol": "ScimServiceProviderConfigController"
+    }
+  ]
+}

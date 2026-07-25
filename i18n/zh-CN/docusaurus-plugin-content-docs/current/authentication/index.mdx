@@ -1,0 +1,20 @@
+---
+title: 认证
+slug: /authentication/
+---
+
+# 认证
+
+Vertex 提供三种 UI 集成模式。它们共享无 secret SPA client 边界，但并非都使用相同的协议流程。
+
+| 模式 | UI 归属 | 凭据处理 | 适用场景 |
+| --- | --- | --- | --- |
+| [Hosted](./hosted/) | Vertex | Vertex origin | 最小应用安全面与集中式策略体验 |
+| [Embedded](./embedded/) | Application | 应用渲染表单与提供商控件 | 品牌化内嵌流程，应用承担更多责任 |
+| [Dialog](./dialog/) | Vertex SDK 组件 | SDK 在应用 UI 中编排 | 无需自行实现全部状态的预构建弹窗 |
+
+Hosted 认证使用 Authorization Code + S256 PKCE。Embedded 密码认证使用 Direct Auth；Embedded 的身份提供商按钮也可以进入 Hosted OAuth 流程。Dialog 按配置承载 Hosted 或 Embedded 行为，其协议边界取决于所选模式。
+
+所有浏览器模式都使用无 secret SPA 公开客户端和精确 allowed origin。精确 redirect URI、OAuth `state` 与 S256 PKCE 适用于 Hosted 分支，不适用于 Embedded 密码 Direct Auth。令牌默认仅保存在内存中；session storage 是显式风险权衡，不是默认项。
+
+服务端渲染的 WEB 集成使用机密客户端。交互式 code exchange 同时需要服务端密钥和匹配的 PKCE verifier。

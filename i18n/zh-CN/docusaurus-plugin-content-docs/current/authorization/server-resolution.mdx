@@ -1,0 +1,17 @@
+---
+title: Snapshot 与 resolve
+slug: /authorization/server-resolution/
+---
+
+# Snapshot 与 resolve
+
+机密资源服务器有两种读取契约：
+
+| Endpoint | 用途 |
+| --- | --- |
+| `POST /open/v1/permissions:resolve` | 将具体角色集解析为当前有效权限。 |
+| `GET /open/v1/apps/{clientId}/permissions` | 获取完整的 ApplicationClient 权限快照。 |
+
+`clientId` 是 OAuth ApplicationClient 标识。使用 WEB 或 M2M 机密客户端认证，并在授权前校验 issuer 与资源 audience。解析失败、响应格式错误或上下文缺失时默认拒绝；SDK 缓存只是有界的性能优化，不是另一套权威来源。
+
+请求期角色计算使用 resolve。只有受支持的 SDK 能维护本地授权视图，并可在不可用或过期时 fail closed，才使用 snapshot。

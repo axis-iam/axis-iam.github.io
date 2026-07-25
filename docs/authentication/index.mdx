@@ -1,0 +1,26 @@
+---
+title: Authentication
+slug: /authentication/
+---
+
+# Authentication
+
+Vertex offers three UI integration modes. They share the same no-secret SPA client boundary, but they do not all use
+the same protocol flow.
+
+| Mode | UI owner | Credential handling | Best fit |
+| --- | --- | --- | --- |
+| [Hosted](./hosted/) | Vertex | Vertex origin | Lowest application security surface and centralized policy UX |
+| [Embedded](./embedded/) | Application | Application-rendered form/provider controls | Branded inline flows with more app responsibility |
+| [Dialog](./dialog/) | Vertex SDK component | Vertex SDK orchestration in app UI | Prebuilt modal UX without implementing every state |
+
+Hosted authentication uses Authorization Code + S256 PKCE. Embedded password authentication uses Direct Auth;
+Embedded provider buttons can instead enter the Hosted OAuth flow. Dialog carries Hosted or Embedded behavior according
+to its configuration, so its protocol boundary follows the selected mode.
+
+All browser modes use a public SPA client with no secret and an exact allowed origin. Exact redirect URIs, OAuth
+`state`, and S256 PKCE apply to Hosted branches, not Embedded password Direct Auth. Tokens stay in memory by default.
+Session storage is an explicit risk tradeoff, not a default.
+
+Server-rendered WEB integrations use a confidential client. Interactive code exchange requires both the server-held
+client secret and the matching PKCE verifier.

@@ -1,0 +1,11 @@
+com.chaosguide.iam.vertex
+com.chaosguide.iam.vertex.authz
+com.chaosguide.iam.vertex.client
+com.chaosguide.iam.vertex.client.dto
+com.chaosguide.iam.vertex.config
+com.chaosguide.iam.vertex.context
+com.chaosguide.iam.vertex.exception
+com.chaosguide.iam.vertex.jwt
+com.chaosguide.iam.vertex.manifest
+com.chaosguide.iam.vertex.portal
+com.chaosguide.iam.vertex.user

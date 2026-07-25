@@ -1,0 +1,21 @@
+---
+title: Webhook 与交付诊断
+slug: /webhooks/
+---
+
+# Webhook 与交付诊断
+
+Vertex 使用 durable outbox，使已接受的产品事务与通知意图一同提交。Worker 领取到期交付、签名客户 webhook、记录有界尝试，并按目标策略重试。消费者必须按至少一次交付设计，并用稳定事件标识去重。
+
+## 校验交付
+
+1. 在 JSON 解析前读取原始请求体。
+2. 读取该 Webhook 配置的对称 secret；此处不存在公钥 identifier。
+3. 优先校验 `X-IAM-Signature-V2`。要求 `X-IAM-Signature-Version: v2`，检查 `X-IAM-Timestamp` 新鲜度，并对 UTF-8 frame `v2.{timestamp}.{deliveryId}.{eventId}.{rawBody}` 计算 HMAC-SHA256。deliveryId 与 eventId 分别来自 `X-IAM-Delivery` 和 `X-IAM-Event-Id`。
+4. 使用常量时间比较，将小写十六进制摘要与 header 中 `sha256=` 后的值比较。
+5. 仅在 legacy 迁移期间使用 `X-IAM-Signature`；它使用同一 secret 对精确的原始 UTF-8 body 计算 HMAC-SHA256。
+6. 在产生任何副作用前拒绝无效签名，再在消费者事务中原子记录事件标识。
+
+只有消费者持久接受事件后才返回成功状态。超时与可重试失败可能产生下一次投递。
+
+客户可见诊断可以包含目标状态、事件类型、尝试次数、HTTP 状态类别、下次尝试时间、耗时与脱敏错误类别；不能暴露签名材料、Authorization header、请求体、响应体、内部拓扑或跨 Application 的交付数据。

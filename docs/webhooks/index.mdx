@@ -1,0 +1,31 @@
+---
+title: Webhooks and delivery diagnostics
+slug: /webhooks/
+---
+
+# Webhooks and delivery diagnostics
+
+Vertex uses durable outbox delivery so an accepted product transaction and its notification intent are committed
+together. Workers claim due deliveries, sign customer webhooks, record bounded attempts, and retry according to the
+destination policy. Consumers must assume at-least-once delivery and deduplicate by the stable event identifier.
+
+## Verify a delivery
+
+1. Read the raw request body before JSON parsing.
+2. Load the symmetric secret configured for this Webhook; there is no public-key identifier.
+3. Prefer `X-IAM-Signature-V2`. Require `X-IAM-Signature-Version: v2`, validate `X-IAM-Timestamp` freshness, and
+   compute HMAC-SHA256 over the UTF-8 frame `v2.{timestamp}.{deliveryId}.{eventId}.{rawBody}`. The delivery and event
+   identifiers come from `X-IAM-Delivery` and `X-IAM-Event-Id`.
+4. Compare the lowercase hexadecimal digest with the value after `sha256=` using a constant-time comparison.
+5. During legacy migration only, `X-IAM-Signature` is HMAC-SHA256 over the exact raw UTF-8 body with the same secret.
+6. Reject invalid signatures before any side effect, then record the event identifier atomically with the consumer
+   transaction.
+
+Return a success status only after the consumer has durably accepted the event. Timeouts and retryable failures can
+produce another attempt.
+
+## Customer diagnostics
+
+Customer-visible diagnostics may include destination status, event type, attempt number, HTTP status class, next
+attempt time, duration, and a redacted error category. They must not expose signing material, authorization headers,
+request bodies, response bodies, internal topology, or cross-Application delivery data.

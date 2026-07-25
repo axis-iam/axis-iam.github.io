@@ -1,0 +1,22 @@
+---
+title: Embedded authentication
+slug: /authentication/embedded/
+---
+
+# Embedded authentication
+
+Embedded mode renders sign-in and sign-up controls inside the application. The application owns accessible form
+layout, error placement, loading states, and safe handling of user-entered values. Vertex remains the authority for
+credential validation, authentication policy, rate limits, provider discovery, and token issuance.
+
+Provider buttons must come from Vertex discovery for the current SPA `clientId`. Do not construct private provider
+routes or assume that a provider enabled for one Application is enabled for another.
+
+Password-based Embedded authentication is Direct Auth, not Authorization Code + PKCE. The SDK sends credentials to
+`POST /api/v1/auth/login` for the current public SPA client and renews the resulting session through
+`POST /api/v1/auth/token/refresh`. Keep tokens in memory by default, never add a client secret to browser code, and do
+not reproduce these calls in an untrusted non-SDK client.
+
+An embedded provider button can still start a Hosted OAuth redirect. That provider branch uses exact origins and
+callbacks, OAuth `state`, and S256 PKCE; the password branch does not. Generic errors in either branch must avoid
+disclosing whether an account exists.

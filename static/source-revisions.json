@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-28",
+  "sources": {
+    "vertexBackend": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
+    "vertexPortal": "d698b53ea6b4698f8e2ddd3598aa5bb936d3f9e2",
+    "vertexAdmin": "282c7f1332f82b2a1f35de214cf7f2c48cbbe428",
+    "vertexSdkJavaScript": "7a9ed9042e1ba71c17f4df98f620f9cb1b5658c4",
+    "vertexSdkJava": "7ce1dc015700367d4c7b8314dcd317f048a8f5f8",
+    "vertexSdkGo": "617be864cf05a8d9262a56c754a99f143b2b6c07",
+    "vertexSdkPython": "2840f2b711f2362a3e2cc559686484d8eddd052f"
+  }
+}

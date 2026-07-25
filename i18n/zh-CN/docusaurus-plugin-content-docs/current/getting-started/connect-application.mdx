@@ -1,0 +1,113 @@
+---
+title: 接入新应用
+slug: /getting-started/connect-application/
+---
+
+# 接入新应用
+
+浏览器应用及其后端接入 Axis Vertex 时，按本清单配置。配置归属于一个 Vertex Application；Application
+内部的 Organization 不拥有 OAuth client、身份提供商、SMTP 或认证策略。
+
+进入 Portal 前先确定以下值：
+
+```text
+VERTEX_ISSUER=https://auth.example.com
+APP_ORIGIN=https://app.example.com
+APP_CALLBACK=https://app.example.com/callback
+APP_LOGIN=https://app.example.com/login
+```
+
+## 1. 创建 Application
+
+在 Vertex Portal 打开**应用管理**，创建 Application，并设置资源 audience，例如 `api://orders`。资源服务器
+用该标识校验访问令牌的 `aud`；它不是 Application UUID，也不是 OAuth client ID。
+
+在**概览**中配置：
+
+- **登录发起 URI**：接入应用中开始登录的入口，例如 `APP_LOGIN`。
+- **验证后跳转 URI**：托管邮箱验证成功后的返回地址，通常也是 `APP_LOGIN`。
+
+这两个继续流程地址不能替代 OAuth 回调地址。
+
+## 2. 创建所需客户端
+
+打开**客户端**，只创建应用架构实际需要的类型：
+
+| 运行环境 | 客户端 | 密钥 | 常见用途 |
+| --- | --- | --- | --- |
+| 浏览器 | `SPA` | 无 | Hosted PKCE、Embedded Direct Auth 或 Dialog |
+| 服务端渲染应用/BFF | `WEB` | 有 | 服务端授权码交换 |
+| 后端自动化 | `M2M` | 有 | 精确 scope 的管理与服务调用 |
+| 安装应用 | `NATIVE` | 无 | Authorization Code + PKCE |
+
+SPA 需要配置精确值：
+
+- Redirect URI：`APP_CALLBACK`
+- Post-logout redirect URI：`APP_LOGIN`
+- Allowed origin：`APP_ORIGIN`（只能是 origin，不能带路径）
+
+从此页复制的 `clientId` 是 SDK 和公共发现接口使用的 `ApplicationClient.clientId`。不要填 Application UUID。
+WEB/M2M secret 只能放在服务端密钥存储中，不能进入浏览器环境变量、静态产物、URL 或日志。
+
+## 3. 配置注册与认证
+
+打开**认证策略**，分别理解这些控制项：
+
+- **注册模式**控制公开注册、必须使用注册凭证或禁止注册。
+- **允许的注册凭证类型**只在必须使用凭证时生效。访问码从**注册凭证**页创建，只显示一次，并不是邮箱验证码。
+- **邮箱验证**控制新注册邮箱是否必须先验证才能登录。
+- **密码登录**、**邮箱 Magic Link**和**邮箱验证码**是登录方式。邮箱验证码只认证当前 Application 中已有的
+  active 用户，不负责创建账号。
+- **社交登录**是已配置身份提供商的 Application 级总开关。
+- **IdP 自动创建用户**允许已验证的外部身份首次登录时在当前 Application 创建用户。如果要求预先创建用户，保持关闭。
+
+邮箱登录与邮箱验证还要求平台 SMTP 或 Application SMTP override 已就绪。只打开策略开关不会让邮件投递自动就绪。
+
+## 4. 配置身份提供商
+
+打开**身份提供商**，添加 Google、GitHub、通用 OIDC 或 SAML。提供商必须与 SPA client 属于同一个
+Application。上游控制台和回调配置见 [Google 与 GitHub 社交登录](../../enterprise/google-github/)。
+
+接入应用回调 `APP_CALLBACK` 与上游身份提供商回调不是同一个地址：
+
+```text
+Google -> VERTEX_ISSUER/api/v1/identity-providers/oidc/callback
+GitHub -> VERTEX_ISSUER/api/v1/identity-providers/oauth2/callback
+Vertex -> APP_CALLBACK
+```
+
+## 5. 接入 SDK
+
+打开 **SDK 配置**，选择实际使用的客户端，再使用该运行环境生成的配置。浏览器配置通常包括：
+
+```env
+VITE_IAM_ISSUER_URI=https://auth.example.com
+VITE_IAM_CLIENT_ID=iam_public_client_id
+VITE_IAM_REDIRECT_URI=https://app.example.com/callback
+VITE_IAM_POST_LOGOUT_REDIRECT_URI=https://app.example.com/login
+VITE_IAM_RESOURCE_AUDIENCE=api://orders
+```
+
+M2M 使用独立的服务端配置，不能把它的 secret 复用到 SPA。
+
+根据运行环境继续阅读对应 SDK：
+
+- 浏览器与 Node.js：[JavaScript SDK](../../sdk/javascript/)，包含 Hosted、Embedded、Dialog、callback 与 Express 示例。
+- Spring Boot API：[Java SDK](../../sdk/java/)。
+- Go HTTP API：[Go SDK](../../sdk/go/)。
+- FastAPI 或其他 Python API：[Python SDK](../../sdk/python/)。
+
+浏览器 client 发起终端用户认证；资源服务器 client 校验随后收到的 bearer token 并解析权限；管理 M2M client
+必须独立创建，并且只授予后端自动化实际需要的精确 scope。
+
+## 6. 验证接入结果
+
+发布接入应用前：
+
+1. 用 SPA client ID 访问 `GET VERTEX_ISSUER/api/v1/apps/{clientId}/auth-methods`。
+2. 确认预期方式已经启用、配置完成，并可用于对应的登录或注册流程。
+3. 完成 Hosted 登录、callback、reload、受保护 API 和 logout。
+4. 如果社交登录应自动创建用户，用当前 Application 中不存在的外部身份测试，并确认 IdP 自动创建用户已开启。
+5. 确认资源服务器拒绝错误 issuer、audience、Application client 和过期令牌。
+
+不要在接入应用中为不可用方式添加兜底。应修复接口报告的策略、提供商、SMTP、回调或客户端配置。

@@ -1,0 +1,16 @@
+---
+title: Exact authorization management
+slug: /authorization/management/
+---
+
+# Exact authorization management
+
+Portal Open API exposes Application-bound RBAC resources for backend automation: roles, permissions, role-permission
+bindings, and user-role assignments. These endpoints are not browser APIs.
+
+Use an M2M confidential ApplicationClient and request the exact scope for the operation. A generic read or write scope
+does not imply narrower RBAC management capabilities. Mutation clients must send the current strong `If-Match` ETag;
+on conflict, reload the resource and make an explicit decision instead of overwriting a newer version.
+
+Permission grants accept exact keys and the supported `resource:*` / `*:*` wildcards. Resource and action matching is
+case-sensitive. Invalid or ambiguous identifiers fail closed.

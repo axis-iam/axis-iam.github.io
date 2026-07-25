@@ -1,0 +1,19 @@
+---
+title: 授权
+slug: /authorization/
+---
+
+# 授权
+
+Vertex 使用区分大小写的 `resource:action` 权限键，例如 `orders:read`。`orders:*` 匹配单个资源的所有 action，`*:*` 匹配全部有效权限。无效键或空权限集一律拒绝。
+
+访问令牌携带身份与角色，而不是最终权限契约，因此授权变更不必等待所有令牌过期。
+
+## 集成面
+
+- [Current-user 权限](./current-user/)：登录或刷新后为浏览器 UI 提供提示。
+- [Snapshot 与 resolve](./server-resolution/)：供机密资源服务器授权。
+- [Permission Manifest](./permission-manifest/)：校验或发布显式权限定义。
+- [精确授权管理](./management/)：用窄范围 M2M scope 与乐观并发管理 RBAC。
+
+客户端权限门控只改善体验；资源服务器必须独立执行相同的授权判断。

@@ -1,0 +1,22 @@
+{
+  "version.label": {
+    "message": "预发布",
+    "description": "The label for version current"
+  },
+  "sidebar.vertex.category.Authentication": {
+    "message": "认证",
+    "description": "The label for category 'Authentication' in sidebar 'vertex'"
+  },
+  "sidebar.vertex.category.Authorization": {
+    "message": "授权",
+    "description": "The label for category 'Authorization' in sidebar 'vertex'"
+  },
+  "sidebar.vertex.category.Enterprise": {
+    "message": "企业集成",
+    "description": "The label for category 'Enterprise' in sidebar 'vertex'"
+  },
+  "sidebar.vertex.category.SDKs": {
+    "message": "SDKs",
+    "description": "The label for category 'SDKs' in sidebar 'vertex'"
+  }
+}

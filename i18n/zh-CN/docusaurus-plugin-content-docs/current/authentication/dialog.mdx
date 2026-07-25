@@ -1,0 +1,12 @@
+---
+title: 预构建认证 Dialog
+slug: /authentication/dialog/
+---
+
+# 预构建认证 Dialog
+
+React SDK 的预构建 Dialog 将 Vertex 认证状态封装在弹窗中。应用控制弹窗何时打开以及认证成功后的导航；组件控制当前认证步骤、校验展示、身份提供商启动、回调延续与焦点约束。
+
+当应用需要上下文内入口、但不希望重建所有认证状态时使用 Dialog。Hosted 重定向与 Embedded 凭据是组件内的不同模式。Hosted 会离开应用 origin，使用 Authorization Code + S256 PKCE；Embedded 密码模式留在 Dialog 内，通过 `POST /api/v1/auth/login` 与 `POST /api/v1/auth/token/refresh` 执行 Direct Auth。切换视觉标签不能把一种模式转换为另一种，也不能为同一个重定向流程创造第二套 OAuth 语义。
+
+应用仍须提供 SPA 公开客户端、精确重定向 URI、登出 URI 与允许 origin，并提供无障碍触发器，在 Dialog 关闭后恢复焦点。

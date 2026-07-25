@@ -1,0 +1,159 @@
+---
+title: JavaScript SDK
+slug: /sdk/javascript/
+---
+
+# JavaScript SDK
+
+JavaScript SDK 系列负责浏览器认证与 Node.js 框架集成。`0.1.0` 已作为自托管 preview tarball 提供，但这些 package 尚未发布到 npm registry。
+
+## 安装
+
+请在同一条命令中安装 core tarball 和一个选定的 framework tarball。React：
+
+```bash
+npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-react-0.1.0.tgz
+```
+
+Express：
+
+```bash
+npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-express-0.1.0.tgz
+```
+
+NestJS：
+
+```bash
+npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-nestjs-0.1.0.tgz
+```
+
+## React SPA 快速入门
+
+创建 `SPA` 公开 ApplicationClient，并配置精确 callback、logout URI 与允许 origin。
+
+```tsx
+import {IamProvider, SignIn, useAuth} from '@axis-iam/vertex-react';
+
+function Session() {
+  const {isAuthenticated, user, logout} = useAuth();
+  if (!isAuthenticated) return <SignIn />;
+  return <button onClick={() => void logout({redirect: true})}>Sign out {user?.name}</button>;
+}
+
+export function App() {
+  return (
+    <IamProvider
+      issuerUri="https://auth.example.com"
+      clientId="your-spa-public-client-id"
+      redirectUri="https://app.example.com/callback"
+      postLogoutRedirectUri="https://app.example.com/signed-out"
+    >
+      <Session />
+    </IamProvider>
+  );
+}
+```
+
+Provider 使用 Authorization Code + S256 PKCE，并默认把令牌保存在内存中。浏览器代码不会接收 client secret。`@axis-iam/vertex/server`、Express、NestJS 或 React server export 仅用于配置 WEB/M2M 机密客户端的服务端运行环境。
+
+## 浏览器配置
+
+| Provider 值 | Portal 来源 | 规则 |
+| --- | --- | --- |
+| `issuerUri` | Vertex 公网 Auth URL | HTTPS 根地址，不带 API path |
+| `clientId` | **客户端** -> SPA client ID | 公开 `ApplicationClient.clientId`，不是 Application UUID |
+| `redirectUri` | SPA redirect URI | 必须与 allowlist 精确一致 |
+| `postLogoutRedirectUri` | SPA post-logout URI | 必须与 allowlist 精确一致 |
+| `audience` | Application resource audience | API 标识，不是 client ID |
+| `tokenStorage` | 接入应用自行决策 | 默认 memory；只有接受 XSS 风险后才显式选择 `sessionStorage` |
+
+### Hosted redirect 与 callback
+
+Hosted 是默认浏览器模式，用户进入 Vertex 托管页，并通过 SPA callback 返回。
+
+```tsx
+import {useEffect, useState} from 'react';
+import {SignIn, useAuth} from '@axis-iam/vertex-react';
+
+export function LoginPage() {
+  return <SignIn mode="redirect" />;
+}
+
+export function CallbackPage() {
+  const {handleRedirectCallback} = useAuth();
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    void handleRedirectCallback({cleanUrl: '/callback'}).then((result) => {
+      if (result.status === 'success') window.location.replace('/');
+      if (result.status === 'error') setError(result.error);
+    });
+  }, [handleRedirectCallback]);
+
+  if (error) return <p>登录失败，请返回登录页后重试。</p>;
+  return <p>正在完成登录...</p>;
+}
+```
+
+### Embedded
+
+Embedded 把密码与 passwordless UI 放在接入应用内。SDK 会按当前 SPA client 发现已经启用且 runtime-ready 的
+认证方式；接入应用不能自行拼接 provider 或 Direct Auth endpoint。
+
+```tsx
+<SignIn mode="embedded" onSuccess={() => window.location.assign('/')} />
+```
+
+邮箱验证码只登录当前 Application 中已有的 active 用户。注册使用独立的 `SignUp mode="embedded"`，并遵守
+Application 的注册模式、邮箱验证策略和可选 registration grant 合同。
+
+### 预制 Dialog
+
+Dialog 只是对同一套 Hosted/Embedded engine 的受控展示，不是第三种认证协议。
+
+```tsx
+import {useState} from 'react';
+import {AuthDialog, SignInButton} from '@axis-iam/vertex-react';
+
+export function AuthEntry() {
+  const [open, setOpen] = useState(false);
+  return (
+    <AuthDialog open={open} onOpenChange={setOpen} mode="embedded" allowSignUp>
+      <SignInButton>登录</SignInButton>
+    </AuthDialog>
+  );
+}
+```
+
+需要托管流程时使用 `mode="redirect"`。redirect 模式中的登录和普通公开注册共用一个 Hosted 入口，不要增加
+两个最终进入同一路由的装饰性 Tab。
+
+## Node.js 资源服务器
+
+Node API 使用同一 Application 下另一个 WEB/M2M 机密 client。浏览器把 bearer access token 发给 API；Express
+校验令牌，并通过 Vertex 解析当前权限。
+
+```ts
+import express from 'express';
+import {permKey} from '@axis-iam/vertex';
+import {iamAuth, requirePerm} from '@axis-iam/vertex-express';
+
+const app = express();
+app.use(iamAuth({
+  endpoint: process.env.IAM_ENDPOINT!,
+  clientId: process.env.IAM_CLIENT_ID!,
+  clientSecret: process.env.IAM_CLIENT_SECRET!,
+  resourceAudience: process.env.IAM_RESOURCE_AUDIENCE!,
+}));
+app.get('/orders', requirePerm(permKey('orders', 'read')), (_request, response) => {
+  response.json({orders: []});
+});
+```
+
+这里的 `IAM_CLIENT_ID` 与 `IAM_CLIENT_SECRET` 属于服务端 client，不是 SPA。Portal Open API 管理使用另一个
+具备精确 scope 的 M2M client；浏览器不得调用管理 API。
+
+## API 参考
+
+- [生成的 JavaScript API 参考](./reference/)
+- 公开 package：core、React、Express、NestJS、codegen 与 testing

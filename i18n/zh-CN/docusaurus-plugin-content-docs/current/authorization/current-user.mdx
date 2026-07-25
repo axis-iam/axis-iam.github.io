@@ -1,0 +1,12 @@
+---
+title: Current-user 权限
+slug: /authorization/current-user/
+---
+
+# Current-user 权限
+
+登录或令牌刷新后，浏览器应用使用用户 bearer token 调用 `GET /api/v1/auth/me/permissions`。响应是该用户在当前 Application 与 Organization 上下文中的最新权限集。
+
+可将结果用于导航、按钮可见性与乐观 UI 提示。请求失败时按未知或拒绝处理；不要回退到 JWT `permissions` claim 或旧缓存。资源 API 仍须自行完成服务端检查。
+
+切换 Organization 后，依赖新的 `org_id` claim 或权限结果之前可能需要刷新令牌。

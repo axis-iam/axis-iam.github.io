@@ -1,0 +1,34 @@
+{
+  "title": {
+    "message": "Axis Vertex",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Axis Vertex",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Get started": {
+    "message": "开始接入",
+    "description": "Navbar item with label Get started"
+  },
+  "item.label.Authentication": {
+    "message": "认证",
+    "description": "Navbar item with label Authentication"
+  },
+  "item.label.Authorization": {
+    "message": "授权",
+    "description": "Navbar item with label Authorization"
+  },
+  "item.label.SDKs": {
+    "message": "SDK",
+    "description": "Navbar item with label SDKs"
+  },
+  "item.label.API": {
+    "message": "API",
+    "description": "Navbar item with label API"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

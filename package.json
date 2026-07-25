@@ -1,0 +1,52 @@
+{
+  "name": "axis-vertex-public-docs",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "engines": { "node": ">=24 <25", "pnpm": "11.9.0" },
+  "scripts": {
+    "start": "docusaurus start",
+    "build": "pnpm manifests:generate && docusaurus build && pnpm validate:built",
+    "serve": "docusaurus serve --host 127.0.0.1",
+    "routes:generate": "tsx scripts/generate-route-manifest.ts",
+    "api-families:generate": "tsx scripts/generate-api-families.ts",
+    "manifests:generate": "pnpm routes:generate && pnpm api-families:generate",
+    "references:generate": "bash scripts/generate-sdk-references.sh",
+    "refresh:private-sources": "bash scripts/refresh-private-sources.sh",
+    "public-installations:check": "bash scripts/check-public-installations.sh",
+    "quickstarts:parity": "tsx scripts/check-quickstart-parity.ts",
+    "quickstarts:check": "bash scripts/check-quickstarts.sh",
+    "generated:generate": "tsx scripts/generate-generated-content-manifest.ts",
+    "validate:generated": "tsx scripts/check-generated-content.ts",
+    "validate:public": "tsx scripts/check-sdk-installation-contract.ts && tsx scripts/check-public-provenance.ts && tsx scripts/check-api-evidence.ts && pnpm validate:generated && pnpm quickstarts:parity && tsx scripts/check-public-content.ts source",
+    "validate:built": "tsx scripts/check-route-output.ts && tsx scripts/check-public-content.ts build && tsx scripts/check-links.ts internal",
+    "links:external": "tsx scripts/check-links.ts external",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@cmfcmf/docusaurus-search-local": "2.0.1",
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/faster": "3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
+    "@mdx-js/react": "3.1.1",
+    "@node-rs/jieba": "2.0.1",
+    "clsx": "2.1.1",
+    "nodejieba": "3.5.8",
+    "prism-react-renderer": "2.4.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@mapbox/node-pre-gyp": "2.0.3",
+    "@docusaurus/module-type-aliases": "3.10.2",
+    "@docusaurus/tsconfig": "3.10.2",
+    "@docusaurus/types": "3.10.2",
+    "@playwright/test": "1.55.1",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.7",
+    "tsx": "4.21.0",
+    "typedoc": "0.28.20",
+    "typedoc-plugin-markdown": "4.12.0",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,18 @@
+export type ApiFamily = {
+  key: string;
+  paths: readonly string[];
+  authentication: string;
+  callers: readonly string[];
+  stability: 'pre-beta';
+};
+
+export const publicApiFamilies: readonly ApiFamily[] = [
+  {key: 'oauth-oidc', paths: ['/.well-known/openid-configuration', '/oauth2/authorize', '/oauth2/token', '/connect/logout', '/oauth2/jwks'], authentication: 'protocol-specific', callers: ['browser', 'native', 'web-bff', 'm2m'], stability: 'pre-beta'},
+  {key: 'direct-auth-public', paths: ['/api/v1/auth/signup', '/api/v1/auth/login', '/api/v1/auth/password/forgot', '/api/v1/auth/password/reset', '/api/v1/auth/token/refresh'], authentication: 'public-client-context', callers: ['embedded-auth', 'auth-dialog'], stability: 'pre-beta'},
+  {key: 'current-user', paths: ['/api/v1/auth/me/**', '/api/v1/auth/sessions', '/api/v1/auth/sessions/{sid}', '/api/v1/auth/logout'], authentication: 'user-bearer-token', callers: ['first-party-ui', 'account-sdk'], stability: 'pre-beta'},
+  {key: 'public-client-discovery', paths: ['/api/v1/apps/{clientId}/auth-methods', '/api/v1/apps/{clientId}/auth-policy', '/api/v1/apps/{clientId}/branding', '/api/v1/apps/{clientId}/registration-grants:preview'], authentication: 'public-client-context', callers: ['hosted-auth', 'embedded-auth'], stability: 'pre-beta'},
+  {key: 'permission-resolution', paths: ['/open/v1/permissions:resolve', '/open/v1/apps/{clientId}/permissions'], authentication: 'confidential-client', callers: ['resource-server'], stability: 'pre-beta'},
+  {key: 'permission-manifest', paths: ['/open/v1/permission-manifests:sync'], authentication: 'exact-scope-m2m', callers: ['ci', 'deployment'], stability: 'pre-beta'},
+  {key: 'authorization-management', paths: ['/open/v1/organizations', '/open/v1/roles', '/open/v1/permissions', '/open/v1/users/{userId}/roles', '/open/v1/registration-grants'], authentication: 'exact-scope-m2m', callers: ['backend-automation'], stability: 'pre-beta'},
+  {key: 'scim-v2', paths: ['/open/v1/scim/v2/**'], authentication: 'provisioning-credential', callers: ['enterprise-scim-client'], stability: 'pre-beta'},
+] as const;

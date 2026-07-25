@@ -1,0 +1,133 @@
+---
+title: Google and GitHub social login
+slug: /enterprise/google-github/
+---
+
+# Google and GitHub social login
+
+Axis Vertex brokers Google through OIDC and GitHub through OAuth2. Users leave the connected application, authenticate
+with the provider, return to the Axis Vertex callback, and then continue to the connected application's configured
+OAuth callback.
+
+Set the public HTTPS issuer for your Vertex deployment:
+
+```text
+VERTEX_ISSUER=https://auth.example.com
+```
+
+Trailing slashes are omitted in the examples. Provider client secrets are write-only server-side values.
+
+## Google OIDC
+
+### Create the Google client
+
+1. Open [Google Cloud Console](https://console.cloud.google.com/).
+2. Select or create a project.
+3. Under **Google Auth Platform**, configure **Branding**, **Audience**, and **Data Access** as required by Google. If
+   the app remains in testing mode, add the identities used for verification as test users.
+4. Open **Clients**, choose **Create client**, and select **Web application**.
+5. Add this exact **Authorized redirect URI**:
+
+```text
+VERTEX_ISSUER/api/v1/identity-providers/oidc/callback
+```
+
+For example:
+
+```text
+https://auth.example.com/api/v1/identity-providers/oidc/callback
+```
+
+Axis Vertex does not use the Google JavaScript SDK for this brokered flow. An Authorized JavaScript origin is not a
+replacement for the redirect URI. If Google or an organization policy requires an origin, use the exact HTTPS origin
+of `VERTEX_ISSUER` with no path. Add the connected application's origin only if that application independently uses a
+Google browser SDK.
+
+6. Copy the Google client ID and client secret. Never place the secret in the connected SPA.
+
+Google requires the authorization request's `redirect_uri` to exactly match a registered redirect URI. Scheme, host,
+port, path, and trailing slash all matter. See Google's
+[OAuth 2.0 web-server guide](https://developers.google.com/identity/protocols/oauth2/web-server) for the upstream
+requirements.
+
+### Add Google in Vertex Portal
+
+1. Open **Applications**, select the Application, then open **Identity Providers**.
+2. Choose **Add Provider** and select **Google**.
+3. Enter a stable internal name and the user-facing display name.
+4. Enter the Google client ID and client secret.
+5. Keep scopes as `openid email profile` unless the application has a reviewed need for more.
+6. Keep the email claim as `email` and the name claim as `name`.
+7. Save and enable the provider. Use **Test Connection** when available.
+
+The Google issuer is fixed to [https://accounts.google.com](https://accounts.google.com); do not replace it with an
+authorization endpoint URL.
+
+## GitHub OAuth2
+
+### Create the GitHub OAuth App
+
+1. Sign in to GitHub.
+2. Open [Developer settings](https://github.com/settings/developers) -> **OAuth Apps** -> **New OAuth App**. For an
+   organization-owned app, create it under the organization's developer settings instead. GitHub's
+   [OAuth App creation guide](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app)
+   describes the same Homepage URL and Authorization callback URL fields.
+3. Set **Homepage URL** to the connected application's public homepage, for example:
+
+```text
+https://app.example.com
+```
+
+4. Set **Authorization callback URL** to the exact Axis Vertex callback:
+
+```text
+VERTEX_ISSUER/api/v1/identity-providers/oauth2/callback
+```
+
+For example:
+
+```text
+https://auth.example.com/api/v1/identity-providers/oauth2/callback
+```
+
+5. Register the OAuth App, generate a client secret, and store it immediately in a secret manager.
+
+GitHub OAuth Apps support only one callback URL. Use a separate OAuth App for each Vertex deployment whose issuer
+differs, such as development and production.
+
+### Add GitHub in Vertex Portal
+
+1. Open the same Application's **Identity Providers** page.
+2. Choose **Add Provider** and select **GitHub**.
+3. Enter the GitHub OAuth App client ID and client secret.
+4. Keep scopes as `read:user user:email` so Vertex can resolve a verified email when GitHub's public profile email is
+   absent.
+5. Save and enable the provider.
+
+GitHub is an OAuth2 provider in Vertex, not a generic OIDC issuer. Do not enter a GitHub issuer URL or use the Google
+OIDC callback.
+
+## Make providers visible and allow first sign-in
+
+In **Auth Policies** for the Application:
+
+1. Enable **Social login**.
+2. Enable **IdP auto-provisioning** only if a verified Google or GitHub identity may create a new Application user.
+3. Leave auto-provisioning disabled when users must be created or invited before social sign-in.
+
+A configured provider remains hidden when Social login is off, disabled, belongs to a different Application, or is
+not runtime-ready. With auto-provisioning off, a valid provider login still fails for an identity that has no user in
+the current Application.
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Provider is absent from hosted login | Same Application, provider enabled, Social login enabled, public SPA client selected |
+| Google reports `redirect_uri_mismatch` | Exact OIDC callback registered; no extra slash; correct Vertex issuer |
+| GitHub returns to the wrong environment | OAuth App callback points to that environment's OAuth2 callback |
+| Provider callback ends in `sign_in_failed` | User exists in this Application, or IdP auto-provisioning is enabled |
+| Login start returns 502 | Vertex can reach provider discovery/token/user-info endpoints and outbound proxy configuration is healthy |
+| Secret was rotated | Edit the provider and submit the new write-only secret; leaving it blank preserves the stored value |
+
+Do not log authorization codes, provider access tokens, client secrets, state, nonce, or callback query strings.

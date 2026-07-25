@@ -1,0 +1,37 @@
+---
+id: overview
+title: Axis Vertex overview
+slug: /
+description: The Application-centric ownership and trust model for Axis Vertex.
+---
+
+# Axis Vertex overview
+
+Axis Vertex is an Application Identity Platform. An **Application** owns the user directory, ApplicationClients,
+roles, permissions, B2B Organizations, identity-provider connections, SCIM connections, and delivery configuration
+used by one product. Access tokens are issued for a concrete ApplicationClient and resource audience.
+
+## Ownership model
+
+| Resource | Boundary | Purpose |
+| --- | --- | --- |
+| Workspace | Developer console | Owns Applications and provides configuration defaults. |
+| Application | Product identity boundary | Owns users, clients, authorization, SSO, SCIM, and Organizations. |
+| ApplicationClient | OAuth client | Defines client type, redirect URIs, origins, grants, and secret behavior. |
+| Organization | Application-owned B2B group | Groups App Users and can participate in authorization context. |
+
+An Organization is not a tenant-wide configuration layer. SSO, SCIM, branding, authentication policy, and delivery
+configuration remain Application-level contracts.
+
+## Integration surfaces
+
+- [Getting started](./getting-started/) creates an Application, a public or confidential ApplicationClient, and a first protected request.
+- [Authentication](./authentication/) separates Hosted, Embedded, and prebuilt Dialog responsibilities.
+- [Authorization](./authorization/) covers browser current-user permissions, server resolution, Permission Manifest, and exact-scope management.
+- [SDKs](./sdk/javascript/) provide exact public installation commands for each language integration surface.
+- [Deployment](./deployment/) describes the three-service topology and required stateful dependencies.
+
+:::caution[Preview distribution]
+JavaScript, Java, and Python `0.1.0` artifacts are self-hosted previews, not npm, Maven Central, Gradle Plugin Portal,
+or PyPI releases. Go root and adapter modules are public at exact version `v0.1.1`.
+:::

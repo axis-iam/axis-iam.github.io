@@ -1,0 +1,27 @@
+---
+title: 部署与运维
+slug: /deployment/
+---
+
+# 部署与运维
+
+Vertex 以三个隔离服务部署：
+
+| 服务 | 暴露范围 | 数据契约 |
+| --- | --- | --- |
+| `iam-server` | 公开认证边缘 | 读取不可变认证视图；负责协议与 session 写入。 |
+| `iam-portal` | 公开开发者与 Open API 边缘 | 在行级隔离下执行 Application/Workspace 范围写入。 |
+| `iam-admin` | 内部运维边缘 | 平台级管理；不得暴露到公网。 |
+
+## 必需状态
+
+- PostgreSQL 保存身份、配置、授权、审计与 durable delivery 状态；数据库 claim、lease、lease token 与 fencing 负责 durable delivery Worker 协调。
+- Redis 保存短期 session、challenge、缓存与限流状态，不承担 durable Worker 协调。
+- 显式 keyring 保护令牌签名、Permission Manifest、交付材料和其他加密密钥。
+- 分离公开 issuer、Portal 与 Admin origin，以保持信任边界。
+
+## 发布检查
+
+在启用依赖新 schema 的构建前执行迁移。验证 OIDC discovery、签名密钥就绪状态、PostgreSQL/Redis 连接、RLS 隔离、时钟同步、精确 CORS/重定向 origin、交付 Worker 健康、keyring generation 与备份恢复流程，并保持 Admin 网络隔离。
+
+影响视图、keyring 或 durable delivery 的滚动变更必须兼容新旧构建。只有数据库与活跃密钥代际仍兼容时才回滚应用构建，否则遵循迁移专用恢复流程。

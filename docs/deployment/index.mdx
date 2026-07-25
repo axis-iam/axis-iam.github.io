@@ -1,0 +1,32 @@
+---
+title: Deployment and operations
+slug: /deployment/
+---
+
+# Deployment and operations
+
+Deploy Vertex as three isolated services:
+
+| Service | Exposure | Data contract |
+| --- | --- | --- |
+| `iam-server` | Public authentication edge | Reads immutable authentication views; owns protocol/session writes. |
+| `iam-portal` | Public developer and Open API edge | Application/Workspace-scoped writes with row-level isolation. |
+| `iam-admin` | Internal operator edge | Platform-wide administration; do not expose to the public internet. |
+
+## Required state
+
+- PostgreSQL stores identity, configuration, authorization, audit, and durable-delivery state. Database-backed claims,
+  leases, lease tokens, and fencing coordinate durable delivery workers.
+- Redis stores short-lived sessions, challenges, caches, and rate-limit state; it is not the durable worker coordinator.
+- Explicit keyrings protect token signing, permission manifests, delivery material, and other encrypted secrets.
+- Separate public issuer, Portal, and Admin origins preserve trust boundaries.
+
+## Release checks
+
+Run schema migrations before enabling a build that depends on them. Verify OIDC discovery, signing-key readiness,
+PostgreSQL and Redis connectivity, RLS isolation, clock synchronization, exact CORS/redirect origins, delivery-worker
+health, keyring generation, and backup restore procedures. Keep Admin network-restricted.
+
+Rolling changes that affect views, keyrings, or durable delivery require compatibility across the old and new build.
+Rollback the application build only when the database and active key generations remain compatible; otherwise follow
+the migration-specific recovery procedure.

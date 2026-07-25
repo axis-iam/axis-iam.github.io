@@ -1,0 +1,14 @@
+---
+title: Application 级 SSO
+slug: /enterprise/sso/
+---
+
+# Application 级 SSO
+
+企业身份提供商连接属于 Application。Vertex 可为该 Application 的用户代理 OIDC 或 SAML 认证，再为其 ApplicationClient 签发令牌。身份提供商发现与选择限定在当前公开 `clientId`。
+
+client secret、SAML key 与提供商凭据只能存入服务端加密配置。向上游提供商注册精确回调 URL，并校验 issuer、state、nonce、签名、audience 与时间约束；不能接受属于另一个 Application 的提供商响应。
+
+Organization 可以在认证后对用户分组，但不拥有、覆盖或继承 SSO 连接。
+
+配置社交身份提供商时，按 [Google 与 GitHub 配置指南](../google-github/)逐项填写。
