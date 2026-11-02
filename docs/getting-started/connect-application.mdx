@@ -37,7 +37,7 @@ Open **Clients** and create only the client types used by the application:
 
 | Runtime | Client | Secret | Typical use |
 | --- | --- | --- | --- |
-| Browser | `SPA` | No | Hosted PKCE, Embedded Direct Auth, or Dialog |
+| Browser | `SPA` | No | Hosted, Embedded, Dialog or Custom; OAuth code exchange with S256 PKCE |
 | Server-rendered app/BFF | `WEB` | Yes | Server-side authorization-code exchange |
 | Backend automation | `M2M` | Yes | Exact-scope management and service calls |
 | Installed app | `NATIVE` | No | Authorization Code + PKCE |
@@ -100,7 +100,7 @@ Use a separate server-only configuration for an M2M client. Do not reuse its sec
 
 Continue with the SDK lane that matches the runtime:
 
-- Browser and Node.js: [JavaScript SDK](../../sdk/javascript/) with Hosted, Embedded, Dialog, callback, and Express examples.
+- Browser and Node.js: [JavaScript SDK](../../sdk/javascript/) with Hosted, Embedded, Dialog, Custom, callback, and Express guidance.
 - Spring Boot API: [Java SDK](../../sdk/java/).
 - Go HTTP API: [Go SDK](../../sdk/go/).
 - FastAPI or other Python API: [Python SDK](../../sdk/python/).
@@ -114,11 +114,17 @@ automation.
 Before releasing the connected application:
 
 1. Open `GET VERTEX_ISSUER/api/v1/apps/{clientId}/auth-methods` with the SPA client ID.
-2. Confirm each intended method is enabled, configured, and available for the required login or signup flow.
-3. Complete hosted sign-in, callback, reload, protected API access, and logout.
+2. Confirm each intended method and explicit identifier kind is available for the required login or signup flow
+   in this Application; a configured Provider in another Application does not establish readiness here.
+3. Complete the chosen sign-in mode, callback, any required MFA, protected API access, and logout.
+   Check reload behavior against your explicit token-storage or server-session choice.
 4. If social sign-in should create users, test with an external identity that does not already exist in the
    Application and confirm IdP auto-provisioning is enabled.
 5. Confirm the resource server rejects the wrong issuer, audience, Application client, and expired token.
 
 Do not work around an unavailable method in application code. Fix the reported policy, provider, SMTP, callback, or
 client configuration instead.
+
+After sign-in, add [account security](../../authentication/account-security/) if users manage their own credentials.
+For invitation-driven onboarding, use the [invitation journey](../../organizations/), which keeps registration,
+verification and explicit invitation acceptance as separate steps.

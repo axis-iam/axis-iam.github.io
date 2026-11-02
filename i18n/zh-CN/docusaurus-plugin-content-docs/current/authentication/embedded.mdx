@@ -9,6 +9,12 @@ Embedded 模式在应用内渲染登录和注册控件。应用负责无障碍�
 
 身份提供商按钮必须来自 Vertex 针对当前 SPA `clientId` 的 discovery。不要拼接私有提供商路由，也不要假设一个 Application 启用的提供商在另一个 Application 中可用。
 
-Embedded 密码认证属于 Direct Auth，不是 Authorization Code + PKCE。SDK 针对当前 SPA 公开客户端把凭据发送到 `POST /api/v1/auth/login`，并通过 `POST /api/v1/auth/token/refresh` 刷新会话。默认只在内存保存令牌，浏览器代码中不得加入 client secret，也不要在不受信任的非 SDK 客户端中自行复刻这些调用。
+Embedded 通过 SDK 创建受控认证事务，凭据证明、必需的 MFA 和完成操作都属于同一个事务。完成后返回授权码，由 SDK 使用原来的 S256 PKCE verifier 和 discovery 返回的 OAuth token endpoint 换取令牌；刷新也走 OAuth。已经退役的 Direct 登录和 Direct 刷新接口不再作为接入入口。
 
-Embedded 中的身份提供商按钮仍可启动 Hosted OAuth 重定向。该 provider 分支使用精确 origin 与 callback、OAuth `state` 和 S256 PKCE；密码分支不使用这些机制。两条分支的通用错误都应避免泄露账号是否存在。
+在 `IamProvider` 内使用 `<SignIn mode="embedded" />` 与 `<SignUp mode="embedded" />`。登录时明确选择 `EMAIL`、`USERNAME` 或受支持的 `PHONE`，手机号按需带上地区。注册仅使用 Application 当前允许的邮箱/用户名类型；不能因为输入看起来像手机号就自动改变标识类型。
+
+第三方登录和无密码登录控件只在 discovery 对当前登录/注册意图报告就绪时展示。第三方回调后可能仍需 MFA；收到回调不等于认证完成，应由 SDK 延续原来的事务。
+
+注册与登录分开：先完成必需的注册验证，再明确提供登录操作。注册成功不会自动建立普通登录会话。令牌默认保存在内存中，浏览器代码不能携带 client secret。
+
+应用自行渲染表单时使用 [Custom 接入](../custom/)；已登录用户修改账户时使用[账号安全](../account-security/)，不要把公开登录表单直接当作账号变更界面。

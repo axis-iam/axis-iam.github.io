@@ -35,7 +35,7 @@ APP_LOGIN=https://app.example.com/login
 
 | 运行环境 | 客户端 | 密钥 | 常见用途 |
 | --- | --- | --- | --- |
-| 浏览器 | `SPA` | 无 | Hosted PKCE、Embedded Direct Auth 或 Dialog |
+| 浏览器 | `SPA` | 无 | Hosted、Embedded、Dialog 或 Custom；使用 S256 PKCE 交换 OAuth 授权码 |
 | 服务端渲染应用/BFF | `WEB` | 有 | 服务端授权码交换 |
 | 后端自动化 | `M2M` | 有 | 精确 scope 的管理与服务调用 |
 | 安装应用 | `NATIVE` | 无 | Authorization Code + PKCE |
@@ -92,7 +92,7 @@ M2M 使用独立的服务端配置，不能把它的 secret 复用到 SPA。
 
 根据运行环境继续阅读对应 SDK：
 
-- 浏览器与 Node.js：[JavaScript SDK](../../sdk/javascript/)，包含 Hosted、Embedded、Dialog、callback 与 Express 示例。
+- 浏览器与 Node.js：[JavaScript SDK](../../sdk/javascript/)，包含 Hosted、Embedded、Dialog、Custom、callback 与 Express 接入说明。
 - Spring Boot API：[Java SDK](../../sdk/java/)。
 - Go HTTP API：[Go SDK](../../sdk/go/)。
 - FastAPI 或其他 Python API：[Python SDK](../../sdk/python/)。
@@ -105,9 +105,14 @@ M2M 使用独立的服务端配置，不能把它的 secret 复用到 SPA。
 发布接入应用前：
 
 1. 用 SPA client ID 访问 `GET VERTEX_ISSUER/api/v1/apps/{clientId}/auth-methods`。
-2. 确认预期方式已经启用、配置完成，并可用于对应的登录或注册流程。
-3. 完成 Hosted 登录、callback、reload、受保护 API 和 logout。
+2. 确认预期方式及明确的标识类型可用于当前 Application 的登录或注册；
+   其他 Application 配置过提供商，不代表当前应用已经就绪。
+3. 完成所选模式的登录、callback、必需 MFA、受保护 API 和 logout，
+   并根据明确选择的令牌存储或服务端会话方式检查 reload 行为。
 4. 如果社交登录应自动创建用户，用当前 Application 中不存在的外部身份测试，并确认 IdP 自动创建用户已开启。
 5. 确认资源服务器拒绝错误 issuer、audience、Application client 和过期令牌。
 
 不要在接入应用中为不可用方式添加兜底。应修复接口报告的策略、提供商、SMTP、回调或客户端配置。
+
+用户需要自行管理凭据时，接入[账号安全](../../authentication/account-security/)。
+邀请接入使用[邀请旅程](../../organizations/)，注册、验证和明确接受邀请保持独立。

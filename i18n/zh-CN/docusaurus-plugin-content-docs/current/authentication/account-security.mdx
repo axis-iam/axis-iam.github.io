@@ -1,0 +1,66 @@
+---
+title: 账号安全
+slug: /authentication/account-security/
+---
+
+# 账号安全
+
+使用 `AccountCenter` 为已登录的 Application 用户提供统一账号界面，包含个人资料、登录方式、密码、
+安全认证、会话和权限六个分区。本文对应当前源码候选版，接入前请确认[安装包可用范围](../../sdk/javascript/)。
+
+## 打开账号中心
+
+在同一个已认证的 `IamProvider` 内渲染：
+
+```tsx
+import {useState} from 'react';
+import {AccountCenter} from '@axis-iam/vertex-react';
+
+export function AccountSettings() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)}>账号安全</button>
+      <AccountCenter open={open} onOpenChange={setOpen} initialSection="security" />
+    </>
+  );
+}
+```
+
+`open` 和 `onOpenChange` 为受控属性。`initialSection` 支持 `profile`、`methods`、`password`、
+`security`、`sessions`、`permissions`。权限分区解释用户当前的访问权限，不要求普通用户输入权限编码。
+
+设置页内嵌安全内容可用 `AccountSecurityPanel`，仅需安全弹窗时可用 `AccountSecurityDialog`。
+它们与 AccountCenter 共用安全操作状态，不要为同一操作同时挂载多个编辑器。
+
+## 区分个人资料与登录方式
+
+个人资料更新用于显示名称和头像。登录用户名、已验证邮箱、手机号及第三方账号属于身份或登录方式变更，
+需要走对应操作流程。显示名称不等于登录用户名；仅使用用户名注册的账户也不一定有邮箱。
+
+使用现成登录方式控件，不要另建泛化的“添加标识”表单。
+不要要求普通用户填写内部 user ID 来转移账户，也不要把开发者权限检查放进普通账号设置。
+
+## 安全确认与结果恢复
+
+只展示服务端允许的操作能力和证明选项。公共登录方式已开启，并不直接赋予账户变更权限。
+验证、验证器设置和恢复码生成分别受其操作及截止时间约束。
+
+设置密钥与新恢复码仅展示一次。查询状态可以恢复操作结果，不能重新取回秘密明文。
+写响应丢失或取消结果不确定时，保留原操作并提供状态查询；
+不要悄悄再创建一项操作，也不要把关闭面板当成服务端取消成功。
+
+自定义界面可使用 `useAccountSecurity()`、`useIdentityOperations()` 获取相同状态与操作。
+需处理类型化错误并等待取消结果。第三方账号确认使用专用返回流程及发起窗口绑定，
+普通登录回调不能替代这项证明。
+
+## 主题、语言与服务端会话
+
+通过 `IamProvider` 设置 `colorScheme="light" | "dark" | "system"`、`appearance`、
+`darkAppearance` 和 `locale="en" | "zh-CN"`。账号界面继承这些配置，不会修改宿主文档主题。
+
+BFF 模式需要显式设置 `sessionMode="server_session"` 和 `sessionTransport`，
+宿主负责真实的会话初始化、CSRF 防护及匹配路由。`sessionProviderReturnUri` 必须是实际同源的 BFF
+第三方确认回调地址，不能带查询参数或片段，也不能随意填成设置页。
+完整传输与操作合同见
+[React 包接入说明](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/README.md)。

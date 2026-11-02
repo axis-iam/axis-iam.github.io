@@ -5,16 +5,19 @@ slug: /authentication/
 
 # 认证
 
-Vertex 提供三种 UI 集成模式。它们共享无 secret SPA client 边界，但并非都使用相同的协议流程。
+Vertex 提供四种 UI 集成模式，区别在于表单放在哪里、由谁渲染。身份和认证策略始终属于 Application。
 
 | 模式 | UI 归属 | 凭据处理 | 适用场景 |
 | --- | --- | --- | --- |
 | [Hosted](./hosted/) | Vertex | Vertex origin | 最小应用安全面与集中式策略体验 |
 | [Embedded](./embedded/) | Application | 应用渲染表单与提供商控件 | 品牌化内嵌流程，应用承担更多责任 |
 | [Dialog](./dialog/) | Vertex SDK 组件 | SDK 在应用 UI 中编排 | 无需自行实现全部状态的预构建弹窗 |
+| [Custom](./custom/) | 应用 | 公开 SDK hook 与应用自有控件 | 完全自定义界面，同时复用受支持的认证流程 |
 
-Hosted 认证使用 Authorization Code + S256 PKCE。Embedded 密码认证使用 Direct Auth；Embedded 的身份提供商按钮也可以进入 Hosted OAuth 流程。Dialog 按配置承载 Hosted 或 Embedded 行为，其协议边界取决于所选模式。
+Hosted 使用 Authorization Code + S256 PKCE。Embedded 和 Custom 通过受控认证事务处理密码、邮箱/短信验证码、邮件链接、第三方登录及必需的 MFA。事务完成后返回授权码，再由 SDK 使用原来的 PKCE 绑定完成 OAuth 换取令牌。Dialog 按应用配置呈现 Hosted 或 Embedded 流程。
 
-所有浏览器模式都使用无 secret SPA 公开客户端和精确 allowed origin。精确 redirect URI、OAuth `state` 与 S256 PKCE 适用于 Hosted 分支，不适用于 Embedded 密码 Direct Auth。令牌默认仅保存在内存中；session storage 是显式风险权衡，不是默认项。
+所有浏览器模式都使用不含 secret 的 SPA 公开客户端、精确的 allowed origin、已登记的回调地址、OAuth `state` 和 S256 PKCE。使用 SDK，不要自行拼接凭据请求或第三方登录路由。`clientId` 用于定位所属 Application 的客户端，不代表认证策略归属于 Client。令牌默认保存在内存中，session storage 需要显式配置。
+
+本指南对应当前 SDK 源码候选。选用安装包前先查看 [JavaScript SDK 安装状态](../sdk/javascript/)；旧预览包不代表已经包含这里的新接口。
 
 服务端渲染的 WEB 集成使用机密客户端。交互式 code exchange 同时需要服务端密钥和匹配的 PKCE verifier。

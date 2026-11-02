@@ -5,12 +5,34 @@ slug: /sdk/javascript/
 
 # JavaScript SDK
 
-The JavaScript family owns browser authentication and Node.js framework integrations. Version `0.1.0` is available
-as self-hosted preview tarballs. These packages have not been published to the npm registry.
+The JavaScript family owns browser authentication and Node.js framework integrations.
+This page's integration examples describe the **current unpublished source candidate**.
+The manifest version `0.1.0` does not identify that candidate, and older `0.1.0` preview tarballs do not
+automatically contain its transaction, account-security or invitation APIs.
 
-## Install
+## Install the current candidate
 
-Install the core tarball and exactly one framework tarball together. For React:
+Obtain approved matching core/framework tarballs built from the reviewed source commit.
+Set the variables below to those actual artifact paths, then install core and the framework you use:
+
+```bash
+# React
+npm install "$VERTEX_CORE_TARBALL" "$VERTEX_REACT_TARBALL"
+# Express
+npm install "$VERTEX_CORE_TARBALL" "$VERTEX_EXPRESS_TARBALL"
+# NestJS
+npm install "$VERTEX_CORE_TARBALL" "$VERTEX_NESTJS_TARBALL"
+```
+
+These are artifact-path variables, not registry package names or ready-made downloads.
+No current npm release is claimed here. The
+[source integration map](https://github.com/axis-iam/vertex-sdk-js/blob/develop/docs/current-integration.md)
+links to the matching package guides.
+
+### Older 0.1.0 preview artifacts
+
+The following immutable self-hosted packages belong to an older preview and have not been published to npm.
+They are **not installation commands for the current examples or new APIs**. React:
 
 ```bash
 npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-react-0.1.0.tgz
@@ -28,7 +50,7 @@ For NestJS:
 npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-nestjs-0.1.0.tgz
 ```
 
-## React SPA quickstart
+## React SPA quickstart — current candidate
 
 Create a `SPA` public ApplicationClient with an exact callback, logout URI, and allowed origin.
 
@@ -75,33 +97,41 @@ WEB/M2M confidential client.
 Hosted is the default browser mode. It sends the user to the Vertex-hosted page and returns through the SPA callback.
 
 ```tsx
-import {useEffect, useState} from 'react';
-import {SignIn, useAuth} from '@axis-iam/vertex-react';
+import {SignIn} from '@axis-iam/vertex-react';
 
 export function LoginPage() {
   return <SignIn mode="redirect" />;
 }
-
-export function CallbackPage() {
-  const {handleRedirectCallback} = useAuth();
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    void handleRedirectCallback({cleanUrl: '/callback'}).then((result) => {
-      if (result.status === 'success') window.location.replace('/');
-      if (result.status === 'error') setError(result.error);
-    });
-  }, [handleRedirectCallback]);
-
-  if (error) return <p>Sign in failed. Return to the login page and try again.</p>;
-  return <p>Completing sign in...</p>;
-}
 ```
+
+On the registered callback route, call `useAuth().handleRedirectCallback({cleanUrl: '/callback'})` once for the
+current callback, consume any promise rejection, and handle every result:
+
+| `status` | Application behavior |
+| --- | --- |
+| `success` | OAuth exchange and authenticated views completed; continue into the application |
+| `session` | A configured server-session flow completed; continue into the application |
+| `continuation` | Preserve the returned `transaction` and `view`; render the required MFA step |
+| `error` | Show the returned error and a deliberate sign-in retry |
+| `idle` | No consumable callback is present; offer the sign-in entry instead of an indefinite spinner |
+
+For `continuation`, no session has been issued. Render the offered MFA proof and use
+`transaction.verifyMfa('TOTP', code)` or the offered recovery-code method, then
+`client.completeAuthentication(transaction)` through `useAuth().client` when the returned view permits completion.
+The lower-level transaction method takes **method, code**; the `useAuthFlow` action takes **code, method**.
+Alternatively, let the [Custom form flow](../../authentication/custom/) own Provider callback resumption using
+`actions.resumeProviderCallback(url)`. Do not have both consumers process the same callback.
+The [React package guide](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/README.md)
+describes Provider return, MFA and callback ownership.
+
+An invitation popup uses a passive callback consumed by its opener, rather than this standalone callback handler.
 
 ### Embedded
 
 Embedded keeps password and passwordless UI inside the application. The SDK discovers enabled and runtime-ready
-methods for the current SPA client; the application must not construct provider or Direct Auth endpoints itself.
+methods in the Application identified by the SPA client. Policy stays Application-owned.
+Credential proof and required MFA share a controlled transaction, followed by OAuth code exchange with S256 PKCE;
+refresh also uses OAuth. Do not call retired Direct login/refresh endpoints.
 
 ```tsx
 <SignIn mode="embedded" onSuccess={() => window.location.assign('/')} />
@@ -131,6 +161,13 @@ export function AuthEntry() {
 Use `mode="redirect"` when the dialog should open the Hosted flow. In redirect mode, login and ordinary open signup
 share one hosted entry; do not add decorative tabs that lead to the same route.
 
+### Custom, account security and invitations
+
+- [Custom authentication](../../authentication/custom/) uses public `useAuthFlow` state/actions with host-owned markup.
+- [Account security](../../authentication/account-security/) covers AccountCenter's six sections, MFA and identity operations.
+- [Invitations](../../organizations/) covers Application/Organization acceptance, registration and explicit confirmation.
+  Workspace developer invitations remain a separate control-plane workflow.
+
 ## Node.js resource server
 
 Node APIs use a different WEB/M2M confidential client under the same Application. The browser sends its bearer access
@@ -158,7 +195,7 @@ client for Portal Open API management; never call management APIs from browser c
 
 ## Reference
 
-The build generates TypeDoc Markdown from each package entry point and checks it against package `exports`:
+The reference entry separates current source guidance from generated pages belonging to the historical preview:
 
-- [Generated JavaScript API reference](./reference/)
+- [JavaScript API reference and version boundary](./reference/)
 - Public packages: core, React, Express, NestJS, codegen, and testing

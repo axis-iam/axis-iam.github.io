@@ -1,0 +1,94 @@
+---
+title: Custom authentication
+slug: /authentication/custom/
+---
+
+# Custom authentication
+
+Use `useAuthFlow` when your application owns the form layout. The hook manages the same authentication
+transactions as Embedded and Dialog; your UI renders the available methods and current step.
+These APIs describe the current source candidate; check [artifact availability](../../sdk/javascript/) before integration.
+
+Mount the form inside `IamProvider`, configured with the Application's public SPA client and exact registered callback.
+
+```tsx
+import {useAuthFlow} from '@axis-iam/vertex-react';
+
+export function AuthenticationStatus() {
+  const {state} = useAuthFlow({
+    initialIntent: 'sign-in',
+    onSignInSuccess: () => window.location.assign('/'),
+  });
+
+  if (state.error) return <p role="alert">Authentication could not continue.</p>;
+  return <p role="status">{state.step}</p>;
+}
+```
+
+This illustrates hook initialization, not a complete login form. Use the
+[CustomAuth example](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/examples/CustomAuth.tsx)
+for a form that renders identifiers, password/code entry, registration, Provider return and MFA.
+
+## Render the current step
+
+The hook returns `{state, actions}`. Narrow on `state.step` before reading step-specific fields:
+
+| Step | Host UI |
+| --- | --- |
+| `loading` | Loading state |
+| `unavailable` | Visible failure and explicit retry using `actions.retryOptions()` |
+| `identifier` | Server-offered EMAIL, USERNAME or PHONE input |
+| `method` | Available password, code or magic-link controls for the selected identifier |
+| `mfa` | Required authenticator or recovery-code confirmation |
+| `sign-up` | Policy-permitted registration form |
+| `verification` | Registration status and required email verification |
+| `success` | Completed sign-in |
+
+Disable conflicting submissions while `state.pending !== null`. Render the server's ordered
+`identifierMethods` and resolved default; do not infer the identifier kind from the text or invent an enabled method.
+PHONE input needs an explicit country/region when the number cannot be resolved without it.
+
+## Connect form actions
+
+Call actions from the corresponding user interaction:
+
+```tsx
+// Synchronous selection; handle validation errors in your form.
+actions.continueWithIdentifier({kind: 'EMAIL', value: email});
+actions.selectMethod('password');
+
+// Await these actions and display their typed rejection or state.error.
+await actions.submitPassword(password);
+await actions.verifyMfa(authenticatorCode, 'TOTP');
+// A separate recovery-code action uses verifyMfa(recoveryCode, 'RECOVERY_CODE').
+```
+
+These calls represent different form stages; do not submit password and MFA together. Render only the proof
+options offered by the current state. Clear passwords and codes after submission or when leaving their input view.
+Consume promise rejections; cancellation of an obsolete attempt must not trigger a stale navigation or success callback.
+
+Registration uses `actions.signUp({identifier, password, registrationGrant?})`. It accepts only the effective
+allowed EMAIL/USERNAME kinds. Its result is a registration profile/operation, **not a signed-in session**.
+Verification and any required registration grant remain separate from ordinary login.
+
+## Provider and callback handling
+
+`await actions.startProvider(providerId)` returns a validated URL. Your application owns navigation for that
+attempt. On return, `await actions.resumeProviderCallback(callbackUrl)` resumes its original transaction and PKCE
+binding. A Provider callback can lead to `mfa`; it is not always a completed sign-in.
+
+The full example also demonstrates `AuthProviderWindow` for popup navigation. Keep the initiating window alive
+and use an exact registered callback. Do not copy pending transaction controls, proofs or tokens into your own
+URLs, logs or persistent storage.
+
+## Retry only a known operation
+
+The hook exposes typed errors, cooldowns and original transaction deadlines. Follow those states instead of
+automatically repeating failed writes. `completionPending` offers explicit `retryCompletion()` recovery using
+the original completion key; it never retries an already-sent OAuth code exchange.
+
+Await `back`, `cancel`, `reset` and `setIntent`. If cancellation cannot be confirmed, show
+`cancellationUnconfirmed` and preserve a recovery path. Closing the local UI alone does not prove server cancellation.
+If an already-sent token exchange has an uncertain result, start a fresh sign-in.
+
+For account changes after login, use [Account security](../account-security/) rather than the public sign-in flow.

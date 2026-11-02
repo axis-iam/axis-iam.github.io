@@ -12,11 +12,23 @@ credential validation, authentication policy, rate limits, provider discovery, a
 Provider buttons must come from Vertex discovery for the current SPA `clientId`. Do not construct private provider
 routes or assume that a provider enabled for one Application is enabled for another.
 
-Password-based Embedded authentication is Direct Auth, not Authorization Code + PKCE. The SDK sends credentials to
-`POST /api/v1/auth/login` for the current public SPA client and renews the resulting session through
-`POST /api/v1/auth/token/refresh`. Keep tokens in memory by default, never add a client secret to browser code, and do
-not reproduce these calls in an untrusted non-SDK client.
+Embedded authentication starts a controlled transaction through the SDK. Credential proof, required MFA and
+completion belong to that same transaction. Completion returns an authorization code; the SDK exchanges it using
+the original S256 PKCE verifier and the discovered OAuth token endpoint. Refresh also uses OAuth. The retired
+Direct login and Direct refresh endpoints are not integration entry points.
 
-An embedded provider button can still start a Hosted OAuth redirect. That provider branch uses exact origins and
-callbacks, OAuth `state`, and S256 PKCE; the password branch does not. Generic errors in either branch must avoid
-disclosing whether an account exists.
+Use `<SignIn mode="embedded" />` and `<SignUp mode="embedded" />` inside `IamProvider`. Select an explicit
+`EMAIL`, `USERNAME` or supported `PHONE` login identifier; phone input includes its region when needed. Registration
+accepts only the effective email/username kinds allowed by the Application. A string that looks like a phone number
+must not silently change the selected identifier kind.
+
+Provider buttons and passwordless controls appear only when discovery reports them ready for the current intent.
+A Provider return may still require MFA; a callback alone is not authentication success. Let the SDK continue the
+original transaction instead of starting another login.
+
+Registration is separate from login. Complete any required verification, then offer sign-in explicitly; successful
+registration does not create a normal authenticated session automatically. Keep tokens in memory by default and
+never put a client secret in browser code.
+
+For application-owned forms, use the [Custom integration](../custom/). For an authenticated user, use
+[Account security](../account-security/) rather than reusing a public sign-in form for account changes.

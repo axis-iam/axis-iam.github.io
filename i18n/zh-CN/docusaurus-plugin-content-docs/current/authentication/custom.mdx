@@ -1,0 +1,91 @@
+---
+title: 自定义认证
+slug: /authentication/custom/
+---
+
+# 自定义认证
+
+应用需要自行绘制表单时，使用 `useAuthFlow`。它与 Embedded、Dialog 共用认证事务；
+应用负责布局，根据 SDK 当前状态显示可用方式与下一步操作。
+本文对应当前源码候选版，接入前请先确认[安装包可用范围](../../sdk/javascript/)。
+
+表单应放在 `IamProvider` 内，配置目标 Application 的 SPA 公共客户端及精确登记的回调地址。
+
+```tsx
+import {useAuthFlow} from '@axis-iam/vertex-react';
+
+export function AuthenticationStatus() {
+  const {state} = useAuthFlow({
+    initialIntent: 'sign-in',
+    onSignInSuccess: () => window.location.assign('/'),
+  });
+
+  if (state.error) return <p role="alert">认证未能继续，请检查后重试。</p>;
+  return <p role="status">{state.step}</p>;
+}
+```
+
+上例仅展示 hook 初始化，不是完整登录表单。标识选择、密码与验证码、注册、第三方返回及 MFA 的完整写法见
+[CustomAuth 示例](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/examples/CustomAuth.tsx)。
+
+## 根据状态绘制界面
+
+hook 返回 `{state, actions}`。先判断 `state.step`，再读取该分支字段：
+
+| 状态 | 应用界面 |
+| --- | --- |
+| `loading` | 加载提示 |
+| `unavailable` | 明确显示失败，由用户通过 `actions.retryOptions()` 重试 |
+| `identifier` | 服务端提供的邮箱、用户名或手机号输入 |
+| `method` | 所选标识支持的密码、验证码或邮件登录链接 |
+| `mfa` | 必需的验证器或恢复码确认 |
+| `sign-up` | 策略允许的注册表单 |
+| `verification` | 注册状态及所需邮箱验证 |
+| `success` | 登录完成 |
+
+`state.pending !== null` 时禁用冲突提交。按服务端 `identifierMethods` 顺序和解析后的默认项展示，
+不要根据输入内容猜测标识类型，也不要自行补出未启用的登录方式。
+手机号无法独立解析时，需要明确选择国家或地区。
+
+## 连接表单操作
+
+在对应用户操作中调用：
+
+```tsx
+// 同步选择；表单需处理参数校验错误。
+actions.continueWithIdentifier({kind: 'EMAIL', value: email});
+actions.selectMethod('password');
+
+// 异步操作需 await，并呈现类型化错误或 state.error。
+await actions.submitPassword(password);
+await actions.verifyMfa(authenticatorCode, 'TOTP');
+// 恢复码使用独立操作 verifyMfa(recoveryCode, 'RECOVERY_CODE')。
+```
+
+这些调用属于不同表单阶段，不要一次同时提交密码与 MFA。只展示当前状态允许的证明方式。
+提交后或离开输入视图时清除密码、验证码；处理 promise 拒绝，已取消的旧尝试不能再触发导航或成功回调。
+
+注册使用 `actions.signUp({identifier, password, registrationGrant?})`，仅接受生效策略允许的
+EMAIL/USERNAME 类型。返回的是注册资料或注册操作，**不代表登录成功**；
+邮箱验证、必需的注册凭证与普通登录是独立步骤。
+
+## 第三方登录与回调
+
+`await actions.startProvider(providerId)` 返回校验后的跳转地址，当前尝试的导航由应用负责。
+返回后调用 `await actions.resumeProviderCallback(callbackUrl)`，继续原事务及 PKCE 绑定。
+第三方返回后可能仍需进入 `mfa`，不能直接当作登录完成。
+
+完整示例还展示了通过 `AuthProviderWindow` 打开独立窗口的方式。保持发起窗口存活，使用精确登记的回调地址。
+不要把事务控制信息、证明或令牌复制到自定义 URL、日志或持久化存储。
+
+## 只恢复已知操作
+
+hook 提供类型化错误、冷却时间与原事务截止时间。按状态提供操作，不要自动重复失败的写请求。
+`completionPending` 时可由用户显式调用 `retryCompletion()`，按原完成键恢复结果；
+它不会重试已经发出的 OAuth 授权码交换。
+
+`back`、`cancel`、`reset`、`setIntent` 都需要等待结果。取消未确认时展示
+`cancellationUnconfirmed` 并保留恢复路径；关闭本地界面不能证明服务端已经取消。
+已经发出的令牌交换结果不确定时，应重新开始登录。
+
+登录后的账户变更使用[账号安全](../account-security/)，不要复用公共登录流程。

@@ -34,11 +34,16 @@ are not supported security assumptions. A SPA also registers its exact browser o
 ## 4. Complete authentication
 
 Use [Hosted authentication](../authentication/hosted/) for the smallest browser security surface, or choose
-[Embedded](../authentication/embedded/) / [Dialog](../authentication/dialog/) when the app must own more UI.
-Hosted authentication uses Authorization Code + S256 PKCE and validates OAuth state. Embedded password authentication
-is Direct Auth: the SDK submits credentials to `POST /api/v1/auth/login` and renews that session through
-`POST /api/v1/auth/token/refresh`. Dialog can present either flow; select the mode deliberately and apply its distinct
-security boundary.
+[Embedded](../authentication/embedded/), [Dialog](../authentication/dialog/) or
+[Custom](../authentication/custom/) for application-rendered UI.
+Hosted uses Authorization Code + S256 PKCE. Embedded and Custom keep credential proof and required MFA in a
+controlled authentication transaction, then exchange its authorization code through OAuth with the original PKCE
+binding. Dialog presents the selected Hosted or Embedded flow. Refresh uses OAuth; retired Direct login/refresh
+endpoints are not supported integration entry points.
+
+Authentication policy belongs to the Application. `clientId` locates a client within it and does not select an
+independent client-level policy. Registration is separate from login; completing registration or email verification
+does not automatically establish a session.
 
 ## 5. Protect the API
 
@@ -51,7 +56,7 @@ browser -> Vertex authorize -> callback -> access token -> resource server
 ```
 
 Continue with the [JavaScript quickstart](../sdk/javascript/) for browser authentication or a server SDK quickstart
-for [Java](../sdk/java/), [Go](../sdk/go/), or [Python](../sdk/python/). Each SDK page begins with its exact public
-installation command and release boundary. Use the
+for [Java](../sdk/java/), [Go](../sdk/go/), or [Python](../sdk/python/). Check the installation and release boundary
+on the relevant SDK page; current JavaScript source APIs are not all available in the older preview artifacts. Use the
 [connected application checklist](./connect-application/) when configuring a real application, clients, policies,
 identity providers, and callbacks.
