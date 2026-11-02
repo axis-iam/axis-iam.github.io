@@ -7,7 +7,28 @@ pagination_prev: null
 
 # JavaScript API reference
 
-The generated TypeDoc reference is refreshed by `pnpm references:generate` from the recorded SDK source revision.
+## Current source guides
+
+The following guides describe the current unpublished SDK source candidate:
+
+| Surface | Public entries | Guide |
+| --- | --- | --- |
+| Authentication | `useAuthFlow`, `SignIn`, `SignUp`, `AuthDialog` | [Authentication modes](../../../authentication/), [Custom forms](../../../authentication/custom/) |
+| Account management | `AccountCenter`, `AccountSecurityPanel`, `AccountSecurityDialog`, `useAccountSecurity`, `useIdentityOperations` | [Account security](../../../authentication/account-security/) |
+| Invitations | `OrganizationInvitationAccept`, `useInvitationJourney`, `InvitationJourneyClient` | [Invitation journeys](../../../organizations/) |
+
+The [source integration map](https://github.com/axis-iam/vertex-sdk-js/blob/develop/docs/current-integration.md)
+links to the current package guides and examples. Check [installation status](../) before selecting artifacts.
+
+## Historical preview reference
+
+The existing generated TypeDoc pages belong to the older source revision recorded in `static/source-revisions.json`.
+They have **not** been refreshed for the current candidate and can contain retired APIs, including
+`useOrganizationInvitation`, invitation `token` props and `onLoginRequired`.
+Do not use those invitation contracts for a new integration. Follow the current guides above.
+
+Generating a fresh API reference is separate from this handwritten documentation update. The existing provenance
+record remains unchanged; no current package publication is implied.
 
 {/* GENERATED_REFERENCE:JS */}
 

@@ -16,3 +16,12 @@ Hosted 认证将浏览器重定向到 Vertex authorization endpoint。Vertex 在
 5. 仅向目标资源 audience 发送访问令牌。
 
 Hosted SPA 中不得出现 client secret。WEB/BFF 在服务端使用密钥与 PKCE verifier 完成交换。
+
+在 `IamProvider` 内使用 `<SignIn mode="redirect" />` 或 `useAuth().login()`，
+不必手工实现上述协议步骤。登记的独立回调页使用 `handleRedirectCallback`，
+明确处理成功、错误、无回调和可能的继续认证结果，见
+[JavaScript 回调说明](../../sdk/javascript/)。
+邀请独立窗口的回调由发起窗口消费，因此使用被动回调页。
+
+托管页通过已配置客户端解析目标 Application 的品牌和策略。页面位于 Vertex 域名，
+不代表它变成通用控制台登录，也不改变 Application 对认证策略的归属。

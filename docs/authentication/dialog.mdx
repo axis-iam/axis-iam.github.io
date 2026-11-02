@@ -9,11 +9,14 @@ The React SDK's prebuilt dialog packages Vertex authentication states into a mod
 when the dialog opens and how successful authentication changes navigation. The component controls the active auth
 step, validation display, provider initiation, callback continuation, and focus containment.
 
-Use a Dialog when the app needs an in-context entry point but should not rebuild every auth state. Hosted redirect and
-embedded credentials are distinct modes inside the component. Hosted mode leaves the application origin and uses
-Authorization Code + S256 PKCE. Embedded password mode remains in the dialog and uses Direct Auth through
-`POST /api/v1/auth/login` and `POST /api/v1/auth/token/refresh`. Switching visual tabs must not convert one mode into
-the other or create a second OAuth meaning for the same redirect flow.
+Use a Dialog when the app needs an in-context entry point without rebuilding every auth state. `mode="redirect"`
+starts Hosted authentication; `mode="embedded"` renders the controlled transaction flow inside the dialog.
+Both complete through Authorization Code + S256 PKCE. The embedded mode does not use the retired Direct login or
+Direct refresh endpoints.
+
+Render only methods offered for the current login or signup intent. Preserve required MFA and Provider callback
+continuation, and do not treat closing the dialog as proof that a remote operation was cancelled. If cancellation or
+completion has an uncertain result, keep the SDK's explicit recovery state visible.
 
 The application must still provide a SPA public client, exact redirect and post-logout URIs, and allowed origin. It
 must render an accessible trigger and restore focus when the dialog closes.

@@ -28,10 +28,20 @@ SDK 配置中的 `clientId` 始终指 `ApplicationClient.clientId`，而不是�
 
 ## 4. 完成认证
 
-若希望最小化浏览器安全责任，请使用 [Hosted 认证](../authentication/hosted/)；需要由应用控制更多 UI 时，选择 [Embedded](../authentication/embedded/) 或 [Dialog](../authentication/dialog/)。Hosted 使用 Authorization Code + S256 PKCE 并校验 OAuth state。Embedded 密码登录属于 Direct Auth：SDK 调用 `POST /api/v1/auth/login` 提交凭据，并通过 `POST /api/v1/auth/token/refresh` 刷新会话。Dialog 可以呈现这两种流程，但必须明确选择并遵守各自不同的安全边界。
+若希望最小化浏览器安全责任，请使用 [Hosted 认证](../authentication/hosted/)；
+需要应用内界面时，选择 [Embedded](../authentication/embedded/)、
+[Dialog](../authentication/dialog/) 或 [Custom](../authentication/custom/)。
+Hosted 使用 Authorization Code + S256 PKCE。Embedded、Custom 将凭据证明和必需 MFA 保持在同一受控认证事务中，
+再使用原 PKCE 绑定通过 OAuth 交换事务完成后返回的授权码。Dialog 呈现所选 Hosted 或 Embedded 流程。
+刷新使用 OAuth，不再接入旧 Direct 登录或刷新端点。
+
+认证策略归属于 Application，`clientId` 仅定位其客户端，不代表独立的 Client 级策略。
+注册与登录分开；注册完成或邮箱验证成功，不会自动建立登录会话。
 
 ## 5. 保护 API
 
 API 校验签名、issuer、audience、有效期与 ApplicationClient 上下文，然后通过 `POST /open/v1/permissions:resolve` 将令牌角色解析为当前权限；不要信任过期的权限 claim。
 
-继续阅读 [JavaScript 快速入门](../sdk/javascript/)，或服务端的 [Java](../sdk/java/)、[Go](../sdk/go/) 与 [Python](../sdk/python/) 快速入门。每个 SDK 页面都先给出精确的公开安装命令与 release 边界。配置真实 Application、客户端、策略、身份提供商和回调时，请使用[新应用接入清单](./connect-application/)。
+继续阅读 [JavaScript 快速入门](../sdk/javascript/)，或服务端的 [Java](../sdk/java/)、[Go](../sdk/go/) 与 [Python](../sdk/python/) 快速入门。
+接入前确认对应 SDK 的安装与发布边界，当前 JavaScript 源码中的新 API 并不一定包含在旧 preview 包中。
+配置真实 Application、客户端、策略、身份提供商和回调时，请使用[新应用接入清单](./connect-application/)。

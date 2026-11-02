@@ -20,3 +20,60 @@ SCIM remain Application-level.
 
 Server-side management uses exact-scope M2M APIs and optimistic concurrency. End-user list, current Organization,
 switch, membership, and invitation acceptance use the authenticated account surface.
+
+## Application and Organization invitations
+
+Use `OrganizationInvitationAccept` for Application-user invitation journeys, including invitations into an
+Organization. Despite its name, the component supports the Application-user journey; it is not a Workspace
+developer-invitation component. These APIs describe the current source candidate; check
+[artifact availability](../sdk/javascript/).
+
+```tsx
+import {OrganizationInvitationAccept} from '@axis-iam/vertex-react';
+
+// Mount inside the same IamProvider throughout authentication.
+export function InvitationPage() {
+  return <OrganizationInvitationAccept />;
+}
+```
+
+The component consumes and removes the one-use `continuation` from the URL before I/O and keeps it in component
+memory. Alternatively, a host that already scrubbed the URL can pass `continuation` explicitly.
+Use `journeyRef` for an authorized result read, never together with `continuation`.
+The old `token`, `onLoginRequired` and `useOrganizationInvitation` APIs are retired.
+
+## Keep acceptance explicit
+
+The journey guides the recipient through:
+
+1. Opening the invitation and inspecting its target Application, Organization where applicable, and role.
+2. Signing in with an existing Application account, or completing permitted invitation registration.
+3. Completing any email verification and required MFA.
+4. Reviewing the current invitation and explicitly confirming acceptance.
+
+Registration, verification and MFA do not grant membership by themselves. A changed role/version requires a fresh
+review and confirmation. An expired, revoked or cancelled invitation cannot be accepted.
+After a response is lost, use the journey's authoritative status/result action before another write.
+Authenticator setup material is shown once; status reads do not redeliver it.
+
+## Choose the authentication presentation
+
+Embedded is the default component entry. `loginMode="hosted"` opens ordinary Client OAuth login in a bounded popup;
+keep the registered callback passive so the opener can finish the flow, then use its explicit sign-in check.
+Dialog and Custom forms are supported through `renderLogin`.
+See the [InvitationJourney examples](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/examples/InvitationJourney.tsx)
+for each presentation and its callback requirements.
+
+For your own UI, `useInvitationJourney({continuation, ref})` exposes safe state, registration, verification,
+confirmation, cancellation and recovery actions. Core provides `InvitationJourneyClient`.
+Keep the invitation mounted through login and preserve the initiating window for Provider authentication.
+The issuer's console cookie is not evidence that the recipient is signed in to the target Application.
+
+Platform-hosted invitation pages use the target Application's brand. The host/origin is the configured Vertex
+hosted surface, so it need not be the connected application's own domain.
+
+## Workspace invitations
+
+A Workspace invitation grants developer control-plane membership and uses the Portal/Admin workflow.
+It does not create an Application user or Organization membership and must not be routed through the App-user
+SDK invitation component. Application policy and branding remain Application-owned.

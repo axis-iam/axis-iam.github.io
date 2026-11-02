@@ -1,0 +1,70 @@
+---
+title: Account security
+slug: /authentication/account-security/
+---
+
+# Account security
+
+Use `AccountCenter` to give a signed-in Application user a consistent account interface. It contains six sections:
+profile, login methods, password, security, sessions and permissions. These APIs describe the current source candidate;
+check [artifact availability](../../sdk/javascript/) before integration.
+
+## Open the account center
+
+Render this component inside the same authenticated `IamProvider`:
+
+```tsx
+import {useState} from 'react';
+import {AccountCenter} from '@axis-iam/vertex-react';
+
+export function AccountSettings() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)}>Account security</button>
+      <AccountCenter open={open} onOpenChange={setOpen} initialSection="security" />
+    </>
+  );
+}
+```
+
+`open` and `onOpenChange` are controlled props. `initialSection` accepts `profile`, `methods`, `password`,
+`security`, `sessions` or `permissions`. The permissions view explains the user's current access; ordinary users
+do not need to enter permission codes.
+
+For a settings page, render `AccountSecurityPanel` inline. For a security-only modal, use `AccountSecurityDialog`.
+They share security-operation state with AccountCenter; do not mount competing editors for the same operation.
+
+## Keep profile and login changes separate
+
+Profile updates change display name and avatar. A login username, verified email, phone or linked Provider is an
+identity/login-method change and uses the corresponding operation workflow. A display name does not create a
+login username, and a username-only account need not have an email.
+
+Use the supported login-method controls rather than creating a generic “add identifier” form. Do not ask users
+to type an internal user ID to move an account, or expose developer permission checks as normal account settings.
+
+## Security confirmation and recovery
+
+Render only server-offered action capabilities and proof options. An enabled public login method does not by itself
+authorize an account change. Verification, authenticator setup and recovery-code generation stay within their own
+operation and deadlines.
+
+Setup keys and newly generated recovery codes are shown once. A status read can recover an operation's result,
+but cannot redeliver secret material. If a write response or cancellation is uncertain, keep the original operation
+and provide its status action; do not silently create another operation or claim that closing a panel cancelled it.
+
+Custom interfaces can use `useAccountSecurity()` and `useIdentityOperations()` for the same state/actions.
+Consume typed errors and await cancellation. Provider confirmation uses its dedicated return flow and the
+initiating window's binding; an ordinary login callback does not replace that proof.
+
+## Theme, locale and server sessions
+
+Configure `IamProvider` with `colorScheme="light" | "dark" | "system"`, `appearance`, `darkAppearance`, and
+`locale="en" | "zh-CN"`. The account UI inherits those settings without changing the host document's theme.
+
+A BFF uses explicit `sessionMode="server_session"` and a configured `sessionTransport`; the host must provide
+real session bootstrap, CSRF protection and matching routes. Set `sessionProviderReturnUri` to the actual
+same-origin BFF Provider callback, with no query or fragment. Do not substitute an arbitrary settings route.
+See the [React package guide](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/README.md)
+for the supported transport and operation contracts.

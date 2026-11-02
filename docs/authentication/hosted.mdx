@@ -19,3 +19,11 @@ persisting OAuth state and the PKCE verifier, validating the callback, and estab
 
 Never place a client secret in a hosted SPA. A WEB/BFF performs the exchange server-side with both its secret and
 PKCE verifier.
+
+Use `<SignIn mode="redirect" />` or `useAuth().login()` inside `IamProvider` instead of implementing these steps
+by hand. The registered standalone callback uses `handleRedirectCallback`; handle its success, error, idle and
+any continuation result explicitly. See the [JavaScript callback guide](../../sdk/javascript/#hosted-redirect-and-callback).
+An invitation popup has different callback ownership: its passive callback is consumed by the opener.
+
+Hosted pages resolve the target Application's brand and policy from the configured client. Hosting the page on the
+Vertex origin does not make it a generic console login or change ownership of the Application's authentication policy.

@@ -14,3 +14,58 @@ Organization 是单个 Application 所属的 B2B 分组。它包含 App User、�
 Organization **不是** Workspace、租户、Portal 登录上下文、SSO 配置所有者、SCIM 连接所有者或配置继承层。品牌、认证策略、SMTP、模板、JWT 配置、SSO 与 SCIM 都保持 Application 级。
 
 服务端管理使用精确 scope 的 M2M API 与乐观并发。终端用户的列表、当前 Organization、切换、成员关系与邀请接受使用已认证账号接口。
+
+## 应用与组织邀请
+
+Application 用户的邀请旅程使用 `OrganizationInvitationAccept`，包括加入 Organization 的邀请。
+该组件虽然名称包含 Organization，但服务的是 Application 用户邀请，不是 Workspace 开发者邀请。
+本文对应当前源码候选版，请先确认[安装包可用范围](../sdk/javascript/)。
+
+```tsx
+import {OrganizationInvitationAccept} from '@axis-iam/vertex-react';
+
+// 整个认证过程保持挂载在同一个 IamProvider 内。
+export function InvitationPage() {
+  return <OrganizationInvitationAccept />;
+}
+```
+
+组件在 I/O 前读取并移除 URL 中一次性的 `continuation`，仅保留于组件内存。
+如果宿主已经清理 URL，也可显式传入 `continuation`。
+查询已授权的结果可用 `journeyRef`，但不能与 `continuation` 同时传入。
+旧 `token`、`onLoginRequired` 和 `useOrganizationInvitation` API 已退役。
+
+## 接受邀请必须明确确认
+
+旅程依次引导受邀人：
+
+1. 打开邀请，查看目标 Application、适用时的 Organization 及角色。
+2. 使用已有 Application 账户登录，或完成邀请允许的注册。
+3. 完成必要的邮箱验证和 MFA。
+4. 查看当前邀请，明确确认接受。
+
+注册、验证和 MFA 本身都不会授予成员关系。角色或版本变化后，需要重新查看并确认；
+过期、撤销或取消的邀请不能接受。
+响应丢失时，先使用旅程的权威状态或结果查询，再决定后续写操作。
+验证器设置材料仅展示一次，查询状态不能重新获取。
+
+## 选择认证展示方式
+
+组件默认使用 Embedded。`loginMode="hosted"` 在受控独立窗口中打开普通 Client OAuth 登录；
+登记的回调页应保持被动，由发起窗口完成回调消费，再通过明确的登录检查继续。
+Dialog、Custom 可通过 `renderLogin` 接入。
+各模式及回调要求见
+[InvitationJourney 示例](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/examples/InvitationJourney.tsx)。
+
+自行绘制界面时，`useInvitationJourney({continuation, ref})` 提供安全状态及注册、验证、确认、取消和恢复操作。
+Core 提供 `InvitationJourneyClient`。登录期间保持邀请组件挂载，第三方认证保留原发起窗口。
+不能把签发平台的控制台 Cookie 当成受邀人已经登录目标 Application 的依据。
+
+平台托管邀请页使用目标 Application 的品牌。页面域名是部署时配置的 Vertex 托管域名，
+不要求与接入应用自己的域名相同。
+
+## Workspace 邀请
+
+Workspace 邀请授予开发者控制台成员关系，使用 Portal/Admin 的对应流程。
+它不会创建 Application 用户或 Organization 成员关系，不能接入 App 用户 SDK 邀请组件。
+Application 的策略与品牌仍归 Application 所有。

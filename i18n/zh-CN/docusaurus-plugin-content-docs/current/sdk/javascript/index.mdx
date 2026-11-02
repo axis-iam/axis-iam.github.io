@@ -5,11 +5,31 @@ slug: /sdk/javascript/
 
 # JavaScript SDK
 
-JavaScript SDK 系列负责浏览器认证与 Node.js 框架集成。`0.1.0` 已作为自托管 preview tarball 提供，但这些 package 尚未发布到 npm registry。
+JavaScript SDK 系列负责浏览器认证与 Node.js 框架集成。本文接入示例对应**当前尚未发布的源码候选版**。
+manifest 中的 `0.1.0` 不能唯一标识该候选版，旧 `0.1.0` preview tarball 也不代表包含当前的认证事务、
+账号安全或邀请 API。
 
-## 安装
+## 安装当前候选版
 
-请在同一条命令中安装 core tarball 和一个选定的 framework tarball。React：
+先取得由已审阅源码提交构建、相互匹配并获准使用的 core/framework tarball，
+将变量设置为实际产物路径，再安装 core 和所选框架：
+
+```bash
+# React
+npm install "$VERTEX_CORE_TARBALL" "$VERTEX_REACT_TARBALL"
+# Express
+npm install "$VERTEX_CORE_TARBALL" "$VERTEX_EXPRESS_TARBALL"
+# NestJS
+npm install "$VERTEX_CORE_TARBALL" "$VERTEX_NESTJS_TARBALL"
+```
+
+这些变量表示实际产物路径，不是 registry 包名或现成下载地址。这里不宣称当前版本已发布到 npm。
+对应包说明见[源码接入索引](https://github.com/axis-iam/vertex-sdk-js/blob/develop/docs/current-integration.md)。
+
+### 旧 0.1.0 preview 产物
+
+以下自托管产物属于较早的不可变 preview，未发布到 npm，
+**不能作为本文当前示例或新 API 的安装方式**。React：
 
 ```bash
 npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-react-0.1.0.tgz
@@ -27,7 +47,7 @@ NestJS：
 npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-nestjs-0.1.0.tgz
 ```
 
-## React SPA 快速入门
+## React SPA 快速入门（当前候选版）
 
 创建 `SPA` 公开 ApplicationClient，并配置精确 callback、logout URI 与允许 origin。
 
@@ -72,33 +92,41 @@ Provider 使用 Authorization Code + S256 PKCE，并默认把令牌保存在内�
 Hosted 是默认浏览器模式，用户进入 Vertex 托管页，并通过 SPA callback 返回。
 
 ```tsx
-import {useEffect, useState} from 'react';
-import {SignIn, useAuth} from '@axis-iam/vertex-react';
+import {SignIn} from '@axis-iam/vertex-react';
 
 export function LoginPage() {
   return <SignIn mode="redirect" />;
 }
-
-export function CallbackPage() {
-  const {handleRedirectCallback} = useAuth();
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    void handleRedirectCallback({cleanUrl: '/callback'}).then((result) => {
-      if (result.status === 'success') window.location.replace('/');
-      if (result.status === 'error') setError(result.error);
-    });
-  }, [handleRedirectCallback]);
-
-  if (error) return <p>登录失败，请返回登录页后重试。</p>;
-  return <p>正在完成登录...</p>;
-}
 ```
+
+在登记的回调路由中，对当前回调仅调用一次 `useAuth().handleRedirectCallback({cleanUrl: '/callback'})`，
+处理 promise 拒绝，并覆盖所有结果：
+
+| `status` | 应用处理 |
+| --- | --- |
+| `success` | OAuth 交换与已认证视图加载完成，进入应用 |
+| `session` | 已配置的服务端会话流程完成，进入应用 |
+| `continuation` | 保留返回的 `transaction`、`view`，显示必需的 MFA 步骤 |
+| `error` | 显示返回错误，提供明确的重新登录操作 |
+| `idle` | 当前没有可消费的回调，提供登录入口，不要一直显示加载 |
+
+`continuation` 不代表会话已经签发。展示当前允许的 MFA 证明方式，调用
+`transaction.verifyMfa('TOTP', code)` 或允许的恢复码方式，
+返回视图允许完成时，再通过 `useAuth().client` 调用 `client.completeAuthentication(transaction)`。
+底层事务方法的参数顺序是**方式、验证码**，`useAuthFlow` action 的顺序则是**验证码、方式**。
+也可以由[自定义表单流程](../../authentication/custom/)通过
+`actions.resumeProviderCallback(url)` 统一处理第三方返回，不能让两个消费者同时处理同一回调。
+完整返回、MFA 与回调归属要求见
+[React 包接入说明](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/README.md)。
+
+邀请独立窗口使用由发起窗口消费的被动回调页，不使用这里的独立回调处理器。
 
 ### Embedded
 
-Embedded 把密码与 passwordless UI 放在接入应用内。SDK 会按当前 SPA client 发现已经启用且 runtime-ready 的
-认证方式；接入应用不能自行拼接 provider 或 Direct Auth endpoint。
+Embedded 把密码与 passwordless UI 放在接入应用内。SDK 通过 SPA client 定位 Application，
+发现已经启用且 runtime-ready 的方式，策略仍归 Application 所有。
+凭据证明、必需 MFA 保持在同一受控事务中，再通过 S256 PKCE 交换 OAuth 授权码；刷新也走 OAuth。
+不要接入已退役的 Direct 登录或刷新端点。
 
 ```tsx
 <SignIn mode="embedded" onSuccess={() => window.location.assign('/')} />
@@ -128,6 +156,13 @@ export function AuthEntry() {
 需要托管流程时使用 `mode="redirect"`。redirect 模式中的登录和普通公开注册共用一个 Hosted 入口，不要增加
 两个最终进入同一路由的装饰性 Tab。
 
+### 自定义表单、账号安全与邀请
+
+- [自定义认证](../../authentication/custom/)：使用公开 `useAuthFlow` 状态和操作自行绘制界面。
+- [账号安全](../../authentication/account-security/)：AccountCenter 六个分区、MFA 与身份操作。
+- [邀请](../../organizations/)：Application/Organization 接受邀请、注册与明确确认。
+  Workspace 开发者邀请属于独立的控制台流程。
+
 ## Node.js 资源服务器
 
 Node API 使用同一 Application 下另一个 WEB/M2M 机密 client。浏览器把 bearer access token 发给 API；Express
@@ -155,5 +190,7 @@ app.get('/orders', requirePerm(permKey('orders', 'read')), (_request, response) 
 
 ## API 参考
 
-- [生成的 JavaScript API 参考](./reference/)
+参考入口区分当前源码指南与历史 preview 对应的生成页面：
+
+- [JavaScript API 参考与版本边界](./reference/)
 - 公开 package：core、React、Express、NestJS、codegen 与 testing
