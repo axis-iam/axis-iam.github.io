@@ -6,7 +6,10 @@ slug: /enterprise/scim/
 # Application 级 SCIM
 
 入站 SCIM 2.0 provisioning 是 Application 级企业集成。服务提供商 endpoint 位于 `/open/v1/scim/v2`；被 provisioning 的身份解析为配置 Application 所属的 App User。
+其中 `open/v1` 是 Axis Vertex Open API 版本，`scim/v2` 表示标准 SCIM 2.0 协议版本。
 
 Provisioning 凭据是服务端密钥。定期轮换凭据、限制网络访问并监控被拒请求。SCIM 标识与唯一性规则在 Application 边界内计算；SCIM 用户不能解析到或修改另一 Application 的用户。
 
-即使集成将外部 Group 映射为应用业务角色，SCIM Group 也不会把 Axis Vertex Organization 变成配置租户；Organization、SSO 与 SCIM 仍是独立概念。
+当前实现只发布 User 资源。`ServiceProviderConfig`、`Schemas` 与 `ResourceTypes` 仅声明 User 能力；
+`/open/v1/scim/v2/Groups` 及其子路径返回 SCIM 404，当前不支持 SCIM Groups。Axis Vertex Organization
+仍是 Application 内的 B2B 资源，不是 SCIM Group 或配置租户。

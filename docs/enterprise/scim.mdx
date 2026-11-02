@@ -7,10 +7,13 @@ slug: /enterprise/scim/
 
 Inbound SCIM 2.0 provisioning is an Application-level enterprise integration. The service-provider endpoints live
 under `/open/v1/scim/v2`; provisioned identities resolve to App Users owned by the configured Application.
+Here, `open/v1` is the Axis Vertex Open API version and `scim/v2` identifies the standard SCIM 2.0 protocol.
 
 Provisioning credentials are server-side secrets. Rotate them, scope network access, and monitor rejected requests.
 SCIM identifiers and uniqueness rules are evaluated inside the Application boundary. A SCIM user must not resolve to
 or mutate another Application's user.
 
-SCIM Groups do not turn an Axis Vertex Organization into a configuration tenant. Organization, SSO, and SCIM remain
-separate concepts even when an integration maps external groups into application business roles.
+The current implementation publishes User resources only. `ServiceProviderConfig`, `Schemas`, and `ResourceTypes`
+advertise the User capability; `/open/v1/scim/v2/Groups` and its descendants return a SCIM 404. SCIM Groups are not
+currently supported. Axis Vertex Organizations remain Application-level B2B resources rather than SCIM Groups or
+configuration tenants.
