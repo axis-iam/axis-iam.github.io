@@ -14,8 +14,7 @@ routes or assume that a provider enabled for one Application is enabled for anot
 
 Embedded authentication starts a controlled transaction through the SDK. Credential proof, required MFA and
 completion belong to that same transaction. Completion returns an authorization code; the SDK exchanges it using
-the original S256 PKCE verifier and the discovered OAuth token endpoint. Refresh also uses OAuth. The retired
-Direct login and Direct refresh endpoints are not integration entry points.
+the original S256 PKCE verifier and the discovered OAuth token endpoint. Refresh also uses OAuth.
 
 Use `<SignIn mode="embedded" />` and `<SignUp mode="embedded" />` inside `IamProvider`. Select an explicit
 `EMAIL`, `USERNAME` or supported `PHONE` login identifier; phone input includes its region when needed. Registration

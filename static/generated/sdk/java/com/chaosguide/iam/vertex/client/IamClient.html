@@ -65,6 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#getClientId()" tabindex="0">getClientId()</a></li>
 <li><a href="#resolvePermissions(com.chaosguide.iam.vertex.client.dto.ResolveRequest)" tabindex="0">resolvePermissions(ResolveRequest)</a></li>
 <li><a href="#listPermissions(java.lang.String,java.lang.String)" tabindex="0">listPermissions(String, String)</a></li>
+<li><a href="#getCurrentUser(java.lang.String)" tabindex="0">getCurrentUser(String)</a></li>
 <li><a href="#getMe(java.lang.String)" tabindex="0">getMe(String)</a></li>
 <li><a href="#getAccountProfile(java.lang.String)" tabindex="0">getAccountProfile(String)</a></li>
 <li><a href="#updateAccountProfile(java.lang.String,com.chaosguide.iam.vertex.client.dto.AccountUpdateProfileRequest)" tabindex="0">updateAccountProfile(String, AccountUpdateProfileRequest)</a></li>
@@ -77,7 +78,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#listAccountSessions(java.lang.String)" tabindex="0">listAccountSessions(String)</a></li>
 <li><a href="#revokeAccountSession(java.lang.String,java.lang.String)" tabindex="0">revokeAccountSession(String, String)</a></li>
 <li><a href="#revokeOtherAccountSessions(java.lang.String)" tabindex="0">revokeOtherAccountSessions(String)</a></li>
-<li><a href="#logoutAccount(java.lang.String,java.lang.String)" tabindex="0">logoutAccount(String, String)</a></li>
+<li><a href="#logoutAccount(java.lang.String)" tabindex="0">logoutAccount(String)</a></li>
 <li><a href="#listAccountOrganizations(java.lang.String)" tabindex="0">listAccountOrganizations(String)</a></li>
 <li><a href="#getCurrentAccountOrganization(java.lang.String)" tabindex="0">getCurrentAccountOrganization(String)</a></li>
 <li><a href="#switchAccountOrganization(java.lang.String,java.lang.String)" tabindex="0">switchAccountOrganization(String, String)</a></li>
@@ -86,6 +87,39 @@ loadScripts(document, 'script');</script>
 <li><a href="#checkAccountPermission(java.lang.String,com.chaosguide.iam.vertex.client.dto.PermissionCheckRequest)" tabindex="0">checkAccountPermission(String, PermissionCheckRequest)</a></li>
 <li><a href="#previewOrganizationInvitation(java.lang.String)" tabindex="0">previewOrganizationInvitation(String)</a></li>
 <li><a href="#acceptOrganizationInvitation(java.lang.String,java.lang.String)" tabindex="0">acceptOrganizationInvitation(String, String)</a></li>
+<li><a href="#listAccountIdentifiers(java.lang.String)" tabindex="0">listAccountIdentifiers(String)</a></li>
+<li><a href="#listAccountLoginMethods(java.lang.String)" tabindex="0">listAccountLoginMethods(String)</a></li>
+<li><a href="#listLinkableIdentityProviders(java.lang.String)" tabindex="0">listLinkableIdentityProviders(String)</a></li>
+<li><a href="#createIdentityOperation(java.lang.String,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.IdentityOperationCreate,java.lang.String)" tabindex="0">createIdentityOperation(String, AccountSecurityOperations.IdentityOperationCreate, String)</a></li>
+<li><a href="#getIdentityOperation(java.lang.String,java.util.UUID)" tabindex="0">getIdentityOperation(String, UUID)</a></li>
+<li><a href="#listIdentityTransfers(java.lang.String)" tabindex="0">listIdentityTransfers(String)</a></li>
+<li><a href="#reauthenticateIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.Reauthentication)" tabindex="0">reauthenticateIdentityOperation(String, UUID, AccountSecurityOperations.Reauthentication)</a></li>
+<li><a href="#challengeIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.TargetProofMethod)" tabindex="0">challengeIdentityOperation(String, UUID, AccountSecurityOperations.TargetProofMethod)</a></li>
+<li><a href="#challengeIdentityCurrentAccount(java.lang.String,java.util.UUID,java.util.UUID)" tabindex="0">challengeIdentityCurrentAccount(String, UUID, UUID)</a></li>
+<li><a href="#completeIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.IdentityOperationComplete)" tabindex="0">completeIdentityOperation(String, UUID, AccountSecurityOperations.IdentityOperationComplete)</a></li>
+<li><a href="#cancelIdentityOperation(java.lang.String,java.util.UUID)" tabindex="0">cancelIdentityOperation(String, UUID)</a></li>
+<li><a href="#confirmIdentityTransfer(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.TransferDecision)" tabindex="0">confirmIdentityTransfer(String, UUID, AccountSecurityOperations.TransferDecision)</a></li>
+<li><a href="#authorizeIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.IdentityProviderAuthorize)" tabindex="0">authorizeIdentityOperation(String, UUID, AccountSecurityOperations.IdentityProviderAuthorize)</a></li>
+<li><a href="#completeIdentityProviderAuthorization(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.ProviderExchange)" tabindex="0">completeIdentityProviderAuthorization(String, UUID, AccountSecurityOperations.ProviderExchange)</a></li>
+<li><a href="#getRecoveryCodesRemaining(java.lang.String)" tabindex="0">getRecoveryCodesRemaining(String)</a></li>
+<li><a href="#getMfaCapabilities(java.lang.String)" tabindex="0">getMfaCapabilities(String)</a></li>
+<li><a href="#createMfaOperation(java.lang.String,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.MfaOperationCreate,java.lang.String)" tabindex="0">createMfaOperation(String, AccountSecurityOperations.MfaOperationCreate, String)</a></li>
+<li><a href="#getMfaOperation(java.lang.String,java.util.UUID)" tabindex="0">getMfaOperation(String, UUID)</a></li>
+<li><a href="#reauthenticateMfaOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.Reauthentication)" tabindex="0">reauthenticateMfaOperation(String, UUID, AccountSecurityOperations.Reauthentication)</a></li>
+<li><a href="#challengeMfaOperation(java.lang.String,java.util.UUID,java.util.UUID)" tabindex="0">challengeMfaOperation(String, UUID, UUID)</a></li>
+<li><a href="#authorizeMfaOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.MfaProviderAuthorize)" tabindex="0">authorizeMfaOperation(String, UUID, AccountSecurityOperations.MfaProviderAuthorize)</a></li>
+<li><a href="#completeMfaProviderAuthorization(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.ProviderExchange)" tabindex="0">completeMfaProviderAuthorization(String, UUID, AccountSecurityOperations.ProviderExchange)</a></li>
+<li><a href="#beginTotpEnrollmentOperation(java.lang.String,java.util.UUID)" tabindex="0">beginTotpEnrollmentOperation(String, UUID)</a></li>
+<li><a href="#completeMfaOperation(java.lang.String,java.util.UUID,java.lang.String)" tabindex="0">completeMfaOperation(String, UUID, String)</a></li>
+<li><a href="#cancelMfaOperation(java.lang.String,java.util.UUID)" tabindex="0">cancelMfaOperation(String, UUID)</a></li>
+<li><a href="#startIdentityOperationStepUp(java.lang.String,java.util.UUID)" tabindex="0">startIdentityOperationStepUp(String, UUID)</a></li>
+<li><a href="#verifyIdentityOperationStepUp(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationStepUpVerify)" tabindex="0">verifyIdentityOperationStepUp(String, UUID, AccountSecurityOperations.OperationStepUpVerify)</a></li>
+<li><a href="#startIdentityOperationWebAuthn(java.lang.String,java.util.UUID,java.lang.String)" tabindex="0">startIdentityOperationWebAuthn(String, UUID, String)</a></li>
+<li><a href="#verifyIdentityOperationWebAuthn(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationWebAuthnVerify)" tabindex="0">verifyIdentityOperationWebAuthn(String, UUID, AccountSecurityOperations.OperationWebAuthnVerify)</a></li>
+<li><a href="#startMfaOperationStepUp(java.lang.String,java.util.UUID)" tabindex="0">startMfaOperationStepUp(String, UUID)</a></li>
+<li><a href="#verifyMfaOperationStepUp(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationStepUpVerify)" tabindex="0">verifyMfaOperationStepUp(String, UUID, AccountSecurityOperations.OperationStepUpVerify)</a></li>
+<li><a href="#startMfaOperationWebAuthn(java.lang.String,java.util.UUID,java.lang.String)" tabindex="0">startMfaOperationWebAuthn(String, UUID, String)</a></li>
+<li><a href="#verifyMfaOperationWebAuthn(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationWebAuthnVerify)" tabindex="0">verifyMfaOperationWebAuthn(String, UUID, AccountSecurityOperations.OperationWebAuthnVerify)</a></li>
 </ol>
 </li>
 </ol>
@@ -152,6 +186,59 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Accepts a public Organization invitation.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.ProviderAuthorization.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.ProviderAuthorization</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#authorizeIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.IdentityProviderAuthorize)" class="member-name-link">authorizeIdentityOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.IdentityProviderAuthorize.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityProviderAuthorize</a>&nbsp;request)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/authorize.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.ProviderAuthorization.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.ProviderAuthorization</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#authorizeMfaOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.MfaProviderAuthorize)" class="member-name-link">authorizeMfaOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.MfaProviderAuthorize.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaProviderAuthorize</a>&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/authorize.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.TotpBeginResult.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.TotpBeginResult</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#beginTotpEnrollmentOperation(java.lang.String,java.util.UUID)" class="member-name-link">beginTotpEnrollmentOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/begin.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancelIdentityOperation(java.lang.String,java.util.UUID)" class="member-name-link">cancelIdentityOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/cancel.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancelMfaOperation(java.lang.String,java.util.UUID)" class="member-name-link">cancelMfaOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/cancel.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityChallengeResult.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityChallengeResult</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#challengeIdentityCurrentAccount(java.lang.String,java.util.UUID,java.util.UUID)" class="member-name-link">challengeIdentityCurrentAccount</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;identifierId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/current-account/challenges.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#challengeIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.TargetProofMethod)" class="member-name-link">challengeIdentityOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.TargetProofMethod.html" title="enum class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.TargetProofMethod</a>&nbsp;targetProofMethod)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/challenges.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaChallengeResult.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaChallengeResult</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#challengeMfaOperation(java.lang.String,java.util.UUID,java.util.UUID)" class="member-name-link">challengeMfaOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;identifierId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/challenges.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#changePassword(java.lang.String,com.chaosguide.iam.vertex.client.dto.PasswordChangeRequest)" class="member-name-link">changePassword</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
  <a href="dto/PasswordChangeRequest.html" title="class in com.chaosguide.iam.vertex.client.dto">PasswordChangeRequest</a>&nbsp;body)</code></div>
@@ -164,40 +251,124 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks one permission through IAM.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountPermissionSummaryResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountPermissionSummaryResponse</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAccountPermissionSummary(java.lang.String,java.lang.String)" class="member-name-link">getAccountPermissionSummary</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#completeIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.IdentityOperationComplete)" class="member-name-link">completeIdentityOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.IdentityOperationComplete.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperationComplete</a>&nbsp;request)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/complete.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#completeIdentityProviderAuthorization(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.ProviderExchange)" class="member-name-link">completeIdentityProviderAuthorization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.ProviderExchange.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.ProviderExchange</a>&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/provider-callback.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaCompletionResult.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaCompletionResult</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#completeMfaOperation(java.lang.String,java.util.UUID,java.lang.String)" class="member-name-link">completeMfaOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;code)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/complete.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#completeMfaProviderAuthorization(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.ProviderExchange)" class="member-name-link">completeMfaProviderAuthorization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.ProviderExchange.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.ProviderExchange</a>&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/provider-callback.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#confirmIdentityTransfer(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.TransferDecision)" class="member-name-link">confirmIdentityTransfer</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.TransferDecision.html" title="enum class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.TransferDecision</a>&nbsp;decision)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/confirm-transfer.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createIdentityOperation(java.lang.String,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.IdentityOperationCreate,java.lang.String)" class="member-name-link">createIdentityOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="dto/AccountSecurityOperations.IdentityOperationCreate.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperationCreate</a>&nbsp;request,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createMfaOperation(java.lang.String,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.MfaOperationCreate,java.lang.String)" class="member-name-link">createMfaOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="dto/AccountSecurityOperations.MfaOperationCreate.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperationCreate</a>&nbsp;request,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountPermissionSummaryResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountPermissionSummaryResponse</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAccountPermissionSummary(java.lang.String,java.lang.String)" class="member-name-link">getAccountPermissionSummary</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets IAM's current-user permission summary for the active or explicit Organization context.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/UserProfileResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">UserProfileResponse</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAccountProfile(java.lang.String)" class="member-name-link">getAccountProfile</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/UserProfileResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">UserProfileResponse</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAccountProfile(java.lang.String)" class="member-name-link">getAccountProfile</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches the current user's account-center profile.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecuritySummaryResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecuritySummaryResponse</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAccountSecuritySummary(java.lang.String)" class="member-name-link">getAccountSecuritySummary</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecuritySummaryResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecuritySummaryResponse</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAccountSecuritySummary(java.lang.String)" class="member-name-link">getAccountSecuritySummary</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches the current user's secret-free security summary.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClientId()" class="member-name-link">getClientId</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountOrganizationResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountOrganizationResponse</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentAccountOrganization(java.lang.String)" class="member-name-link">getCurrentAccountOrganization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClientId()" class="member-name-link">getClientId</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountOrganizationResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountOrganizationResponse</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentAccountOrganization(java.lang.String)" class="member-name-link">getCurrentAccountOrganization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the current Organization context, or <code>null</code> when the server returns JSON null.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/UserProfileResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">UserProfileResponse</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMe(java.lang.String)" class="member-name-link">getMe</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/CurrentUserResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">CurrentUserResponse</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentUser(java.lang.String)" class="member-name-link">getCurrentUser</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Fetch the safe current-user authentication context.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIdentityOperation(java.lang.String,java.util.UUID)" class="member-name-link">getIdentityOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">GET /api/v1/auth/me/identity-operations/{id}.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/UserProfileResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">UserProfileResponse</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMe(java.lang.String)" class="member-name-link">getMe</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches the current user's latest profile via <code>GET /api/v1/auth/me/profile</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaCapabilities.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaCapabilities</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMfaCapabilities(java.lang.String)" class="member-name-link">getMfaCapabilities</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMfaOperation(java.lang.String,java.util.UUID)" class="member-name-link">getMfaOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">GET /api/v1/auth/mfa/operations/{id}.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.RecoveryCodesRemaining.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.RecoveryCodesRemaining</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRecoveryCodesRemaining(java.lang.String)" class="member-name-link">getRecoveryCodesRemaining</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Read the current unused recovery-code count for the explicit current-user bearer.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasAccountOrganizationMembership(java.lang.String,java.lang.String)" class="member-name-link">hasAccountOrganizationMembership</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks membership from the current-user Organization list.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.AccountIdentifiers.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.AccountIdentifiers</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listAccountIdentifiers(java.lang.String)" class="member-name-link">listAccountIdentifiers</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">GET /api/v1/auth/me/identifiers.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.AccountLoginMethods.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.AccountLoginMethods</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listAccountLoginMethods(java.lang.String)" class="member-name-link">listAccountLoginMethods</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">GET /api/v1/auth/me/login-methods.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="dto/AccountOrganizationResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountOrganizationResponse</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listAccountOrganizations(java.lang.String)" class="member-name-link">listAccountOrganizations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
@@ -209,6 +380,16 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Lists the caller's active sessions.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listIdentityTransfers(java.lang.String)" class="member-name-link">listIdentityTransfers</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">GET /api/v1/auth/me/identity-operations/transfers.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="dto/AccountSecurityOperations.LinkableIdentityProvider.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.LinkableIdentityProvider</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listLinkableIdentityProviders(java.lang.String)" class="member-name-link">listLinkableIdentityProviders</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">GET /api/v1/auth/me/linkable-identity-providers.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/PermissionListResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">PermissionListResponse</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listPermissions(java.lang.String,java.lang.String)" class="member-name-link">listPermissions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;appClientId,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;ifNoneMatch)</code></div>
@@ -216,15 +397,28 @@ loadScripts(document, 'script');</script>
 <div class="block">拉取应用权限快照，主要给 Gradle 插件或管理工具使用。</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#logoutAccount(java.lang.String,java.lang.String)" class="member-name-link">logoutAccount</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;refreshToken)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#logoutAccount(java.lang.String)" class="member-name-link">logoutAccount</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Logs out the current token and optionally revokes the provided refresh token.</div>
+<div class="block">Revokes the authenticated OAuth token and session.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/PublicOrganizationInvitationPreviewResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">PublicOrganizationInvitationPreviewResponse</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#previewOrganizationInvitation(java.lang.String)" class="member-name-link">previewOrganizationInvitation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;invitationToken)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Previews a public Organization invitation without bearer auth.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reauthenticateIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.Reauthentication)" class="member-name-link">reauthenticateIdentityOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.Reauthentication.html" title="interface in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.Reauthentication</a>&nbsp;request)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/reauthenticate.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reauthenticateMfaOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.Reauthentication)" class="member-name-link">reauthenticateMfaOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.Reauthentication.html" title="interface in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.Reauthentication</a>&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/reauthenticate.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requestPasswordReset(java.lang.String,java.lang.String)" class="member-name-link">requestPasswordReset</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;email,
@@ -257,6 +451,32 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sends an opaque public email-verification message for this SDK client id.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.OperationStepUpChallenge.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationStepUpChallenge</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startIdentityOperationStepUp(java.lang.String,java.util.UUID)" class="member-name-link">startIdentityOperationStepUp</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/step-up/start.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.OperationWebAuthnStart.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationWebAuthnStart</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startIdentityOperationWebAuthn(java.lang.String,java.util.UUID,java.lang.String)" class="member-name-link">startIdentityOperationWebAuthn</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;challengeId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/step-up/webauthn/start.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.OperationStepUpChallenge.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationStepUpChallenge</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startMfaOperationStepUp(java.lang.String,java.util.UUID)" class="member-name-link">startMfaOperationStepUp</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/step-up/start.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.OperationWebAuthnStart.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationWebAuthnStart</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startMfaOperationWebAuthn(java.lang.String,java.util.UUID,java.lang.String)" class="member-name-link">startMfaOperationWebAuthn</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;challengeId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/step-up/webauthn/start.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/OrganizationSwitchResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">OrganizationSwitchResponse</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#switchAccountOrganization(java.lang.String,java.lang.String)" class="member-name-link">switchAccountOrganization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId)</code></div>
@@ -273,6 +493,34 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#verifyEmail(java.lang.String)" class="member-name-link">verifyEmail</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;token)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Verifies an email-verification token.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#verifyIdentityOperationStepUp(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationStepUpVerify)" class="member-name-link">verifyIdentityOperationStepUp</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.OperationStepUpVerify.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationStepUpVerify</a>&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/step-up/verify.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#verifyIdentityOperationWebAuthn(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationWebAuthnVerify)" class="member-name-link">verifyIdentityOperationWebAuthn</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.OperationWebAuthnVerify.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationWebAuthnVerify</a>&nbsp;request)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/step-up/webauthn/verify.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#verifyMfaOperationStepUp(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationStepUpVerify)" class="member-name-link">verifyMfaOperationStepUp</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.OperationStepUpVerify.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationStepUpVerify</a>&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/step-up/verify.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#verifyMfaOperationWebAuthn(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationWebAuthnVerify)" class="member-name-link">verifyMfaOperationWebAuthn</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.OperationWebAuthnVerify.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationWebAuthnVerify</a>&nbsp;request)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/step-up/webauthn/verify.</div>
 </div>
 </div>
 </div>
@@ -338,6 +586,15 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>ifNoneMatch</code> - 可选 ETag。服务端返回 304 时，结果权限列表为空，etag 沿用服务端返回值或入参。</dd>
 </dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getCurrentUser(java.lang.String)">
+<h3>getCurrentUser</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/CurrentUserResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">CurrentUserResponse</a></span>&nbsp;<span class="element-name">getCurrentUser</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</span></div>
+<div class="block">Fetch the safe current-user authentication context. Never decode an access token for UI context.</div>
 </div>
 </section>
 </li>
@@ -460,12 +717,11 @@ attributes.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="logoutAccount(java.lang.String,java.lang.String)">
+<section class="detail" id="logoutAccount(java.lang.String)">
 <h3>logoutAccount</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">logoutAccount</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;refreshToken)</span></div>
-<div class="block">Logs out the current token and optionally revokes the provided refresh token.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">logoutAccount</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</span></div>
+<div class="block">Revokes the authenticated OAuth token and session.</div>
 </div>
 </section>
 </li>
@@ -546,6 +802,353 @@ membership endpoint.</div>
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</span></div>
 <div class="block">Accepts a public Organization invitation. When <code>accessToken</code> is blank, IAM may return a
 login-required continuation response.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="listAccountIdentifiers(java.lang.String)">
+<h3>listAccountIdentifiers</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.AccountIdentifiers.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.AccountIdentifiers</a></span>&nbsp;<span class="element-name">listAccountIdentifiers</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</span></div>
+<div class="block">GET /api/v1/auth/me/identifiers. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="listAccountLoginMethods(java.lang.String)">
+<h3>listAccountLoginMethods</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.AccountLoginMethods.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.AccountLoginMethods</a></span>&nbsp;<span class="element-name">listAccountLoginMethods</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</span></div>
+<div class="block">GET /api/v1/auth/me/login-methods. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="listLinkableIdentityProviders(java.lang.String)">
+<h3>listLinkableIdentityProviders</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="dto/AccountSecurityOperations.LinkableIdentityProvider.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.LinkableIdentityProvider</a>&gt;</span>&nbsp;<span class="element-name">listLinkableIdentityProviders</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</span></div>
+<div class="block">GET /api/v1/auth/me/linkable-identity-providers. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="createIdentityOperation(java.lang.String,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.IdentityOperationCreate,java.lang.String)">
+<h3>createIdentityOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">createIdentityOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="dto/AccountSecurityOperations.IdentityOperationCreate.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperationCreate</a>&nbsp;request,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getIdentityOperation(java.lang.String,java.util.UUID)">
+<h3>getIdentityOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">getIdentityOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</span></div>
+<div class="block">GET /api/v1/auth/me/identity-operations/{id}. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="listIdentityTransfers(java.lang.String)">
+<h3>listIdentityTransfers</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a>&gt;</span>&nbsp;<span class="element-name">listIdentityTransfers</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</span></div>
+<div class="block">GET /api/v1/auth/me/identity-operations/transfers. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="reauthenticateIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.Reauthentication)">
+<h3>reauthenticateIdentityOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">reauthenticateIdentityOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.Reauthentication.html" title="interface in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.Reauthentication</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/reauthenticate. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="challengeIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.TargetProofMethod)">
+<h3>challengeIdentityOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">challengeIdentityOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.TargetProofMethod.html" title="enum class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.TargetProofMethod</a>&nbsp;targetProofMethod)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/challenges. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="challengeIdentityCurrentAccount(java.lang.String,java.util.UUID,java.util.UUID)">
+<h3>challengeIdentityCurrentAccount</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityChallengeResult.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityChallengeResult</a></span>&nbsp;<span class="element-name">challengeIdentityCurrentAccount</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;identifierId)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/current-account/challenges. No implicit
+mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="completeIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.IdentityOperationComplete)">
+<h3>completeIdentityOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">completeIdentityOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.IdentityOperationComplete.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperationComplete</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/complete. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="cancelIdentityOperation(java.lang.String,java.util.UUID)">
+<h3>cancelIdentityOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">cancelIdentityOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/cancel. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="confirmIdentityTransfer(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.TransferDecision)">
+<h3>confirmIdentityTransfer</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">confirmIdentityTransfer</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.TransferDecision.html" title="enum class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.TransferDecision</a>&nbsp;decision)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/confirm-transfer. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="authorizeIdentityOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.IdentityProviderAuthorize)">
+<h3>authorizeIdentityOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.ProviderAuthorization.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.ProviderAuthorization</a></span>&nbsp;<span class="element-name">authorizeIdentityOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.IdentityProviderAuthorize.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityProviderAuthorize</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/authorize. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="completeIdentityProviderAuthorization(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.ProviderExchange)">
+<h3>completeIdentityProviderAuthorization</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">completeIdentityProviderAuthorization</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.ProviderExchange.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.ProviderExchange</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/provider-callback. No implicit mutation
+replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getRecoveryCodesRemaining(java.lang.String)">
+<h3>getRecoveryCodesRemaining</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.RecoveryCodesRemaining.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.RecoveryCodesRemaining</a></span>&nbsp;<span class="element-name">getRecoveryCodesRemaining</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</span></div>
+<div class="block">Read the current unused recovery-code count for the explicit current-user bearer.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getMfaCapabilities(java.lang.String)">
+<h3>getMfaCapabilities</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaCapabilities.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaCapabilities</a></span>&nbsp;<span class="element-name">getMfaCapabilities</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="createMfaOperation(java.lang.String,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.MfaOperationCreate,java.lang.String)">
+<h3>createMfaOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></span>&nbsp;<span class="element-name">createMfaOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="dto/AccountSecurityOperations.MfaOperationCreate.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperationCreate</a>&nbsp;request,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getMfaOperation(java.lang.String,java.util.UUID)">
+<h3>getMfaOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></span>&nbsp;<span class="element-name">getMfaOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</span></div>
+<div class="block">GET /api/v1/auth/mfa/operations/{id}. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="reauthenticateMfaOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.Reauthentication)">
+<h3>reauthenticateMfaOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></span>&nbsp;<span class="element-name">reauthenticateMfaOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.Reauthentication.html" title="interface in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.Reauthentication</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/reauthenticate. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="challengeMfaOperation(java.lang.String,java.util.UUID,java.util.UUID)">
+<h3>challengeMfaOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaChallengeResult.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaChallengeResult</a></span>&nbsp;<span class="element-name">challengeMfaOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;identifierId)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/challenges. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="authorizeMfaOperation(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.MfaProviderAuthorize)">
+<h3>authorizeMfaOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.ProviderAuthorization.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.ProviderAuthorization</a></span>&nbsp;<span class="element-name">authorizeMfaOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.MfaProviderAuthorize.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaProviderAuthorize</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/authorize. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="completeMfaProviderAuthorization(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.ProviderExchange)">
+<h3>completeMfaProviderAuthorization</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></span>&nbsp;<span class="element-name">completeMfaProviderAuthorization</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.ProviderExchange.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.ProviderExchange</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/provider-callback. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="beginTotpEnrollmentOperation(java.lang.String,java.util.UUID)">
+<h3>beginTotpEnrollmentOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.TotpBeginResult.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.TotpBeginResult</a></span>&nbsp;<span class="element-name">beginTotpEnrollmentOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/begin. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="completeMfaOperation(java.lang.String,java.util.UUID,java.lang.String)">
+<h3>completeMfaOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaCompletionResult.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaCompletionResult</a></span>&nbsp;<span class="element-name">completeMfaOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;code)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/complete. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="cancelMfaOperation(java.lang.String,java.util.UUID)">
+<h3>cancelMfaOperation</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></span>&nbsp;<span class="element-name">cancelMfaOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/cancel. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="startIdentityOperationStepUp(java.lang.String,java.util.UUID)">
+<h3>startIdentityOperationStepUp</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.OperationStepUpChallenge.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationStepUpChallenge</a></span>&nbsp;<span class="element-name">startIdentityOperationStepUp</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/step-up/start. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="verifyIdentityOperationStepUp(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationStepUpVerify)">
+<h3>verifyIdentityOperationStepUp</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">verifyIdentityOperationStepUp</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.OperationStepUpVerify.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationStepUpVerify</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/step-up/verify. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="startIdentityOperationWebAuthn(java.lang.String,java.util.UUID,java.lang.String)">
+<h3>startIdentityOperationWebAuthn</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.OperationWebAuthnStart.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationWebAuthnStart</a></span>&nbsp;<span class="element-name">startIdentityOperationWebAuthn</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;challengeId)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/step-up/webauthn/start. No implicit mutation
+replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="verifyIdentityOperationWebAuthn(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationWebAuthnVerify)">
+<h3>verifyIdentityOperationWebAuthn</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.IdentityOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.IdentityOperation</a></span>&nbsp;<span class="element-name">verifyIdentityOperationWebAuthn</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.OperationWebAuthnVerify.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationWebAuthnVerify</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/me/identity-operations/{id}/step-up/webauthn/verify. No implicit mutation
+replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="startMfaOperationStepUp(java.lang.String,java.util.UUID)">
+<h3>startMfaOperationStepUp</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.OperationStepUpChallenge.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationStepUpChallenge</a></span>&nbsp;<span class="element-name">startMfaOperationStepUp</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/step-up/start. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="verifyMfaOperationStepUp(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationStepUpVerify)">
+<h3>verifyMfaOperationStepUp</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></span>&nbsp;<span class="element-name">verifyMfaOperationStepUp</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.OperationStepUpVerify.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationStepUpVerify</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/step-up/verify. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="startMfaOperationWebAuthn(java.lang.String,java.util.UUID,java.lang.String)">
+<h3>startMfaOperationWebAuthn</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.OperationWebAuthnStart.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationWebAuthnStart</a></span>&nbsp;<span class="element-name">startMfaOperationWebAuthn</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;challengeId)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/step-up/webauthn/start. No implicit mutation replay.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="verifyMfaOperationWebAuthn(java.lang.String,java.util.UUID,com.chaosguide.iam.vertex.client.dto.AccountSecurityOperations.OperationWebAuthnVerify)">
+<h3>verifyMfaOperationWebAuthn</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="dto/AccountSecurityOperations.MfaOperation.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.MfaOperation</a></span>&nbsp;<span class="element-name">verifyMfaOperationWebAuthn</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;accessToken,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;operationId,
+ <a href="dto/AccountSecurityOperations.OperationWebAuthnVerify.html" title="class in com.chaosguide.iam.vertex.client.dto">AccountSecurityOperations.OperationWebAuthnVerify</a>&nbsp;request)</span></div>
+<div class="block">POST /api/v1/auth/mfa/operations/{id}/step-up/webauthn/verify. No implicit mutation replay.</div>
 </div>
 </section>
 </li>

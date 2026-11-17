@@ -5,32 +5,32 @@ slug: /sdk/go/
 
 # Go SDK
 
-Go SDK 提供兼容 `net/http` 的认证与授权 middleware。它是 Vertex 客户端 SDK，不是独立服务端产品。root、Chi、Gin 与 Echo module 均已按精确版本 `v0.1.1` 公开提供。
+Go SDK 提供兼容 `net/http` 的认证与授权 middleware。它是 Vertex 客户端 SDK，不是独立服务端产品。下文固定到源码清单对应的 Go 伪版本，root 与 Chi、Gin、Echo 适配器使用同一提交。
 
 ## 安装
 
 `net/http` 使用 root module：
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.1
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19
 ```
 
 Chi 在同一条命令中安装 root 与 adapter module：
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.1 github.com/axis-iam/vertex-sdk-go/chi@v0.1.1
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/chi@v0.1.2-0.20261114111734-3c7b9db4ec19
 ```
 
 Gin：
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.1 github.com/axis-iam/vertex-sdk-go/gin@v0.1.1
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/gin@v0.1.2-0.20261114111734-3c7b9db4ec19
 ```
 
 Echo：
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.1 github.com/axis-iam/vertex-sdk-go/echo@v0.1.1
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/echo@v0.1.2-0.20261114111734-3c7b9db4ec19
 ```
 
 ## 快速入门

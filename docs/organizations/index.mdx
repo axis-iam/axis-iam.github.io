@@ -25,8 +25,7 @@ switch, membership, and invitation acceptance use the authenticated account surf
 
 Use `OrganizationInvitationAccept` for Application-user invitation journeys, including invitations into an
 Organization. Despite its name, the component supports the Application-user journey; it is not a Workspace
-developer-invitation component. These APIs describe the current source candidate; check
-[artifact availability](../sdk/javascript/).
+developer-invitation component. Use the [source installation guide](../sdk/javascript/) for the matching SDK revision.
 
 ```tsx
 import {OrganizationInvitationAccept} from '@axis-iam/vertex-react';
@@ -40,7 +39,6 @@ export function InvitationPage() {
 The component consumes and removes the one-use `continuation` from the URL before I/O and keeps it in component
 memory. Alternatively, a host that already scrubbed the URL can pass `continuation` explicitly.
 Use `journeyRef` for an authorized result read, never together with `continuation`.
-The old `token`, `onLoginRequired` and `useOrganizationInvitation` APIs are retired.
 
 ## Keep acceptance explicit
 
@@ -61,7 +59,7 @@ Authenticator setup material is shown once; status reads do not redeliver it.
 Embedded is the default component entry. `loginMode="hosted"` opens ordinary Client OAuth login in a bounded popup;
 keep the registered callback passive so the opener can finish the flow, then use its explicit sign-in check.
 Dialog and Custom forms are supported through `renderLogin`.
-See the [InvitationJourney examples](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/examples/InvitationJourney.tsx)
+See the [InvitationJourney examples](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/examples/InvitationJourney.tsx)
 for each presentation and its callback requirements.
 
 For your own UI, `useInvitationJourney({continuation, ref})` exposes safe state, registration, verification,

@@ -28,17 +28,16 @@ if (mode === 'internal') {
 } else {
   const sources = (await files('docs')).filter((file) => /\.mdx?$/.test(file));
   const urls = new Set<string>();
-  const probeUrls = new Map([
-    [
-      'https://vertex-packages.chaosguide.com/releases/0.1.0/maven',
-      'https://vertex-packages.chaosguide.com/releases/0.1.0/maven/com/chaosguide/iam/vertex-sdk-core/0.1.0/vertex-sdk-core-0.1.0.pom',
-    ],
-  ]);
+
   for (const file of sources) for (const match of (await readFile(file, 'utf8')).matchAll(/https:\/\/[^\s)\]"'<>]+/g)) urls.add(match[0].replace(/\\_/g, '_').replace(/[.,;:]$/, ''));
   const failures: string[] = [];
   for (const url of urls) {
     if (/\.(example|test)\.com/.test(url)) continue;
-    const probeUrl = probeUrls.get(url) ?? url;
+    // A pip VCS requirement identifies a Git commit rather than a web page.
+    const probeUrl = url.replace(
+      /^(https:\/\/github\.com\/[^/]+\/[^/]+)\.git@([a-f0-9]{40})$/,
+      '$1/commit/$2',
+    );
     try {
       let response = await fetch(probeUrl, {method: 'HEAD', redirect: 'follow', signal: AbortSignal.timeout(10000)});
       if (!response.ok) response = await fetch(probeUrl, {method: 'GET', redirect: 'follow', signal: AbortSignal.timeout(10000)});

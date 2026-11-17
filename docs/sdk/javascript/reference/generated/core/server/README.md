@@ -8,13 +8,17 @@
 
 ## Classes
 
+- [ConfidentialInvitationClient](classes/ConfidentialInvitationClient.md)
 - [HttpPermissionResolver](classes/HttpPermissionResolver.md)
 - [IamClient](classes/IamClient.md)
+- [InvitationBff](classes/InvitationBff.md)
 - [PermissionManifestClient](classes/PermissionManifestClient.md)
 - [PermissionManifestError](classes/PermissionManifestError.md)
 - [PortalOpenApiClient](classes/PortalOpenApiClient.md)
 - [PortalOpenApiError](classes/PortalOpenApiError.md)
 - [PortalOpenApiTokenError](classes/PortalOpenApiTokenError.md)
+- [WebAuthClient](classes/WebAuthClient.md)
+- [WebAuthError](classes/WebAuthError.md)
 
 ## Interfaces
 
@@ -31,6 +35,8 @@
 - [IamSdkConfig](interfaces/IamSdkConfig.md)
 - [IdempotencyOptions](interfaces/IdempotencyOptions.md)
 - [IfMatchOptions](interfaces/IfMatchOptions.md)
+- [InvitationBffConfig](interfaces/InvitationBffConfig.md)
+- [InvitationBffSession](interfaces/InvitationBffSession.md)
 - [Organization](interfaces/Organization.md)
 - [OrganizationInvitation](interfaces/OrganizationInvitation.md)
 - [OrganizationInvitationListOptions](interfaces/OrganizationInvitationListOptions.md)
@@ -59,6 +65,8 @@
 - [PortalOpenApiMachineToken](interfaces/PortalOpenApiMachineToken.md)
 - [PreparedPermissionManifest](interfaces/PreparedPermissionManifest.md)
 - [RegistrationGrant](interfaces/RegistrationGrant.md)
+- [RegistrationGrantDelivery](interfaces/RegistrationGrantDelivery.md)
+- [RegistrationGrantDeliveryInput](interfaces/RegistrationGrantDeliveryInput.md)
 - [RegistrationGrantListOptions](interfaces/RegistrationGrantListOptions.md)
 - [RegistrationGrantPage](interfaces/RegistrationGrantPage.md)
 - [RegistrationGrantRedemption](interfaces/RegistrationGrantRedemption.md)
@@ -76,6 +84,19 @@
 - [UserRoleAssignment](interfaces/UserRoleAssignment.md)
 - [UserRoleAssignmentPage](interfaces/UserRoleAssignmentPage.md)
 - [UserRoleCondition](interfaces/UserRoleCondition.md)
+- [WebAuthBeginLoginResult](interfaces/WebAuthBeginLoginResult.md)
+- [WebAuthCallbackInput](interfaces/WebAuthCallbackInput.md)
+- [WebAuthCallbackResult](interfaces/WebAuthCallbackResult.md)
+- [WebAuthClientConfig](interfaces/WebAuthClientConfig.md)
+- [WebAuthLogoutInput](interfaces/WebAuthLogoutInput.md)
+- [WebAuthLogoutResult](interfaces/WebAuthLogoutResult.md)
+- [WebAuthRefreshInput](interfaces/WebAuthRefreshInput.md)
+- [WebAuthRefreshResult](interfaces/WebAuthRefreshResult.md)
+- [WebAuthSession](interfaces/WebAuthSession.md)
+- [WebAuthSessionStore](interfaces/WebAuthSessionStore.md)
+- [WebAuthTokenSet](interfaces/WebAuthTokenSet.md)
+- [WebAuthTransaction](interfaces/WebAuthTransaction.md)
+- [WebAuthTransactionStore](interfaces/WebAuthTransactionStore.md)
 
 ## Type Aliases
 
@@ -91,6 +112,7 @@
 - [PortalOpenApiScope](type-aliases/PortalOpenApiScope.md)
 - [RegistrationGrantStatus](type-aliases/RegistrationGrantStatus.md)
 - [RegistrationGrantType](type-aliases/RegistrationGrantType.md)
+- [WebAuthErrorCode](type-aliases/WebAuthErrorCode.md)
 
 ## Variables
 
@@ -151,6 +173,12 @@ Re-exports [hasPermission](../index/functions/hasPermission.md)
 ### IamJwtPayload
 
 Re-exports [IamJwtPayload](../index/interfaces/IamJwtPayload.md)
+
+***
+
+### InvitationError
+
+Re-exports [InvitationError](../index/classes/InvitationError.md)
 
 ***
 

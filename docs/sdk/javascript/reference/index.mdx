@@ -9,7 +9,7 @@ pagination_prev: null
 
 ## Current source guides
 
-The following guides describe the current unpublished SDK source candidate:
+The following guides describe the recorded SDK source revision:
 
 | Surface | Public entries | Guide |
 | --- | --- | --- |
@@ -17,20 +17,19 @@ The following guides describe the current unpublished SDK source candidate:
 | Account management | `AccountCenter`, `AccountSecurityPanel`, `AccountSecurityDialog`, `useAccountSecurity`, `useIdentityOperations` | [Account security](../../../authentication/account-security/) |
 | Invitations | `OrganizationInvitationAccept`, `useInvitationJourney`, `InvitationJourneyClient` | [Invitation journeys](../../../organizations/) |
 
-The [source integration map](https://github.com/axis-iam/vertex-sdk-js/blob/develop/docs/current-integration.md)
-links to the current package guides and examples. Check [installation status](../) before selecting artifacts.
+The [source integration map](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/docs/current-integration.md)
+links to the current package guides and examples. Follow the matching [source installation steps](../).
 
-## Historical preview reference
+## Generated reference
 
-The existing generated TypeDoc pages belong to the older source revision recorded in `static/source-revisions.json`.
-They have **not** been refreshed for the current candidate and can contain retired APIs, including
-`useOrganizationInvitation`, invitation `token` props and `onLoginRequired`.
-Do not use those invitation contracts for a new integration. Follow the current guides above.
+These TypeDoc pages are generated from the same recorded source revision and describe the current public entries and types.
 
-Generating a fresh API reference is separate from this handwritten documentation update. The existing provenance
-record remains unchanged; no current package publication is implied.
-
-{/* GENERATED_REFERENCE:JS */}
+- [Core browser and server APIs](./generated/core/README.md)
+- [React components and hooks](./generated/react/README.md)
+- [Express middleware](./generated/express/README.md)
+- [NestJS module and guards](./generated/nestjs/README.md)
+- [Permission code generation](./generated/codegen/README.md)
+- [Testing utilities](./generated/test/README.md)
 
 See the source-owned public entry points: `@axis-iam/vertex`, `@axis-iam/vertex/server`,
-`@axis-iam/vertex-react`, `@axis-iam/vertex-react/server`, Express, NestJS, codegen, and testing.
+`@axis-iam/vertex-react`, Express, NestJS, codegen, and testing.

@@ -20,7 +20,16 @@ const config: Config = {
   trailingSlash: true,
   onBrokenLinks: 'throw',
   markdown: {hooks: {onBrokenMarkdownLinks: 'throw'}},
-  future: {v4: true},
+  future: {
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true,
+      // Per-file cascade-layer lowering raises vendor specificity above site CSS.
+      useCssCascadeLayers: false,
+      siteStorageNamespacing: true,
+      fasterByDefault: true,
+      mdx1CompatDisabledByDefault: true,
+    },
+  },
   presets: [
     [
       'classic',
@@ -31,7 +40,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           breadcrumbs: true,
           showLastUpdateTime: false,
-          versions: {current: {label: 'Pre-beta', path: ''}},
+          versions: {current: {label: 'Current', path: ''}},
         },
         blog: false,
         theme: {customCss: './src/css/custom.css'},
@@ -46,7 +55,7 @@ const config: Config = {
     ],
   ],
   themeConfig: {
-    image: 'img/vertex-docs.png',
+    docs: {sidebar: {autoCollapseCategories: false}},
     colorMode: {defaultMode: 'light', respectPrefersColorScheme: true},
     navbar: {
       title: 'Axis Vertex',

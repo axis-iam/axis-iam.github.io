@@ -38,8 +38,7 @@ Use [Hosted authentication](../authentication/hosted/) for the smallest browser 
 [Custom](../authentication/custom/) for application-rendered UI.
 Hosted uses Authorization Code + S256 PKCE. Embedded and Custom keep credential proof and required MFA in a
 controlled authentication transaction, then exchange its authorization code through OAuth with the original PKCE
-binding. Dialog presents the selected Hosted or Embedded flow. Refresh uses OAuth; retired Direct login/refresh
-endpoints are not supported integration entry points.
+binding. Dialog presents the selected Hosted or Embedded flow. Refresh uses OAuth.
 
 Authentication policy belongs to the Application. `clientId` locates a client within it and does not select an
 independent client-level policy. Registration is separate from login; completing registration or email verification
@@ -56,7 +55,7 @@ browser -> Vertex authorize -> callback -> access token -> resource server
 ```
 
 Continue with the [JavaScript quickstart](../sdk/javascript/) for browser authentication or a server SDK quickstart
-for [Java](../sdk/java/), [Go](../sdk/go/), or [Python](../sdk/python/). Check the installation and release boundary
-on the relevant SDK page; current JavaScript source APIs are not all available in the older preview artifacts. Use the
+for [Java](../sdk/java/), [Go](../sdk/go/), or [Python](../sdk/python/). Follow the pinned installation instructions
+on the relevant SDK page. Use the
 [connected application checklist](./connect-application/) when configuring a real application, clients, policies,
 identity providers, and callbacks.

@@ -10,7 +10,11 @@ This page describes supported integration families, not every internal controlle
 | Family | Authentication | Intended caller |
 | --- | --- | --- |
 | OAuth 2.0 / OIDC discovery, authorize, token, logout, JWKS | Protocol-specific | Browsers, native apps, WEB/BFF, and M2M clients |
-| Direct Auth signup, login, password recovery, and refresh under `/api/v1/auth` | Public client context | Embedded authentication and Auth Dialog |
+| Registration `/api/v1/auth/signup` | Public client context | Embedded, Dialog and Custom |
+| Authentication transactions `/api/v1/auth/transactions` and their challenge, Provider, proof, MFA, complete and cancel actions | Transaction control and PKCE binding | Browser SDK |
+| Account recovery `/api/v1/auth/recovery` | Purpose-bound recovery authorization and proof | Hosted and account SDK |
+| Identity operations `/api/v1/auth/me/identity-operations` | User identity and operation control | Account security UI |
+| Invitation journeys `/api/v1/auth/invitation-journeys` | One-time continuation and authorized journey | Invitation SDK |
 | `/api/v1/auth/me/**`, sessions, and logout | User bearer token | First-party application UI and SDK account surfaces |
 | Auth methods, policy, branding, and registration-grant preview under `/api/v1/apps/{clientId}` | Public client context | Hosted/embedded browser authentication |
 | `/open/v1/permissions:resolve` and permission snapshot | Confidential client | Resource servers |
@@ -25,3 +29,5 @@ document for runtime endpoint metadata.
 
 The build also publishes a [machine-readable API family manifest](pathname:///api/public-api-families.json). It is a
 documentation index, not an OpenAPI contract and not a substitute for runtime OIDC discovery.
+
+Browser authentication completes proof in a controlled transaction, then exchanges its code through OAuth with the original PKCE binding. Refresh uses the OAuth token endpoint. Registration does not sign the user in.

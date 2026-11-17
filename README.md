@@ -22,14 +22,18 @@ Before review, run the focused documentation checks:
 ```bash
 pnpm validate:public
 pnpm references:generate
-pnpm quickstarts:check
+pnpm public-installations:check
 pnpm build
 pnpm links:external
 pnpm test:e2e
 ```
 
-`references:generate` and `quickstarts:check` read sibling Axis Vertex SDK source checkouts. They do not publish or
-modify SDK packages. Generated references are checked against public package exports.
+`references:generate` and `public-installations:check` create isolated snapshots at the SDK commits in
+`static/source-revisions.json`. They clone public source repositories by default; maintainers may set
+`VERTEX_SOURCE_ROOT` to archive the same commits from local read-only repositories. Dirty working-tree content is
+never copied. Source builds, local Maven installation and consumer dependencies stay in the isolated directory.
+No remote publication occurs. The installation check compiles the bilingual quickstart fixtures against actual
+packed/built SDK artifacts and verifies pinned Go proxy modules.
 
 ## Release model
 

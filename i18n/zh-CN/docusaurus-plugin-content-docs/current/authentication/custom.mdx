@@ -7,7 +7,7 @@ slug: /authentication/custom/
 
 应用需要自行绘制表单时，使用 `useAuthFlow`。它与 Embedded、Dialog 共用认证事务；
 应用负责布局，根据 SDK 当前状态显示可用方式与下一步操作。
-本文对应当前源码候选版，接入前请先确认[安装包可用范围](../../sdk/javascript/)。
+按[源码安装指南](../../sdk/javascript/)接入配套的 SDK 提交。
 
 表单应放在 `IamProvider` 内，配置目标 Application 的 SPA 公共客户端及精确登记的回调地址。
 
@@ -26,7 +26,7 @@ export function AuthenticationStatus() {
 ```
 
 上例仅展示 hook 初始化，不是完整登录表单。标识选择、密码与验证码、注册、第三方返回及 MFA 的完整写法见
-[CustomAuth 示例](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/examples/CustomAuth.tsx)。
+[CustomAuth 示例](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/examples/CustomAuth.tsx)。
 
 ## 根据状态绘制界面
 
@@ -71,18 +71,27 @@ EMAIL/USERNAME 类型。返回的是注册资料或注册操作，**不代表登
 
 ## 第三方登录与回调
 
-`await actions.startProvider(providerId)` 返回校验后的跳转地址，当前尝试的导航由应用负责。
-返回后调用 `await actions.resumeProviderCallback(callbackUrl)`，继续原事务及 PKCE 绑定。
-第三方返回后可能仍需进入 `mfa`，不能直接当作登录完成。
+用户点击第三方登录按钮时，调用 `await actions.signInWithProvider(providerId)`。
+SDK 会打开弹窗、等待精确匹配的返回、继续事务，并清理窗口与定时器。
 
-完整示例还展示了通过 `AuthProviderWindow` 打开独立窗口的方式。保持发起窗口存活，使用精确登记的回调地址。
-不要把事务控制信息、证明或令牌复制到自定义 URL、日志或持久化存储。
+需要整页跳转时，调用 `await actions.startProvider(providerId)` 并导航到返回的已校验地址。
+在登记的回调路由挂载 `useAuthFlow`；`autoProviderCallback` 默认为 `true`，
+只自动消费匹配 CUSTOM 事务、client、issuer、redirect 与 state 的返回。
+只有宿主明确自行通过 `actions.resumeProviderCallback(callbackUrl)` 消费回调时才设为 `false`。
+Hosted 回调仍由 `handleRedirectCallback` 负责，不要让两个消费者处理同一返回。
 
-## 只恢复已知操作
+第三方返回可能恢复必需的 MFA，并不总是直接登录成功。保持原标签页绑定，使用精确登记的回调地址。
+不要将事务控制信息、证明或令牌复制到应用 URL、日志或存储。
 
-hook 提供类型化错误、冷却时间与原事务截止时间。按状态提供操作，不要自动重复失败的写请求。
-`completionPending` 时可由用户显式调用 `retryCompletion()`，按原完成键恢复结果；
-它不会重试已经发出的 OAuth 授权码交换。
+## 失败后继续登录
+
+`state.pending !== null` 表示普通忙碌，保留表单与当前挑战。最终失败会记录类型化的 `state.error`、
+结束失败尝试并返回正常表单。若安装令牌后读取资料或权限失败，SDK 立即清除本地会话，并尝试远端撤销；
+远端失败或缓慢不会阻塞下次登录，本地清理也不代表 IAM 或上游 SSO 会话已经退出。
+在表单旁显示错误，允许重新提交，不需要另建账户加载、会话重试或退出恢复页面。
+
+遵守服务端冷却时间与原事务截止时间，不要自动重复失败的写请求。
+不确定的完成请求最多按原键自动核对一次；已经发出的 OAuth 授权码交换不会重放。
 
 `back`、`cancel`、`reset`、`setIntent` 都需要等待结果。取消未确认时展示
 `cancellationUnconfirmed` 并保留恢复路径；关闭本地界面不能证明服务端已经取消。

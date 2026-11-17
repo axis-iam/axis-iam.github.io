@@ -6,7 +6,7 @@ slug: /authentication/account-security/
 # 账号安全
 
 使用 `AccountCenter` 为已登录的 Application 用户提供统一账号界面，包含个人资料、登录方式、密码、
-安全认证、会话和权限六个分区。本文对应当前源码候选版，接入前请确认[安装包可用范围](../../sdk/javascript/)。
+安全认证、会话和权限六个分区。按[源码安装指南](../../sdk/javascript/)接入配套 SDK。
 
 ## 打开账号中心
 
@@ -63,4 +63,4 @@ BFF 模式需要显式设置 `sessionMode="server_session"` 和 `sessionTranspor
 宿主负责真实的会话初始化、CSRF 防护及匹配路由。`sessionProviderReturnUri` 必须是实际同源的 BFF
 第三方确认回调地址，不能带查询参数或片段，也不能随意填成设置页。
 完整传输与操作合同见
-[React 包接入说明](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/README.md)。
+[React 包接入说明](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/README.md)。

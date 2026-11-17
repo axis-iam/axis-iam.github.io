@@ -13,7 +13,8 @@ for (const pkg of ['core', 'react', 'express', 'nestjs', 'codegen', 'test']) {
 }
 
 const goRoot = `${root}/sdk/sdk-go`;
-const packages = execFileSync('go', ['list', './...'], {cwd: goRoot, env: {...process.env, GOTOOLCHAIN: 'go1.23.0', GOPROXY: 'off'}, encoding: 'utf8'}).trim().split('\n');
+const packages = ['.', 'chi', 'gin', 'echo'].flatMap((module) =>
+  execFileSync('go', ['list', './...'], {cwd: `${goRoot}/${module}`, env: {...process.env, GOTOOLCHAIN: 'go1.23.0'}, encoding: 'utf8'}).trim().split('\n'));
 const goReference = readFileSync('docs/sdk/go/reference/index.mdx', 'utf8');
 for (const pkg of packages) if (!goReference.includes(`## ${pkg}`)) throw new Error(`Go package missing from reference: ${pkg}`);
 

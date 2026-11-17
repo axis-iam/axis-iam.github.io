@@ -4,7 +4,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ES2022",
+    "jsx": "react-jsx",
     "skipLibCheck": false
   },
-  "include": ["consumer.ts"]
+  "include": ["consumer.ts", "quickstart.tsx"]
 }

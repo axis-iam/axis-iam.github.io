@@ -27,6 +27,24 @@ Handles retries, timeouts, and authentication.
 
 ## Methods
 
+### getCurrentUser()
+
+> **getCurrentUser**(`accessToken`): `Promise`\<[`CurrentUser`](../../index/interfaces/CurrentUser.md)\>
+
+Explicit safe context read; metadata is not a permission source.
+
+#### Parameters
+
+##### accessToken
+
+`string`
+
+#### Returns
+
+`Promise`\<[`CurrentUser`](../../index/interfaces/CurrentUser.md)\>
+
+***
+
 ### listPermissions()
 
 > **listPermissions**(`clientId`): `Promise`\<[`PermissionsSnapshot`](../interfaces/PermissionsSnapshot.md)\>

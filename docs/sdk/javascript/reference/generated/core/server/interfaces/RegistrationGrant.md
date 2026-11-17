@@ -89,3 +89,9 @@
 ### usedCount
 
 > **usedCount**: `number`
+
+***
+
+### version
+
+> **version**: `number`

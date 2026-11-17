@@ -6,8 +6,7 @@ slug: /authentication/account-security/
 # Account security
 
 Use `AccountCenter` to give a signed-in Application user a consistent account interface. It contains six sections:
-profile, login methods, password, security, sessions and permissions. These APIs describe the current source candidate;
-check [artifact availability](../../sdk/javascript/) before integration.
+profile, login methods, password, security, sessions and permissions. Use the [source installation guide](../../sdk/javascript/) for the matching SDK revision.
 
 ## Open the account center
 
@@ -66,5 +65,5 @@ Configure `IamProvider` with `colorScheme="light" | "dark" | "system"`, `appeara
 A BFF uses explicit `sessionMode="server_session"` and a configured `sessionTransport`; the host must provide
 real session bootstrap, CSRF protection and matching routes. Set `sessionProviderReturnUri` to the actual
 same-origin BFF Provider callback, with no query or fragment. Do not substitute an arbitrary settings route.
-See the [React package guide](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/README.md)
+See the [React package guide](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/README.md)
 for the supported transport and operation contracts.

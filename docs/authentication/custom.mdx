@@ -7,7 +7,7 @@ slug: /authentication/custom/
 
 Use `useAuthFlow` when your application owns the form layout. The hook manages the same authentication
 transactions as Embedded and Dialog; your UI renders the available methods and current step.
-These APIs describe the current source candidate; check [artifact availability](../../sdk/javascript/) before integration.
+Follow the [source installation guide](../../sdk/javascript/) for the matching SDK revision.
 
 Mount the form inside `IamProvider`, configured with the Application's public SPA client and exact registered callback.
 
@@ -26,7 +26,7 @@ export function AuthenticationStatus() {
 ```
 
 This illustrates hook initialization, not a complete login form. Use the
-[CustomAuth example](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/examples/CustomAuth.tsx)
+[CustomAuth example](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/examples/CustomAuth.tsx)
 for a form that renders identifiers, password/code entry, registration, Provider return and MFA.
 
 ## Render the current step
@@ -73,19 +73,29 @@ Verification and any required registration grant remain separate from ordinary l
 
 ## Provider and callback handling
 
-`await actions.startProvider(providerId)` returns a validated URL. Your application owns navigation for that
-attempt. On return, `await actions.resumeProviderCallback(callbackUrl)` resumes its original transaction and PKCE
-binding. A Provider callback can lead to `mfa`; it is not always a completed sign-in.
+For a user-initiated popup, call `await actions.signInWithProvider(providerId)`. The SDK opens the window,
+waits for the exact return, resumes the transaction, and cleans up the window and timers.
 
-The full example also demonstrates `AuthProviderWindow` for popup navigation. Keep the initiating window alive
-and use an exact registered callback. Do not copy pending transaction controls, proofs or tokens into your own
-URLs, logs or persistent storage.
+For a full-page redirect, call `await actions.startProvider(providerId)` and navigate to the validated URL.
+Mount `useAuthFlow` on the registered callback route: `autoProviderCallback` defaults to `true` and consumes only
+the matching CUSTOM transaction, client, issuer, redirect and state binding. Set it to `false` only when the host
+explicitly owns callback consumption through `actions.resumeProviderCallback(callbackUrl)`.
+Hosted callbacks remain with `handleRedirectCallback`; never attach both consumers to the same return.
 
-## Retry only a known operation
+A Provider return may restore required MFA rather than complete sign-in. Keep the original tab binding and use an
+exact registered callback. Never copy transaction controls, proofs or tokens into application URLs, logs or storage.
 
-The hook exposes typed errors, cooldowns and original transaction deadlines. Follow those states instead of
-automatically repeating failed writes. `completionPending` offers explicit `retryCompletion()` recovery using
-the original completion key; it never retries an already-sent OAuth code exchange.
+## Continue after a failed login
+
+Use `state.pending !== null` for ordinary busy and keep the form visible. A final failure records `state.error`,
+ends that attempt and returns to the normal form. If required profile or permission reads fail after tokens were
+installed, the SDK clears the local session and attempts remote revocation without blocking another login.
+Local cleanup does not confirm remote IAM or upstream SSO logout. Display the error beside the form and let the user
+try again; no separate account-loading or session-retry screen is needed.
+
+Follow server cooldowns and original transaction deadlines instead of automatically repeating failed writes.
+An uncertain completion receives at most one automatic reconciliation with its original key.
+A sent OAuth code exchange is never replayed.
 
 Await `back`, `cancel`, `reset` and `setIntent`. If cancellation cannot be confirmed, show
 `cancellationUnconfirmed` and preserve a recovery path. Closing the local UI alone does not prove server cancellation.

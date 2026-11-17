@@ -2,15 +2,15 @@
   "schemaVersion": 1,
   "product": "vertex",
   "algorithm": "sha256",
-  "generatedAt": "2026-07-28",
+  "generatedAt": "2026-11-17",
   "sources": {
-    "vertexBackend": "230276a615024189c1ef0f1d76dde2e0f43ecb39",
-    "vertexPortal": "d698b53ea6b4698f8e2ddd3598aa5bb936d3f9e2",
-    "vertexAdmin": "282c7f1332f82b2a1f35de214cf7f2c48cbbe428",
-    "vertexSdkJavaScript": "7a9ed9042e1ba71c17f4df98f620f9cb1b5658c4",
-    "vertexSdkJava": "7ce1dc015700367d4c7b8314dcd317f048a8f5f8",
-    "vertexSdkGo": "617be864cf05a8d9262a56c754a99f143b2b6c07",
-    "vertexSdkPython": "2840f2b711f2362a3e2cc559686484d8eddd052f"
+    "vertexBackend": "bf695fae782a6b3f0872e6eab07764108970a58c",
+    "vertexPortal": "df7c207dad08d9fdc74db93fc3a381db29b9bab2",
+    "vertexAdmin": "09633daaf07b078b4273f94de1e2149c641f667d",
+    "vertexSdkJavaScript": "eb5ae846da5d64283dad58426e18124420816e1e",
+    "vertexSdkJava": "ef719b9d2cde32e126550789767b1c718adeb6da",
+    "vertexSdkGo": "3c7b9db4ec19146406d60b39092b38397d7fa513",
+    "vertexSdkPython": "7c4bb845855fd118abd90ccd3761fae192fd4c9a"
   },
   "roots": [
     "docs/sdk/javascript/reference/generated",
@@ -21,8 +21,8 @@
   "files": [
     {
       "path": "docs/sdk/go/reference/index.mdx",
-      "bytes": 74706,
-      "sha256": "9f3302fbd333517208a8df3b8cc8f3b3194dc1d9a933cdb9445b10d02536fe1e"
+      "bytes": 129317,
+      "sha256": "64b45295251488237129fb0c6c70d0d78d940194ae1a4dd4f2464f238203cc5b"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/codegen/README.md",
@@ -61,13 +61,123 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/README.md",
-      "bytes": 926,
-      "sha256": "42ab6e6db4c4def13ebf0c9826c208e471616cc289ea1a52bb440be1a7d4cd56"
+      "bytes": 9869,
+      "sha256": "0876add86ebf01aa2d81e8724bb1c560fa10d5a077932fdba07c5cb981054c65"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/AuthCapabilitiesError.md",
+      "bytes": 3013,
+      "sha256": "5629e82abf97b5a3ff57705115357991c6f08ef2b41f2df8699c2e88b812f531"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/AuthenticationTransaction.md",
+      "bytes": 5384,
+      "sha256": "cc630976e34e8717736bd9ac5f95d79cfb6f0d291e020e80bf45b1a01fc861c8"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/AuthenticationTransactionError.md",
+      "bytes": 3296,
+      "sha256": "ea922eae904a5cab25d0f226a135a554278219c2831eeb066db04e56961812dd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/CookieSessionTransport.md",
+      "bytes": 931,
+      "sha256": "a7e5c9e78ce3576de48f278c69d334bffffbb47a49510e565a230af11df7eb59"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/IdTokenValidationError.md",
+      "bytes": 3010,
+      "sha256": "5bd47b747dcfc61f6f4104767889ac45bce5108ecb21b8bc8450ba5ecbe36512"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/IdTokenVerifier.md",
+      "bytes": 734,
+      "sha256": "9835c46b565ff68ddd6573da49e6fae3cde2e76bf9bbc9879a46d781518be4cf"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/IdentityManagementResponseError.md",
+      "bytes": 3063,
+      "sha256": "87b0fb7485449b18027130d883f184bb0e5fbd7826c17c7c8d8bc0abda432257"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/InvitationError.md",
+      "bytes": 3075,
+      "sha256": "2166dbb1f7d128965721853b6cf30b48eba1582c944c9c52e79cc98e1c9efd13"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/InvitationJourneyClient.md",
+      "bytes": 8233,
+      "sha256": "11658bcc96d77beda83b35839b4e3808b2a81ab9d38c1d1c05a2fcefec491ff0"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/classes/JwtVerifier.md",
       "bytes": 830,
       "sha256": "de528e2bcd19678b71d09754c04927273588d37b94243806ca68470bb1511129"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/MfaOperationResponseError.md",
+      "bytes": 3022,
+      "sha256": "a5ea4443ac035cb4d073a9ce28db4776bc097dc59aaff77b181eb813f5f64337"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/PendingAuthorizationStore.md",
+      "bytes": 1481,
+      "sha256": "a4af58c2efc879bf6730e7b657ee43dfffa84f0008371a1ce4203eb65bb3cffc"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/ServerSession.md",
+      "bytes": 3876,
+      "sha256": "9022178497734626cb03d352c426955ab79122548ee555071fa3f25d21f5c008"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/SessionInvalidatedError.md",
+      "bytes": 3089,
+      "sha256": "e89b02207689b09021498f2fa3339d59e3175dda4b2ccad56837e48303033d39"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/SessionInvitationJourneyClient.md",
+      "bytes": 9145,
+      "sha256": "798226cb726593792de55e1e2e79ac4a53e5215aba0a1b5a7abcf8fd1a78ca20"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/SessionLifecycle.md",
+      "bytes": 1634,
+      "sha256": "e17f217dd3c6567338b2724f60cd4dfa179618a4f0a83a5f79669826f880d509"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/SessionLogin.md",
+      "bytes": 3603,
+      "sha256": "5a0e49b1aa7d0adec215194dd067147d1466383007260fd47e5ad987abaf3f6a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/SessionTransportError.md",
+      "bytes": 3250,
+      "sha256": "3140356362f253b1ca9d0537913faab6e874bd865dc977030fe3cd119458ece8"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/UnsupportedOperationError.md",
+      "bytes": 3025,
+      "sha256": "2d74ab4322bf2ce6c3e19fe358be59b116a3aeba968f52500afb55f4d81105e3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/authorizationCallback.md",
+      "bytes": 400,
+      "sha256": "f7dabd44c402354717c0b6400bb16dcdfceb344db4ae63aac827ab8626ad81a0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/authorizationRandom.md",
+      "bytes": 256,
+      "sha256": "07cb2cce1ef213b47c6c1717b4f4fb1357326f3f868e81d9c4c1bb4675314e40"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/consumeInvitationContinuation.md",
+      "bytes": 531,
+      "sha256": "0da3b13aac34b29b355f500b23b47e12afb9321b25913067cc833f418b47f6a7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/createMfaOperationRequestId.md",
+      "bytes": 362,
+      "sha256": "6f41cbd4dc8be17cebba2486fd6264a6142d3897f5d53ee0500a0b492f86963a"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/functions/fromAuthority.md",
@@ -95,14 +205,229 @@
       "sha256": "b99e21d395d8df0565bc3263ac54682363672764ec95e321e8b000977c70799a"
     },
     {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/mfaOperationReference.md",
+      "bytes": 383,
+      "sha256": "a86e382d45cbcd1417a2c278566132e0bed4d73f3b48f38185076a702f0ee7ec"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseAuthCapabilities.md",
+      "bytes": 485,
+      "sha256": "c30850b8ac5445352a3593e08ae61bd51a1fe56400a10f2d91a2c95e99ab700a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseCurrentUser.md",
+      "bytes": 365,
+      "sha256": "ac269143f76849ae18e636d82c7854d72e513eebb91e241e94657a753bd3baa0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseDefaultLogin.md",
+      "bytes": 364,
+      "sha256": "41ef799d0adb7a567434cdbad77291913248e98e5c6d0c951b27fbda437f480a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseIdentifierActions.md",
+      "bytes": 641,
+      "sha256": "018965df439b2e96f0b2efa7784e9a7457532d039d309eabba0fe5b0df9594b2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseIdentifierManagement.md",
+      "bytes": 428,
+      "sha256": "d04b8770cb265d6501e4d11717686552f3b01ba19105a5b023ad15ad75503483"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseIdentifierManagementCapability.md",
+      "bytes": 498,
+      "sha256": "cc3b0cbbe333f63af88fc74d190903bc5f9a3297eb197ee33bcbc29da5e489b7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseIdentifierRestrictions.md",
+      "bytes": 524,
+      "sha256": "cad3b3dafcdcdb12774551cc8b1cb9ce3798511a8b0a99bb0809984aab7adbf7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseIdentityProviderTarget.md",
+      "bytes": 563,
+      "sha256": "a131a1e840b06988c72111d5e512972c9252a27a73c48f86d86ab6162ef32014"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseInvitationAuthentication.md",
+      "bytes": 456,
+      "sha256": "1b10da44ffabdf0ed8ee78bf80d46f8a8781f028c66394f90ebc62e39a108bac"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseInvitationEnrollment.md",
+      "bytes": 428,
+      "sha256": "7711b7022f278ad2187983ad4f69460cb5b93d471dc8909a9f6daa906f8c4538"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseInvitationEnrollmentBegin.md",
+      "bytes": 463,
+      "sha256": "a15dc6a11379db9a110a21f9bbd221397ffc30ca1fe474fdcfe0d911040f697b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseInvitationJourney.md",
+      "bytes": 407,
+      "sha256": "bc0b5f8832029a77b4a7b6a3462256b9d6c2d355231f8b55f17f93a8e726746e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseInvitationRegistration.md",
+      "bytes": 442,
+      "sha256": "d59a449102a2fffdd5bd9b2dc7e7f3bbbb1618a01ab20c5bb3e0cf3f44508406"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaCapabilities.md",
+      "bytes": 393,
+      "sha256": "c523419b3980e7e1cc2a05004bcf94376baf89d961264e352c607baa475117b9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaChallengeResult.md",
+      "bytes": 550,
+      "sha256": "b7f8d8a1e6559512cdca99bb2f4f5de90469df7c0368b05750224b64c044a590"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaCompletionResult.md",
+      "bytes": 521,
+      "sha256": "3a0329a955149ba37d95d93e9056cdc1d1da6ae30ad8a715a06424e243f9e993"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaOperation.md",
+      "bytes": 472,
+      "sha256": "6c1a1fbb7b414913521a9b139d8c561302b1bc8b63e79e7902e94733906f4e2b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaProofOption.md",
+      "bytes": 468,
+      "sha256": "65a0311f1644533b9832d4316e92e49fd082f6866206ad79a82a7ef718090fa5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaProviderAuthorization.md",
+      "bytes": 492,
+      "sha256": "c00b5b2fe0a51e1d2e062de211e3661b4f95929e672f1f6499a3a47fa3a2f4a0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaRecoveryCodes.md",
+      "bytes": 400,
+      "sha256": "37d4eb1ed52c7b100f6286aa04f4e6bbddab5401be64d6d14640137ccd3a73e3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaStepUpResult.md",
+      "bytes": 529,
+      "sha256": "2670fa6df550fe82ef00ad38db69bbcd30c8be1d78fe5ab29294da0b45f31853"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaTotpBeginResult.md",
+      "bytes": 514,
+      "sha256": "27060773d0e996ecd73b8ce214047facc07dadad6968f635be9cae2144a67f76"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseMfaWebAuthnStartResult.md",
+      "bytes": 578,
+      "sha256": "e421d0884862b3e6e49af05636459443d85716f36b9ea82a7bd58604cadbbca3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parsePasswordIdentifierKinds.md",
+      "bytes": 387,
+      "sha256": "e2da044e8f5f42279ff33d99c80572a52282cf19651f5553905dde6d7fc162a2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseServerSession.md",
+      "bytes": 399,
+      "sha256": "c97409a3957dd6077e9233ae5f60846c8b7bb8d45058f4d3f78fbc1ce425c829"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/parseSignupIdentifierKinds.md",
+      "bytes": 431,
+      "sha256": "9f552e8f1241305af5f1e5660892a566b412da4dd5b26488069bb9e3aee01a98"
+    },
+    {
       "path": "docs/sdk/javascript/reference/generated/core/index/functions/permKey.md",
       "bytes": 407,
       "sha256": "72748f023e4623f02825807660a39d741376f777b4f03a5d9330184eb4d83b3c"
     },
     {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/providerAuthorization.md",
+      "bytes": 1139,
+      "sha256": "177d17d28c2ccb0b2e6f92f94beb456f4916e67ca2cc685942ce9c8f58e34390"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/sessionRecord.md",
+      "bytes": 328,
+      "sha256": "d472e5880f08dc1c89baa5c571419518531010e89f8d4a71cca64a4b3668a243"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/functions/sessionText.md",
+      "bytes": 276,
+      "sha256": "8cec220a982f21d1caed30db352096af29956ea8ef06b28e22748d9907408cb4"
+    },
+    {
       "path": "docs/sdk/javascript/reference/generated/core/index/functions/toAuthority.md",
       "bytes": 373,
       "sha256": "1df847e1e2846f0dca21999d1bccea9d7da673a65b6c725142c1ec0efa431891"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AccountIdentifier.md",
+      "bytes": 958,
+      "sha256": "4509ac350243d1fa72110c8cff9bca1a9649af950afcd0d586b97096325d83f7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AccountIdentifiers.md",
+      "bytes": 433,
+      "sha256": "c0dc268f5501e46a27a7f406e64e45f5748127bac6830f8845513308e36e17a7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AccountLoginMethods.md",
+      "bytes": 337,
+      "sha256": "c7d98c33d0efb7a26eb7f568c18fa31efa1946391786e599625147b605c2f8ad"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AuthCapabilities.md",
+      "bytes": 882,
+      "sha256": "e9fb084f9f0e148207962b158ef8308c808242f357086a7bdfe5c89385d18a3e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AuthenticationChallenge.md",
+      "bytes": 495,
+      "sha256": "0efd3a5e05d11d1ea920e2ab4e3b85a0b2f254167cc05d79e1966dca8ef6ac77"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AuthenticationContext.md",
+      "bytes": 1145,
+      "sha256": "b811b964df8c5a0712fec6f8711707ae4abbe42ad636e7c841208fda430eb2e7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AuthenticationTokens.md",
+      "bytes": 545,
+      "sha256": "03a444b8cfeae544e542cff922cd5e7f4c8100a1d309453b45ec034359dc4d73"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AuthenticationTransactionConfig.md",
+      "bytes": 641,
+      "sha256": "a2dc276643a924bd115ee4ecda873bb712b9a835d98f70ed5d962053c53e5614"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AuthenticationView.md",
+      "bytes": 597,
+      "sha256": "f9c498b4ff530f344c4d4f5f5e0e75f18d1aa0dde4beb806fd6e705f7c270967"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/AuthorizeIdentityOperation.md",
+      "bytes": 549,
+      "sha256": "63e242184a00aa77d9e31d2076bd5017849c1f836c257e098cfb07cdc58d01ac"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/CompleteIdentityOperation.md",
+      "bytes": 431,
+      "sha256": "0c759c91ee671d6e410b45a0cc3bc445d4e051772f5c3d72f0fc0b4ba325809b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/CurrentUser.md",
+      "bytes": 604,
+      "sha256": "b49f2a93532cfb5c4d39954eeb9a5f9bba3c88b6ab9c054af8788c09c5f15c38"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/DefaultLogin.md",
+      "bytes": 323,
+      "sha256": "83e3cd5fa708994caf20542ada8a5bc72b62b0aa4fb56f8d2cb6f64915d6a82d"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IamBrowserConfig.md",
@@ -113,6 +438,171 @@
       "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IamJwtPayload.md",
       "bytes": 2261,
       "sha256": "3fea8949481b65f544aa8a96e6699b50f85fe5e7430bd20bb895da89e7183fad"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IdentifierManagement.md",
+      "bytes": 558,
+      "sha256": "c1d006e069dfd0dc4bc45085297b28e3e224a02a3aeb7922b0ac7d23c24f74b1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IdentifierManagementCapability.md",
+      "bytes": 613,
+      "sha256": "d4132c1b6cccf9a30e3cd1548d3fa76e8a67ffed059efbcdfd3ceffd9a74a387"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IdentifierMethods.md",
+      "bytes": 317,
+      "sha256": "97d9987e7daa2bd08b26375b4ba0b4de7a1dc3aca38974fe2436dccdf958d74e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IdentifierPurposeRestrictions.md",
+      "bytes": 401,
+      "sha256": "c941e03de3efbf288c9e9475f8f08fe1008b1397943224022985ac19bf2726aa"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IdentifierRestrictions.md",
+      "bytes": 408,
+      "sha256": "bd32f69c46358c26f46e78f71853a623b246a70515a9a327f734dc1bceb5a78b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IdentityOperation.md",
+      "bytes": 1406,
+      "sha256": "5027d5aeb81ca91dd3b494d0467046ef174605f9373f4c70efe3e4a21295c1ac"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IdentityProviderAuthorization.md",
+      "bytes": 391,
+      "sha256": "df022a0be2e2927f44ae9619d965cf1bb12c33e245d589a70796fcef8e918aa7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/IdentityProviderTarget.md",
+      "bytes": 440,
+      "sha256": "42044f1a42b1691ca253246f69067ec0499d74e78bf8701b30e326b8bb975d0b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/InvitationAuthMethod.md",
+      "bytes": 614,
+      "sha256": "feeb84e4d3a814f9919ac634fdf0cc0b6ffde45d1442fb150563f6180f3d823e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/InvitationAuthProvider.md",
+      "bytes": 763,
+      "sha256": "504e53fb5e8f99c70eea99ce2ef98f5dcec2ea1c872ab52950a9d946232bdb36"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/InvitationAuthentication.md",
+      "bytes": 523,
+      "sha256": "f71833f9b18cc16b67696705d64010f078e5e896b46e2d34a13b6815f00e9f96"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/InvitationClientConfig.md",
+      "bytes": 660,
+      "sha256": "9ce17319d932b56d5e1d67b9c7f646bf3fb4824012abef7874a627a8597cd274"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/InvitationConfirm.md",
+      "bytes": 342,
+      "sha256": "bb2c861b85a1031b3758eb72ffc41a161b166707d88883dce014add2567e0350"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/InvitationEnrollment.md",
+      "bytes": 766,
+      "sha256": "26508b37d276ab6fca0d747e5c1a56499cd32278a3465c704638b3b336fad790"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/InvitationEnrollmentBegin.md",
+      "bytes": 719,
+      "sha256": "12f621fc0dda33a8b4f500d1fc763470dea87f5fb9a200530c1b488e470ced33"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/InvitationJourney.md",
+      "bytes": 1135,
+      "sha256": "cbff42a71ee1467edaf5ebabcd3512244ac1e0781362e381cbe300b4e2d14e46"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/InvitationRegistration.md",
+      "bytes": 473,
+      "sha256": "220fc5b275e825fd438cab35f301b46283f07f6fce5da10e4f01977016a30796"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/LoginMethod.md",
+      "bytes": 862,
+      "sha256": "de01897497b42b284388801752a5676128313f3f788784c2bccdab1485a872c9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaActionCapability.md",
+      "bytes": 523,
+      "sha256": "adbae09a1ecbd6155504aee7891c6daea116780ddeacb00af71b6fe3310e8857"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaCapabilities.md",
+      "bytes": 549,
+      "sha256": "d4268e939ea6436a36d46af1711ab98e1fbaf1f3c838e646deb27e647750a9b4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaCompletionResult.md",
+      "bytes": 461,
+      "sha256": "86f6decb0f816ae1d5408333d72d1d9ec17cccf5c1b3bc09e34d1178cc8f0ea8"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaOperation.md",
+      "bytes": 1219,
+      "sha256": "6e23523211736e1412f3493bdb2203075022fb1a5c03f609733e26869940a247"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaOperationAuthorizeInput.md",
+      "bytes": 263,
+      "sha256": "5df78027f098c70cc02541a54fd81eaa1b528870f8c1edcc1225097e8268ec90"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaOperationChallengeResult.md",
+      "bytes": 404,
+      "sha256": "118956c2ce734b6ebfa4aa5795e57f44f2b1bf256ce7c8dc5d808edbfb4bdea1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaOperationClient.md",
+      "bytes": 4402,
+      "sha256": "7b91982d749b3e51c3797701fbb9bfc84c08828b1a0acf3613a303b4978e3909"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaOperationProviderAuthorization.md",
+      "bytes": 375,
+      "sha256": "8848476c11c368192c581227f12f62a33db3769b9862391bd545256b147c86e3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaOperationResult.md",
+      "bytes": 566,
+      "sha256": "e040e70ad56f33292f4dd4591877fd1dc4707367505ccdf1ab235cae96afb461"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaOperationStepUpResult.md",
+      "bytes": 377,
+      "sha256": "a050e85ea0dc6d2e438922527df45b4b9fcc8711dd126c89eba89549bc2cfa89"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaOperationWebAuthnStartResult.md",
+      "bytes": 324,
+      "sha256": "02bff418f72662ab5a70832b24e30571771994068b0f1217c143f4d8dd6ed446"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaRecoveryCodes.md",
+      "bytes": 278,
+      "sha256": "8525c5a5a51e038717a1e720ae0abeba9997e37be7c22ebfaa249fb1eb3c9d1e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaTotpBeginResult.md",
+      "bytes": 447,
+      "sha256": "b89d4aba43b4005d59ee23eac89f9cd1f54ad80ddec05b6446a29ffc6a30dae0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/MfaTotpMaterial.md",
+      "bytes": 325,
+      "sha256": "eb86956d81d9c7cc139b5fb05636447d7acb7d2ee813d23a1b65221b849ba270"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/PendingAuthorization.md",
+      "bytes": 880,
+      "sha256": "19053ab1ff681b4bd2d8ee93024247a20bddebc30086a85f81eb82198beffdcf"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/PermissionDefinition.md",
@@ -130,6 +620,21 @@
       "sha256": "3c00c7419b4ddcb5f98fec1d699c83be2c108dade86e2530c85c0770c70f0cc4"
     },
     {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/PhoneIdentifierRestriction.md",
+      "bytes": 337,
+      "sha256": "90e16f17e92d0045a81be2ba38d903daf2294d316e52b7397ede649b5f99f2aa"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/RecoveryOperation.md",
+      "bytes": 640,
+      "sha256": "52f542412dfe97a66d17041fc02fd735e9ded7598312f9b20a7f73653f00835d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/RegistrationOperation.md",
+      "bytes": 585,
+      "sha256": "e97a127ae5212e27af882c79fdd76e01870c64e01295a1b73387aeb8b7562172"
+    },
+    {
       "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/RequestPasswordResetInput.md",
       "bytes": 371,
       "sha256": "c24d7e74043f41a3bb5d6db74784982d4116d73bd3a8e4d72094502446af7a5e"
@@ -140,9 +645,214 @@
       "sha256": "93746fac6c9cdccfe7802d7a40681605e02e05de5d5a2ebe7427d13c1c7ec2e2"
     },
     {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/SessionTransport.md",
+      "bytes": 484,
+      "sha256": "2cab167b44826818ba2b764156b640eecc6079bb4592b5d50576556843b784e6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/interfaces/StartRegistration.md",
+      "bytes": 683,
+      "sha256": "28bf1718e8d155519247b4ae8f50ce45eafc9a9ad3c6c2ec8c46209c7ca834ca"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/AuthenticationFlow.md",
+      "bytes": 2257,
+      "sha256": "0f970317a4018a045d93bba8523a2eb89e32249005742f5aed29d02e5a25210d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/CompleteRecovery.md",
+      "bytes": 382,
+      "sha256": "d0985de5d572ff6bbebcf301841cb1972409c8b637c337282eb66aa843709cb9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/CreateIdentityOperation.md",
+      "bytes": 382,
+      "sha256": "2cedfe5b10c6f31d5845668ab60f425661d3c280969842939b453f815e1954c8"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/IdentifierManagementAction.md",
+      "bytes": 320,
+      "sha256": "5626511e9be3dcd2092e3edcbb151359a58c9e402d28c8159fa0e4e263cede8b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/IdentifierManagementDenial.md",
+      "bytes": 611,
+      "sha256": "fcf90bcd276000261401f30ce6f5c34e48e93fcd966180e7968fbe7b6feeeb99"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/IdentifierManagementRequirement.md",
+      "bytes": 461,
+      "sha256": "0065b28f8b01df01b6e24260ea88348d8dd3b8c8c20e1154411d694d9b4b9798"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/IdentityOperationState.md",
+      "bytes": 353,
+      "sha256": "df0ac9fd025b58f7255af5b625344be41b9c1e6caa5c6cc51bfd279cffde4618"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/IdentityProofPurpose.md",
+      "bytes": 299,
+      "sha256": "8888d2e96cfe2a89557d82f493daf3a03394f49098b154b4c367143167f1e28d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/InvitationEnrollmentCompletion.md",
+      "bytes": 438,
+      "sha256": "d95d6973421f396779005ad65f5d1fa43c7ee6c4b2e187939040c65a15060296"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/InvitationEnrollmentMethod.md",
+      "bytes": 270,
+      "sha256": "5ba5ec02ad07d958413f86489d99b6decaed8d11b41cce1bec0fca51407d382a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/InvitationJourneyApi.md",
+      "bytes": 757,
+      "sha256": "dadb5a81d0ca3c60389a69be4291068476213caef60945a390e758cab4ffc19f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/InvitationRegistrationInput.md",
+      "bytes": 446,
+      "sha256": "5b4025a4cbb366762bf62b0ec336ab62d3e6a8bae465c64b5d521c2763d903aa"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/InvitationSessionRequest.md",
+      "bytes": 2235,
+      "sha256": "8cd0f109f92bfdc433461d874e56757f75e4c1f0f2e5bd671094e1a44f954819"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/InvitationState.md",
+      "bytes": 382,
+      "sha256": "2794f115e997e075f3500613faf581cfaf67289c98571e6d6ee6f06704ba69e4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/LoginIdentifier.md",
+      "bytes": 422,
+      "sha256": "2738d3c891dfa0de8db50151849d8cf79832aa8e10be1bbfc4070cc2920d4ef6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/LoginView.md",
+      "bytes": 283,
+      "sha256": "c258c6d2641d55502401254af4d483ad3f496d78c70ea096ca7c351a6dacc717"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaDelivery.md",
+      "bytes": 261,
+      "sha256": "760bd87035e6b5397d8ca4b0d31a3dbe775c6b7aee855b8d37f51a07cc45e2d7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaOperationMode.md",
+      "bytes": 254,
+      "sha256": "5ca45a32be40287935ad106f317aa1e5b3192446875d58fe76250743aaf9d375"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaOperationProofMethod.md",
+      "bytes": 303,
+      "sha256": "c3e9d408ad251c9dbac413dc4cacfcd6c0a2efb019798599a3ff19e018d29604"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaOperationReauthentication.md",
+      "bytes": 381,
+      "sha256": "256eb73231198cfe4bf2ecb26c5ee0ff4dc3c914acbee61f3f9501d5d9b508fc"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaOperationState.md",
+      "bytes": 329,
+      "sha256": "5bdde1bc4fe6dbf2d8fd8287fa4ea7d5c60810a183fc3a0f52a89104635ef254"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaOperationType.md",
+      "bytes": 282,
+      "sha256": "d87257d178ccc7bc52105f25b687f3eabf0a0d65be44d8b9a637d952c963eb81"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaProofMethod.md",
+      "bytes": 239,
+      "sha256": "91b99d61643346d705d74ac2ec8849b2dbd0776d2fbf946458ffb3bf6b76e21b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaProofOption.md",
+      "bytes": 873,
+      "sha256": "4003b9a60329d05be88042f044e279b56c501ac922f39e1cdbdf0dd922d0ead5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaProofRequirement.md",
+      "bytes": 275,
+      "sha256": "81ae3376440d48b1147b0c341593e9e3d20cf132c0c3214b5a5419ef4d13c48e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaSessionImpact.md",
+      "bytes": 283,
+      "sha256": "9422a4247b095e3ffcb1c858d467b642ce6afa82e1a07ec3e6f0537987832633"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/MfaStepUpMethod.md",
+      "bytes": 237,
+      "sha256": "d76de3e7bbd9fb06c2247f9ef5f1f803112464d82b2ca83973151cbf2b5fac95"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/OperationReauthentication.md",
+      "bytes": 371,
+      "sha256": "2d44a50c67864a828b018057918f2ecf8f4f363262ba881dd7c5fc139789cbc8"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/PasswordIdentifierKind.md",
+      "bytes": 285,
+      "sha256": "5c8db92297c0d7583a511728346c7c30a600e3d87aba9ed95f90a374d894152c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/PrimaryAuthentication.md",
+      "bytes": 477,
+      "sha256": "6e73c87fb9430d69c09e004b70b6002a7ced0c39d104aae73c5e8289c24f04fa"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/PrimaryProofMethod.md",
+      "bytes": 274,
+      "sha256": "ad4b96ecdff5509e9d549344ffdf3294eb4132ae1627c860cea2bd69ed9f73a6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/ProviderRegistrationProof.md",
+      "bytes": 482,
+      "sha256": "c5a5dac18089312b57b774e03289d319a8ed5ef9a3d61c2aa1e5c45544186bf4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/RegistrationIdentifier.md",
+      "bytes": 398,
+      "sha256": "034a79144997d9de44be631d10fec96e27fc6e21a45a37d23bed3a4b8af97aa4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/ServerSessionView.md",
+      "bytes": 696,
+      "sha256": "4847a39abf178d7c2fac983afda785d588a9c9d1417e837b76ff5c88c98032eb"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/SessionInvalidationReason.md",
+      "bytes": 387,
+      "sha256": "7fda01aab205b14ca697348ea59b3f9c8f994ba89724235ae5ce0db70d50832d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/SessionRequest.md",
+      "bytes": 5640,
+      "sha256": "b54b57cac4f317b5e52246ec171ab0fe71acc3627ad5d4cb997a11262d2cd43d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/SignupIdentifierKind.md",
+      "bytes": 253,
+      "sha256": "87d62abc842226c95e63128f8ecb615b9b9b742d99fd77513e087cf4911f1841"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/type-aliases/TargetProofMethod.md",
+      "bytes": 249,
+      "sha256": "bbb26f0c0abc4beef2d3087b0da1c5e3d0abe629e391be2ee11848f0e1cca43e"
+    },
+    {
       "path": "docs/sdk/javascript/reference/generated/core/server/README.md",
-      "bytes": 8434,
-      "sha256": "fe649b5d7863b8e2118410b2707c42d5c750cd5241b59ef7a9a3991b21f31711"
+      "bytes": 9827,
+      "sha256": "5c9cba474f5fca385e65e23d81c3f98f481a22acc3d6ffba416f24774e4fc253"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/classes/ConfidentialInvitationClient.md",
+      "bytes": 13511,
+      "sha256": "8d6697a26d190a0cbbe2a78443f4947358f5f85843381e4ea0d21315460c4b8e"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/HttpPermissionResolver.md",
@@ -151,8 +861,13 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/IamClient.md",
-      "bytes": 1965,
-      "sha256": "d610e79fc87a8e8d8f044ce392f322475fdc1c5e669c77ff690bbf47a9d14d4c"
+      "bytes": 2293,
+      "sha256": "580d625b13c4fb2d28eb36fdc8070ae2c95473b42ff6663e2d9dac90905df062"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/classes/InvitationBff.md",
+      "bytes": 833,
+      "sha256": "2b1af1a198b6d4ac2bf51528102a00fa77bd58fd06d23a75c7147c8f82ebc95b"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/PermissionManifestClient.md",
@@ -161,23 +876,33 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/PermissionManifestError.md",
-      "bytes": 1495,
-      "sha256": "2dd760f42054c559137cc5331cef87b4580f9b58176ff889fb774162b0a8cdd4"
+      "bytes": 3762,
+      "sha256": "eb56ff247119b2ef1dc2f819fbb6202fb936f246542f9872b1be149835f21ccb"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/PortalOpenApiClient.md",
-      "bytes": 15262,
-      "sha256": "204f16c7c8ac139a9943c0929521a68dedc7bc1ee1ab915b2352b96c855c2b09"
+      "bytes": 16551,
+      "sha256": "dbfb408ed9f89309d6fcf7a55576e12d9d3bfb5ceb66512501daa0f025d3bd76"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/PortalOpenApiError.md",
-      "bytes": 1050,
-      "sha256": "c635bc8b769da48e2a3d48be06be2d3d928052d568f7aa025e02ffa724eb5962"
+      "bytes": 3324,
+      "sha256": "f3e5d4d95d9de0069c0a53bf7e575f041c40b9c5ee6a9fe614d02bd2fd4e5a21"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/PortalOpenApiTokenError.md",
-      "bytes": 973,
-      "sha256": "01e5d68275c03c8ae738be479520d64216cc0c5bf5f78499566e86d7dfe11d9d"
+      "bytes": 3247,
+      "sha256": "bbdd3ca6533989f2bc9164f7571917e6e8cc3208f2a3d2816b4b730c8e6cfbe9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/classes/WebAuthClient.md",
+      "bytes": 2044,
+      "sha256": "4088d9001cf68074269959fe754d93a75fceaecdf00c5feef80d15448af8f280"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/classes/WebAuthError.md",
+      "bytes": 3293,
+      "sha256": "d0f03902d7f55c8d5f22940d005abf95f6c35351bc207a440a0a8981a86a00a9"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/functions/parseRolesClaim.md",
@@ -246,8 +971,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/CreatedRegistrationGrant.md",
-      "bytes": 461,
-      "sha256": "524e17848fcffaa7f7b9eb7ae86a52ac4184ee60548c4057ab5493618785c264"
+      "bytes": 621,
+      "sha256": "531a1adc74163f8ddd03829010fff58820b18efe293af6adf3c2be484209bb0e"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/IamSdkConfig.md",
@@ -263,6 +988,16 @@
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/IfMatchOptions.md",
       "bytes": 251,
       "sha256": "0af484e3caf76a2e85fe8bd6d890556389061d24d0da832681fbb99722a86b5b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/InvitationBffConfig.md",
+      "bytes": 834,
+      "sha256": "7bd01f79ed7efe86d235b1e260a02d29dfa8a80caf12c79c3cf337b4e53146d6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/InvitationBffSession.md",
+      "bytes": 777,
+      "sha256": "bdbfdce3cf97423fbbe9535b06aa630c1ea84d85f3689205785a6b2ade47fe95"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/Organization.md",
@@ -401,8 +1136,18 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/RegistrationGrant.md",
-      "bytes": 1043,
-      "sha256": "369ae2f33a092bad130102d13689f9484f6b01d95249fabf7e663b8fac5c4d3f"
+      "bytes": 1086,
+      "sha256": "617926b125665b5c0d1f9a8798e6b395a98ca8ee2c77164dcd306dc18a151a63"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/RegistrationGrantDelivery.md",
+      "bytes": 881,
+      "sha256": "7f36e8a9d64d3bea5947d381a6ff70950a80382e0281f3fb8d51c984d3139fc0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/RegistrationGrantDeliveryInput.md",
+      "bytes": 383,
+      "sha256": "4a377ae1457e5e80debf948fa50e4601a0766c6b60b6dca7e1af091e4fe16efa"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/RegistrationGrantListOptions.md",
@@ -490,6 +1235,71 @@
       "sha256": "12ff5efc93e2a0c64a5cf78ffe1389a0ae91b838e1c06ffa80fb67aa04597d3c"
     },
     {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthBeginLoginResult.md",
+      "bytes": 376,
+      "sha256": "c83c6c076af64dc5920ed2e49517a2ad3bd4620a57ef7a375cb91c74351b7286"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthCallbackInput.md",
+      "bytes": 490,
+      "sha256": "a2bba4eb5e71eb894f239f2b17e4d4393573e922dd2b5f1464b32ba54294bb9a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthCallbackResult.md",
+      "bytes": 379,
+      "sha256": "6f48514d71cfbb2f6b1068ac0419811a8c17b418d514483310e504a039bf0d7c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthClientConfig.md",
+      "bytes": 1866,
+      "sha256": "3bedc20d020af1688dfe38f805d75f5f2a088502806355f21c9bc3f904cb1f76"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthLogoutInput.md",
+      "bytes": 263,
+      "sha256": "3cf28b25aa7f3539d4c91d7af8421639eaabe257d4ab073f480d8dc97422c47c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthLogoutResult.md",
+      "bytes": 256,
+      "sha256": "e3cff7564ca98b9440ff0bbccafacc69f736c24fdd327b1faf76971b4724af51"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthRefreshInput.md",
+      "bytes": 252,
+      "sha256": "c849b6861bdce1862f1369c81bd16ff05ea1d8cf6cf871375961b9108e11d33c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthRefreshResult.md",
+      "bytes": 279,
+      "sha256": "509eb0d1304955256d6ce9d6c31f4c1b1f86c4962a89c21b0d210bc7a159b4e4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthSession.md",
+      "bytes": 453,
+      "sha256": "974a038a3f10a0f52462d3d2a9960542729c88fe37741f0beb588a67e233575f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthSessionStore.md",
+      "bytes": 1067,
+      "sha256": "a82a6b984dd9b5ae5a67bc8353e0ed6006c5d425203172958042450b5c7aa2fc"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthTokenSet.md",
+      "bytes": 505,
+      "sha256": "a9bcfb11a0bcab54f0e6f2c8826d14379fb1ccec4ca5341885e62ded4e52452c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthTransaction.md",
+      "bytes": 499,
+      "sha256": "04cf31b308f666b011a979d2f9f779d225e9a80fb853c75ab1e21eb2b02f8bbb"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthTransactionStore.md",
+      "bytes": 700,
+      "sha256": "257d2362034c2aa055a7e3f290159dcbe81279dce83a26a952433ef7946673a9"
+    },
+    {
       "path": "docs/sdk/javascript/reference/generated/core/server/type-aliases/CreateRegistrationGrantType.md",
       "bytes": 283,
       "sha256": "002ada5f06c9e0994a245e96e9fa80b40f60ed80f2abbdbc16b43806b3e32a75"
@@ -548,6 +1358,11 @@
       "path": "docs/sdk/javascript/reference/generated/core/server/type-aliases/RegistrationGrantType.md",
       "bytes": 287,
       "sha256": "c7ef0eb2ef48b70104bf33fa500042008d5cbe038be6deb9ab0fa7df04b49934"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/type-aliases/WebAuthErrorCode.md",
+      "bytes": 632,
+      "sha256": "116607d1503d075418189dc22e8ab96d6da376b50e22b339dde31358e238a2c5"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/variables/ORGANIZATIONS_READ_SCOPE.md",
@@ -651,8 +1466,13 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/express/README.md",
-      "bytes": 232,
-      "sha256": "8e9a9b5a6645f11a83613a08dab3283255a2ce3355cadb692082f560505c36fc"
+      "bytes": 447,
+      "sha256": "b328ad7454fd71c25a01ac7398b6fa54922aa5ed7088cf525b32b1bdb31a16f4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/functions/createWebAuth.md",
+      "bytes": 404,
+      "sha256": "0f9ba1dbda397a0f77dc394aa92159c6ede5bfd6940b0311d65600296d8e3c62"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/express/functions/iamAuth.md",
@@ -668,6 +1488,21 @@
       "path": "docs/sdk/javascript/reference/generated/express/interfaces/IamRequest.md",
       "bytes": 349,
       "sha256": "53b14bd1852beaa26c005d66179cc76c558f8c7db9bcfd51e6ccbb4ad6bbc676"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/interfaces/WebAuthExpressConfig.md",
+      "bytes": 3129,
+      "sha256": "8c81325aef8b37508d1272c57f9d0ade8200dd4cf1bf7533744cb09dcf98dc6e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/interfaces/WebAuthHandlers.md",
+      "bytes": 485,
+      "sha256": "4da200b5dbdc6dcda868861d32837fa545fe7d2613e2b11c3172869249899f2f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/interfaces/WebAuthSessionView.md",
+      "bytes": 309,
+      "sha256": "ec6977a1f91a136eed41ffdcc9cca93de51f5567ee38122fbeb132aba1957030"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/nestjs/README.md",
@@ -721,968 +1556,1773 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/README.md",
-      "bytes": 149,
-      "sha256": "b4055a5a00e8df3efbea662f44f1bc710395a469e9a8bf6693e14c178f582c00"
+      "bytes": 21546,
+      "sha256": "4265bd49e270936a96b5801f373bf4680aecac7ea305478710f1987b63dade2a"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/README.md",
-      "bytes": 11633,
-      "sha256": "79bb0a16cc521029c92a876de601d4380aa6794b496468dd4771d8f0140fbb9d"
+      "path": "docs/sdk/javascript/reference/generated/react/classes/AccountSecurityOperations.md",
+      "bytes": 7928,
+      "sha256": "23fe2399f180080eff54151f96b8364e956eda1a9553b3de400947d413e5dfe7"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/classes/IamApiError.md",
-      "bytes": 1024,
-      "sha256": "fc1776b12d245a5ff57b67418f23536ef5e566ed85ed004f8eb91d3b91ed8443"
+      "path": "docs/sdk/javascript/reference/generated/react/classes/AccountSecurityStore.md",
+      "bytes": 4838,
+      "sha256": "02e3930574ac6303ba20b0d975bf2de4b538ca17260a2da96bbe9b93f01b3ec9"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/classes/IamConfigurationError.md",
-      "bytes": 779,
-      "sha256": "f4c01e7929bc7341b38da01fb4b3d440efa4df777d6902eff64d9b532b2efcde"
+      "path": "docs/sdk/javascript/reference/generated/react/classes/AuthCapabilitiesError.md",
+      "bytes": 4747,
+      "sha256": "44959f00d9d3817a6d62ce5dce7be06488a0e2b454cc9ee8df323820bc0e8f5f"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/classes/IamNetworkError.md",
-      "bytes": 749,
-      "sha256": "94394b8ea87df11b837a29630fd9ed0da28cd8247d1b0eccff8641a04dc66dd3"
+      "path": "docs/sdk/javascript/reference/generated/react/classes/AuthFlowStateError.md",
+      "bytes": 4779,
+      "sha256": "4795f605629260d0421e617e0829084118fb6efb448fc4a083f6c09c14a7a340"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/AccountCenter.md",
-      "bytes": 356,
-      "sha256": "69ddd17e922330dc4176671224a8791b1ab9c30565edcd329cd530ced3f16e55"
+      "path": "docs/sdk/javascript/reference/generated/react/classes/AuthProviderWindow.md",
+      "bytes": 1041,
+      "sha256": "0eba0777b737cf2138bb7e0b530d37e02d6d5005977c6e615d660ab959610c7e"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/AccountPermissionsPanel.md",
-      "bytes": 412,
-      "sha256": "f92db209e916410933121ad5aaa7204d1fe42a98f03453f5b9653b5687e4023a"
+      "path": "docs/sdk/javascript/reference/generated/react/classes/AuthenticationTransaction.md",
+      "bytes": 5339,
+      "sha256": "1ab7a3d19a2b82fd77eccda0d93b8c467b952761614d2d9aeb0ec3f4e092b79f"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/AccountProfilePanel.md",
-      "bytes": 392,
-      "sha256": "7c00846d72fdfe5ab7b5c4b70785046a2b789909079cd75d134cd85778309519"
+      "path": "docs/sdk/javascript/reference/generated/react/classes/AuthenticationTransactionError.md",
+      "bytes": 5030,
+      "sha256": "db3d0942cdb61a553c20546b4d81b80e3affef3ed0ab468818522f309eb9f406"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/AccountSessionsPanel.md",
-      "bytes": 397,
-      "sha256": "fa3ae30c336230b67920ee362d9a335fea8efc9171f53e0567099b272710d033"
+      "path": "docs/sdk/javascript/reference/generated/react/classes/BrandingFetchError.md",
+      "bytes": 4939,
+      "sha256": "918a24f68cbae6e37fc66f42d10a6512ea4cb92f4db951eea2316cddd4dd8fdb"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/AuthDialog.md",
-      "bytes": 437,
-      "sha256": "7a460911c0b9a5cc00d4ae1386023c7d727daf9c9df8a09f1956b4eaa87f5564"
+      "path": "docs/sdk/javascript/reference/generated/react/classes/CookieSessionTransport.md",
+      "bytes": 903,
+      "sha256": "1c264932f820b9678bf52c869ccc25e00c4371f03673361d08dddd1bcbf58db2"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/ConnectedAccounts.md",
+      "path": "docs/sdk/javascript/reference/generated/react/classes/IamApiError.md",
+      "bytes": 5030,
+      "sha256": "0043b79b04960d8d414c81a1c138269180655c641e9cb0bcea12453b4b5c3f9b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/IamConfigurationError.md",
+      "bytes": 4785,
+      "sha256": "2f06e9a3a46e2b935d0c9b41ee42e1eaac49f15303fe26213f3207d8906e4aa6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/IamNetworkError.md",
+      "bytes": 4755,
+      "sha256": "80b2d81bda85c4906b55f7315f49310339a112370f554d57fb09c72702ae7e61"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/IamTokenRefreshError.md",
+      "bytes": 5398,
+      "sha256": "4f9b006ae21581175a939d25ae1766e17e3698e137ae50cbba5d03535cd9c6a7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/IdTokenValidationError.md",
+      "bytes": 4744,
+      "sha256": "976501bb6c552438de302b5819a60c1cfd443aba5431c9b676c05d998e66e411"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/IdTokenVerifier.md",
+      "bytes": 706,
+      "sha256": "f09e982f5f6adde629a38e57ef69a36a2a3db6afdd6c9cc9c2567f941ce38488"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/IdentityClient.md",
+      "bytes": 10656,
+      "sha256": "e82c4dfc4cb1ebd60114dccf4cf9227dd08edea51d3a6c90fb229217715addfe"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/IdentityManagementResponseError.md",
+      "bytes": 4797,
+      "sha256": "a0a352aee5f3ca9e2e035efa1753807d4eba6919efe859d76a3b4a5914f0f255"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/IdentityOperationStore.md",
+      "bytes": 6322,
+      "sha256": "6a55ef6ad226dc31276a5377b43fff6ec7fbe9c29d088ec2ad9eb313906a37fd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/InvitationError.md",
+      "bytes": 4797,
+      "sha256": "817434a0dbad681119c7665fd61e01f7960f2d325b7fef738d5020b77c7a9879"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/InvitationJourneyClient.md",
+      "bytes": 8099,
+      "sha256": "0cc0a083cff165239b8ccf8ef668b256b616acda8f0f909736813d4de79c244d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/JwtVerifier.md",
+      "bytes": 759,
+      "sha256": "712c8f3f8bbf212df47c81dda35964b1fa5bedab273dba893ee24fceb927aaa4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/MfaOperationResponseError.md",
+      "bytes": 4719,
+      "sha256": "3ab76f960b0d58996851f0867ae879d69c8b3f39504608778e336838edd933a7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/OAuthClient.md",
+      "bytes": 16278,
+      "sha256": "b1f1ea01b027caccf0e867805140b42cb444ef25bc9ee5e7278c40c02aef1ac4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/PendingAuthorizationStore.md",
+      "bytes": 1453,
+      "sha256": "b1930e8e5131632759beba203141cebbe1d3d9a33aad7c4828be3e1f06f864a0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/PhoneIdentifierError.md",
+      "bytes": 4810,
+      "sha256": "48b4f816259748542e8a1d6a79da4ed95231999c84382fb26f80cbe7bebe9ffd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/ServerSession.md",
+      "bytes": 3836,
+      "sha256": "1d3abfdf3bea9c6d52dcd7bad2da7e0f10fdc17d78ec0fdf5c8043ab8dabf1ed"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/ServerSessionClient.md",
+      "bytes": 19310,
+      "sha256": "322b9f4d720b242e65ff0b0c9d8fdafc0594fc510705e5cbdba3ed5f4d66d63f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/SessionInvalidatedError.md",
+      "bytes": 4823,
+      "sha256": "98a723aee578607d64f3d5661ba41f1eb4448da7b715ec04ae9265f2db90f7a8"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/SessionInvitationJourneyClient.md",
+      "bytes": 10536,
+      "sha256": "4b51f7947cd6ad92ad5355d76902773b228a8d59ad9bf5ad68b831dfeb187131"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/SessionLifecycle.md",
+      "bytes": 1592,
+      "sha256": "bbd354286203e5c589d018359134f7a12feb75d9ccac8b1bebef9b478ab0b245"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/SessionLogin.md",
+      "bytes": 3652,
+      "sha256": "1bfb8be2c8c29e50aeb68c8d88b88a75f0f95a8fe8497002fba8560c349965cd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/SessionTransportError.md",
+      "bytes": 4972,
+      "sha256": "d6592066c01aa596d255257b3a56e1c4b4af23276225e389f9093c70afd89326"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/UnsupportedOperationError.md",
+      "bytes": 4759,
+      "sha256": "55013f85d9a487715a59a98a44842280d875384119bba7491bd2c523120fcc30"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/AccountCenter.md",
+      "bytes": 326,
+      "sha256": "b9e6944d78416a7e8bb6888dde8ec839b2d971df7a35bc6b5b6e6fee77d7f4be"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/AccountPermissionsPanel.md",
       "bytes": 382,
-      "sha256": "b4f28ed2844f2a75e325adba114ebf192715213658a86843366367274f39e991"
+      "sha256": "229b2a1e0b3294291897f6c479447470627ec09b5c43d537285e45a0927e956e"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/ForgotPassword.md",
-      "bytes": 367,
-      "sha256": "e7d2bc65fb7a569fafeebc70db86496fbd654532178eab38167820440b6d205b"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/IamProvider.md",
-      "bytes": 352,
-      "sha256": "3eb85bc3e6ec79fd65c117cef618edabf5de42e9474002b0ee561356bc5191cf"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/OrgSwitcher.md",
-      "bytes": 352,
-      "sha256": "1001156da04919c00b048b2a80680ab6839add309c2e912b6169a0ba5e6d3ff5"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/OrganizationInvitationAccept.md",
-      "bytes": 437,
-      "sha256": "dcecd18ae9560bb20e13a720ad88e1257b0552b2df00c7247b01f08db485fa7d"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/OrganizationSwitcher.md",
-      "bytes": 417,
-      "sha256": "20ca3ab5c83e3014ef5f015a36ee11154b7d3f6dcad1837b41646e9e90b31892"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/PasswordChangeForm.md",
-      "bytes": 387,
-      "sha256": "6dd8d3c00f2c2ceb4f6cda9c6dd8fec08be910dc23f40f3ebba763d1945916cf"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/PermissionGate.md",
-      "bytes": 553,
-      "sha256": "121e25e48a9f653c59a5bb16e07dffff8b299b1de0c37b5b946374a91b4c012d"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/Protect.md",
-      "bytes": 509,
-      "sha256": "db9187dbaeaa04e48133f62fd76539669b36d08bd119ec4afd38b0784913d553"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/ResetPassword.md",
+      "path": "docs/sdk/javascript/reference/generated/react/functions/AccountProfilePanel.md",
       "bytes": 362,
-      "sha256": "7a9e65ed1fe972be228214852ed9e1fe94244838c248fc83b73c5dd526d9841f"
+      "sha256": "266784cc044f506176e1272e51bdf73df5c33a6e4c5da6766bf2164ed9637831"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/SignIn.md",
-      "bytes": 327,
-      "sha256": "51cf59e79c96fbdd7d8579d45612f8e1c27812b2f6c022db0a4ffbf759a74e15"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/AccountSecurityDialog.md",
+      "bytes": 482,
+      "sha256": "fde5086a5f5fcdfab4d48be23accd0a81dd7ec75383e3ad2a30078cf6effc3a3"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/SignInButton.md",
-      "bytes": 363,
-      "sha256": "a00eb9d14c7dfe441504f6e242f28452846fbfe8ee140d9c7fd6c3fded18c47a"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/AccountSecurityPanel.md",
+      "bytes": 420,
+      "sha256": "2887e1fd92649d605726a42d24816924d335f06588904e307abba326d388d868"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/SignUp.md",
-      "bytes": 451,
-      "sha256": "35bfaf82e0259d00b65390c3904d9eb66bd54f435be7db401a8285b3d7138ae1"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/AccountSessionsPanel.md",
+      "bytes": 367,
+      "sha256": "9012bcfc38b2b767a0fc76f834788360b3d4d927270da683e6716a6fcccd2785"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/SignUpButton.md",
-      "bytes": 363,
-      "sha256": "a276ae0ea7051213308597cca14cd36729240ee9b00fdd39f94128d9c1ada1f4"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/AuthDialog.md",
+      "bytes": 403,
+      "sha256": "419c46db0e4beabad870a2f9e44de4e6eb2475d321edb0157e7661766349f685"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/UserButton.md",
-      "bytes": 521,
-      "sha256": "6c08c79a8bd41365b5f0915089884d67e31956a55ffe61ae8b7419bd1976f83a"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/ConnectedAccounts.md",
+      "bytes": 445,
+      "sha256": "2102269156225cb50b45917df8a7470d98f5dbf006639df42cd2bdf18c655544"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/UserProfile.md",
-      "bytes": 619,
-      "sha256": "e89471557b1423dd733467e05a13ac3169f28592060d61840e7596354c7ea48e"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/ForgotPassword.md",
+      "bytes": 337,
+      "sha256": "a39fc9aa27073f19eac25783acbdb8eabd8c16158287f153c61ac0487093a9da"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/clearPendingAccountLink.md",
-      "bytes": 266,
-      "sha256": "c70241f03f7a357a58df2cb85d996550b74109b71ef019d3e9449378e726b699"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/IamProvider.md",
+      "bytes": 322,
+      "sha256": "e6cf16b9f1f1874abb56216d0d96c2752df6d9e95b17d23e5dafad117f8e81b1"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/generateAccountLinkState.md",
-      "bytes": 273,
-      "sha256": "7b0bc73f061171f8d792d77ef1943761925c29b006234f9119800eb83fafacc2"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/OrgSwitcher.md",
+      "bytes": 322,
+      "sha256": "f600e5445da6729084da131f810984315ab089e76245377dfb15507a857d468c"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/getPendingAccountLink.md",
-      "bytes": 406,
-      "sha256": "2c2d55c20b88c4fd771ce5f30473144224dd89b0c4f14419e089d19fdb90fbb2"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/OrganizationInvitationAccept.md",
+      "bytes": 381,
+      "sha256": "69984bc7498e549a5d492ac4e2d4d216c9552e111f4d30acda2047de867b8484"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/hasAllPermissions.md",
-      "bytes": 426,
-      "sha256": "090cad7cb6779926c5f45017ef97c4d6d2ef34fef3ca476b56c8aae579f3ed1d"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/hasAnyPermission.md",
-      "bytes": 430,
-      "sha256": "858b4134a83d60b1733a04e50ad6312b877ec698a58045113a817e49afdd81a9"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/hasPermission.md",
-      "bytes": 411,
-      "sha256": "4dd39f2525a8ba914595713c316bdbced148e1381cca5621b6e5ba4e9be08ac3"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/isActionableLinkProvider.md",
+      "path": "docs/sdk/javascript/reference/generated/react/functions/OrganizationSwitcher.md",
       "bytes": 387,
-      "sha256": "af21c5fc21029731dc1c7f072800bc4350c134b4b3942caf503e746c4ac48d38"
+      "sha256": "50c439ae8bcb1f37767284467e1d489d39d11755f9f509855f634f2978d2ec07"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/isIamApiError.md",
-      "bytes": 312,
-      "sha256": "7f1be16d07cca451037de1cd5de0a713ff24a513e17691a177926d8870db053e"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/PasswordChangeForm.md",
+      "bytes": 357,
+      "sha256": "3a3e375938618b95ca2a3f1b237be9e60ca5f3558994023d129e47f8d0410645"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/isStepUpRequiredError.md",
-      "bytes": 336,
-      "sha256": "251599a7ec83c64e8da64c39901c4056bef6b510fa0a44e746b3a59c7ce40a4a"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/PermissionGate.md",
+      "bytes": 523,
+      "sha256": "4f2d29c15c46b36b0c9647a49c2e7e944aa4bcbebe1c168a2fe21022fbf81104"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/matchPermission.md",
-      "bytes": 563,
-      "sha256": "8cfe9e06fc8270bdb248e12030246c4b03d30ba8d8278ea97852bb56134dc340"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/Protect.md",
+      "bytes": 513,
+      "sha256": "1b4fdb84f7d740088458be771093f197ad900a6665dbb3d90ea56ece05b4eebc"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/resolveAccountCenterLocalization.md",
-      "bytes": 857,
-      "sha256": "ba09e745d384a06ccbef0aa2264b57d5d013f1923bb78ca1ab8bc622da3bbd5e"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/ResetPassword.md",
+      "bytes": 332,
+      "sha256": "9fb723455e21c726ff31adc970a89fba0fbf82afcf8d27a6aae12ad561fbbfad"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/storePendingAccountLink.md",
-      "bytes": 573,
-      "sha256": "800203df76b0ac1cd9b2e79e788ae7252e11fed783b9d26cb7452b7def30a611"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/SignIn.md",
+      "bytes": 297,
+      "sha256": "fe7385a9ecd4fd9c8aba41ed1a744b91ed4c8b37901e0a0287c915c67d719179"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useAccountLinkCallback.md",
-      "bytes": 538,
-      "sha256": "1c5a829de53496b7fe3edcc25aa142b257371416415c11e006d03ae413f778bb"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/SignInButton.md",
+      "bytes": 333,
+      "sha256": "3d26a49d1649aad3a839f0bd77e73064bf505f0ec181b5b6a31ec4504bef78f0"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useAccountLinking.md",
-      "bytes": 493,
-      "sha256": "614790fb4a12f58ea981ac11879cecb7ed87e9605bc36bd5cdbefeed555cdd51"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/SignUp.md",
+      "bytes": 271,
+      "sha256": "a1d7560c26bdcbbd1d079966249ddd998c474336c693a087a368972439104fa3"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useAccountLoginMethods.md",
-      "bytes": 538,
-      "sha256": "076951b70f7b16c2d433ba80e652f7afbcc07f84b6e44c214fd90b94857537f7"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/SignUpButton.md",
+      "bytes": 333,
+      "sha256": "dfcd260755204e18887789c9807c71e5c4321f82ede53bf952f21b2b0729d3ff"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useAccountOrganizations.md",
-      "bytes": 547,
-      "sha256": "c1578b9a12db52042d264cf8d57828d39e6ac3049e956905a7cf6d7f594c44cf"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/UserButton.md",
+      "bytes": 491,
+      "sha256": "480c019bb8181ce6b1000e7c0ca441cd6fc1f54f6b78b577cd91d741ece25d44"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useAccountPermissions.md",
-      "bytes": 529,
-      "sha256": "f1e72a86652b28d1798438c4828ac5a7eeb8c2f5cb6b64654df24d91cd39f67c"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/UserProfile.md",
+      "bytes": 589,
+      "sha256": "1a867da5788c14acbf62187b36f28360c23cc555afba601ea77d6c8a9b0ae16f"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useAccountProfile.md",
-      "bytes": 493,
-      "sha256": "b7043b60900175af3949ea22e8b42397c15298d4fdc68a8ff5996daac275a3c6"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/accountSecurityStore.md",
+      "bytes": 417,
+      "sha256": "0103cae31732b010286355329fe6c667a7bbe3a5a44227f281aec242fa2c373a"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useAccountSecurity.md",
-      "bytes": 502,
-      "sha256": "9d66e5aa5dd28bfd0f8f1e08fdcfbbf285af173a478f5ed2d6998d6af8cdd28f"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/assertIdentityWebAuthn.md",
+      "bytes": 406,
+      "sha256": "2ea3a71db88553bd11f3428ba126976367d428d2fca36f47f05ba73ad6bc5241"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useAccountSessions.md",
-      "bytes": 502,
-      "sha256": "6304300654823c49d842e63a6871db0ed9fd53b086674840534d2e512875aa6e"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/authorizationCallback.md",
+      "bytes": 372,
+      "sha256": "eeae2c8a6e0a60ce1d2ece8a00920837b710a6b0b0ad865b21b406a6eb4356e6"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useAuth.md",
-      "bytes": 2818,
-      "sha256": "daa0ad74bcc6155227ce7b3cd04923fb6c583ef7ce86c95ce438117921e44c58"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/authorizationRandom.md",
+      "bytes": 228,
+      "sha256": "58a5e66f9ff03a3281e1cbd53cff0959cf9407c97b694e9a689880de96c06380"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useChangePassword.md",
-      "bytes": 374,
-      "sha256": "781199cd07194ec9e7582d12a8e16e4e0e347520e73c57a44aecfdf4893cd2dc"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/consumeInvitationContinuation.md",
+      "bytes": 503,
+      "sha256": "81edc8faf74938f099db4c9edd2f143dc6f6be0e3010f19b87221a52a0137c59"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useDevices.md",
-      "bytes": 868,
-      "sha256": "9b75ace0e73ee4ffa8ef90f0e7739eca9af5cf71089b05a37caf5514a23dc490"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useIam.md",
-      "bytes": 1425,
-      "sha256": "a0b49b7cdabb76958b8ff44859351250543368482e00f6e702a31b583d4825c8"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useIdentityProviders.md",
-      "bytes": 520,
-      "sha256": "b29b5d5778da334cf66b02ed4c792c5ed7e6655850e39a29d3ee010047f8dcc7"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useImpersonation.md",
-      "bytes": 882,
-      "sha256": "62e34d090bbb458908391f51834557c2055de82ddc381275e93e295447f6faa1"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useLinkableIdentityProviders.md",
-      "bytes": 592,
-      "sha256": "e8b8bbfce924513fc0a5218e3310053883925e89bb96aa2358a6602c727bf93b"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useMenuFilter.md",
-      "bytes": 831,
-      "sha256": "aa26ede2a9458083bf0479826adb76f10a959c1cc8ef8ea7a25320dab75e9b43"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useOrganizationInvitation.md",
-      "bytes": 620,
-      "sha256": "ef812e115d2f488c81e084d8af8ae9706a325b13e3d2550c297fd0e8cf2f321d"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useOrganizationSwitcher.md",
-      "bytes": 547,
-      "sha256": "87814af55f6d5d4b7ba55751ce18e6a75545bbcb970064580890203f1df96e27"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/usePasswordReset.md",
-      "bytes": 367,
-      "sha256": "4cb841665ed80109b972d0659020121e39f714c8320ea65170a04f070d1f2aeb"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/usePermission.md",
-      "bytes": 536,
-      "sha256": "5937e1f23b6c361b12d99c369a445c37abc967d14e5b65470656382bd801aac5"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useProviderLogin.md",
-      "bytes": 367,
-      "sha256": "31a9b2f09127f19df72bad0fb75ad22dfb49eb2d1aebb8f2adecfb9195a1f1c3"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useRegistrationGrantPreview.md",
-      "bytes": 578,
-      "sha256": "f552159f2b8d886b4b7528087192afac4ed1bb1c367ac43acb1e7a4a465a65f0"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/functions/useStepUp.md",
-      "bytes": 715,
-      "sha256": "7bd618494557627cf22e8f3baf9b64765a49806d8d3b013ff90062ce266d1665"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountCenterLocalization.md",
-      "bytes": 5843,
-      "sha256": "ee069a22b0886a6a0354840f3948105b02b2384430d0b28ced37033c8520ecf2"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountCenterProps.md",
-      "bytes": 2172,
-      "sha256": "bdb2c24fc99dd32e916861f1f801a0bff0c50aac47c047751eb4c4ab005c5900"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountLinkAuthorizeOptions.md",
-      "bytes": 413,
-      "sha256": "06715251a7393a295bf704251b9ea2c1898fe534e301269188f79a8ac427dd72"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountLinkAuthorizeResult.md",
-      "bytes": 367,
-      "sha256": "1afb06457c2744e13794c30e38a78faf4d2bae36216d8cd2364d993c0009cf69"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountLinkCallbackResult.md",
-      "bytes": 296,
-      "sha256": "ea105703c6fa56b65e6df17a47061c9290491977a6f681de5be3aa28eab11578"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountLinkTicketExchangeInput.md",
-      "bytes": 316,
-      "sha256": "5e0d9a3b590127b27d34fc1ecc6476846319125423cefa8644cb96aa3e755b20"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountLoginMethod.md",
-      "bytes": 1005,
-      "sha256": "928be0f98be63addcfe7ae0db333c519eb4de3c428fc88b5ccfd59d8d5f57d2e"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountOrganization.md",
-      "bytes": 483,
-      "sha256": "a9e6af1b7179e7c510c6eaee92ce839b9fd4318026d7025c6651176e451f14b6"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountPermissionCheckInput.md",
-      "bytes": 351,
-      "sha256": "3d35f88ba97517e4be7b3342fc93659be179086cfc1c99f27fe63f4b85598baf"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountPermissionCheckResponse.md",
-      "bytes": 484,
-      "sha256": "6db397718055421af28761a1bc69416b9647c9d05c5842f79606c5c7dad2b2d7"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountPermissionSummary.md",
-      "bytes": 432,
-      "sha256": "ef275026f659ec0d574f8b0f15f7ad314cf1112a0f4b75fbb678da85376ad2ae"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountPermissionsPanelProps.md",
-      "bytes": 1082,
-      "sha256": "00688e3a8052388cd08fa98ffd62f875f9c1650aa686e1b309bd4de97d6c4ef4"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountProfile.md",
-      "bytes": 882,
-      "sha256": "bff80de9ef0dc4fed94d9e6cb67615a8d3b80167f7eeb36f07a51b32d3c23511"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountProfilePanelProps.md",
-      "bytes": 959,
-      "sha256": "2c6e0beb84c7af761f61294d1a32c4cbb5b0db097ecde975c482478972a7c843"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountSecuritySummary.md",
-      "bytes": 581,
-      "sha256": "0d21a4dc372d8ec1fb046cbee736268e63efedf94a576989a0809abde4559c90"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountSession.md",
-      "bytes": 552,
-      "sha256": "f16dbbb85777a04fe427a41fdaee1102bc769af709e80798d563c17bb2e107b9"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountSessionsPanelProps.md",
-      "bytes": 1353,
-      "sha256": "03d5e0cd5f0d97b062da81de870a03de11a99dd10f68ffd517edf36c3d9aad23"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AccountUpdateProfileInput.md",
-      "bytes": 430,
-      "sha256": "9ca4ece7d00d8d5e0260bdd1e8d968a904661f20ca6f4276e04e5e140bd28b1b"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AppContinuation.md",
-      "bytes": 543,
-      "sha256": "e96db9b55dc1bdae30ba7c5ea5dc350d3ddfbe31c0809226f0475406819f8d66"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/Appearance.md",
-      "bytes": 1185,
-      "sha256": "96933196028b5952d92a02edd52b66c437d0412b5b02351ea235ac18dfef0df2"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AuthDialogProps.md",
-      "bytes": 1122,
-      "sha256": "fdca3c38e992ee0a2a11389124a870afcf78cf5e8b0da9c1842ea72608fd2691"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AuthEntryButtonProps.md",
-      "bytes": 46744,
-      "sha256": "3eb7edc2ba63b23ca6aadec037d343fcf00f9e390e6688c89d1a070a33b8e99f"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AuthMethodAvailabilityResponse.md",
-      "bytes": 607,
-      "sha256": "a0b62fbf1345db70ea837f6cf7beabb296d60af276d6085e05e345f012ee56a8"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/AuthMethodIdpProviderResponse.md",
-      "bytes": 779,
-      "sha256": "fbea7250a6336c69fa9978b94359e2f9ca7e8331e63684cd06e5f95b2fc9efb1"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/ChangePasswordInput.md",
-      "bytes": 316,
-      "sha256": "4b301e06584b59e37edc501a2b66f0e8f7141a8f121bb0d9f180698e73366db3"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/ConnectedAccountsProps.md",
-      "bytes": 879,
-      "sha256": "e750898c8204171366a5572a21d8628c69e34303bdad145c98e6ad28e08f9358"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/Device.md",
-      "bytes": 380,
-      "sha256": "6fc6fef83397d44ea005f22252f56112bcbfb13aa266a1812066094c830fd004"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/EmailVerificationResponse.md",
+      "path": "docs/sdk/javascript/reference/generated/react/functions/createMfaOperationRequestId.md",
       "bytes": 334,
-      "sha256": "577ab66ab5a7714293f698c16240ee0e475df3b4a57e78e4e35f1554b4480a36"
+      "sha256": "c7c64a2030245a0f8473389f1568bab71f072f9f8c760403e3493c98ead46640"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/ForgotPasswordProps.md",
-      "bytes": 567,
-      "sha256": "f4ddfb18a6902f3b8b89643ba5769ffe2863150712d7706066bd4b7d2fc48ed1"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/fromAuthority.md",
+      "bytes": 404,
+      "sha256": "e32d42fd30044af2a1b27db675559db4a393772fc9baa0f3dcf4ecea478fb045"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/IamApiErrorDetails.md",
-      "bytes": 366,
-      "sha256": "f0be4b0c1b720efa4bc7fad22d133d424f75b8b10992f60d2efbf284c8653fef"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/hasAllPermissions.md",
+      "bytes": 396,
+      "sha256": "a0383a4770ec2cef9c4992c8e1e5224ad65f3d2c7a09e188de36216c5e0abb12"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/IamApiErrorOptions.md",
-      "bytes": 477,
-      "sha256": "2b0833c723ba2844d92ee4b84d9928eb5c6feb9840dff127b1fae1d78f2e387b"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/hasAnyPermission.md",
+      "bytes": 400,
+      "sha256": "f6250a2b224e838f719088ab62f10e12204eaee62964df17813bbf30cf2a2c5b"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/IamConfig.md",
-      "bytes": 1726,
-      "sha256": "99b49bbfd091566b0adc92d7adb7482a98c512e35f702ff395bbbdef89967fe7"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/hasPermission.md",
+      "bytes": 381,
+      "sha256": "4322f414c3a1e1ba11550b7f9ce73ac34ce4445a3fdaee93c6b44c50b56a671e"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/IamContextValue.md",
-      "bytes": 2628,
-      "sha256": "8b1ed8d94b481ee2fb281d48fa06fb45d08f1bb8bdfb98da8a1d12bc03f7cf46"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/identityOperationStore.md",
+      "bytes": 431,
+      "sha256": "6a893e066337bcb493321fbd78c7eab00679ca8704520ff90299bda618911080"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/IamLocalization.md",
-      "bytes": 10872,
-      "sha256": "c86ba4707d2600b7e1267acef7dbd93b3221048b6bd01fd2a45106bf1a6ef9a7"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/isIamApiError.md",
+      "bytes": 282,
+      "sha256": "2bd8c3a48550cd9f1242388a8eb779928de4d3079ab125b70f6246c92be9659a"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/IamProviderProps.md",
-      "bytes": 27159,
-      "sha256": "1f3cde35e1bc7cf5d937088682f77d12411bd0ba1be27a74a52d01b4d65e6baa"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/IamUser.md",
-      "bytes": 1130,
-      "sha256": "50b55802357a09171e54f93ece916ca376a3c53b4fbb15d5bd172f0ff72b20e5"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/IdentityProviderOption.md",
-      "bytes": 881,
-      "sha256": "b81e99813dba46ed8af4f9e6d32e50fdb885d472887ccd66f9cd18bbfbd79c5d"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/JWTPayload.md",
-      "bytes": 1131,
-      "sha256": "d45c92554b100001d4dae095caeb63a0fe0a5399cca6523fdb08b75f46861306"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/LinkableIdentityProvider.md",
-      "bytes": 668,
-      "sha256": "65a8b649296a44e9323ba81a52976a7b4f177e02ae73461cf974d1c78c2dad24"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/LogoutAccountOptions.md",
-      "bytes": 284,
-      "sha256": "83a4202dfb7394b1c1e7368eabd7f08bbf2d9f86979110be584cbb5fc0672f49"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/LogoutOptions.md",
-      "bytes": 630,
-      "sha256": "4e81f876d5a16e94fb8dc9417f2fd0f5a147a0148360c85f8f0ef9d01c1c65e9"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/LogoutUrlOptions.md",
-      "bytes": 442,
-      "sha256": "92d0ded6aacee34ecff668101bb9b1aeb44ca6b338190014a2fd16ae97706df2"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/MenuItem.md",
-      "bytes": 393,
-      "sha256": "b9e16c680c31b73f2b3c4b32557102b2bcc434f49ea0f0558e4fe293851c4955"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/OIDCConfiguration.md",
-      "bytes": 890,
-      "sha256": "47118244b8345329bfe308ea99e7ecc026d5624cd81f26fd7bb9854c8c430b54"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/OrgSwitcherProps.md",
-      "bytes": 646,
-      "sha256": "6443cd62b8754f9d313787c5c742a0dbe3a08b889d64644b8385e2e11004e910"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/OrganizationInvitationAcceptProps.md",
-      "bytes": 910,
-      "sha256": "db54a6f759f7a745fbad4964d2dd69075727c26ae01cccbd482aaf965549279e"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/OrganizationSwitchResponse.md",
-      "bytes": 453,
-      "sha256": "26bfc0623c08114d9b61d918cf32c74fe21c3f2da9ad6cf640570c4e05662c43"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/OrganizationSwitcherProps.md",
-      "bytes": 632,
-      "sha256": "c30695fe3315c73d579f9328ccc51b3310f87b4c20e50035b6bc525b3b6c4b93"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/PasswordChangeFormProps.md",
-      "bytes": 898,
-      "sha256": "c4da50a0e2d83bfb4c4a55e9cda9e3fcd59611bcc15ac94b7a7922bc3e656bbd"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/PendingAccountLinkProvider.md",
-      "bytes": 383,
-      "sha256": "ecc8675365e7b7a88ca9a9a241cdb8559fe183cb8b19f15a58302853ba358df0"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/PendingAccountLinkState.md",
-      "bytes": 458,
-      "sha256": "546adee37036ea766802af6bf47f3624646d3557f4413cc4409ade3705a70548"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/PermissionGateProps.md",
-      "bytes": 528,
-      "sha256": "3feff0351e8bb82a711afa70d8622d0316348f625fdffe0e821c42a0c77e1e05"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/ProviderAuthorizationOptions.md",
-      "bytes": 725,
-      "sha256": "7d5b77baec20c3ac11c166e97ed1df5dd936439c22dc4bf5b7c0092af4470ab7"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/ProviderAuthorizationResponse.md",
-      "bytes": 340,
-      "sha256": "f1d8887e51b5d17f53fe3783ef9cabaf22419283fcae333cb268e3fb30b91ece"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/PublicAuthMethodsResponse.md",
-      "bytes": 1449,
-      "sha256": "2d36a797068e1be09ecebef5cf507273150e199d55037d6036186b88ea03dc7b"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/PublicAuthPolicyResponse.md",
-      "bytes": 1846,
-      "sha256": "93455250e4c1ee5258d5fbc9a775b4dac3e9ca584f3235fbc77647f842771152"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/PublicOrganizationInvitationAcceptResponse.md",
-      "bytes": 722,
-      "sha256": "1645e8645bf0ab7afadd810adf3cb4ab7dfbefb13ee862307775668f0fe4a2a5"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/PublicOrganizationInvitationPreview.md",
-      "bytes": 648,
-      "sha256": "fe0a130464cca190cc30e34032cf082d20456bfdb268f079e6c742c46ab1ae2a"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/RedirectCallbackOptions.md",
-      "bytes": 340,
-      "sha256": "95a4f658010ddf225ac0d4ff166be61dfb7ac2abc314ba5af57855558d32922b"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/RegistrationGrantPreviewResponse.md",
-      "bytes": 827,
-      "sha256": "aa59e9e7ce537b285718c235611cc7df42d5eb3ac259568d99d0efcceac40c61"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/RequestPasswordResetInput.md",
-      "bytes": 374,
-      "sha256": "4c86590621cc261cc2895ec9d4f86eac576b297ff97a3fbc36977c74369659d0"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/ResetPasswordInput.md",
-      "bytes": 340,
-      "sha256": "dae9a4165accbcf77e7e3f2585c313b561c1502665fcdea5243c732367071ed3"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/ResetPasswordProps.md",
-      "bytes": 637,
-      "sha256": "40c344a9b0ee2108e05a2659bd74fa051db0e26faf1e22c48ea716cb0ed7a34c"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/SendEmailVerificationInput.md",
-      "bytes": 317,
-      "sha256": "987ffaf4941ea84b7e2454743c4e55d50d2e979a5d44828c0ddd2869510d61fe"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/SignInProps.md",
-      "bytes": 1648,
-      "sha256": "0dcc7b63683282f5edae3ae2b1111e65efce5296140d9b30f018a51cdeb42ce6"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/SignUpProps.md",
-      "bytes": 1021,
-      "sha256": "016a0c67544643bc27dbcc41f526e603b79aa88549bf57b5ef270e53eebdbf19"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/SignUpUserInfo.md",
-      "bytes": 645,
-      "sha256": "37203c4de0f15ff950411e361aa3cff5c6abf8e575b8c12ff1fdec2940e9da56"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/SocialProviderConfig.md",
-      "bytes": 723,
-      "sha256": "ef2e0b040276ed994f577bebb1a01c3c667185146d660b6f1d0b8d4ea3521495"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/StartAccountLinkOptions.md",
-      "bytes": 1008,
-      "sha256": "f8327286492169c1634556d0d6c06be3a504de60035fad2029fe567b585b2f34"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/StorePendingAccountLinkOptions.md",
-      "bytes": 421,
-      "sha256": "7d64d77585a8544b1b2a23633766a68c74fb3a9873f40e58b663812d6678fe87"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/TokenSet.md",
-      "bytes": 541,
-      "sha256": "a6024b02a5f2769e22a9dd438d07c74e385c32efc140d9056a0eb38f4c1b3920"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountLinkCallbackOptions.md",
-      "bytes": 743,
-      "sha256": "63774400ce1b5ee8ad2f4d643801915fc5574d16c7a8d53321da3f94466364ec"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountLinkCallbackResult.md",
-      "bytes": 717,
-      "sha256": "afdc45305e18445c1adde3858ab9cf7d561134d9fe9e4b024f783322c0a12a6a"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountLinkingOptions.md",
-      "bytes": 356,
-      "sha256": "a40a261da720021a7764b95d1323679aef4c2e042cb4f7249f5448bfde71dca4"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountLinkingResult.md",
-      "bytes": 974,
-      "sha256": "56697cbebb7fa8999abe55f3e78c3f6893773f840f9731215e59157510ef1311"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountLoginMethodsOptions.md",
-      "bytes": 283,
-      "sha256": "9d2d9884d36897f07b879398863990f491cefd19f69369cf73c2551b585bd791"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountLoginMethodsResult.md",
-      "bytes": 579,
-      "sha256": "b0816e37f02a3b86e092f86614784667cb882f3c6de00a6cddff7b29b8a56ce5"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountOrganizationsOptions.md",
-      "bytes": 374,
-      "sha256": "ba45891abc18d4fe9e286909393d8f7a1c19738682aaaad1743217ca92e0d907"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountOrganizationsResult.md",
-      "bytes": 715,
-      "sha256": "c33ca80d52152873d7b54ba3b9ff8471b19efe8db24547c0f97986c02d05df9c"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountPermissionsOptions.md",
-      "bytes": 361,
-      "sha256": "3b95e34f49e5e79fc75dbba866eda749b40b555dbcb9d0f32886b8d4d076a6e7"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountPermissionsResult.md",
-      "bytes": 1221,
-      "sha256": "d79b29c754b4ef9827e382fb843e3f21fb7dc256696639709edf098ebf3d860e"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountProfileOptions.md",
-      "bytes": 273,
-      "sha256": "3a0de1604fccce7495abd2145e9430adba4d9d0bc60bbd0054e7d4848f80fdfe"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountProfileResult.md",
-      "bytes": 886,
-      "sha256": "354c1e1e2690e89c330f674c5b90c199de2bf0a339e507ab7865c578fb61419c"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountSecurityOptions.md",
-      "bytes": 275,
-      "sha256": "b7a1ebe3605689bcd4f1d7787f205b0d01d2f92644f8c7eaf55ce1b4f26812ac"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountSecurityResult.md",
-      "bytes": 621,
-      "sha256": "55e03698e2f433c158d51fdb1402173f5d75b8864bdc2aa1cdb5a5542feafd3c"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountSessionsOptions.md",
-      "bytes": 275,
-      "sha256": "e91baab689e5d1bc8cb608cdf53587fd45b06dd40528254fe70c4dbffb1b743e"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseAccountSessionsResult.md",
-      "bytes": 1197,
-      "sha256": "6aff87d55b9accae5049d4f1f9d24ceb94147d7595ce2b8b62f2e7ee79ad7f37"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseChangePasswordResult.md",
-      "bytes": 507,
-      "sha256": "35a891b6cfef7b459292da9eb1f94e3dabab5fbc64b89c8a0da7a63832a8d305"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseIdentityProvidersOptions.md",
-      "bytes": 492,
-      "sha256": "bc330223dfabe420f2ada021d3483905289cd0b11768d8b78635a5a4abc239af"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseIdentityProvidersResult.md",
-      "bytes": 603,
-      "sha256": "42cb6d271ce06cea7dfbd3e6859aa9d3245617eeea33f9885e516fb7d339841e"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseLinkableIdentityProvidersOptions.md",
-      "bytes": 374,
-      "sha256": "633f3770d9adfdef5a4387c04b79234dfcb2002b038736489303c2881e21121a"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseLinkableIdentityProvidersResult.md",
-      "bytes": 749,
-      "sha256": "6f323c596f0215a65d444ba19a9e38b985997ef62a440bb4a1fc16c5ea1b5edb"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseOrganizationInvitationOptions.md",
-      "bytes": 289,
-      "sha256": "e6361d98774ef5dbc7050c3a8e69356c03d4f6a5fea2e9681eb096b0e86a9d1d"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseOrganizationInvitationResult.md",
-      "bytes": 1236,
-      "sha256": "f71d1b664a9b5c6a7cbb43e8d2f36c6349d5f7b06c4ae303f3733ef5e3a3d27a"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseOrganizationSwitcherOptions.md",
-      "bytes": 517,
-      "sha256": "847f20e9488d04685b98e31048a83c4ab982eb85ec58d3581315f25353088f4c"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseOrganizationSwitcherResult.md",
-      "bytes": 1521,
-      "sha256": "d61a8bb130bc95772168a02bb55639a5939dbbf8d053997c6e05de31f7919c8c"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UsePasswordResetResult.md",
-      "bytes": 718,
-      "sha256": "010cff31e86a5e1adf4f3e704b9c9f2072d2fd8e7502d950817ab2bdd80ca7fb"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UseProviderLoginResult.md",
-      "bytes": 705,
-      "sha256": "2bbc3a3f142952ed4a7371a4a20602b0e6e8daa7e51bf3cf9c53e290dac7b6d9"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UserButtonProps.md",
-      "bytes": 423,
-      "sha256": "32657d04df7e124299f4b7cd64d14b9d50ca5f6ba9dea75e8c68dca231018629"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/UserProfileProps.md",
-      "bytes": 283,
-      "sha256": "401eaba1e3dab2d5cfea2cc0be199f55934850a650d78441e1074367f208dc74"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/interfaces/VerifyEmailInput.md",
-      "bytes": 239,
-      "sha256": "2dec8d9148e61122974480e51e0afec15e9aa2d72f1a42658eba70cdcb240753"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/AccountCenterColorScheme.md",
-      "bytes": 277,
-      "sha256": "1032d6bf186a03a0e4f5a42b040b9505f42b8a6dd213213c85056e6b6514c7cd"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/AccountCenterLabels.md",
-      "bytes": 361,
-      "sha256": "3b0bc5ce860fd8049b533fe1fe3dd50573e602b4c52cf75897410b2ac31f12a5"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/AccountCenterSection.md",
-      "bytes": 292,
-      "sha256": "2269636db527faaeb8e17dc5eeb0434f13f2f56f0d80bd8ed8b10ac3ffae26f8"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/AccountCredentialType.md",
-      "bytes": 317,
-      "sha256": "56a80cb9562801c99e13a7b5bb4481ebcf58921c021f0e461b6031f2408685d7"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/AccountLinkCallbackStatus.md",
-      "bytes": 296,
-      "sha256": "28e2ed4d5e16957d1f055a76402baa123650d29c4649126c2ef5e707dc73c06c"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/AccountLinkProtocol.md",
-      "bytes": 284,
-      "sha256": "4acd5c3a2a1279e296af2632d637bf72a6cf75f1f6957678a6142338dda8d9e8"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/AccountLoginMethodKind.md",
-      "bytes": 298,
-      "sha256": "c812fb1dd1802ce0957e157cbd86e12901fdd05a6f3f553bdc190cd82cfe9125"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/AuthDialogView.md",
-      "bytes": 238,
-      "sha256": "9b714d4c299a33a2dc522385086488bebdfed363558c9e105c849069d1b1d284"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/AuthMethodType.md",
-      "bytes": 294,
-      "sha256": "41d1c2eaa23b1ce401c8e6b89f3bae2dc08adc2fa0e2c070e809f2c468ea1b56"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/EmailVerificationMode.md",
-      "bytes": 272,
-      "sha256": "b80a8fb3f4d5328296f335c4c60434701aeb7cf16f4c40fbd02568e8ea0f7043"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/IamColorScheme.md",
-      "bytes": 247,
-      "sha256": "72579e749736fe5ef1dc48e75014037529b2cc7ad55fd7c329ce639d88fea7c2"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/IamLocale.md",
-      "bytes": 239,
-      "sha256": "860c37716cc5d406274f8a82935447c8910a012a09b24adcc88b03002124dc40"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/IdentityProviderProtocol.md",
-      "bytes": 318,
-      "sha256": "afc9d604f2f854a84c52ee98e76ad0cd2b6c08cc0d7868c6ceb36d5ccd306bd3"
-    },
-    {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/PartialIamLocalization.md",
+      "path": "docs/sdk/javascript/reference/generated/react/functions/isStepUpRequiredError.md",
       "bytes": 306,
-      "sha256": "d8c3c1e7d16e5d25b9a2864388bb7dc5aceffa36bcfe796683358085e04f14d1"
+      "sha256": "20476c8dbd9b8d5639b25af8f0462b6048558c3be8c6703325e0feab73687e0c"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/ProviderRegistrationGrantInput.md",
-      "bytes": 439,
-      "sha256": "0ec8de14edd19865f3abf853e6f3d79941e3c78955a2c51566637f4c75923944"
+      "path": "docs/sdk/javascript/reference/generated/react/functions/matchPermission.md",
+      "bytes": 533,
+      "sha256": "cb9181f31f86e1345f1d9163835c79118f9bf0347777b3d7409dde826a810fbf"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/PublicOrganizationInvitationAcceptStatus.md",
+      "path": "docs/sdk/javascript/reference/generated/react/functions/mfaOperationReference.md",
+      "bytes": 355,
+      "sha256": "d891b623ddfc4c23749d11bd9b1bd8a0a753d2869e04ae2e286913ba9a8c5297"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/normalizePhoneIdentifier.md",
+      "bytes": 487,
+      "sha256": "24d1c6fa2f395bdb570e7dedaed35cf6c16bd543fa71b4c8552064d39c433b77"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseAuthCapabilities.md",
+      "bytes": 457,
+      "sha256": "dc5ffc96508807f6cdd396fde462edc668b0212d1e22e1afd613e4ab31f5739d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseCurrentUser.md",
+      "bytes": 337,
+      "sha256": "713fe7b356a46d1157f39de57f7f068f2f07a3215425f19380bdff15d53d2656"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseDefaultLogin.md",
+      "bytes": 336,
+      "sha256": "2cba9aa305f2995ebe64f39248e91a022c9a76113cebe04c55a9839a3f8166df"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseIdentifierActions.md",
+      "bytes": 613,
+      "sha256": "6d4c9f04bd08b2a308dd653dd20916ef8f8a8eb24e16513970298d4f975fd3e5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseIdentifierManagement.md",
+      "bytes": 400,
+      "sha256": "b6b525dd07cb726e11d7f959270a3bbcfc920a88cbf3621fe514c78e9238a9f9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseIdentifierManagementCapability.md",
+      "bytes": 470,
+      "sha256": "d93303972b1b79b83c75fd8b282d78b5bc23a9cc599258bff650be3429b9d7b1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseIdentifierRestrictions.md",
+      "bytes": 496,
+      "sha256": "8f9fa6c7629925133b88a376323759f47b3319fc0f6e931d6b723688ca05c75d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseIdentityProviderTarget.md",
+      "bytes": 535,
+      "sha256": "335003280cb5e06bbbbff8d19a8f6bc8af16f34da15a343474eff9ef8e7a7de9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseInvitationAuthentication.md",
+      "bytes": 428,
+      "sha256": "57692854dc07f1f5f233ff12cbdf9ae592333f34efb27cd1e0e78828b49a313a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseInvitationEnrollment.md",
+      "bytes": 400,
+      "sha256": "710c981fa72e5db9fba967ee223f1076cb642f1b66269a21f764395e8379fe7a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseInvitationEnrollmentBegin.md",
+      "bytes": 435,
+      "sha256": "dd2c056dfc91bd6038d87af3465b2b3f49da7d02c1182ea07942f09126cc5340"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseInvitationJourney.md",
+      "bytes": 379,
+      "sha256": "a24d4954189582dbd1026421004713fc2be8df7a6e84f99e3a7136ea55a6e687"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseInvitationRegistration.md",
+      "bytes": 414,
+      "sha256": "b3fbbd7881ac89c254e20c4cfd39f1f6c1a6021ba7feef72a05224936c182e16"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaCapabilities.md",
+      "bytes": 365,
+      "sha256": "7eb50d79ea4bd6f39d9f107227b1ba201afc0edd548ef91e5ea2aae3e9cd2c14"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaChallengeResult.md",
+      "bytes": 501,
+      "sha256": "2b45aab3c9fc490418b72ffb8833938ca3c92d1c64f508178e37b9db6129f33d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaCompletionResult.md",
+      "bytes": 472,
+      "sha256": "abf2d454e8e0462efc16a1adbdb2bacf2c5c8138915d961fc47382faf38f8c6e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaOperation.md",
+      "bytes": 423,
+      "sha256": "fe5dee26a9fb1466522a248ae7ecee93edcbe73c6f907ffeb4058f9cc8ea5d9a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaProofOption.md",
+      "bytes": 440,
+      "sha256": "c2d2eb0798d1be8f3f9a61ff170a8f210a5b3cc7782e2a4877d32334c922591c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaProviderAuthorization.md",
+      "bytes": 464,
+      "sha256": "c2a462bc53f54fed396a450d2eef56905084f7510682ea56c008452fb89b3d5f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaRecoveryCodes.md",
+      "bytes": 372,
+      "sha256": "a59a5c24d42ffd56508fadbf16b62668fe9e292d4b0488484aa79475c39d90b3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaStepUpResult.md",
+      "bytes": 480,
+      "sha256": "504370aa9deab1ebf57cd9f744396f8cde8040b844d931807d336d40b377b6e4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaTotpBeginResult.md",
+      "bytes": 465,
+      "sha256": "c034c9b304e56ac74e61afe0bc296b995e4e24ffc576d5f47a40418419de40fa"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseMfaWebAuthnStartResult.md",
+      "bytes": 529,
+      "sha256": "32d3f98d51171c19130a3d0e5dbcdd44cfb2de251cdd32d911df11095cbd67c3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parsePasswordIdentifierKinds.md",
+      "bytes": 359,
+      "sha256": "8d560ec0b76f69c221ea462e999f7be1a8840aa79607c5b5435bd6fd0fa0144d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parsePhoneIdentifier.md",
+      "bytes": 424,
+      "sha256": "7fbfa729090e17311b3039081328906d6beda85f0e4525db5feee6ad2f418b38"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseServerSession.md",
+      "bytes": 371,
+      "sha256": "43755d58c7885d55e8f2b71470991248ec670bd072a3e7d6c30a01cd24931d73"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/parseSignupIdentifierKinds.md",
+      "bytes": 403,
+      "sha256": "1c8e8b680c757ea168f46b355f5111dac68a446f6726740f1a3350ee29fbcdcc"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/permKey.md",
+      "bytes": 379,
+      "sha256": "c2d048fa9e1a28481133111059ffb4e55f3891c545b5c2e656b768c8c654fde0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/phoneCountries.md",
+      "bytes": 435,
+      "sha256": "7d8397ac2fe590ee609c1aa4b33cc35cf46f5d5fe5bbb0cd8224c249bd392f45"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/providerAuthorization.md",
+      "bytes": 1104,
+      "sha256": "c7fe582285c0b8d4fddbf2666854b60955fe5bc12aa0ded91e475d68cf95caae"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/resolveAccountCenterLocalization.md",
+      "bytes": 843,
+      "sha256": "b10bd4e050869604b06b9a532936da479b708c8619369a04a123682f6c6d6e0e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/sessionRecord.md",
+      "bytes": 300,
+      "sha256": "4728eda31b0e11fda355ff2daeb09d655ab59aeae7cc6cbf21d5a27fb55b4680"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/sessionText.md",
+      "bytes": 248,
+      "sha256": "b7d211305b925ad418434bdd5ea29943935d0e52d0bf680ea3a9051f4bba005c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/toAuthority.md",
+      "bytes": 345,
+      "sha256": "6d222681aecb387d38551881c2b010f5c38f2c46cfa5817e2c6b3dadae35b662"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useAccountLoginMethods.md",
+      "bytes": 508,
+      "sha256": "2844b7afdab7db58787059e9b33d60734a6fee5bcd26bed00673a2cdc0fff720"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useAccountOrganizations.md",
+      "bytes": 517,
+      "sha256": "a3d5a376c06c6b0a515f5a26fdf5d780ccb472464dd6e2c3a71bf0a702e78626"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useAccountPermissions.md",
+      "bytes": 499,
+      "sha256": "d1cd0d01162952f0f26409eb41d9662c1b7405b38fa14e9781502ed210169694"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useAccountProfile.md",
+      "bytes": 463,
+      "sha256": "4c01505379a5519fea180f499f607d7f6726a4d14213e34fe3fc6ce632dd05e6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useAccountSecurity.md",
+      "bytes": 1170,
+      "sha256": "7eec83dfc5e5e0bff596fb21f09b9dc5c0fbca292b7f4d48bb12517938f3e561"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useAccountSessions.md",
+      "bytes": 472,
+      "sha256": "92c9d4fcfcdb96e79c664cc9e39299f83444d6f149533a213dbd7c9f6be4fa83"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useAuth.md",
+      "bytes": 3615,
+      "sha256": "fac97ea60f173bcea0c18fd6ec13d19886a951f1c50a48521cff0dbf9c53f640"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useAuthFlow.md",
+      "bytes": 488,
+      "sha256": "8dfcdd0be42011a1397fd350fdd2bc6314ece8214ac5dcbcfe20efa684f10f09"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useBranding.md",
+      "bytes": 490,
+      "sha256": "d209daa81290af5e89e0c277d2e78ab847fdc418a942bb44a30b4cbbc439a6ec"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useChangePassword.md",
+      "bytes": 344,
+      "sha256": "82e19a48937bd70cede7be4d4afb720fdb7a978eab0f0d450e29c24e43fcc173"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useDevices.md",
+      "bytes": 838,
+      "sha256": "d76f2b96aa5be80027dc9027693e356bd56fdd50996b70a772a0bc09d357dd17"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useIam.md",
+      "bytes": 1395,
+      "sha256": "8386990634e01649cbca72379a997f325ee837e8437aaca75334c373c83018f3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useIdentityOperations.md",
+      "bytes": 506,
+      "sha256": "792e060fd6624f3ea49639f52a5825db3929833c8f42af6eaba2db056161d25d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useIdentityProviders.md",
+      "bytes": 490,
+      "sha256": "c9533fd5f3c576ed1e907a4cf71d864887c8c99db769efc5d78ba9c02445daa9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useImpersonation.md",
+      "bytes": 789,
+      "sha256": "2cb11cdb94929e1a111ed1fe8a8b49f5fb230b8c64adf0728c49257178b17ad9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useInvitationJourney.md",
+      "bytes": 7160,
+      "sha256": "ac35447d952801d7b38af12e0962a1a7decd1c581aef85d32b2d866328b41bb9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useLinkableIdentityProviders.md",
+      "bytes": 562,
+      "sha256": "b4cd080653fcd0d5fb53ff17dd7847254695fe9e525937e1535378375d327146"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useMenuFilter.md",
+      "bytes": 801,
+      "sha256": "2d15bd54faa307a3499867b20516c94a0258a819ebdd380a00b037e59325f441"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useOrganizationSwitcher.md",
+      "bytes": 517,
+      "sha256": "c9c67239e686212bb5108d1e0c21cb958aabc9018e2ba38e2ec78d9075b4c732"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/usePasswordReset.md",
+      "bytes": 337,
+      "sha256": "1d9dd6d902adcf599aaed5530e5a6b8ddf4608fa4a9b0481784cee6f2263499b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/usePermission.md",
+      "bytes": 540,
+      "sha256": "5a0a09953258a52c25576105959308d92584791bd21c20cdc0f18e76a9049724"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useProviderLogin.md",
+      "bytes": 337,
+      "sha256": "4c5cfe7de7aa137a141e420afa630295a2c3e011f8aac527a14f4a5905cd6c07"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useRegistrationGrantPreview.md",
+      "bytes": 548,
+      "sha256": "aae5e652abd74255bc99a0cffdb1f83c7ec19523c6ba108c3dd0239b389391f1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useServerSession.md",
+      "bytes": 503,
+      "sha256": "cd4beb63ba97353882b0e04fce4c39a192b0db5c1ba049dfa2a5e767cde00733"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/functions/useStepUp.md",
+      "bytes": 1292,
+      "sha256": "acf94d112a03a575692be86e40d901592bdca71a26cd893bb2d676e06d3b1938"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountCenterLocalization.md",
+      "bytes": 6018,
+      "sha256": "b9ee0c3603fabf85dce2d2bbc75a516e7134ec5b94f3f1211393ff45d43af658"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountCenterProps.md",
+      "bytes": 2437,
+      "sha256": "8bc7fdd0139240d15c0608be7715dba4fff33dd1072df3bd0e3c83dd88551cf0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountIdentifier.md",
+      "bytes": 930,
+      "sha256": "c7cee2807e5b264fad3402e452231e7a24be7d8c6e3df02bbb0a5e4409930db6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountIdentifiers.md",
+      "bytes": 405,
+      "sha256": "d3c1f0802372b6d2c85db4fa34422a9f92c17e7ad7932f8956056511da391ded"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountLoginMethods.md",
+      "bytes": 309,
+      "sha256": "bcca40c2abfcee632b600020475dc7c124b8766bb98090baeb3c64c97d29254d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountOrganization.md",
+      "bytes": 453,
+      "sha256": "c80b5872d9841e781bb7424d71449051daa3b91c8c26d55cc2832b8b8c1cd92e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountPermissionCheckInput.md",
+      "bytes": 321,
+      "sha256": "08d636e3f1c758d39d323adbdbdb94b794520e0610c8c5f2be1fcf2466823526"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountPermissionCheckResponse.md",
+      "bytes": 454,
+      "sha256": "4a322aa8219e64d955c3615b9351a7e4f2fbd1377f35e479ba93222819991be1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountPermissionSummary.md",
+      "bytes": 402,
+      "sha256": "405182eb0f4319a449d47e8c503408fb2e51cf3c3a85a13ed527794ee4c27c62"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountPermissionsPanelProps.md",
+      "bytes": 1214,
+      "sha256": "87143468c72d7bb69877e2432d5fd3395ddc9011def9e0313abc6b119b4e4e03"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountProfile.md",
+      "bytes": 862,
+      "sha256": "88fb02f44a286d4c097d3cc7f2a6480fd8ee08448c71b0176c2c5dd926bf3916"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountProfilePanelProps.md",
+      "bytes": 929,
+      "sha256": "2b13008423649700f71e71e9b5dfbed66f2dd2b70bd05b19d00465fc52689d56"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountSecurityDialogProps.md",
+      "bytes": 4124,
+      "sha256": "b73e6f1599e6aa8cac2852f919f75b99162d49c4e64058475a0af531cc1969de"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountSecurityOperationState.md",
+      "bytes": 1212,
+      "sha256": "7a8783632971f84276e5fdadd2493a616756f9207e55e97f6ea44d39c2397c00"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountSecurityPanelProps.md",
+      "bytes": 2847,
+      "sha256": "8b2a69133f73b038f142567fa4b672f4b1cd563e68f021f0ab196a8cf33ee4c9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountSecurityReceipt.md",
+      "bytes": 771,
+      "sha256": "21cb1830eb6aeeefcc16f6915d04022335944960ced8d318d84740f81b0223e2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountSecuritySummary.md",
+      "bytes": 551,
+      "sha256": "0276ddbe135b7dc4ecb1e0110ea9b278663f0e3e250658768bea64574ef24b26"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountSession.md",
+      "bytes": 522,
+      "sha256": "9af8a958a6c8bebf326f4fa0057794ea67c39dc59878fcbccf2ec9ac8ababed8"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountSessionsPanelProps.md",
+      "bytes": 1323,
+      "sha256": "6e14b4a8081842ccd79dbdd01f847366eae397ce318c524393be06e7a731d28c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AccountUpdateProfileInput.md",
+      "bytes": 332,
+      "sha256": "c0dac08299b0f7f149514ffecce2252eddd5dfc3d5193cbdd0ba4d2f2cc6b9af"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AppContinuation.md",
+      "bytes": 513,
+      "sha256": "82638478be22f4dcde3e15a2745d96196462eec08730ee7e27b82115a37fab56"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/Appearance.md",
+      "bytes": 1155,
+      "sha256": "a1c5b64679b93fc656ffea4cafc6640147c8b3af3576867b7ac821192e398291"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthCapabilities.md",
+      "bytes": 933,
+      "sha256": "cc33ede82b9a68a6ed58b496d8202fd8cb3062057d00ae0a29743e9077fae723"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthDialogProps.md",
+      "bytes": 1092,
+      "sha256": "056fa6445bf416db213392f3199eec66805fa7ef35c14a0c6686d4b075f83f4a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthEntryButtonProps.md",
+      "bytes": 46714,
+      "sha256": "a910a0799b2c7e983cf6581a6adabdea2c54cd28e4fcc3f94a3896efd5787e0f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthFlowActions.md",
+      "bytes": 3749,
+      "sha256": "67dcfb54c646c7ef9038458c931bc1674b07b87ff23dfda3211d26e2487818e0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthMethodAvailabilityResponse.md",
+      "bytes": 577,
+      "sha256": "460edabbb3450d1ee12a7184ad711822a09b69b88b188e357269b6a3f9e07396"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthMethodIdpProviderResponse.md",
+      "bytes": 749,
+      "sha256": "9b8730186c6d50836c9f37dca375e525cdd0086ead403c9c144ffddf7b18e845"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthenticationChallenge.md",
+      "bytes": 467,
+      "sha256": "6a90254ed23f9ad59e87eb758a9c2b4b0d68139dbc0412196d96ed87217371b6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthenticationContext.md",
+      "bytes": 1117,
+      "sha256": "ffcc1fec1103125232038a3aa0d0bcaa4fd5dd6a5e13916a5ba03988ddfe4068"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthenticationTokens.md",
+      "bytes": 517,
+      "sha256": "3c956210154788052bfe60143846a61baceb16ffa601a8580709be6d37010cb1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthenticationTransactionConfig.md",
+      "bytes": 613,
+      "sha256": "114908c5f117d593fd3b19c39ef90bb0cd2beee55c0d56bc08307c4c641a1b9d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthenticationView.md",
+      "bytes": 569,
+      "sha256": "bb90ac39f08ff26bf04070ae2e09be543dee09c13139ea16ef57ac8755ff1297"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/AuthorizeIdentityOperation.md",
+      "bytes": 521,
+      "sha256": "8646a317c677ef4f57833d702bfefce7323e488029e2b2d7d28853c8d75303a3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/BrandingConfig.md",
+      "bytes": 1465,
+      "sha256": "e2f75ba3cd744413628bdb15ac66c7fae5480ccb432f217726c53dbb6ee4cf99"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/ChangePasswordInput.md",
+      "bytes": 286,
+      "sha256": "9272732d70a8fcc3901c0e38d36a6155890a1a7c7fc209d69c0b8cb3c9af5f0e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/CompleteIdentityOperation.md",
+      "bytes": 403,
+      "sha256": "d3effbc8e68ae11351e9c6c345ef053350d93ce99ec47cf60d29f25255a1c49f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/ConnectedAccountsProps.md",
+      "bytes": 635,
+      "sha256": "7031852857bb76b1d9bd01e820b588b93bef9ad3375e754626453940a07aedb1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/CurrentUser.md",
+      "bytes": 619,
+      "sha256": "9cada2d014ed3f23de8fa97648300b5eb2913f3a563df7ad4ffcd88c870b858f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/DefaultLogin.md",
+      "bytes": 295,
+      "sha256": "3e2352dcacdf12b696862ee9dfcaae6ae763c15f856f571c5807dbbf7dffc07b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/Device.md",
+      "bytes": 350,
+      "sha256": "add136d12a05aebad4bc274aa141817c8b1736f40e93b28f7d481063b8af4ab6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/EmailVerificationResponse.md",
+      "bytes": 304,
+      "sha256": "5597fc483381b6aa5904457eb1e1fc13261de7ba7db52ba2d080a825f173c7b5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/ForgotPasswordProps.md",
+      "bytes": 537,
+      "sha256": "5db51747956aff4cf6a256d9e780f617dea807d3ab6dbd9bb9cf574e3f5996f1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamApiErrorDetails.md",
+      "bytes": 336,
+      "sha256": "762a955429adabae6bd2b0191dca4ac6ce27a24937136ed1d57df5b94aa3362c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamApiErrorOptions.md",
+      "bytes": 447,
+      "sha256": "f1ad532ec4fbaee9ff41b6f22cb82cb77b4ec1d49b28f959a0d86b590f47d0b8"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamBrowserConfig.md",
+      "bytes": 698,
+      "sha256": "2bb049659c7b463ba134e2d25612b141c9ffaa8559a255d2e6abaf12187ee907"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamConfig.md",
+      "bytes": 1605,
+      "sha256": "e97b61fa7b801f86f0dc2b5108fb8fd85afdac4e678829fc47c406f06db7d628"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamContextValue.md",
+      "bytes": 3434,
+      "sha256": "8ff1167530aac18fae125f1a6f75360ccc94ead1a0c7635ce9da7e65c5d6374b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamJwtPayload.md",
+      "bytes": 2233,
+      "sha256": "07ba84fa87bce1ed85e3edb21e5464787111d117d224fc66826fcac75b5abf30"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamLocalization.md",
+      "bytes": 31622,
+      "sha256": "74bba92e3249f1011182ec5ed16b78e66b61e9cbe9968c22442ce572b09712d6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamProviderProps.md",
+      "bytes": 55143,
+      "sha256": "b09b3cb9a08327a70ab6f8524dffd527915ac76b69d235cee3af22637a2fd732"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamUser.md",
+      "bytes": 1823,
+      "sha256": "7e6ee7d057be938b3e8490a6ebdc883817fc7f26e2409fe58a15ef77b30f6625"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentifierManagement.md",
+      "bytes": 530,
+      "sha256": "cdd565ae3570eb4ab0872a3f3b8dd64d6444e52e48ad576e8d69df6ffd575cbe"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentifierManagementCapability.md",
+      "bytes": 585,
+      "sha256": "ceeb3aa71f943dab94f8f86a010bcd3719f669ebea043af30cf42c6fc8d1ce93"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentifierMethods.md",
+      "bytes": 289,
+      "sha256": "947707b320d84effb2db718c20de5d13d6ee3ffe9210d86a6e9eacb68b485c51"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentifierPurposeRestrictions.md",
+      "bytes": 373,
+      "sha256": "f83396d86f716f1c3b7a88b536fc6575ba0ef01ea07c904ef9f9db34f2a2c92f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentifierRestrictions.md",
+      "bytes": 380,
+      "sha256": "dbea6dfcf6e66d6463b317a270079fb29279fddd61a24a230f79473e763f3f09"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentityOperation.md",
+      "bytes": 1378,
+      "sha256": "19c61fc22dd1f2f1f4e9328c4b313ea1aa19a6b803e2cc4d07ad71e4dbc093a5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentityOperationSnapshot.md",
+      "bytes": 608,
+      "sha256": "f841c7fc8152051211bb6c90e9ccebcc2b914e65153115664c8d38b9c5dcf3f0"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentityProviderAuthorization.md",
+      "bytes": 363,
+      "sha256": "27ac1fafa04b8390c2ce09ee44567e4a40e71c3b64b1861de91170443eb9be16"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentityProviderOption.md",
+      "bytes": 851,
+      "sha256": "7894290069cb0403d2a8c743cf77fdabce06a435dfc7d37ddfb1f2fb441baf2d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/IdentityProviderTarget.md",
+      "bytes": 412,
+      "sha256": "416bdd3fb711f36aa4c60542298a17ebbaf2565b356d229768b8e5335b5974d2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/InvitationAuthMethod.md",
+      "bytes": 586,
+      "sha256": "0d8718836d4c3c2dc6f20b901585dd8b71588c423e2f0fec82fff2ae7bbe6b41"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/InvitationAuthProvider.md",
+      "bytes": 735,
+      "sha256": "7e41add89170ae7213434ea38a9e43baea868b0ff59f567a46a3a7b5da13f0d9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/InvitationAuthentication.md",
+      "bytes": 495,
+      "sha256": "d2093b785575ed479f6ce6c954468382a5b289e9ee2f1c129168c214e646bac2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/InvitationClientConfig.md",
+      "bytes": 632,
+      "sha256": "64b0cd142c4622faaf14884a0881b438f25bd7f8caee72c05032daa76d669381"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/InvitationConfirm.md",
+      "bytes": 314,
+      "sha256": "d24198c5f0566dc2f8ad3fc7167851b09ad964adabfc66012c7a0d4b7ed0ff6d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/InvitationEnrollment.md",
+      "bytes": 738,
+      "sha256": "e997160fced2d9f26c30e05e03443e84a566c0effc89ba464b7988e2613907d4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/InvitationEnrollmentBegin.md",
+      "bytes": 691,
+      "sha256": "21c8afc519fdcfcacce3bf1540c83e35aaf51058e5171135c609e0fb32606a5b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/InvitationJourney.md",
+      "bytes": 1107,
+      "sha256": "3e0e9e866ab2c8ba903a4313f7ee398d4aa07b0471125f054d52deb1b77b234f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/InvitationRegistration.md",
+      "bytes": 445,
+      "sha256": "1052bb52059b141c60e78527efae77ecbb4a8e0e0cd4d29093891c513a1c5abd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/LinkableIdentityProvider.md",
+      "bytes": 813,
+      "sha256": "c70fdce0cdadcc2031d9b5861af41503b371caf6122f151e3a5d7760277394ad"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/LoginMethod.md",
+      "bytes": 834,
+      "sha256": "cc3594c51c6b6f687e7b7a54d19d62c8a7bc16a44ebce9ab5c74f93d2a81e050"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/LogoutOptions.md",
+      "bytes": 600,
+      "sha256": "1082e2c1130f3c0b01bb320e533aae6da1a5fc7fef0f8b65b09c01c803d049e2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/LogoutUrlOptions.md",
+      "bytes": 412,
+      "sha256": "461dcc9b5db0bd40f80fed6098039c41a075217191c04afb31dce695a28afc6c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MenuItem.md",
+      "bytes": 363,
+      "sha256": "f1396ba628648909eacc9c8438fe072eebc73393aeae9a4e5082a382562b16fe"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaActionCapability.md",
+      "bytes": 495,
+      "sha256": "2eb8bb35f6875837b283b316143bc424ebc5c103a28184372e557efa546c333b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaCapabilities.md",
+      "bytes": 521,
+      "sha256": "ed1a190487b260b9cfedadc83798ad955816f2e27f62941375ecce1dfcb18844"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaCompletionResult.md",
+      "bytes": 433,
+      "sha256": "4e042278414d016047eb187730c093f64073719e26aec470448f16d665635ba9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaOperation.md",
+      "bytes": 1191,
+      "sha256": "a4f16aec9fbd0791cd3e47ad2ee28e4d9fae00d024cc3f5ae12701ea70cc3b95"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaOperationAuthorizeInput.md",
+      "bytes": 235,
+      "sha256": "3adbdb271918caa7d105e4a2ef4cd7f45250460940a4763a899b1307791e84fc"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaOperationChallengeResult.md",
+      "bytes": 376,
+      "sha256": "2384ab125f2bb557088d94c4901c09263a5dfb9f559510e954d5657658c1b6bc"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaOperationClient.md",
+      "bytes": 4374,
+      "sha256": "57f611e423c374c30de14c9927216ddeb7dffdb93081b1199d2ea2b438022c7e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaOperationProviderAuthorization.md",
       "bytes": 347,
-      "sha256": "d65b28387201a481d6573252c10f12716a3e3fc036373c0938852d15904944c3"
+      "sha256": "2934e108bea6270a8cad125382be2beec6f0df89443206f6cad946cd145fc1bb"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/RedirectCallbackResult.md",
-      "bytes": 392,
-      "sha256": "38b73f980119f8e0d339015f91e843545487c7c387de529288a4639fa5d6e306"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaOperationResult.md",
+      "bytes": 538,
+      "sha256": "3411c0ff798c5e914b35541484022ee14ba453d037a0311eac7203e83606d969"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/RegistrationGrantInput.md",
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaOperationStepUpResult.md",
+      "bytes": 349,
+      "sha256": "f959f3d67c8d99b65d8e624ffba45655ad3f28f7598a268350211480c3e448ab"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaOperationWebAuthnStartResult.md",
+      "bytes": 296,
+      "sha256": "9d31aaf855269cc9c46f3f6cfd810c0e2e7f68b41b625ed4058faf5db1d12139"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaRecoveryCodes.md",
+      "bytes": 250,
+      "sha256": "b8d506b166c5aeeaae7d203bdbb79ed0522ebd4b5e72f1dd96bb2a50d993cebb"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaTotpBeginResult.md",
+      "bytes": 419,
+      "sha256": "44ebfe686c4903a3a9bf77bc9aa4f65f02b675de07f57e9e00af941b9f9b63c9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/MfaTotpMaterial.md",
+      "bytes": 297,
+      "sha256": "324dc96fef9695522b74ce8228665fd4d1dd2a67909ba8f01d7e2e6a4a46450f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/OIDCConfiguration.md",
+      "bytes": 860,
+      "sha256": "c671b426b90f3b4b57dc24951c78ef26aa95aa50a04f7fcfb8c69f8547bd9e5c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/OrgSwitcherProps.md",
+      "bytes": 616,
+      "sha256": "12c4a81e7f209bdb2d64741340f9a65388d976ec97a24eb3b20384d11e9afed5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/OrganizationInvitationAcceptProps.md",
+      "bytes": 1065,
+      "sha256": "5c7362ae5feebf7ea6d055f1c781345980dc39bb7d63a4573928a399d8aea05d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/OrganizationSwitchResponse.md",
+      "bytes": 423,
+      "sha256": "d7d72c5db31e1e414ae13de7c4af7e9be5c5db5079905d5bc29d73fb737bec70"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/OrganizationSwitcherProps.md",
+      "bytes": 602,
+      "sha256": "2f5c1af9fd4ae45ddd1be53189157dbe193aee7fc17b470e4367cff090d76eca"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PasswordChangeFormProps.md",
+      "bytes": 868,
+      "sha256": "3d6d620144bf5f61d3c7ffe5ec8320a43f12dcdca014a9c775fd503961b98027"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PendingAuthorization.md",
+      "bytes": 852,
+      "sha256": "c9583e3b33085650e59d69feba50f16720c6c9648a9b25b624d71c347d1d9a93"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PermissionDefinition.md",
+      "bytes": 448,
+      "sha256": "898fca25c27db7d4afe134d3f04a289a4fe72e22837ab4ea3f5bab1727890519"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PermissionGateProps.md",
+      "bytes": 518,
+      "sha256": "b2ff69ca36244a31d55e7d8c5a5a9f4b3b06fec8c8ad568a8e3ca2ec5fdef9c4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PermissionKey.md",
+      "bytes": 277,
+      "sha256": "d3e9cb5b49554dff2b8d94ed78d918c978c71b45e381f6dcf965078cf06a55ee"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PermissionResolver.md",
+      "bytes": 526,
+      "sha256": "821639c3f0463ebe71c35924b498ad7734e64a2975b83b22e9a0749830b68de9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PhoneCountryOption.md",
+      "bytes": 304,
+      "sha256": "312e6ace554f2d671758fbf68b7a580a8e349213e00a1a68e9d10eff5f71ce77"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PhoneIdentifierRestriction.md",
+      "bytes": 309,
+      "sha256": "c894d2be0540428a8eb4261a51e852a12f98c4baa3fc994eda6ff4c97b831642"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PhoneParseResult.md",
+      "bytes": 312,
+      "sha256": "493101c7d69cd46ec644a86c6796ff597a35f8c8928f37861d28fec48ee82bb3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/ProviderAuthorizationOptions.md",
+      "bytes": 695,
+      "sha256": "fc479a1222c6f1372ea9c7e11da1769c89263615d1dc5acba389efcd905582f2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/ProviderAuthorizationResponse.md",
+      "bytes": 310,
+      "sha256": "51405f4a65b7766acba555aed56f206a6241a3cfd44f09fdb001bfae8c050ef6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PublicAuthMethodsResponse.md",
+      "bytes": 2836,
+      "sha256": "15a2ebbb17c8954fc5365019db410997e6a55d74ae38944fde00d12470abd8f6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/PublicAuthPolicyResponse.md",
+      "bytes": 2477,
+      "sha256": "f40b3854681d627ff1c0028292f288f376a55dd2ce5181d8accb49e6ccc04d5f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/RecoveryOperation.md",
+      "bytes": 612,
+      "sha256": "1109962fc34a4b0cfeeff69e45a842ccadee1360885c093c94b5b98542da6efa"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/RedirectCallbackOptions.md",
+      "bytes": 310,
+      "sha256": "44046c38eae0dc47fe40a8ddf1518a44a7d56ffe5adbffb8f5ae2d1f2fc79149"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/RegistrationGrantPreviewResponse.md",
+      "bytes": 797,
+      "sha256": "24693c0a77b30d0a6fefc72745de82069fb9674e00671a993afc661feeb184fd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/RegistrationOperation.md",
+      "bytes": 557,
+      "sha256": "aa72622923f5f4235251ff1faa1cfb915e9084eb8073627504598f75a5190b4e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/RequestPasswordResetInput.md",
+      "bytes": 344,
+      "sha256": "99f16266d1e822372814d39cbf462f8c33738a161aff0bd1f2774f03cd9f73d9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/ResetPasswordInput.md",
+      "bytes": 310,
+      "sha256": "e4122734646ec4238559f3c56b84e2a95d939be9dffae48ec72260250f33d736"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/ResetPasswordProps.md",
+      "bytes": 607,
+      "sha256": "4f8feb8ec6ef063cd7bb594302238528ca1d3eb0385648718232cbba24c870a9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/SendEmailVerificationInput.md",
+      "bytes": 287,
+      "sha256": "6678c7ac63cd0ec5edd095c06b6dae43cd218b3e737f05fb82d73495599c6f17"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/SessionTransport.md",
+      "bytes": 456,
+      "sha256": "b0221b34c4f8beaab2376547eaf24e94cc40193f67b01a65d2590ca3b657b0b4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/SignInProps.md",
+      "bytes": 1861,
+      "sha256": "5d659576f7f74b34be9e315ec1b3913db01b0337262fc92779bd54b383dc5fb7"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/SignUpProps.md",
+      "bytes": 848,
+      "sha256": "95af70d900a38d76cc69a24ceec0c27c1401c0d2bb2aa338566683dd6ed5c0a1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/StartRegistration.md",
+      "bytes": 655,
+      "sha256": "10d1b83a3cd5568db593964da06d80fe99db5b1f598118374f5b8693c898fc1c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/TokenSet.md",
+      "bytes": 511,
+      "sha256": "522aba3683f7420c8ae82bb12fa889d5dc9382ad0da8fad2e793c4ad90dc1544"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UncertainIdentityCreate.md",
+      "bytes": 347,
+      "sha256": "61a8440c5354144f9e52a55ab7389a16ff333b90162d1f2a2d0cab3d596a588a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountLoginMethodsOptions.md",
+      "bytes": 253,
+      "sha256": "2515efef0abeafad312e52066b4a3d34caf6ad0805bfc503dadd290d568edc11"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountLoginMethodsResult.md",
+      "bytes": 582,
+      "sha256": "441eeb68d6d746f078da62d3a2490cf1ff856b32623db0115b9b967f8d56ef7a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountOrganizationsOptions.md",
+      "bytes": 344,
+      "sha256": "fa6f61fa16c5b31ea85db0edf419f338a619c1d89c1d2556dcfc6586f987863b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountOrganizationsResult.md",
+      "bytes": 685,
+      "sha256": "0174dd718b5f7f17e363031e2fc1ecc94ea03c579e5de66eaebbc270f734a9a5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountPermissionsOptions.md",
+      "bytes": 331,
+      "sha256": "5bca86dfa2109d563a11759f7755f9cf6df686ad79358c57d9e22dc8b317d2cd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountPermissionsResult.md",
+      "bytes": 1191,
+      "sha256": "5ac2139fbd90c3bc1974296540863f857cfbaab7343d3f622ecd8f3179a7b338"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountProfileOptions.md",
+      "bytes": 243,
+      "sha256": "372da6b95490342184cacccd7f70e8bcde81bdbfc70f6107b667a1aa4b136718"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountProfileResult.md",
+      "bytes": 856,
+      "sha256": "9cd61db46e6d890014d121dfcfe6de6d9920d0696248fee247dc7f00c0f334e6"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountSecurityOptions.md",
+      "bytes": 245,
+      "sha256": "3cf0082b0050a964b367e76250f3b32099f877b90c106e89201e75f062570f99"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountSessionsOptions.md",
+      "bytes": 245,
+      "sha256": "1a858e3bd7cdf491f0dcc9a7dd77f0cd365618626f65fba74436048814dac0ec"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAccountSessionsResult.md",
+      "bytes": 1073,
+      "sha256": "77748d3f00d8abd29a00329a68e8f505eab4f51efdbd2dcfecbd6be3fdec8045"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAuthFlowOptions.md",
+      "bytes": 1071,
+      "sha256": "e252128e3f744f03aa99156bcfc65244eab05cba52fe8f1028a1e391127cc197"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseAuthFlowResult.md",
+      "bytes": 350,
+      "sha256": "85625b2075f4368b852f02f86de62ad4da912c0556da51e6dbabebc0f410327d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseBrandingResult.md",
+      "bytes": 466,
+      "sha256": "6127a2151052814271b89d882f40c647a7d0a69b5201c704f92895193620de83"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseChangePasswordResult.md",
+      "bytes": 477,
+      "sha256": "8189b5e96ae126baeedabd452774323fbf8fc0e81095eecc281f0c6955d6bb84"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseIdentityProvidersOptions.md",
+      "bytes": 462,
+      "sha256": "afcafeee353cc2f93a2e38019700a2bdcd164bdf26f9a37a5938e1ed6145a394"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseIdentityProvidersResult.md",
       "bytes": 573,
-      "sha256": "e88f6f3d79374135121a1a3f5f477e82d4f056b7ad5b6edb1d18c846662be352"
+      "sha256": "d096116e8ccef1d0515860e9ff1250e40a405cf321a9c34ecbadba97abf2e11c"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/RegistrationGrantPreviewStatus.md",
-      "bytes": 288,
-      "sha256": "9f4029973a72dac06eb69f00fc5c3638b0561f37009fc895a33adaf65ebaa654"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseInvitationJourneyOptions.md",
+      "bytes": 306,
+      "sha256": "b94e2fea277c584db21875ad8fe1b1dcae444915f97a6604e309317a45fecd95"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/RegistrationGrantType.md",
-      "bytes": 288,
-      "sha256": "4d87e6c0c67e846852a3ac2d2be1115ab85bec8f5e1c4cf93e87587471a055c1"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseLinkableIdentityProvidersOptions.md",
+      "bytes": 344,
+      "sha256": "49000c9045d0f2713bacda177c32bbbe2f00d6c91587dc139e83713a0a0e6a3d"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/type-aliases/SignupMode.md",
-      "bytes": 311,
-      "sha256": "cdf4780b89e5340f3c68865c4f455b2e3b57d7027b2f3542ae66576bac54c605"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseLinkableIdentityProvidersResult.md",
+      "bytes": 719,
+      "sha256": "4e9f22dadf3664be8ce569421acb4f07c8cfd7c26bddcb0eda7746944953e61a"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/variables/ACCOUNT_LINK_STATE_KEY.md",
-      "bytes": 305,
-      "sha256": "314143ef150438f621f5224c37cf9c894cbe6b6c74ea4f9dc4f90a7f7bc7c2b6"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseOrganizationSwitcherOptions.md",
+      "bytes": 487,
+      "sha256": "18f26577751ec07d2377b06b829be23688cf2ddf7415a308956b0df2211221c5"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/variables/accountCenterEnglish.md",
-      "bytes": 308,
-      "sha256": "41dcfdaab1449e0745e5609e7cb396683bc71f2ae8144253c565ce7deb26358c"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseOrganizationSwitcherResult.md",
+      "bytes": 1491,
+      "sha256": "29909d0147edb3a66411eb393391844eab38ea8c4b80cc71a1104a0cb53ed953"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/variables/iamLocalizationEnglish.md",
-      "bytes": 294,
-      "sha256": "abe53f0211bc76ebe4dfdf6b1de3387fb804ce8468a89f4fbbf82376290c967b"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UsePasswordResetResult.md",
+      "bytes": 688,
+      "sha256": "3f38a8598bc8b9370b653cc064cfda534fe160f2578cc98bebc257374df0fd5c"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/index/variables/iamLocalizationZhCN.md",
-      "bytes": 285,
-      "sha256": "6a274d74f381a250c22f4e7300721b9bb65c24720bfed0c66a1c488719459845"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UseProviderLoginResult.md",
+      "bytes": 675,
+      "sha256": "a29794c45b321b115e8d270a993a503934127d4ca4ac22af3370a8046869ba1e"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/server/README.md",
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UserButtonProps.md",
       "bytes": 393,
-      "sha256": "f8cf23a915dc9c177f9214e214dc1a90b9a33e0b365c8c2829dea48a1064f217"
+      "sha256": "63ad7d7e0aa7552765f636b3acc629b5b5408f44a8e71c2249a5311db5fc37e8"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/server/functions/authMiddleware.md",
-      "bytes": 1530,
-      "sha256": "54a49accb3b9d5fa173ca54d4a9034b62c23bdee749c2124908b8eee3d5ef262"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/UserProfileProps.md",
+      "bytes": 253,
+      "sha256": "30d20c6cf9a0ab530aaec1ec658e5203a9ef9f302c4a466e570bc3cfaae9e9f0"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/server/functions/getAuth.md",
-      "bytes": 1168,
-      "sha256": "03c480d19ef216c5461b4b90155f0d181c5c86c179825875b190eda9152811f3"
+      "path": "docs/sdk/javascript/reference/generated/react/interfaces/VerifyEmailInput.md",
+      "bytes": 209,
+      "sha256": "a680a18ae45d2bd1ffe730dd6328b4a8506d1eec04ce5ee3ec02d34e96ef0d32"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/server/interfaces/AuthMiddlewareConfig.md",
-      "bytes": 902,
-      "sha256": "db634a7f16ba531c3dc19052494d2bd5a522423b5bbf3c61d61a0de2f8da31f3"
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AccountCenterColorScheme.md",
+      "bytes": 247,
+      "sha256": "67248cec040c764f9f38b4e688040025aa2569ec44c903454733e7f1c236fc01"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/server/interfaces/AuthResult.md",
-      "bytes": 839,
-      "sha256": "cb2d42e8718dff56b42db7a228955744fb003977c89452f5ff5f437a4b98cce4"
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AccountCenterLabels.md",
+      "bytes": 331,
+      "sha256": "c310845f455b53c0dbba5b3925baa19b34c01c57af531714757db5463aeb08b8"
     },
     {
-      "path": "docs/sdk/javascript/reference/generated/react/server/interfaces/GetAuthOptions.md",
-      "bytes": 342,
-      "sha256": "2fc1f8f1d76af464a0860ffcd978d68ffa08d1ffbf3a0a5e11b98d64416f16c7"
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AccountCenterSection.md",
+      "bytes": 293,
+      "sha256": "ff443ffad6cffc1f85a15f901ad069dec20fd76add788099bd988be1af5f3cd8"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AccountCredentialType.md",
+      "bytes": 287,
+      "sha256": "95ca79525d1d7660748fc76eb241ba5a4b486d7f1bed6edc3466577e40dfe76c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AccountLinkProtocol.md",
+      "bytes": 254,
+      "sha256": "e474f442b5c029c2acab61a95367cc0c02c32fc13248960133835c2bb4ee5c02"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AccountLoginMethod.md",
+      "bytes": 239,
+      "sha256": "d31a2c8fd8afeb069cafc7e5dbec7bdfce0c9c33458f5b0c93a08935b2615300"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AccountLoginMethodKind.md",
+      "bytes": 268,
+      "sha256": "3a48743a10ab66eed7f3f8257f68bf53b05735faaaf54e76d942b32ef84c7f20"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AuthClient.md",
+      "bytes": 274,
+      "sha256": "6086acd98d290398582d863bedb5aa3c1e8605c3bb65142a7fdb131a0b39dc20"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AuthCredentialMethod.md",
+      "bytes": 258,
+      "sha256": "c97486b132831ff757d8e99d7a93ac217d76a174c8edf76df3de68229d4948bc"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AuthDialogView.md",
+      "bytes": 208,
+      "sha256": "feeed218ca55a81fc94af38e19db9a28f45b78bd3f566ae0374dd46cf00710ce"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AuthFlowIntent.md",
+      "bytes": 208,
+      "sha256": "55eae7784499faf7096ec40dae19232df493ad65f064c097f91cb867f862e4d4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AuthFlowState.md",
+      "bytes": 1004,
+      "sha256": "e94a90bcd8e3d91e0856b7007c1e7db72b03184a16a06b1f4152438acd2a8809"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AuthMethodType.md",
+      "bytes": 264,
+      "sha256": "f163026e94468550a36bcae9d330e2908e08156cd18d8513c9f3813f61609736"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/AuthenticationFlow.md",
+      "bytes": 2229,
+      "sha256": "4770017960bc121afd47f510e0654d96cd73338e401e41354393020314ec0881"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/BrandingIntent.md",
+      "bytes": 205,
+      "sha256": "94dc001822d1b677e981df689c4ab50147a171a94104b995280848dd3af76f01"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/CompleteRecovery.md",
+      "bytes": 354,
+      "sha256": "8722e5757101dc658d9a53df4ab675b48997b7332e5c3a6ab9a12226d6786297"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/CreateIdentityOperation.md",
+      "bytes": 354,
+      "sha256": "9196a58bf53828bae10aebe7f1f4d1f42aaa28fcf759faa1749ad3f8003d0ad9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/IamColorScheme.md",
+      "bytes": 217,
+      "sha256": "79debdda0bb4111e27b674563559998e16c831e09bf3592d4f3ca16c308acba2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/IamLocale.md",
+      "bytes": 209,
+      "sha256": "16f3d8db2380f63785b508e640da3e841857cb5384266dd6767662e653fc0fd3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/IdentifierManagementAction.md",
+      "bytes": 292,
+      "sha256": "bb1e5bf2ed96997e2466c7d20d8c497471e96ef8e26032705924fffe6e4c156c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/IdentifierManagementDenial.md",
+      "bytes": 583,
+      "sha256": "24d15e0c10bb8a1925a9ac49f56f2885752d2da3151c43e8238fc88eda9dac71"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/IdentifierManagementRequirement.md",
+      "bytes": 433,
+      "sha256": "7b8f80ee9bfb30cc2f62d69ea7555600441f09ed20a473e1f14c2445730cb709"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/IdentityOperationState.md",
+      "bytes": 325,
+      "sha256": "ecc523b60e2ee46c0cd6916671f826e21934cc4acb8135968a6123eb4e934f17"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/IdentityProofPurpose.md",
+      "bytes": 271,
+      "sha256": "f8c64b87efced01df6474f9f03dede550e2ff073ce5d2688bd39b2dd4a2c3cca"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/IdentityProviderProtocol.md",
+      "bytes": 288,
+      "sha256": "3d0d27a1d02dd88fa44d3d98cbf451308d64fb69b694e012400ef3549567e8ce"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/InvitationEnrollmentCompletion.md",
+      "bytes": 410,
+      "sha256": "1bff6ec826693046d07418be9c1400e57a126a3cd0e5932bb953fef79989916b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/InvitationEnrollmentMethod.md",
+      "bytes": 242,
+      "sha256": "d9cf3bb31033c98daeb2437dd05ff3e4138ef410f0f0d32f1b2d4c8ba7fe43f4"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/InvitationJourneyApi.md",
+      "bytes": 729,
+      "sha256": "0235c7b455342b8f48e7662cc6c278c4b3345b915a19eff3047ffe93b5a52abd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/InvitationRegistrationInput.md",
+      "bytes": 418,
+      "sha256": "566fec21b060f36989902c4b870277966df98debadf4dac51001c1c677763e3d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/InvitationSessionRequest.md",
+      "bytes": 2207,
+      "sha256": "34b2cd66554c0c202715359f8e9c1653cef9cab7ad0e70bf4804f1739a923168"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/InvitationState.md",
+      "bytes": 354,
+      "sha256": "435d20b66a7d45163cb643206125fe7e48eb156338c60fdf15a39712d7227f53"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/LoginIdentifier.md",
+      "bytes": 394,
+      "sha256": "ba125afa4d8083fd571a6998e7d99bf5ff168c0fa30261afecf4ed523a08993a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/LoginView.md",
+      "bytes": 255,
+      "sha256": "13c0377f9fedb78013b0942afac20d44532018d5522bc8c21bee4affcaa7d5cc"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaDelivery.md",
+      "bytes": 233,
+      "sha256": "09165411cac656653dfdc3f99a8daba15d1a45a91d081c0e9823d37e995db0b2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaOperationMode.md",
+      "bytes": 226,
+      "sha256": "795a0a2204859dac812d06188578b85ef12b2e88147dda2acaa6d866fa7f5286"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaOperationProofMethod.md",
+      "bytes": 275,
+      "sha256": "87764ae57f334459eedbe105fd44991498ac5a0fc9bc1df1b2ea9650fad3315c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaOperationReauthentication.md",
+      "bytes": 353,
+      "sha256": "cd7e32266b7a138cf5e6325ff1b7a68079bc2c5be940172ea11eb2abd1435052"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaOperationState.md",
+      "bytes": 301,
+      "sha256": "b13be9a7ea8417827f5a05b1f05fdb3ed4c78bc64a60df5c4a40860e5e9cbd1a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaOperationType.md",
+      "bytes": 254,
+      "sha256": "f5996b9eb7191049298b13343d65a7647ec0fc4705730a0ebe5cf1a2c23bb4c1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaProofMethod.md",
+      "bytes": 211,
+      "sha256": "3219d257211454a75f266608650026d931acefa7f7a6b91ce512f4fdd5bcde87"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaProofOption.md",
+      "bytes": 845,
+      "sha256": "ecd91fa1c2b959e74ffc91e0d39c1bdde94b13f549dde6d0b6f2becbad5ed74f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaProofRequirement.md",
+      "bytes": 247,
+      "sha256": "293aa9d60931dde12f928548a88f017aca84706d605fe65b68c8c2e09c28632f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaSessionImpact.md",
+      "bytes": 255,
+      "sha256": "439f79c33e8ac29392dd6bed67b91647c2f8db42a8e9ac6782861479f9374152"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/MfaStepUpMethod.md",
+      "bytes": 209,
+      "sha256": "52aab554e8f4232a8074339d6c30ec0e3b36d1e5f06ceaa97a4ee572961b7496"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/OperationReauthentication.md",
+      "bytes": 343,
+      "sha256": "dd8f8e4d08c5534a6f5bbe78c92f11a5a8b135a3cfde66bb045cd0331b9f4edd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/OperationView.md",
+      "bytes": 297,
+      "sha256": "63cfb7b26b5fb6beaffd4274d0b9ae2c7ad539cd7a141e5a479aaf4d9506396b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/PartialIamLocalization.md",
+      "bytes": 276,
+      "sha256": "e057ffd7fd66954fe69173d7665cbe6e16f7fd4b5af325e370ea463119979ace"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/PasswordIdentifierKind.md",
+      "bytes": 257,
+      "sha256": "2a41b2849e304dd0d564c3484379183deb44b351b3000bf6280a1f6069ce9b67"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/PrimaryAuthentication.md",
+      "bytes": 449,
+      "sha256": "b5951579b4de58a22b35aff3d46a9a006675c3e9d3e150acccd9751d2e9977ad"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/PrimaryProofMethod.md",
+      "bytes": 246,
+      "sha256": "eebea6e2b4ef3bc81992d7fd3f9d91c6e5b81cb0d3f26bd2596af64796252721"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/ProviderRegistrationGrantInput.md",
+      "bytes": 409,
+      "sha256": "115c7d8ed3feb53793126aae035a59d6366e809a75f975b5c2506f488ca71d0a"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/ProviderRegistrationProof.md",
+      "bytes": 454,
+      "sha256": "ce0d721f9c859f1e205f0ca6aef6b5b1f30d6362d736cb8e031953562c88af7c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/RedirectCallbackResult.md",
+      "bytes": 577,
+      "sha256": "8a1c64103f737dfe7496c19c207fde5fcd3b8cf5be282efb173d8060a913d226"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/RegistrationGrantInput.md",
+      "bytes": 543,
+      "sha256": "7a2d296a9752895bcf94749b088982e6a167bc9ef0bd163d15081ac9967a8bf5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/RegistrationGrantPreviewStatus.md",
+      "bytes": 258,
+      "sha256": "95f6ad8484ae1b07115a45a6bc2148b59cc0e2be9775815aef5f18c8ac53b3e2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/RegistrationGrantType.md",
+      "bytes": 258,
+      "sha256": "4eee70254965e25334cc84698f74e96f41c5759049dab1217170173151946d5c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/RegistrationIdentifier.md",
+      "bytes": 370,
+      "sha256": "a26e84e25dfab0a4e4ddf0bd277e8c61f66958172759b21318753c2673281f7b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/SecurityLocalization.md",
+      "bytes": 261,
+      "sha256": "d8ed947bb76713b049f4bbb7fff6eeabf2a27c5d3a6dcbaf96e38458cfe53912"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/ServerSessionView.md",
+      "bytes": 668,
+      "sha256": "049df208d5555e0c3a1ae591c51d18415c579c36c43f189a7aee9ddfe4c7a1fe"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/SessionIdentityOperation.md",
+      "bytes": 349,
+      "sha256": "c1dec4c36c2909707ca370ce4ee36ad4808c93e929e388096fd029b5a5582fad"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/SessionInvalidationReason.md",
+      "bytes": 359,
+      "sha256": "71bf8d2da74ea53087d87c3f2ffd5562c0a0550ce7239999750e9859347b31df"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/SessionRequest.md",
+      "bytes": 5612,
+      "sha256": "9e16601485cdb6d54a70ebcca0d9c876b7ffdab3e112372bce9bfc19120e8ca9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/SignupIdentifierKind.md",
+      "bytes": 225,
+      "sha256": "c47a12dc7bce32fab52874f5b323a269c46c5d0fb9528362e4287f03c671eb49"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/SignupMode.md",
+      "bytes": 281,
+      "sha256": "86ad4356b60aae633e505be74d3fbc57e8303194ca1410a0fb19786af8dc4011"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/StepUpTrigger.md",
+      "bytes": 412,
+      "sha256": "59fef85cc4551476678975b39ebc06d8da308add20b5c6329fe6e187fa12a251"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/TargetProofMethod.md",
+      "bytes": 221,
+      "sha256": "db48cb2cec0d134757ccca63873ba0559f95c4d9a859960a62952849358828cd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/TokenRefreshFailureReason.md",
+      "bytes": 362,
+      "sha256": "d0354d0da1f0f821cbfc50ad48d49c6676edde9fd7d43776935700141812b25c"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/type-aliases/UseAccountSecurityResult.md",
+      "bytes": 295,
+      "sha256": "99c121199bf04e685a6d738786a4803ddc9ec53d25e542e2805ec37f23c464c1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/variables/accountCenterEnglish.md",
+      "bytes": 278,
+      "sha256": "ca0e4c878f5486d7aba15fac3e31d6132f524d59eb6c6bf272dd0a8a4d0a03ca"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/variables/iamLocalizationEnglish.md",
+      "bytes": 264,
+      "sha256": "0b87e6fe613150d33e41d1d58ddfdbf5e5cb60ac00afc419fdd1c39012f9db36"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/variables/iamLocalizationZhCN.md",
+      "bytes": 255,
+      "sha256": "1e64488736c1c667f814980d76aa8bcbff727c2bd812db53175a19f898c32d23"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/variables/securityEnglish.md",
+      "bytes": 6845,
+      "sha256": "619988099d06a23879c1eaa7d0caf3b365bcef5eb4b65c129847c67816249c24"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/variables/securityZhCN.md",
+      "bytes": 246,
+      "sha256": "54fed0ad97508dff7a22ab6088d6db26d6bbd73051b684dc44255d0b4c39e407"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/test/README.md",
@@ -1706,13 +3346,13 @@
     },
     {
       "path": "docs/sdk/python/reference/index.mdx",
-      "bytes": 207817,
-      "sha256": "8c97147dff04e961e88b72677335ea8ca433eefa718e13711344611490a9c8e7"
+      "bytes": 616680,
+      "sha256": "ee90fd2e0adf8899123bfaf6592fe8cd3d6c69a58125557151e62b948e36b4d2"
     },
     {
       "path": "static/generated/sdk/java/allclasses-index.html",
-      "bytes": 52620,
-      "sha256": "e034c92b88fb1d685a512874ae961623f39f7db9ab558e4844568f9a78da644e"
+      "bytes": 81153,
+      "sha256": "c2a6d259b2126d57efddaa034e72d7328bca53383dddc0abf6fff78da10da370"
     },
     {
       "path": "static/generated/sdk/java/allpackages-index.html",
@@ -1721,13 +3361,13 @@
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/EnableIamSecurity.html",
-      "bytes": 5431,
-      "sha256": "fb52cc8e222180584985bb8879446daba32fb2366b74d558433bee7b4a9f721b"
+      "bytes": 5465,
+      "sha256": "e6734ee5ea8bc18c3290d94120733742269430496e7b008e13b460bd82d94099"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/IamSecurityProperties.html",
-      "bytes": 38412,
-      "sha256": "8014d110dccf295aff730d253833c938fb83f120dfdfb2c3d43e5bab1105e59e"
+      "bytes": 40949,
+      "sha256": "49882d0d84c2799adab6034952d118c115db7a38c81869ed648d211f53db1649"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/authz/DefinesPermission.html",
@@ -1801,8 +3441,8 @@
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/IamClient.html",
-      "bytes": 58927,
-      "sha256": "f3dcd1d24b96c721d0f5915261355c47b95aa0a25ecdb2a04a7834da64f483b3"
+      "bytes": 146014,
+      "sha256": "e9b1515391139d53933ad685b2c7ccbcd995e7a34828e8bfcf0e989d85a678b7"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountOrganizationResponse.html",
@@ -1815,14 +3455,354 @@
       "sha256": "d3ed402690408fb5ac1fa985eb0dcb64b3e32a6263dccd5f3c610a81d239b24b"
     },
     {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.AccountIdentifier.html",
+      "bytes": 39467,
+      "sha256": "fdef07719923f54c6860b3bdc7e793f5ff1c593716315157c05f20d2460225af"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.AccountIdentifiers.html",
+      "bytes": 23844,
+      "sha256": "47a0f3552766f0ccedb49ccf41c41adda70582976765f3945907626a9900666e"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.AccountLoginMethod.html",
+      "bytes": 40969,
+      "sha256": "1074f5477be2b6d2af19069e65ba2aa75b43aeb2afc261bc62c64a8ac8681759"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.AccountLoginMethods.html",
+      "bytes": 21529,
+      "sha256": "03d794faf7ebc27edd2f9d56aa5a4101923fc5634317a4e263b34f6ce1f23c31"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.AddIdentity.html",
+      "bytes": 19010,
+      "sha256": "297ecbe643705664d3899a808121759683570673a25f81a7071f01cf502456cd"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.AuthorizationPurpose.html",
+      "bytes": 20022,
+      "sha256": "655b27d8aa077abbebf4ffeae12ae0a8761e6f6239b7438eff7948e4b38cafe2"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.EmailOtpReauthentication.html",
+      "bytes": 21059,
+      "sha256": "49b042bc75bdf463d331437381734c5c3e7ab090efda7bd3ee8a83cd4372f407"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentifierAction.html",
+      "bytes": 21055,
+      "sha256": "58ce693702bab8532fc20fbc77c6fcabf3d6631f807774a6412b50f100fcc083"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentifierCapability.html",
+      "bytes": 27758,
+      "sha256": "3f7aa648c6e7bb29b86d9de69da47c1fb27c3933790cd8de863584b8f684edea"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentifierDenial.html",
+      "bytes": 27588,
+      "sha256": "40372a74ec7afedef5e86d63e3fcdf7ca3ecc6e1fa2675a9e41521547b2c7895"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentifierKind.html",
+      "bytes": 19623,
+      "sha256": "2f0d6f8bb07bb464b0a52c52781c6ec7760b308661029835bd3db9e55996a5c5"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentifierManagement.html",
+      "bytes": 23079,
+      "sha256": "0c4c0027a604acb89a953646d3b1ed30a916daa78095d98fce767d8749af36c9"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentifierRequirement.html",
+      "bytes": 23812,
+      "sha256": "c1b3fbfa23a102b3380f131b1fc80230a63465e14d256af451ab8c35848c1c4f"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityChallengeResult.html",
+      "bytes": 23113,
+      "sha256": "aff03453004245e1040f2dd93ff3fc82cb367400d6903cb3c2a2a6eae05cc3e8"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityOperation.html",
+      "bytes": 44066,
+      "sha256": "7e86d7cd31fbe4ea08d2fb3cb9b50d9801c83b2f0f1f4f460d4d5689f039a639"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityOperationComplete.html",
+      "bytes": 19378,
+      "sha256": "a93cd4513637689664ea6cd0e50d817db66e0dcbea92d3a661c79b798e0e938e"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityOperationCreate.html",
+      "bytes": 21074,
+      "sha256": "4e8f106cfae1a735dd23ed21db384bb0c9cdd6f10a853f214e24ba4a65e02f0b"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityOperationState.html",
+      "bytes": 22710,
+      "sha256": "7e2521a876379a01f262d9f3db3dca0494b1a5f217c63689fff6ee9e96d330ea"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityOperationType.html",
+      "bytes": 23916,
+      "sha256": "ebc620fc08d09902e7f9bd4e494d766604aa3161960272121f792e70dda58ab6"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityPayload.html",
+      "bytes": 7151,
+      "sha256": "f35363985a549f1c6f20c3f4abaef6f92f80c1b837077ecc7409418108202836"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityProviderAuthorize.html",
+      "bytes": 27502,
+      "sha256": "31b0d6e4daef044daa64fc7731fad75d4bced1d96032968a0cb3002e71820212"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityRequiredProof.html",
+      "bytes": 25653,
+      "sha256": "bc034bbe44294053b7f06f2481386a79fe18a569ea14f1f155f80e0b5cd944a0"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.IdentityTargetProof.html",
+      "bytes": 20722,
+      "sha256": "1264851f44de2ba7fa5ed9a89833e129e4dd12f05c96946fb8e487d0bd25be78"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.LinkIdentity.html",
+      "bytes": 18848,
+      "sha256": "53edddf1f11ccfbca53c4e577f172f3d9cca204c9701ce49c2fb92453d2d6a0b"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.LinkableIdentityProvider.html",
+      "bytes": 40876,
+      "sha256": "576494e9200005f9893b339d77687b89841ff85ea1ee2a9d6896a3402bf33301"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.LoginIdentifier.html",
+      "bytes": 22684,
+      "sha256": "fc068b60d46729fc45c8d7ff8725df15fb6f6eca2f8d7b651b343e3db116e1f6"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaAction.html",
+      "bytes": 25915,
+      "sha256": "a40196d3036c434d0d32670098cc9f35800b1e368cf167cc7d5961956f38aff8"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaCapabilities.html",
+      "bytes": 25396,
+      "sha256": "74db32e4b26d54b3179eb0bb0da2aebd30fc7e2ab6edd5a2bed92bc3e7051a8f"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaChallengeResult.html",
+      "bytes": 22973,
+      "sha256": "1d98705fd4bdf6bb5a941281db5d8eb0288a32f609745091d998bf5e81b39982"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaCompletionResult.html",
+      "bytes": 23277,
+      "sha256": "e2d394863963961766f3ef9c73dcd7022ae0e50ccbe13e5709b1faee942249a1"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaOperation.html",
+      "bytes": 43632,
+      "sha256": "4a2637e51c8843b6d93c8cbb30394e06bf229079f264c0074619aa52c2aea0ff"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaOperationCreate.html",
+      "bytes": 20978,
+      "sha256": "9247aa3f116b03fe3e9cedbc81fef8498260429fc611a8b942cf416e7822d100"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaOperationResult.html",
+      "bytes": 27505,
+      "sha256": "72c26293f54d409c93c32e2ea445bfba2582b8c4aca6fd215926c1aa16e6d9ec"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaOperationState.html",
+      "bytes": 21902,
+      "sha256": "a751b683c49f9c05b3180ed061210c71337023901ec6c446b2075eafc4a8ea58"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaOperationType.html",
+      "bytes": 19875,
+      "sha256": "910debceff23b9f19fdf86aa0bb1f792d900e641bceaa48d7774307e9299d631"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.MfaProviderAuthorize.html",
+      "bytes": 25083,
+      "sha256": "dd4ed3101fb9c76631abba830b5e42cdd6bba006eaa5895dafedca1b965e5c8b"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.NullableWire.html",
+      "bytes": 5447,
+      "sha256": "f1bd0290a021493e8b5c41ce62f09f6de2bfc574076db4f1557b9ce91b1700f3"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.OperationCompletion.html",
+      "bytes": 23178,
+      "sha256": "adcb99f928455d3accca72f9df9371a9f3f70734a58f9f3b5f575e0ab9275d01"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.OperationProofOption.html",
+      "bytes": 30289,
+      "sha256": "2509f1e49e39f14a48a59f2ca409c9d75cbe0bd72a2d9b5868c6eac9159c1f32"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.OperationStepUpChallenge.html",
+      "bytes": 21672,
+      "sha256": "0e9d9ebeddb8d57911b9ab9847644ce16a88e2e6361e3931ab8d9e4aea16acf3"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.OperationStepUpVerify.html",
+      "bytes": 20596,
+      "sha256": "1d569bd4c8d6781d1ef4e873ecc0ca88bb838b105d17a1f156da04d7c41ef295"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.OperationWebAuthnStart.html",
+      "bytes": 20667,
+      "sha256": "df0927585cf11c2190af47fa261846ea07340f4575da4798f69d498dd1c5d023"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.OperationWebAuthnVerify.html",
+      "bytes": 22822,
+      "sha256": "d363f1caa561c8258abe0ebae10814f850ee1ac07f01b40319d4b71d2127fbf2"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.PasswordReauthentication.html",
+      "bytes": 18978,
+      "sha256": "841efb8c65043bba3493c1b6920642951d9a4fa5c0dc9ec1c5d3235eae0c33ab"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.ProofMethod.html",
+      "bytes": 20286,
+      "sha256": "45fbeb201c4301de63bad63c5d55abf23a72a6944faff8832d3ddeb31868ef23"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.ProofRequirement.html",
+      "bytes": 19763,
+      "sha256": "5584e31fd73a9fd6a52f9f1dc8679e418df52f966a3fd3d333cfe95dac327e03"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.ProviderAuthorization.html",
+      "bytes": 22956,
+      "sha256": "23932a548c7b7902ac9dc728ec6d101c4b91c75a48419c2c700dea9bc0fe41c1"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.ProviderExchange.html",
+      "bytes": 20706,
+      "sha256": "e3cf4de12c326bd41fe7b7ed1d07182da27a9d8088a67eed860a09b13cfbeb18"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.ProviderTarget.html",
+      "bytes": 24939,
+      "sha256": "a37da27ae3869b9e2bbd06b06f3673832064de7547489b1c7636323b294d9ad9"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.Reauthentication.html",
+      "bytes": 5358,
+      "sha256": "b629e9b03757a24bd59379bb5ebf68908360e81c31d98a43b52a43b7bf8705bd"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.RecoveryCodes.html",
+      "bytes": 21223,
+      "sha256": "79fd79963c985b9328e0fcaa81fe6c23f6c7cbf18ccbe6ed741dddcf2e7fa697"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.RecoveryCodesRemaining.html",
+      "bytes": 18528,
+      "sha256": "2c54290ea6803820d352e3b06c01e6e4ee57c0816cbfc309f29d9e094c3d221a"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.RemoveIdentity.html",
+      "bytes": 21182,
+      "sha256": "e8ad77ff6e527f978fefcd87631792aa9561e07b7fca9bd5d1d0671ad82e1bf0"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.ReplaceIdentity.html",
+      "bytes": 25635,
+      "sha256": "5a8b9fe42c83c7fef9f5b9514cd89cefb5c706f963320aca4c10a02c7a73c11f"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.SensitiveDelivery.html",
+      "bytes": 19861,
+      "sha256": "f6b2b9123bbeda9530364324a3e3220aa84f1fc991ff3aed3ebb16afe8369909"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.SessionImpact.html",
+      "bytes": 19798,
+      "sha256": "50f09c09f8225dd5b62ebd5fcff3489d3da17c6e29c2585a114873e5168196fb"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.SetPrimaryIdentity.html",
+      "bytes": 18962,
+      "sha256": "98ad7e7869545d7af194f26711680429059d2100b219be796ce48f2e7235dcc1"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.TargetProofMethod.html",
+      "bytes": 19086,
+      "sha256": "dc78ca9e549202d3988597f0e789c3fd44bfafa470ec1ccf44d0a0ea9466a6f4"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.TotpBeginResult.html",
+      "bytes": 23132,
+      "sha256": "5fe724accbe0db66841c8a689c691b81769998befc6f10e548c5d3bd0dde9fd0"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.TotpMaterial.html",
+      "bytes": 22533,
+      "sha256": "9e96506d5504cb288f2b053d10cf3efa4d2ddaa1ebf6697306163665e5604bc5"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.TransferDecision.html",
+      "bytes": 19018,
+      "sha256": "89edef4be9ce482f3acfea4591fc31caaf5177165d4e8cd3403d6e01ddfcbbb7"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.TransferIdentity.html",
+      "bytes": 23453,
+      "sha256": "e7889e49d252076efcf575c40c1b7114ed2f7bee00ae6f60ee874ca559889358"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.UnlinkIdentity.html",
+      "bytes": 18846,
+      "sha256": "3d84c60cb79d3043d2da176ed2c4b48c7854dbd9defbedf1967af49bcb3e7f1a"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.VerifyIdentity.html",
+      "bytes": 18906,
+      "sha256": "2c3445a44d3a06de7af4943dc5ff33af0b00ecb0de7123c04ba470eb5338515c"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecurityOperations.html",
+      "bytes": 31829,
+      "sha256": "84741bdbbc6e4259a5429f8cbf72d6c90fe25a897fec650ac5cdb7e670236365"
+    },
+    {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountSecuritySummaryResponse.html",
       "bytes": 24342,
       "sha256": "3a80a6c518d54bf6355b535ba6927ade836d12053c5fe0b7a2051d5c83f16c12"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/AccountUpdateProfileRequest.html",
-      "bytes": 22493,
-      "sha256": "99d3ff70b50d11012a5b52058a69c8f45f014c3fc3eaf4f7702a705c0691dec3"
+      "bytes": 20400,
+      "sha256": "9aebfa519499ce8e4fcd09ceea8d1b3b2193eb28509248994257af4fa073c67e"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/CurrentUserResponse.AuthenticationContext.html",
+      "bytes": 44938,
+      "sha256": "249b1aea59313a454374678e3814969f84d8537a95e0e4ff575677531b38ea6c"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/CurrentUserResponse.Impersonation.html",
+      "bytes": 20536,
+      "sha256": "9d16ce8e0b058f3f40d2f8ac3160869df125a38b5ea09725379b4c279acfb643"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/CurrentUserResponse.html",
+      "bytes": 34304,
+      "sha256": "454462fb1ebf87c37590887cddb14fa64c45cfb31745d9dff27a7ba67994d8fc"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/EmailVerificationResponse.html",
@@ -1906,8 +3886,8 @@
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/UserProfileResponse.html",
-      "bytes": 49541,
-      "sha256": "d7980d10c3e8509233e5d73b78ffa7ab311f46555f7fec7973d67d88b9cecdcf"
+      "bytes": 41628,
+      "sha256": "71034f261a316fee45b2b43b61a254fad95993da7558efb5dc649b7a0b93d121"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/VerifyEmailRequest.html",
@@ -1916,13 +3896,13 @@
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/package-summary.html",
-      "bytes": 12474,
-      "sha256": "9504d26955ea152c63a283e38c49f09fb58c69ec4e7f2fa0dc901eafb590fcc8"
+      "bytes": 36005,
+      "sha256": "7b69777774485efca54a7465f45843cf489a17978d0aed82461bec3549764b40"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/dto/package-tree.html",
-      "bytes": 8218,
-      "sha256": "a8ab50691b987c5d3542f4b8663b6740739e0c8c147474ee5c2d71affe6c192b"
+      "bytes": 29031,
+      "sha256": "e5983011108d3a72afa2f413d2a62efce440ebce52d2907a2225c6dc097f9c26"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/client/package-summary.html",
@@ -1985,19 +3965,39 @@
       "sha256": "354b79ea19c80478687da7ed717228f896ab8e9c5cd501be188ce978dd6fb91c"
     },
     {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/exception/AccountSecurityException.html",
+      "bytes": 18114,
+      "sha256": "e03ff058e5a805f83954ebb69596b2689d4511a9e7043f85d391bc80cee4efb7"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/exception/AccountSecurityProtocolException.html",
+      "bytes": 12682,
+      "sha256": "2b36cde68bb6b957f4a74d84bc5717d29d532857f3d937a042931a9548082485"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/exception/AccountSecurityTransportException.html",
+      "bytes": 15197,
+      "sha256": "88ceee5c2ce7162f92a170036d6e885d7be5988eb9772afe322aeb68944401cf"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/exception/CurrentUserException.html",
+      "bytes": 15032,
+      "sha256": "7321cc417f6279b2fcdb6e90ac41c4d3a66a8c5c12e1b49943560ec9f3c1266a"
+    },
+    {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/exception/IamSdkException.html",
-      "bytes": 14814,
-      "sha256": "a6b47a77591685f9472714605f3b447edc0c52a5f6c2e3bd434d1e67121d5dd8"
+      "bytes": 15332,
+      "sha256": "165fc465ff9d11d264616dfa00de42fcb9212925ef4564ac610f8cb905d2a3cb"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/exception/package-summary.html",
-      "bytes": 4829,
-      "sha256": "2ef51c3718ce209987c33d1f32e076c6278d425eac9e5e69bb3a9f90e6a2bb1a"
+      "bytes": 6082,
+      "sha256": "4d0ef63103987907d4fc4c8a8ad58d1ee845ad6c6b4e6b1f205fecfabfd06fd1"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/exception/package-tree.html",
-      "bytes": 4489,
-      "sha256": "bd9cdc2df28039388c6c2e1f753e34d4309c222d612140fef5f2a91843d890fa"
+      "bytes": 5347,
+      "sha256": "3f436e391e66fcfaa25c4bd9d4bf98f4e6b14a8bcff7ab337cc2ec3ef75f3564"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/jwt/IamJwksProvider.html",
@@ -2176,8 +4176,8 @@
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/CreatedRegistrationGrant.html",
-      "bytes": 22514,
-      "sha256": "1e98b8c62ff39591a2951a2c81169888cb4cf06582d0af85b557b374cbfd4a5e"
+      "bytes": 26404,
+      "sha256": "5c252d127374156da9d30b603ac64d5d37504a4c16d9ebaf285b4a0dd317fa68"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/OpenOrganization.html",
@@ -2296,8 +4296,8 @@
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/PortalOpenApiClient.html",
-      "bytes": 145099,
-      "sha256": "b6a2317c285fd1a75c38d1520fd7d3d526e33e0751ed3b3f2ab941ad911b57df"
+      "bytes": 152834,
+      "sha256": "b69b2f99da1308f965e9a7d28b34886e0895938f44988ab35b103cd196580f53"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/PortalOpenApiClientConfig.Builder.html",
@@ -2331,8 +4331,28 @@
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/RegistrationGrant.html",
-      "bytes": 44506,
-      "sha256": "02daf825bb5b885d2e019a39900b7d30ed4de47ddef2f472bcc726850583e4b7"
+      "bytes": 45741,
+      "sha256": "787274782dcd0eed71ebceb33989f5605ac24626ebe0b13f1b028a03e94245c2"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/RegistrationGrantDelivery.Status.html",
+      "bytes": 20615,
+      "sha256": "cd19ec5e2d4afc319055669edd765d7046aa847629d65062ac3d9cbd7df63c55"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/RegistrationGrantDelivery.html",
+      "bytes": 40838,
+      "sha256": "2fca2f5b4662417d784cdc15d5f3f39d2f59b64fb5c9cf2494d76a2a74a9586f"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/RegistrationGrantDeliveryRequest.Variant.html",
+      "bytes": 18872,
+      "sha256": "991aaf280595ddbebb9b9daee257c6cba85e6242e1076b3725fd45837376c625"
+    },
+    {
+      "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/RegistrationGrantDeliveryRequest.html",
+      "bytes": 23451,
+      "sha256": "4f666ac565e942177c41b52155ba525dfbd74de2a1c0d101c08ea11c465f1a63"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/RegistrationGrantListOptions.html",
@@ -2411,13 +4431,13 @@
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/package-summary.html",
-      "bytes": 24415,
-      "sha256": "4151c84c22260defc7fcf83e105f3f0d56c1abccf2a66944af224942be8a4495"
+      "bytes": 25747,
+      "sha256": "947283a607b4506f07164bc5633f484d25e2edf5f84065b0b20a32507bd39c48"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/portal/package-tree.html",
-      "bytes": 17477,
-      "sha256": "2cda06890150078aefc752861abe61cf1c8083f80c75f1bd62ffc56c8117bc68"
+      "bytes": 18349,
+      "sha256": "b2ba96168170c9a5b657aa3deded80c393ca8665a5d604aa30f815224db578cb"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/user/CachePolicy.html",
@@ -2456,8 +4476,8 @@
     },
     {
       "path": "static/generated/sdk/java/index-all.html",
-      "bytes": 492011,
-      "sha256": "0ce8fe9878ccab15aaca20c5d42ae2980bf9da9d20937cc87ba01a72daa4b226"
+      "bytes": 816357,
+      "sha256": "d640e2f284a88e5a421e82647dbaf859a93b1f73c2026b45afe039b5fcf59db6"
     },
     {
       "path": "static/generated/sdk/java/index.html",
@@ -2496,8 +4516,8 @@
     },
     {
       "path": "static/generated/sdk/java/member-search-index.js",
-      "bytes": 118692,
-      "sha256": "5d1289b0daa953ced9b7668ca44bb6491094a6072e38146f7e048c9508f68c18"
+      "bytes": 200206,
+      "sha256": "e64036a96b4bb9bdbbe4be066de3773941155c5dc27a25065514fcdf9c62df34"
     },
     {
       "path": "static/generated/sdk/java/module-search-index.js",
@@ -2511,8 +4531,8 @@
     },
     {
       "path": "static/generated/sdk/java/overview-tree.html",
-      "bytes": 37565,
-      "sha256": "b1749bdcd144cdf1ee0c0ce1f1db07ad51b5c1fc4e81c36d21370e4df158ffc7"
+      "bytes": 61529,
+      "sha256": "e7500e0c7d0bb5135ad8d4f5760243f0a5f671d9c13d04dff365e035e5ae373c"
     },
     {
       "path": "static/generated/sdk/java/package-search-index.js",
@@ -2716,8 +4736,8 @@
     },
     {
       "path": "static/generated/sdk/java/serialized-form.html",
-      "bytes": 9879,
-      "sha256": "96c10c33c52f7dfdedee8748b4cfdcaead520e52e8440d86042c84c5611ec34b"
+      "bytes": 14049,
+      "sha256": "21562a195d72bdfdcde8ec5e36397cc99e3cf3b7c1d22713cfcfd1dd229fc73b"
     },
     {
       "path": "static/generated/sdk/java/tag-search-index.js",
@@ -2726,8 +4746,8 @@
     },
     {
       "path": "static/generated/sdk/java/type-search-index.js",
-      "bytes": 9982,
-      "sha256": "623df53e19696dec14bc9354a157cdb47dbc387b610851de078454969132d291"
+      "bytes": 17724,
+      "sha256": "bf155251269ba91e4672551c2d1c164d0a2f7a6e11b7801f2a740216c26ac54f"
     }
   ]
 }

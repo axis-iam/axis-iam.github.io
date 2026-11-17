@@ -14,6 +14,8 @@ export const publicRoutes: readonly PublicRoute[] = [
   {key: 'vertex.authentication.hosted', path: '/vertex/authentication/hosted/', product: 'vertex', status: 'public'},
   {key: 'vertex.authentication.embedded', path: '/vertex/authentication/embedded/', product: 'vertex', status: 'public'},
   {key: 'vertex.authentication.dialog', path: '/vertex/authentication/dialog/', product: 'vertex', status: 'public'},
+  {key: 'vertex.authentication.custom', path: '/vertex/authentication/custom/', product: 'vertex', status: 'public'},
+  {key: 'vertex.authentication.account-security', path: '/vertex/authentication/account-security/', product: 'vertex', status: 'public'},
   {key: 'vertex.authorization', path: '/vertex/authorization/', product: 'vertex', status: 'public'},
   {key: 'vertex.authorization.current-user', path: '/vertex/authorization/current-user/', product: 'vertex', status: 'public'},
   {key: 'vertex.authorization.server-resolution', path: '/vertex/authorization/server-resolution/', product: 'vertex', status: 'public'},

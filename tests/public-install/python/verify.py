@@ -1,7 +1,6 @@
-from importlib import metadata, util
+from importlib import metadata
+from axis_vertex import IamClient, IamConfig, PortalOpenApiClient
+from axis_vertex.fastapi import require_permission
 
-import axis_vertex
-
-assert axis_vertex is not None
-assert metadata.version("axis-iam-vertex") == "0.1.0"
-assert util.find_spec("iam_sdk") is None
+assert metadata.metadata("axis-iam-vertex")["Name"] == "axis-iam-vertex"
+assert all(callable(value) for value in (IamClient, IamConfig, PortalOpenApiClient, require_permission))

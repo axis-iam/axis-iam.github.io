@@ -11,10 +11,14 @@ Vertex 使用 durable outbox，使已接受的产品事务与通知意图一同�
 
 1. 在 JSON 解析前读取原始请求体。
 2. 读取该 Webhook 配置的对称 secret；此处不存在公钥 identifier。
-3. 优先校验 `X-IAM-Signature-V2`。要求 `X-IAM-Signature-Version: v2`，检查 `X-IAM-Timestamp` 新鲜度，并对 UTF-8 frame `v2.{timestamp}.{deliveryId}.{eventId}.{rawBody}` 计算 HMAC-SHA256。deliveryId 与 eventId 分别来自 `X-IAM-Delivery` 和 `X-IAM-Event-Id`。
-4. 使用常量时间比较，将小写十六进制摘要与 header 中 `sha256=` 后的值比较。
-5. 仅在 legacy 迁移期间使用 `X-IAM-Signature`；它使用同一 secret 对精确的原始 UTF-8 body 计算 HMAC-SHA256。
+3. 读取 `X-IAM-Timestamp`（Unix 秒）、`X-IAM-Delivery`、`X-IAM-Event-Id` 与 `X-IAM-Event`，按允许的交付窗口校验时间，并保留精确的事件类型。
+4. 使用 UTF-8 secret 对下列 frame 计算 HMAC-SHA256。`eventTypeByteLength` 是事件类型的 UTF-8 **字节长度**，不是字符数。最后拼接原始 body 字节，不要解析后重新序列化。
+5. 读取 `X-IAM-Signature: sha256=...`，使用常量时间比较摘要与 `sha256=` 后的小写十六进制值。以上五个 header 共同构成交付契约。
 6. 在产生任何副作用前拒绝无效签名，再在消费者事务中原子记录事件标识。
+
+```text
+axis-vertex.webhook.{timestamp}.{deliveryId}.{eventId}.{eventTypeByteLength}:{eventType}.{rawBody}
+```
 
 只有消费者持久接受事件后才返回成功状态。超时与可重试失败可能产生下一次投递。
 

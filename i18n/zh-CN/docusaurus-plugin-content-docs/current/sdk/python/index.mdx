@@ -5,15 +5,16 @@ slug: /sdk/python/
 
 # Python SDK
 
-Python distribution name 是 `axis-iam-vertex`，import namespace 是 `axis_vertex`。`0.1.0` 是自托管 preview wheel，尚未发布到 PyPI。
+发行包名是 `axis-iam-vertex`，导入命名空间是 `axis_vertex`。
+使用 Python 3.12 或更新版本安装清单记录的源码提交；此包目前未发布到 PyPI。
 
-## 安装
-
-使用精确的公开 wheel URL：
+## 从源码安装
 
 ```bash
-python -m pip install https://vertex-packages.chaosguide.com/releases/0.1.0/python/axis_iam_vertex-0.1.0-py3-none-any.whl
+python -m pip install "axis-iam-vertex[fastapi] @ git+https://github.com/axis-iam/vertex-sdk-python.git@7c4bb845855fd118abd90ccd3761fae192fd4c9a"
 ```
+
+Django 集成使用 `django` extra；只使用核心客户端时可省略 extra。
 
 ## FastAPI 快速入门
 

@@ -13,10 +13,20 @@ const evidence: Record<string, Evidence> = {
   '/connect/logout': {file: 'iam-server/src/main/java/com/chaosguide/iam/server/config/ServerSecurityConfig.java', fragments: ['"/connect/logout"'], kind: 'security-config'},
   '/oauth2/jwks': {file: 'iam-server/src/test/java/com/chaosguide/iam/server/api/OidcProtocolIntegrationTest.java', fragments: ['.uri("/oauth2/jwks")']},
   '/api/v1/auth/signup': {file: 'iam-server/src/main/java/com/chaosguide/iam/server/api/controller/AuthController.java', fragments: ['@RequestMapping("/api/v1/auth")', '@PostMapping("/signup")']},
-  '/api/v1/auth/login': {file: 'iam-server/src/main/java/com/chaosguide/iam/server/api/controller/AuthController.java', fragments: ['@RequestMapping("/api/v1/auth")', '@PostMapping("/login")']},
-  '/api/v1/auth/token/refresh': {file: 'iam-server/src/main/java/com/chaosguide/iam/server/api/controller/AuthController.java', fragments: ['@RequestMapping("/api/v1/auth")', '@PostMapping("/token/refresh")']},
-  '/api/v1/auth/password/forgot': {file: 'iam-server/src/main/java/com/chaosguide/iam/server/api/controller/PasswordController.java', fragments: ['@RequestMapping("/api/v1/auth/password")', '@PostMapping("/forgot")']},
-  '/api/v1/auth/password/reset': {file: 'iam-server/src/main/java/com/chaosguide/iam/server/api/controller/PasswordController.java', fragments: ['@RequestMapping("/api/v1/auth/password")', '@PostMapping("/reset")']},
+  "/api/v1/auth/transactions": {file: "iam-server/src/main/java/com/chaosguide/iam/server/auth/transaction/AuthenticationTransactionController.java", fragments: ["@RequestMapping(\"/api/v1/auth/transactions\")", "@PostMapping\n"]},
+  "/api/v1/auth/transactions/{id}": {file: "iam-server/src/main/java/com/chaosguide/iam/server/auth/transaction/AuthenticationTransactionController.java", fragments: ["@RequestMapping(\"/api/v1/auth/transactions\")", "@GetMapping(\"/{id}\")"]},
+  "/api/v1/auth/transactions/{id}/challenges": {file: "iam-server/src/main/java/com/chaosguide/iam/server/auth/transaction/AuthenticationTransactionController.java", fragments: ["@RequestMapping(\"/api/v1/auth/transactions\")", "@PostMapping(\"/{id}/challenges\")"]},
+  "/api/v1/auth/transactions/{id}/authorize": {file: "iam-server/src/main/java/com/chaosguide/iam/server/auth/transaction/AuthenticationTransactionController.java", fragments: ["@RequestMapping(\"/api/v1/auth/transactions\")", "@PostMapping(\"/{id}/authorize\")"]},
+  "/api/v1/auth/transactions/{id}/authenticate": {file: "iam-server/src/main/java/com/chaosguide/iam/server/auth/transaction/AuthenticationTransactionController.java", fragments: ["@RequestMapping(\"/api/v1/auth/transactions\")", "@PostMapping(\"/{id}/authenticate\")"]},
+  "/api/v1/auth/transactions/{id}/mfa": {file: "iam-server/src/main/java/com/chaosguide/iam/server/auth/transaction/AuthenticationTransactionController.java", fragments: ["@RequestMapping(\"/api/v1/auth/transactions\")", "@PostMapping(\"/{id}/mfa\")"]},
+  "/api/v1/auth/transactions/{id}/complete": {file: "iam-server/src/main/java/com/chaosguide/iam/server/auth/transaction/AuthenticationTransactionController.java", fragments: ["@RequestMapping(\"/api/v1/auth/transactions\")", "@PostMapping(\"/{id}/complete\")"]},
+  "/api/v1/auth/transactions/{id}/cancel": {file: "iam-server/src/main/java/com/chaosguide/iam/server/auth/transaction/AuthenticationTransactionController.java", fragments: ["@RequestMapping(\"/api/v1/auth/transactions\")", "@PostMapping(\"/{id}/cancel\")"]},
+  "/api/v1/auth/recovery/authorize": {file: "iam-server/src/main/java/com/chaosguide/iam/server/recovery/AccountRecoveryController.java", fragments: ["@RequestMapping(\"/api/v1/auth/recovery\")", "@PostMapping(\"/authorize\")"]},
+  "/api/v1/auth/recovery/{id}": {file: "iam-server/src/main/java/com/chaosguide/iam/server/recovery/AccountRecoveryController.java", fragments: ["@GetMapping(\"/{id}\")"]},
+  "/api/v1/auth/me/identity-operations": {file: "iam-server/src/main/java/com/chaosguide/iam/server/account/operation/IdentityOperationController.java", fragments: ["@RequestMapping(\"/api/v1/auth/me/identity-operations\")"]},
+  "/api/v1/auth/invitation-journeys/{ref}": {file: "iam-server/src/main/java/com/chaosguide/iam/server/invitation/InvitationJourneyController.java", fragments: ["@RequestMapping(\"/api/v1/auth/invitation-journeys\")", "@GetMapping(\"/{ref}\")"]},
+  "/api/v1/auth/invitation-journeys/{ref}/continue": {file: "iam-server/src/main/java/com/chaosguide/iam/server/invitation/InvitationJourneyController.java", fragments: ["@RequestMapping(\"/api/v1/auth/invitation-journeys\")", "@PostMapping(\"/{ref}/continue\")"]},
+  "/api/v1/auth/invitation-journeys/{ref}/confirm": {file: "iam-server/src/main/java/com/chaosguide/iam/server/invitation/InvitationJourneyController.java", fragments: ["@RequestMapping(\"/api/v1/auth/invitation-journeys\")", "@PostMapping(\"/{ref}/confirm\")"]},
   '/api/v1/auth/me/**': {file: 'iam-server/src/main/java/com/chaosguide/iam/server/account/AccountController.java', fragments: ['@RequestMapping("/api/v1/auth/me")']},
   '/api/v1/auth/sessions': {file: 'iam-server/src/main/java/com/chaosguide/iam/server/api/controller/SessionController.java', fragments: ['@RequestMapping("/api/v1/auth")', '@GetMapping("/sessions")']},
   '/api/v1/auth/sessions/{sid}': {file: 'iam-server/src/main/java/com/chaosguide/iam/server/api/controller/SessionController.java', fragments: ['@DeleteMapping("/sessions/{sid}")']},
@@ -37,6 +47,19 @@ const evidence: Record<string, Evidence> = {
 };
 
 async function main() {
+  const webhookRoot = `${backend}/iam-portal/src/main/java/com/chaosguide/iam/portal/webhook`;
+  const signer = await readFile(`${webhookRoot}/WebhookSigner.java`, 'utf8');
+  const transport = await readFile(`${webhookRoot}/ApacheWebhookHttpTransport.java`, 'utf8');
+  if (!signer.includes('"axis-vertex.webhook."') || !signer.includes('+ type.length')) throw new Error('Webhook framing changed; review the bilingual delivery guide.');
+  const headers = ['X-IAM-Signature', 'X-IAM-Timestamp', 'X-IAM-Delivery', 'X-IAM-Event-Id', 'X-IAM-Event'];
+  for (const header of headers) if (!transport.includes(`post.setHeader("${header}"`)) throw new Error(`Webhook transport lost ${header}.`);
+  for (const root of ['docs', 'i18n/zh-CN/docusaurus-plugin-content-docs/current']) {
+    const guide = await readFile(`${root}/webhooks/index.mdx`, 'utf8');
+    for (const value of [...headers, 'axis-vertex.webhook.{timestamp}.{deliveryId}.{eventId}.{eventTypeByteLength}:{eventType}.{rawBody}']) {
+      if (!guide.includes(value)) throw new Error(`${root} webhook guide is missing ${value}.`);
+    }
+    if (/X-IAM-Signature-V2|X-IAM-Signature-Version/.test(guide)) throw new Error(`${root} webhook guide advertises retired signature headers.`);
+  }
   const paths = publicApiFamilies.flatMap((family) => family.paths);
   for (const path of paths) {
     const contract = evidence[path];
@@ -57,7 +80,7 @@ async function main() {
     await mkdir('static/api', {recursive: true});
     await writeFile('static/api/public-api-evidence.json', `${JSON.stringify({schemaVersion: 1, product: 'vertex', entries}, null, 2)}\n`);
   }
-  console.log(`Validated ${paths.length} public API paths against Vertex controllers and protocol tests.`);
+  console.log(`Validated ${paths.length} public API paths and canonical webhook framing against committed source.`);
 }
 
 void main();

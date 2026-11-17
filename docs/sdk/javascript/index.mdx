@@ -5,54 +5,35 @@ slug: /sdk/javascript/
 
 # JavaScript SDK
 
-The JavaScript family owns browser authentication and Node.js framework integrations.
-This page's integration examples describe the **current unpublished source candidate**.
-The manifest version `0.1.0` does not identify that candidate, and older `0.1.0` preview tarballs do not
-automatically contain its transaction, account-security or invitation APIs.
+The JavaScript SDK provides browser authentication, React UI and Node.js integrations.
+The examples and generated reference use the committed source recorded in the [source manifest](pathname:///source-revisions.json).
 
-## Install the current candidate
+## Install from source
 
-Obtain approved matching core/framework tarballs built from the reviewed source commit.
-Set the variables below to those actual artifact paths, then install core and the framework you use:
+Build matching core and framework packages from the same commit. This guide uses Node.js 24 and pnpm 11.9.0.
+The packages are not currently published to npm; use these local build artifacts in your application.
 
 ```bash
-# React
-npm install "$VERTEX_CORE_TARBALL" "$VERTEX_REACT_TARBALL"
-# Express
-npm install "$VERTEX_CORE_TARBALL" "$VERTEX_EXPRESS_TARBALL"
-# NestJS
-npm install "$VERTEX_CORE_TARBALL" "$VERTEX_NESTJS_TARBALL"
+git clone https://github.com/axis-iam/vertex-sdk-js.git
+cd vertex-sdk-js
+git checkout eb5ae846da5d64283dad58426e18124420816e1e
+pnpm install --frozen-lockfile
+pnpm --filter @axis-iam/vertex-react... build
+mkdir -p artifacts
+pnpm --dir packages/core pack --out ../../artifacts/vertex-core.tgz
+pnpm --dir packages/react pack --out ../../artifacts/vertex-react.tgz
 ```
 
-These are artifact-path variables, not registry package names or ready-made downloads.
-No current npm release is claimed here. The
-[source integration map](https://github.com/axis-iam/vertex-sdk-js/blob/develop/docs/current-integration.md)
-links to the matching package guides.
-
-### Older 0.1.0 preview artifacts
-
-The following immutable self-hosted packages belong to an older preview and have not been published to npm.
-They are **not installation commands for the current examples or new APIs**. React:
+From your application directory, install both artifacts (adjust the relative path to the cloned repository):
 
 ```bash
-npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-react-0.1.0.tgz
+npm install ../vertex-sdk-js/artifacts/vertex-core.tgz ../vertex-sdk-js/artifacts/vertex-react.tgz
 ```
 
-For Express:
+For Express or NestJS, build and pack `packages/express` or `packages/nestjs` with core in the same way, then install
+that framework artifact alongside `vertex-core.tgz`. Framework packages do not replace core.
 
-```bash
-npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-express-0.1.0.tgz
-```
-
-For NestJS:
-
-```bash
-npm install https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-0.1.0.tgz https://vertex-packages.chaosguide.com/releases/0.1.0/js/axis-iam-vertex-nestjs-0.1.0.tgz
-```
-
-## React SPA quickstart — current candidate
-
-Create a `SPA` public ApplicationClient with an exact callback, logout URI, and allowed origin.
+## React SPA quickstart
 
 ```tsx
 import {IamProvider, SignIn, useAuth} from '@axis-iam/vertex-react';
@@ -78,7 +59,7 @@ export function App() {
 ```
 
 The provider uses Authorization Code + S256 PKCE and keeps tokens in memory by default. Browser code never receives a
-client secret. Use `@axis-iam/vertex/server`, Express, NestJS, or React server exports only in server runtimes with a
+client secret. Use `@axis-iam/vertex/server`, Express or NestJS only in server runtimes with a
 WEB/M2M confidential client.
 
 ## Browser configuration
@@ -119,9 +100,8 @@ For `continuation`, no session has been issued. Render the offered MFA proof and
 `transaction.verifyMfa('TOTP', code)` or the offered recovery-code method, then
 `client.completeAuthentication(transaction)` through `useAuth().client` when the returned view permits completion.
 The lower-level transaction method takes **method, code**; the `useAuthFlow` action takes **code, method**.
-Alternatively, let the [Custom form flow](../../authentication/custom/) own Provider callback resumption using
-`actions.resumeProviderCallback(url)`. Do not have both consumers process the same callback.
-The [React package guide](https://github.com/axis-iam/vertex-sdk-js/blob/develop/packages/react/README.md)
+The [Custom form flow](../../authentication/custom/) automatically restores its own Provider return through `useAuthFlow`. Do not have the Hosted callback handler consume that same return.
+The [React package guide](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/README.md)
 describes Provider return, MFA and callback ownership.
 
 An invitation popup uses a passive callback consumed by its opener, rather than this standalone callback handler.
@@ -131,7 +111,7 @@ An invitation popup uses a passive callback consumed by its opener, rather than 
 Embedded keeps password and passwordless UI inside the application. The SDK discovers enabled and runtime-ready
 methods in the Application identified by the SPA client. Policy stays Application-owned.
 Credential proof and required MFA share a controlled transaction, followed by OAuth code exchange with S256 PKCE;
-refresh also uses OAuth. Do not call retired Direct login/refresh endpoints.
+refresh also uses OAuth.
 
 ```tsx
 <SignIn mode="embedded" onSuccess={() => window.location.assign('/')} />
@@ -195,7 +175,6 @@ client for Portal Open API management; never call management APIs from browser c
 
 ## Reference
 
-The reference entry separates current source guidance from generated pages belonging to the historical preview:
+The generated reference uses the same source manifest as this guide and covers core, React, Express, NestJS, codegen and testing:
 
-- [JavaScript API reference and version boundary](./reference/)
-- Public packages: core, React, Express, NestJS, codegen, and testing
+- [JavaScript API reference](./reference/)

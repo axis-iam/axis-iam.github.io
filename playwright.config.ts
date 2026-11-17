@@ -6,14 +6,18 @@ export default defineConfig({
   expect: {timeout: 8_000},
   fullyParallel: false,
   reporter: [['list']],
-  use: {baseURL: 'http://127.0.0.1:4173', trace: 'retain-on-failure'},
+  use: {
+    baseURL: `http://127.0.0.1:${process.env.DOCS_TEST_PORT ?? '4173'}`,
+    channel: process.env.DOCS_BROWSER_CHANNEL,
+    trace: 'retain-on-failure',
+  },
   projects: [
     {name: 'desktop-chromium', use: {...devices['Desktop Chrome'], viewport: {width: 1440, height: 900}}},
     {name: 'mobile-chromium', use: {...devices['Pixel 5'], viewport: {width: 390, height: 844}, browserName: 'chromium'}},
   ],
   webServer: {
-    command: 'pnpm docusaurus serve --host 127.0.0.1 --port 4173 --no-open',
-    url: 'http://127.0.0.1:4173/',
+    command: `pnpm docusaurus serve --host 127.0.0.1 --port ${process.env.DOCS_TEST_PORT ?? '4173'} --no-open`,
+    url: `http://127.0.0.1:${process.env.DOCS_TEST_PORT ?? '4173'}/`,
     reuseExistingServer: false,
     timeout: 60_000,
   },

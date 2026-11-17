@@ -23,3 +23,15 @@
 ### registrationGrantToken?
 
 > `optional` **registrationGrantToken?**: `string`
+
+***
+
+### registrationInvitationUrl?
+
+> `optional` **registrationInvitationUrl?**: `string`
+
+***
+
+### secretAlreadyIssued
+
+> **secretAlreadyIssued**: `boolean`

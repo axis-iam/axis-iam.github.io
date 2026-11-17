@@ -13,13 +13,18 @@ destination policy. Consumers must assume at-least-once delivery and deduplicate
 
 1. Read the raw request body before JSON parsing.
 2. Load the symmetric secret configured for this Webhook; there is no public-key identifier.
-3. Prefer `X-IAM-Signature-V2`. Require `X-IAM-Signature-Version: v2`, validate `X-IAM-Timestamp` freshness, and
-   compute HMAC-SHA256 over the UTF-8 frame `v2.{timestamp}.{deliveryId}.{eventId}.{rawBody}`. The delivery and event
-   identifiers come from `X-IAM-Delivery` and `X-IAM-Event-Id`.
-4. Compare the lowercase hexadecimal digest with the value after `sha256=` using a constant-time comparison.
-5. During legacy migration only, `X-IAM-Signature` is HMAC-SHA256 over the exact raw UTF-8 body with the same secret.
+3. Read `X-IAM-Timestamp` (Unix seconds), `X-IAM-Delivery`, `X-IAM-Event-Id`, and `X-IAM-Event`. Validate timestamp
+   freshness against your allowed delivery window and retain the exact event type.
+4. Compute HMAC-SHA256 with the UTF-8 secret over the frame below. `eventTypeByteLength` is the byte length of the
+   UTF-8 event type, not its character count. Append the exact original body bytes without parsing or reserializing.
+5. Read `X-IAM-Signature: sha256=...`. Compare the lowercase hexadecimal digest after `sha256=` using a constant-time
+   comparison. All five metadata headers participate in the delivery contract.
 6. Reject invalid signatures before any side effect, then record the event identifier atomically with the consumer
    transaction.
+
+```text
+axis-vertex.webhook.{timestamp}.{deliveryId}.{eventId}.{eventTypeByteLength}:{eventType}.{rawBody}
+```
 
 Return a success status only after the consumer has durably accepted the event. Timeouts and retryable failures can
 produce another attempt.

@@ -18,7 +18,7 @@ pagination_prev: null
 ## github.com/axis-iam/vertex-sdk-go
 
 ```text
-package iam // import "."
+package iam // import "github.com/axis-iam/vertex-sdk-go"
 
 Package iam is the entry point for github.com/axis-iam/vertex-sdk-go, a Go SDK
 that integrates with the IAM Authentication Center.
@@ -41,6 +41,9 @@ unrelated router dependencies into callers:
 CONSTANTS
 
 const PermissionsSyncScope = "permissions:sync"
+    PermissionsSyncScope authorizes structured permission manifest
+    synchronization.
+
 
 VARIABLES
 
@@ -62,6 +65,9 @@ func MustUser(ctx context.Context) (*authz.User, error)
     MustUser returns the authenticated IAM user or authz.ErrUnauthenticated.
 
 func PermissionDeclarationRevision(declaration PermissionManifestDeclaration) (string, error)
+    PermissionDeclarationRevision computes a validated declaration's canonical
+    digest.
+
 
 TYPES
 
@@ -75,6 +81,47 @@ func (e *APIError) Error() string
 
 func (e *APIError) IsRetryable() bool
     IsRetryable reports whether the error should trigger retries.
+
+type AccountIdentifier struct {
+	Capabilities       map[IdentifierAction]IdentifierCapability `json:"capabilities,omitempty" wire:"optional"`
+	ID                 string                                    `json:"id"`
+	Kind               IdentifierKind                            `json:"kind"`
+	DisplayValue       string                                    `json:"displayValue"`
+	Status             string                                    `json:"status"`
+	VerificationState  string                                    `json:"verificationState"`
+	VerifiedAt         *string                                   `json:"verifiedAt,omitempty" wire:"optional"`
+	VerificationSource *string                                   `json:"verificationSource,omitempty" wire:"optional"`
+	IsPrimary          bool                                      `json:"isPrimary"`
+	ManagedBy          *string                                   `json:"managedBy,omitempty" wire:"optional"`
+}
+    AccountIdentifier mirrors the current-user producer contract.
+
+type AccountIdentifiers struct {
+	Management         *IdentifierManagement `json:"management,omitempty"`
+	LoginMethodVersion int64                 `json:"loginMethodVersion"`
+	Items              []AccountIdentifier   `json:"items"`
+}
+    AccountIdentifiers mirrors the current-user producer contract.
+
+type AccountLoginMethod struct {
+	MethodID           string          `json:"methodId"`
+	Kind               string          `json:"kind"`
+	Roles              []string        `json:"roles"`
+	Status             string          `json:"status"`
+	IdentifierID       *string         `json:"identifierId,omitempty" wire:"optional"`
+	CredentialID       *string         `json:"credentialId,omitempty" wire:"optional"`
+	IdentityID         *string         `json:"identityId,omitempty" wire:"optional"`
+	ProviderID         *string         `json:"providerId,omitempty" wire:"optional"`
+	Capabilities       map[string]bool `json:"capabilities"`
+	UnavailableReasons []string        `json:"unavailableReasons"`
+}
+    AccountLoginMethod mirrors the current-user producer contract.
+
+type AccountLoginMethods struct {
+	LoginMethodVersion int64                `json:"loginMethodVersion"`
+	Methods            []AccountLoginMethod `json:"methods"`
+}
+    AccountLoginMethods mirrors the current-user producer contract.
 
 type AccountOrganization struct {
 	OrganizationID string `json:"organizationId"`
@@ -96,6 +143,22 @@ type AccountPermissionSummary struct {
     AccountPermissionSummary is the current user's IAM-resolved permission
     summary.
 
+type AccountSecurityError struct {
+	Status            int
+	Code              string
+	RetryAfterSeconds *int
+}
+    AccountSecurityError retains only stable producer metadata, never a raw
+    error body.
+
+func (e *AccountSecurityError) Error() string
+
+type AccountSecurityProtocolError struct{}
+    AccountSecurityProtocolError indicates a missing or malformed known wire
+    field.
+
+func (*AccountSecurityProtocolError) Error() string
+
 type AccountSecuritySummary struct {
 	EmailVerified             bool `json:"emailVerified"`
 	PasswordCredentialPresent bool `json:"passwordCredentialPresent"`
@@ -106,12 +169,27 @@ type AccountSecuritySummary struct {
 }
     AccountSecuritySummary is the current user's secret-free security summary.
 
+type AccountSecurityTransportError struct {
+	OutcomeUnknown bool
+	// Has unexported fields.
+}
+    AccountSecurityTransportError means a mutation may have committed. It is
+    never retried by this SDK.
+
+func (*AccountSecurityTransportError) Error() string
+
+func (e *AccountSecurityTransportError) Unwrap() error
+
 type AccountUpdateProfileRequest struct {
-	Username    string `json:"username,omitempty"`
 	DisplayName string `json:"displayName,omitempty"`
 	AvatarURL   string `json:"avatarUrl,omitempty"`
 }
     AccountUpdateProfileRequest is the safe scalar profile update request.
+
+type AddIdentity struct {
+	Identifier LoginIdentifier `json:"identifier"`
+}
+    AddIdentity mirrors the current-user producer contract.
 
 type AuthOption func(*middleware.AuthConfig)
     AuthOption configures the Authenticate middleware.
@@ -119,6 +197,24 @@ type AuthOption func(*middleware.AuthConfig)
 func WithAuthResponder(r middleware.ErrorResponder) AuthOption
     WithAuthResponder substitutes the ErrorResponder used when authentication
     fails.
+
+type AuthenticationContext struct {
+	SubjectType                string                `json:"subjectType"`
+	ApplicationID              string                `json:"applicationId"`
+	ClientID                   string                `json:"clientId"`
+	SessionID                  string                `json:"sessionId"`
+	WorkspaceID                *string               `json:"workspaceId"`
+	WorkspaceSelectionRequired bool                  `json:"workspaceSelectionRequired"`
+	OrganizationID             *string               `json:"organizationId"`
+	OrganizationSlug           *string               `json:"organizationSlug"`
+	OrganizationRole           *string               `json:"organizationRole"`
+	AuthTime                   *time.Time            `json:"authTime"`
+	AuthenticationMethods      []string              `json:"authenticationMethods"`
+	AssuranceLevel             *string               `json:"assuranceLevel"`
+	Impersonation              *ImpersonationContext `json:"impersonation"`
+}
+    AuthenticationContext carries the authenticated subject and Application
+    bindings.
 
 type AuthorizationCreateOptions struct{ IdempotencyKey string }
     AuthorizationCreateOptions carries an optional retry-safe Idempotency-Key.
@@ -138,6 +234,17 @@ type AuthorizationPageOptions struct {
     AuthorizationPageOptions selects a zero-based page with a maximum size of
     100.
 
+type AuthorizationPurpose string
+    AuthorizationPurpose is an operation wire enum; unsupported response values
+    fail closed.
+
+const (
+	AuthorizationPurposeCurrentAccount      AuthorizationPurpose = "CURRENT_ACCOUNT"
+	AuthorizationPurposeTargetOwnership     AuthorizationPurpose = "TARGET_OWNERSHIP"
+	AuthorizationPurposeTransferCounterpart AuthorizationPurpose = "TRANSFER_COUNTERPART"
+)
+    Supported AuthorizationPurpose wire values.
+
 type Client struct {
 	// Has unexported fields.
 }
@@ -154,6 +261,39 @@ func (c *Client) AcceptOrganizationInvitation(ctx context.Context, invitationTok
     Pass an empty accessToken to receive IAM's login-required continuation when
     unauthenticated.
 
+func (c *Client) AuthorizeIdentityOperation(ctx context.Context, accessToken string, operationID string, request IdentityProviderAuthorize) (*ProviderAuthorization, error)
+    AuthorizeIdentityOperation calls POST
+    /api/v1/auth/me/identity-operations/{id}/authorize without mutation replay.
+
+func (c *Client) AuthorizeMFAOperation(ctx context.Context, accessToken string, operationID string, request MFAProviderAuthorize) (*ProviderAuthorization, error)
+    AuthorizeMFAOperation calls POST /api/v1/auth/mfa/operations/{id}/authorize
+    without mutation replay.
+
+func (c *Client) BeginTOTPEnrollmentOperation(ctx context.Context, accessToken string, operationID string) (*TOTPBeginResult, error)
+    BeginTOTPEnrollmentOperation calls POST
+    /api/v1/auth/mfa/operations/{id}/begin without mutation replay.
+
+func (c *Client) CancelIdentityOperation(ctx context.Context, accessToken string, operationID string) (*IdentityOperation, error)
+    CancelIdentityOperation calls POST
+    /api/v1/auth/me/identity-operations/{id}/cancel without mutation replay.
+
+func (c *Client) CancelMFAOperation(ctx context.Context, accessToken string, operationID string) (*MFAOperation, error)
+    CancelMFAOperation calls POST /api/v1/auth/mfa/operations/{id}/cancel
+    without mutation replay.
+
+func (c *Client) ChallengeIdentityCurrentAccount(ctx context.Context, accessToken string, operationID string, identifierID string) (*IdentityChallengeResult, error)
+    ChallengeIdentityCurrentAccount calls POST
+    /api/v1/auth/me/identity-operations/{id}/current-account/challenges without
+    mutation replay.
+
+func (c *Client) ChallengeIdentityOperation(ctx context.Context, accessToken string, operationID string, targetProofMethod TargetProofMethod) (*IdentityOperation, error)
+    ChallengeIdentityOperation calls POST
+    /api/v1/auth/me/identity-operations/{id}/challenges without mutation replay.
+
+func (c *Client) ChallengeMFAOperation(ctx context.Context, accessToken string, operationID string, identifierID string) (*MFAChallengeResult, error)
+    ChallengeMFAOperation calls POST /api/v1/auth/mfa/operations/{id}/challenges
+    without mutation replay.
+
 func (c *Client) ChangePassword(ctx context.Context, accessToken string, input PasswordChangeRequest) error
     ChangePassword calls the authenticated password-change endpoint.
 
@@ -161,9 +301,39 @@ func (c *Client) CheckAccountPermission(ctx context.Context, accessToken, permis
     CheckAccountPermission checks one permission through IAM. Wildcard semantics
     are backend-owned.
 
+func (c *Client) CompleteIdentityOperation(ctx context.Context, accessToken string, operationID string, request IdentityOperationComplete) (*IdentityOperation, error)
+    CompleteIdentityOperation calls POST
+    /api/v1/auth/me/identity-operations/{id}/complete without mutation replay.
+
+func (c *Client) CompleteIdentityProviderAuthorization(ctx context.Context, accessToken string, operationID string, request ProviderExchange) (*IdentityOperation, error)
+    CompleteIdentityProviderAuthorization calls POST
+    /api/v1/auth/me/identity-operations/{id}/provider-callback without mutation
+    replay.
+
+func (c *Client) CompleteMFAOperation(ctx context.Context, accessToken string, operationID string, code *string) (*MFACompletionResult, error)
+    CompleteMFAOperation calls POST /api/v1/auth/mfa/operations/{id}/complete
+    without mutation replay.
+
+func (c *Client) CompleteMFAProviderAuthorization(ctx context.Context, accessToken string, operationID string, request ProviderExchange) (*MFAOperation, error)
+    CompleteMFAProviderAuthorization calls POST
+    /api/v1/auth/mfa/operations/{id}/provider-callback without mutation replay.
+
 func (c *Client) Config() *SDKConfig
     Config returns a pointer to the underlying config. Callers must not mutate
     fields used by the SDK (Endpoint, ClientID, ...).
+
+func (c *Client) ConfirmIdentityTransfer(ctx context.Context, accessToken string, operationID string, decision TransferDecision) (*IdentityOperation, error)
+    ConfirmIdentityTransfer calls POST
+    /api/v1/auth/me/identity-operations/{id}/confirm-transfer without mutation
+    replay.
+
+func (c *Client) CreateIdentityOperation(ctx context.Context, accessToken string, request IdentityOperationCreate, idempotencyKey string) (*IdentityOperation, error)
+    CreateIdentityOperation calls POST /api/v1/auth/me/identity-operations
+    without mutation replay.
+
+func (c *Client) CreateMFAOperation(ctx context.Context, accessToken string, request MFAOperationCreate, idempotencyKey string) (*MFAOperation, error)
+    CreateMFAOperation calls POST /api/v1/auth/mfa/operations without mutation
+    replay.
 
 func (c *Client) Endpoint() string
     Endpoint returns the normalized IAM endpoint (no trailing slash).
@@ -184,10 +354,30 @@ func (c *Client) GetCurrentAccountOrganization(ctx context.Context, accessToken 
     GetCurrentAccountOrganization calls GET
     /api/v1/auth/me/organizations/current.
 
+func (c *Client) GetCurrentUser(ctx context.Context, accessToken string) (*CurrentUser, error)
+    GetCurrentUser reads context explicitly with a user bearer. It does not
+    resolve or verify token bytes locally.
+
+func (c *Client) GetIdentityOperation(ctx context.Context, accessToken string, operationID string) (*IdentityOperation, error)
+    GetIdentityOperation calls GET /api/v1/auth/me/identity-operations/{id}
+    without mutation replay.
+
+func (c *Client) GetMFACapabilities(ctx context.Context, accessToken string) (*MFACapabilities, error)
+    GetMFACapabilities calls GET /api/v1/auth/mfa/capabilities without mutation
+    replay.
+
+func (c *Client) GetMFAOperation(ctx context.Context, accessToken string, operationID string) (*MFAOperation, error)
+    GetMFAOperation calls GET /api/v1/auth/mfa/operations/{id} without mutation
+    replay.
+
 func (c *Client) GetMe(ctx context.Context, accessToken string) (*UserProfile, error)
     GetMe calls GET /api/v1/auth/me/profile with the user's bearer access token.
     It is uncached; use SDK.GetMe for the short-TTL profile cache. The returned
     Metadata is profile metadata, not authorization attributes.
+
+func (c *Client) GetRecoveryCodesRemaining(ctx context.Context, accessToken string) (*RecoveryCodesRemaining, error)
+    GetRecoveryCodesRemaining reads the current user's live unused recovery-code
+    count.
 
 func (c *Client) HTTP() *http.Client
     HTTP exposes the underlying http.Client (e.g. for test override).
@@ -200,22 +390,47 @@ func (c *Client) JWKS(ctx context.Context, jwksURL string) ([]byte, error)
     JWKS returns the raw JWKS JSON body served by the issuer's well-known
     endpoint. Used by the jwt sub-package.
 
+func (c *Client) ListAccountIdentifiers(ctx context.Context, accessToken string) (*AccountIdentifiers, error)
+    ListAccountIdentifiers calls GET /api/v1/auth/me/identifiers without
+    mutation replay.
+
+func (c *Client) ListAccountLoginMethods(ctx context.Context, accessToken string) (*AccountLoginMethods, error)
+    ListAccountLoginMethods calls GET /api/v1/auth/me/login-methods without
+    mutation replay.
+
 func (c *Client) ListAccountOrganizations(ctx context.Context, accessToken string) ([]AccountOrganization, error)
     ListAccountOrganizations calls GET /api/v1/auth/me/organizations.
 
 func (c *Client) ListAccountSessions(ctx context.Context, accessToken string) ([]SessionView, error)
     ListAccountSessions lists the current user's active sessions.
 
+func (c *Client) ListIdentityTransfers(ctx context.Context, accessToken string) ([]IdentityOperation, error)
+    ListIdentityTransfers calls GET
+    /api/v1/auth/me/identity-operations/transfers without mutation replay.
+
+func (c *Client) ListLinkableIdentityProviders(ctx context.Context, accessToken string) ([]LinkableIdentityProvider, error)
+    ListLinkableIdentityProviders calls GET
+    /api/v1/auth/me/linkable-identity-providers without mutation replay.
+
 func (c *Client) ListPermissions(ctx context.Context, clientID string) (*ListPermissionsResponse, error)
     ListPermissions calls GET /open/v1/apps/{cid}/permissions.
 
-func (c *Client) LogoutAccount(ctx context.Context, accessToken, refreshToken string) error
-    LogoutAccount blacklists the current token/session and optionally revokes a
-    refresh token.
+func (c *Client) LogoutAccount(ctx context.Context, accessToken string) error
+    LogoutAccount blacklists the current token/session and revokes its OAuth
+    session.
 
 func (c *Client) PreviewOrganizationInvitation(ctx context.Context, invitationToken string) (*PublicOrganizationInvitationPreview, error)
     PreviewOrganizationInvitation calls the public invitation preview endpoint
     without bearer auth.
+
+func (c *Client) ReauthenticateIdentityOperation(ctx context.Context, accessToken string, operationID string, request Reauthentication) (*IdentityOperation, error)
+    ReauthenticateIdentityOperation calls POST
+    /api/v1/auth/me/identity-operations/{id}/reauthenticate without mutation
+    replay.
+
+func (c *Client) ReauthenticateMFAOperation(ctx context.Context, accessToken string, operationID string, request Reauthentication) (*MFAOperation, error)
+    ReauthenticateMFAOperation calls POST
+    /api/v1/auth/mfa/operations/{id}/reauthenticate without mutation replay.
 
 func (c *Client) RequestPasswordReset(ctx context.Context, email, redirectURI string) error
     RequestPasswordReset starts the opaque public forgot-password flow.
@@ -239,6 +454,25 @@ func (c *Client) SendEmailVerification(ctx context.Context, email string) (*Emai
 func (c *Client) SetHTTPClient(h *http.Client)
     SetHTTPClient lets callers inject a custom http.Client. Intended for tests.
 
+func (c *Client) StartIdentityOperationStepUp(ctx context.Context, accessToken string, operationID string) (*OperationStepUpChallenge, error)
+    StartIdentityOperationStepUp calls POST
+    /api/v1/auth/me/identity-operations/{id}/step-up/start without mutation
+    replay.
+
+func (c *Client) StartIdentityOperationWebAuthn(ctx context.Context, accessToken string, operationID string, challengeID string) (*OperationWebAuthnStart, error)
+    StartIdentityOperationWebAuthn calls POST
+    /api/v1/auth/me/identity-operations/{id}/step-up/webauthn/start without
+    mutation replay.
+
+func (c *Client) StartMFAOperationStepUp(ctx context.Context, accessToken string, operationID string) (*OperationStepUpChallenge, error)
+    StartMFAOperationStepUp calls POST
+    /api/v1/auth/mfa/operations/{id}/step-up/start without mutation replay.
+
+func (c *Client) StartMFAOperationWebAuthn(ctx context.Context, accessToken string, operationID string, challengeID string) (*OperationWebAuthnStart, error)
+    StartMFAOperationWebAuthn calls POST
+    /api/v1/auth/mfa/operations/{id}/step-up/webauthn/start without mutation
+    replay.
+
 func (c *Client) SwitchAccountOrganization(ctx context.Context, accessToken, organizationID string) (*OrganizationSwitchResponse, error)
     SwitchAccountOrganization validates membership and returns the server
     continuation.
@@ -249,6 +483,25 @@ func (c *Client) UpdateAccountProfile(ctx context.Context, accessToken string, i
 
 func (c *Client) VerifyEmail(ctx context.Context, token string) (*EmailVerificationResponse, error)
     VerifyEmail verifies a public email-verification token.
+
+func (c *Client) VerifyIdentityOperationStepUp(ctx context.Context, accessToken string, operationID string, request OperationStepUpVerify) (*IdentityOperation, error)
+    VerifyIdentityOperationStepUp calls POST
+    /api/v1/auth/me/identity-operations/{id}/step-up/verify without mutation
+    replay.
+
+func (c *Client) VerifyIdentityOperationWebAuthn(ctx context.Context, accessToken string, operationID string, request OperationWebAuthnVerify) (*IdentityOperation, error)
+    VerifyIdentityOperationWebAuthn calls POST
+    /api/v1/auth/me/identity-operations/{id}/step-up/webauthn/verify without
+    mutation replay.
+
+func (c *Client) VerifyMFAOperationStepUp(ctx context.Context, accessToken string, operationID string, request OperationStepUpVerify) (*MFAOperation, error)
+    VerifyMFAOperationStepUp calls POST
+    /api/v1/auth/mfa/operations/{id}/step-up/verify without mutation replay.
+
+func (c *Client) VerifyMFAOperationWebAuthn(ctx context.Context, accessToken string, operationID string, request OperationWebAuthnVerify) (*MFAOperation, error)
+    VerifyMFAOperationWebAuthn calls POST
+    /api/v1/auth/mfa/operations/{id}/step-up/webauthn/verify without mutation
+    replay.
 
 type CreateOrganizationInvitationRequest struct {
 	Email     string                  `json:"email"`
@@ -279,15 +532,19 @@ type CreateRegistrationGrantRequest struct {
 	ExpiresAt     *string                     `json:"expiresAt,omitempty"`
 	MaxUses       *int                        `json:"maxUses,omitempty"`
 }
+    CreateRegistrationGrantRequest describes a manual EMAIL_LINK or ACCESS_CODE
+    grant.
 
 type CreateRegistrationGrantType string
-    CreateRegistrationGrantRequest describes a manual EMAIL_LINK or ACCESS_CODE
+    CreateRegistrationGrantType selects a manual EMAIL_LINK or ACCESS_CODE
     grant.
 
 const (
 	CreateRegistrationGrantEmailLink  CreateRegistrationGrantType = "EMAIL_LINK"
 	CreateRegistrationGrantAccessCode CreateRegistrationGrantType = "ACCESS_CODE"
 )
+    Supported CreateRegistrationGrantType wire values.
+
 type CreateRoleRequest struct {
 	Key         string  `json:"key"`
 	Name        string  `json:"name"`
@@ -302,12 +559,55 @@ type CreateUserRoleRequest struct {
     CreateUserRoleRequest is the typed POST assignment payload.
 
 type CreatedRegistrationGrant struct {
-	Grant                  RegistrationGrant `json:"grant"`
-	RegistrationGrantToken *string           `json:"registrationGrantToken"`
-	RegistrationAccessCode *string           `json:"registrationAccessCode"`
+	Grant                     RegistrationGrant `json:"grant"`
+	RegistrationGrantToken    *string           `json:"registrationGrantToken"`
+	RegistrationAccessCode    *string           `json:"registrationAccessCode"`
+	RegistrationInvitationURL *string           `json:"registrationInvitationUrl"`
+	SecretAlreadyIssued       bool              `json:"secretAlreadyIssued"`
 }
     CreatedRegistrationGrant contains the one-time raw proof returned only by
     create.
+
+func (created *CreatedRegistrationGrant) UnmarshalJSON(data []byte) error
+    UnmarshalJSON validates explicit secret-delivery state and one-time proof
+    invariants.
+
+type CurrentUser struct {
+	ID                    string                     `json:"id"`
+	Email                 *string                    `json:"email"`
+	Username              *string                    `json:"username"`
+	Status                string                     `json:"status"`
+	EmailVerified         bool                       `json:"emailVerified"`
+	AuthenticationContext AuthenticationContext      `json:"authenticationContext"`
+	Metadata              map[string]json.RawMessage `json:"metadata"`
+}
+    CurrentUser is the safe authenticated /me view. Metadata is never
+    authorization.
+
+func ParseCurrentUser(data []byte) (*CurrentUser, error)
+    ParseCurrentUser rejects absent and malformed bindings; nullable fields must
+    be explicitly present.
+
+type CurrentUserError struct{ Status int }
+    CurrentUserError exposes HTTP status without reflecting upstream
+    diagnostics.
+
+func (e *CurrentUserError) Error() string
+
+type EmailOTPReauthentication struct {
+	ChallengeID string `json:"challengeId"`
+	Code        string `json:"code"`
+}
+    EmailOTPReauthentication mirrors the current-user producer contract.
+
+func (EmailOTPReauthentication) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (r EmailOTPReauthentication) MarshalJSON() ([]byte, error)
+    MarshalJSON includes the required wire discriminator for this closed request
+    type.
+
+func (EmailOTPReauthentication) String() string
 
 type EmailVerificationResponse struct {
 	Message           string `json:"message"`
@@ -324,11 +624,382 @@ const (
 	// FailOpen allows the request through with an empty permission set.
 	FailOpen
 )
+type IdentifierAction string
+    IdentifierAction identifies a supported identifier mutation.
+
+const (
+	IdentifierActionVerify     IdentifierAction = "VERIFY"
+	IdentifierActionSetPrimary IdentifierAction = "SET_PRIMARY"
+	IdentifierActionRemove     IdentifierAction = "REMOVE"
+	IdentifierActionReplace    IdentifierAction = "REPLACE"
+	IdentifierActionTransfer   IdentifierAction = "TRANSFER"
+)
+    Supported IdentifierAction wire values.
+
+type IdentifierCapability struct {
+	Allowed               bool                    `json:"allowed"`
+	UnavailableReasons    []IdentifierDenial      `json:"unavailableReasons"`
+	Requirements          []IdentifierRequirement `json:"requirements"`
+	ReplacementPrimaryIDs []string                `json:"replacementPrimaryIds"`
+}
+    IdentifierCapability is an authenticated advisory snapshot; every mutation
+    is revalidated.
+
+type IdentifierDenial string
+    IdentifierDenial explains why an identifier capability is unavailable.
+
+const (
+	IdentifierDenialAccountInactive               IdentifierDenial = "ACCOUNT_INACTIVE"
+	IdentifierDenialManagedIdentifier             IdentifierDenial = "MANAGED_IDENTIFIER"
+	IdentifierDenialMethodUnavailable             IdentifierDenial = "METHOD_UNAVAILABLE"
+	IdentifierDenialReauthMethodUnavailable       IdentifierDenial = "REAUTH_METHOD_UNAVAILABLE"
+	IdentifierDenialTargetProofUnavailable        IdentifierDenial = "TARGET_PROOF_UNAVAILABLE"
+	IdentifierDenialIdentifierAlreadyExists       IdentifierDenial = "IDENTIFIER_ALREADY_EXISTS"
+	IdentifierDenialNotApplicable                 IdentifierDenial = "NOT_APPLICABLE"
+	IdentifierDenialAlreadyVerified               IdentifierDenial = "ALREADY_VERIFIED"
+	IdentifierDenialAlreadyPrimary                IdentifierDenial = "ALREADY_PRIMARY"
+	IdentifierDenialIdentifierUnverified          IdentifierDenial = "IDENTIFIER_UNVERIFIED"
+	IdentifierDenialIdentifierRangeRejected       IdentifierDenial = "IDENTIFIER_RANGE_REJECTED"
+	IdentifierDenialLastLoginMethod               IdentifierDenial = "LAST_LOGIN_METHOD"
+	IdentifierDenialPrimaryReplacementUnavailable IdentifierDenial = "PRIMARY_REPLACEMENT_UNAVAILABLE"
+)
+    Supported IdentifierDenial wire values.
+
+type IdentifierKind string
+    IdentifierKind is an operation wire enum; unsupported response values fail
+    closed.
+
+const (
+	IdentifierKindUsername IdentifierKind = "USERNAME"
+	IdentifierKindEmail    IdentifierKind = "EMAIL"
+	IdentifierKindPhone    IdentifierKind = "PHONE"
+)
+    Supported IdentifierKind wire values.
+
+type IdentifierManagement struct {
+	Add          map[IdentifierKind]IdentifierCapability `json:"add"`
+	ProofOptions []OperationProofOption                  `json:"proofOptions"`
+}
+    IdentifierManagement is the authenticated identifier capability and proof
+    snapshot.
+
+type IdentifierRequirement string
+    IdentifierRequirement names a required proof or remaining login path.
+
+const (
+	IdentifierRequirementCurrentAccountProof     IdentifierRequirement = "CURRENT_ACCOUNT_PROOF"
+	IdentifierRequirementNewIdentifier           IdentifierRequirement = "NEW_IDENTIFIER"
+	IdentifierRequirementTargetEmailOtp          IdentifierRequirement = "TARGET_EMAIL_OTP"
+	IdentifierRequirementTargetPhoneOtp          IdentifierRequirement = "TARGET_PHONE_OTP"
+	IdentifierRequirementReplacementPrimary      IdentifierRequirement = "REPLACEMENT_PRIMARY"
+	IdentifierRequirementRemoveOld               IdentifierRequirement = "REMOVE_OLD"
+	IdentifierRequirementCounterpartConfirmation IdentifierRequirement = "COUNTERPART_CONFIRMATION"
+	IdentifierRequirementRemainingLoginPath      IdentifierRequirement = "REMAINING_LOGIN_PATH"
+)
+    Supported IdentifierRequirement wire values.
+
+type IdentityChallengeResult struct {
+	Operation       IdentityOperation `json:"operation"`
+	ChallengeID     string            `json:"challengeId"`
+	NextChallengeAt string            `json:"nextChallengeAt"`
+}
+    IdentityChallengeResult mirrors the current-user producer contract.
+
+type IdentityOperation struct {
+	ID               string                  `json:"id"`
+	Type             IdentityOperationType   `json:"type"`
+	State            IdentityOperationState  `json:"state"`
+	ExpiresAt        string                  `json:"expiresAt"`
+	RequiredProofs   []IdentityRequiredProof `json:"requiredProofs"`
+	Result           map[string]string       `json:"result,omitempty" wire:"optional"`
+	MaskedIdentifier *string                 `json:"maskedIdentifier,omitempty" wire:"optional"`
+	NextChallengeAt  *string                 `json:"nextChallengeAt,omitempty" wire:"optional"`
+	Completion       *OperationCompletion    `json:"completion,omitempty" wire:"optional"`
+	ProofOptions     []OperationProofOption  `json:"proofOptions"`
+	ProviderTarget   *ProviderTarget         `json:"providerTarget,omitempty"`
+}
+    IdentityOperation mirrors the current-user producer contract.
+
+type IdentityOperationComplete struct {
+	Proofs []IdentityTargetProof `json:"proofs"`
+}
+    IdentityOperationComplete mirrors the current-user producer contract.
+
+func (IdentityOperationComplete) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (IdentityOperationComplete) String() string
+
+type IdentityOperationCreate struct {
+	ExpectedLoginMethodVersion int64           `json:"expectedLoginMethodVersion"`
+	Payload                    IdentityPayload `json:"payload"`
+}
+    IdentityOperationCreate derives its discriminator from the closed payload
+    type.
+
+func (r IdentityOperationCreate) MarshalJSON() ([]byte, error)
+    MarshalJSON includes the required wire discriminator for this closed request
+    type.
+
+type IdentityOperationState string
+    IdentityOperationState is an operation wire enum; unsupported response
+    values fail closed.
+
+const (
+	IdentityOperationStateAwaitingReauth IdentityOperationState = "AWAITING_REAUTH"
+	IdentityOperationStateAwaitingProof  IdentityOperationState = "AWAITING_PROOF"
+	IdentityOperationStateReady          IdentityOperationState = "READY"
+	IdentityOperationStateCommitted      IdentityOperationState = "COMMITTED"
+	IdentityOperationStateCancelled      IdentityOperationState = "CANCELLED"
+	IdentityOperationStateExpired        IdentityOperationState = "EXPIRED"
+	IdentityOperationStateRejected       IdentityOperationState = "REJECTED"
+)
+    Supported IdentityOperationState wire values.
+
+type IdentityOperationType string
+    IdentityOperationType is an operation wire enum; unsupported response values
+    fail closed.
+
+const (
+	IdentityOperationTypeAdd           IdentityOperationType = "ADD"
+	IdentityOperationTypeVerify        IdentityOperationType = "VERIFY"
+	IdentityOperationTypeSetPrimary    IdentityOperationType = "SET_PRIMARY"
+	IdentityOperationTypeRemove        IdentityOperationType = "REMOVE"
+	IdentityOperationTypeReplace       IdentityOperationType = "REPLACE"
+	IdentityOperationTypeLink          IdentityOperationType = "LINK"
+	IdentityOperationTypeUnlink        IdentityOperationType = "UNLINK"
+	IdentityOperationTypeTransfer      IdentityOperationType = "TRANSFER"
+	IdentityOperationTypeAccountDelete IdentityOperationType = "ACCOUNT_DELETE"
+)
+    Supported IdentityOperationType wire values.
+
+type IdentityPayload interface {
+	// Has unexported methods.
+}
+    IdentityPayload is a closed set of self-service identifier/provider
+    mutations.
+
+type IdentityProviderAuthorize struct {
+	Purpose             AuthorizationPurpose `json:"purpose"`
+	RedirectURI         string               `json:"redirectUri"`
+	CodeChallenge       string               `json:"codeChallenge"`
+	CodeChallengeMethod string               `json:"codeChallengeMethod"`
+	MethodID            *string              `json:"methodId,omitempty" wire:"optional"`
+}
+    IdentityProviderAuthorize mirrors the current-user producer contract.
+
+type IdentityRequiredProof struct {
+	Purpose   string   `json:"purpose"`
+	Methods   []string `json:"methods"`
+	Strength  string   `json:"strength"`
+	Satisfied bool     `json:"satisfied"`
+}
+    IdentityRequiredProof mirrors the current-user producer contract.
+
+type IdentityTargetProof struct {
+	Method TargetProofMethod `json:"method"`
+	Code   string            `json:"code"`
+}
+    IdentityTargetProof mirrors the current-user producer contract.
+
+func (IdentityTargetProof) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (r IdentityTargetProof) MarshalJSON() ([]byte, error)
+    MarshalJSON includes the required wire discriminator for this closed request
+    type.
+
+func (IdentityTargetProof) String() string
+
+type ImpersonationContext struct {
+	ActorID         string `json:"actorId"`
+	ImpersonationID string `json:"impersonationId"`
+}
+    ImpersonationContext identifies the actor and impersonation session.
+
+type LinkIdentity struct {
+	ProviderID string `json:"providerId"`
+}
+    LinkIdentity mirrors the current-user producer contract.
+
+type LinkableIdentityProvider struct {
+	ID                     string   `json:"id"`
+	ProviderType           string   `json:"providerType"`
+	Protocol               string   `json:"protocol"`
+	DisplayName            string   `json:"displayName"`
+	Enabled                bool     `json:"enabled"`
+	Linked                 bool     `json:"linked"`
+	LinkedAt               *string  `json:"linkedAt,omitempty" wire:"optional"`
+	SupportsAccountLinking bool     `json:"supportsAccountLinking"`
+	CanLink                bool     `json:"canLink"`
+	CanReauthenticate      bool     `json:"canReauthenticate"`
+	UnavailableReasons     []string `json:"unavailableReasons"`
+}
+    LinkableIdentityProvider mirrors the current-user producer contract.
+
 type ListPermissionsResponse struct {
 	Permissions []PermissionDefinitionDTO `json:"permissions"`
 }
     ListPermissionsResponse is the response body for GET
     /open/v1/apps/{cid}/permissions.
+
+type LoginIdentifier struct {
+	Kind   IdentifierKind `json:"kind"`
+	Value  string         `json:"value"`
+	Region *string        `json:"region,omitempty" wire:"optional"`
+}
+    LoginIdentifier mirrors the current-user producer contract.
+
+type MFAAction struct {
+	Allowed          bool                   `json:"allowed"`
+	ReasonCode       *string                `json:"reasonCode,omitempty" wire:"optional"`
+	ProofRequirement ProofRequirement       `json:"proofRequirement"`
+	ProofOptions     []OperationProofOption `json:"proofOptions"`
+}
+    MFAAction mirrors the current-user producer contract.
+
+type MFACapabilities struct {
+	LoginMethodVersion    int64     `json:"loginMethodVersion"`
+	TOTPEnroll            MFAAction `json:"totpEnroll"`
+	TOTPDisable           MFAAction `json:"totpDisable"`
+	RecoveryCodesGenerate MFAAction `json:"recoveryCodesGenerate"`
+}
+    MFACapabilities mirrors the current-user producer contract.
+
+type MFAChallengeResult struct {
+	Operation       MFAOperation `json:"operation"`
+	ChallengeID     string       `json:"challengeId"`
+	NextChallengeAt string       `json:"nextChallengeAt"`
+}
+    MFAChallengeResult mirrors the current-user producer contract.
+
+type MFACompletionResult struct {
+	Operation     MFAOperation      `json:"operation"`
+	Delivery      SensitiveDelivery `json:"delivery"`
+	RecoveryCodes *RecoveryCodes    `json:"recoveryCodes,omitempty" wire:"optional"`
+}
+    MFACompletionResult mirrors the current-user producer contract.
+
+func (MFACompletionResult) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (MFACompletionResult) String() string
+
+type MFAOperation struct {
+	ID                         string                 `json:"id"`
+	Type                       MFAOperationType       `json:"type"`
+	State                      MFAOperationState      `json:"state"`
+	CreatedAt                  string                 `json:"createdAt"`
+	ExpiresAt                  string                 `json:"expiresAt"`
+	ExpectedLoginMethodVersion int64                  `json:"expectedLoginMethodVersion"`
+	ProofRequirement           ProofRequirement       `json:"proofRequirement"`
+	ProofOptions               []OperationProofOption `json:"proofOptions"`
+	ProofSatisfied             bool                   `json:"proofSatisfied"`
+	NextChallengeAt            *string                `json:"nextChallengeAt,omitempty" wire:"optional"`
+	ReasonCode                 *string                `json:"reasonCode,omitempty" wire:"optional"`
+	Result                     *MFAOperationResult    `json:"result,omitempty" wire:"optional"`
+}
+    MFAOperation mirrors the current-user producer contract.
+
+type MFAOperationCreate struct {
+	Type                       MFAOperationType `json:"type"`
+	ExpectedLoginMethodVersion int64            `json:"expectedLoginMethodVersion"`
+}
+    MFAOperationCreate mirrors the current-user producer contract.
+
+type MFAOperationResult struct {
+	CompletedAt             string        `json:"completedAt"`
+	FinalLoginMethodVersion int64         `json:"finalLoginMethodVersion"`
+	SessionImpact           SessionImpact `json:"sessionImpact"`
+	RecoveryBatchID         *string       `json:"recoveryBatchId,omitempty" wire:"optional"`
+	RecoveryCount           *int64        `json:"recoveryCount,omitempty" wire:"optional"`
+}
+    MFAOperationResult mirrors the current-user producer contract.
+
+type MFAOperationState string
+    MFAOperationState is an operation wire enum; unsupported response values
+    fail closed.
+
+const (
+	MFAOperationStateAwaitingReauth       MFAOperationState = "AWAITING_REAUTH"
+	MFAOperationStateReady                MFAOperationState = "READY"
+	MFAOperationStateAwaitingConfirmation MFAOperationState = "AWAITING_CONFIRMATION"
+	MFAOperationStateCommitted            MFAOperationState = "COMMITTED"
+	MFAOperationStateCancelled            MFAOperationState = "CANCELLED"
+	MFAOperationStateExpired              MFAOperationState = "EXPIRED"
+)
+    Supported MFAOperationState wire values.
+
+type MFAOperationType string
+    MFAOperationType is an operation wire enum; unsupported response values fail
+    closed.
+
+const (
+	MFAOperationTypeTOTPEnroll            MFAOperationType = "TOTP_ENROLL"
+	MFAOperationTypeTOTPDisable           MFAOperationType = "TOTP_DISABLE"
+	MFAOperationTypeRecoveryCodesGenerate MFAOperationType = "RECOVERY_CODES_GENERATE"
+)
+    Supported MFAOperationType wire values.
+
+type MFAProviderAuthorize struct {
+	MethodID            string `json:"methodId"`
+	RedirectURI         string `json:"redirectUri"`
+	CodeChallenge       string `json:"codeChallenge"`
+	CodeChallengeMethod string `json:"codeChallengeMethod"`
+}
+    MFAProviderAuthorize mirrors the current-user producer contract.
+
+type OperationCompletion struct {
+	CompletedAt             string        `json:"completedAt"`
+	FinalLoginMethodVersion int64         `json:"finalLoginMethodVersion"`
+	SessionImpact           SessionImpact `json:"sessionImpact"`
+}
+    OperationCompletion mirrors the current-user producer contract.
+
+type OperationProofOption struct {
+	Method           ProofMethod `json:"method"`
+	IdentifierID     *string     `json:"identifierId,omitempty" wire:"optional"`
+	MaskedIdentifier *string     `json:"maskedIdentifier,omitempty" wire:"optional"`
+	MethodID         *string     `json:"methodId,omitempty" wire:"optional"`
+	DisplayName      *string     `json:"displayName,omitempty" wire:"optional"`
+	AvailableMethods []string    `json:"availableMethods,omitempty" wire:"optional"`
+}
+    OperationProofOption mirrors the current-user producer contract.
+
+type OperationStepUpChallenge struct {
+	ChallengeID      string   `json:"challengeId"`
+	AvailableMethods []string `json:"availableMethods"`
+}
+    OperationStepUpChallenge mirrors the current-user producer contract.
+
+type OperationStepUpVerify struct {
+	ChallengeID string `json:"challengeId"`
+	Code        string `json:"code"`
+}
+    OperationStepUpVerify mirrors the current-user producer contract.
+
+func (OperationStepUpVerify) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (OperationStepUpVerify) String() string
+
+type OperationWebAuthnStart struct {
+	RequestID string `json:"requestId"`
+	PublicKey string `json:"publicKey"`
+}
+    OperationWebAuthnStart mirrors the current-user producer contract.
+
+type OperationWebAuthnVerify struct {
+	ChallengeID string `json:"challengeId"`
+	RequestID   string `json:"requestId"`
+	Credential  string `json:"credential"`
+}
+    OperationWebAuthnVerify mirrors the current-user producer contract.
+
+func (OperationWebAuthnVerify) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (OperationWebAuthnVerify) String() string
 
 type Organization struct {
 	ID        string `json:"id"`
@@ -376,6 +1047,8 @@ const (
 	OrganizationInvitationDeliverySent         OrganizationInvitationDeliveryStatus = "SENT"
 	OrganizationInvitationDeliveryFailed       OrganizationInvitationDeliveryStatus = "FAILED"
 )
+    Supported OrganizationInvitationDeliveryStatus wire values.
+
 type OrganizationInvitationListOptions struct {
 	Status *OrganizationInvitationStatus
 	Page   *int
@@ -400,6 +1073,8 @@ const (
 	OrganizationInvitationCancelled OrganizationInvitationStatus = "CANCELLED"
 	OrganizationInvitationExpired   OrganizationInvitationStatus = "EXPIRED"
 )
+    Supported OrganizationInvitationStatus wire values.
+
 type OrganizationListOptions struct {
 	Search    *string
 	Page      *int
@@ -444,6 +1119,8 @@ const (
 	OrganizationMemberRoleAdmin  OrganizationMemberRole = "ADMIN"
 	OrganizationMemberRoleMember OrganizationMemberRole = "MEMBER"
 )
+    Supported OrganizationMemberRole wire values.
+
 type OrganizationPage struct {
 	Content []Organization           `json:"content"`
 	Page    OrganizationPageMetadata `json:"page"`
@@ -465,6 +1142,8 @@ const (
 	OrganizationSortAscending  OrganizationSortDirection = "ASC"
 	OrganizationSortDescending OrganizationSortDirection = "DESC"
 )
+    Supported OrganizationSortDirection wire values.
+
 type OrganizationSwitchResponse struct {
 	OrganizationID       string `json:"organizationId"`
 	Continuation         string `json:"continuation"`
@@ -479,6 +1158,20 @@ type PasswordChangeRequest struct {
 	NewPassword     string `json:"newPassword"`
 }
     PasswordChangeRequest is the authenticated password-change body.
+
+type PasswordReauthentication struct {
+	Password string `json:"password"`
+}
+    PasswordReauthentication mirrors the current-user producer contract.
+
+func (PasswordReauthentication) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (r PasswordReauthentication) MarshalJSON() ([]byte, error)
+    MarshalJSON includes the required wire discriminator for this closed request
+    type.
+
+func (PasswordReauthentication) String() string
 
 type Permission struct {
 	ID          string  `json:"id"`
@@ -519,18 +1212,28 @@ type PermissionManifest struct {
 	Revision    string                          `json:"revision"`
 	Permissions []PermissionManifestDeclaration `json:"permissions"`
 }
+    PermissionManifest is a versioned set of structured permission declarations.
 
 type PermissionManifestClient struct {
 	// Has unexported fields.
 }
+    PermissionManifestClient executes structured manifests with an
+    instance-local machine-token cache.
 
 func NewPermissionManifestClient(cfg PermissionManifestClientConfig) (*PermissionManifestClient, error)
+    NewPermissionManifestClient validates explicit endpoints and bounded retry
+    settings.
 
 func (c *PermissionManifestClient) ClearPermissionManifestTokenCache()
+    ClearPermissionManifestTokenCache invalidates the instance's cached machine
+    token.
 
 func (c *PermissionManifestClient) UpsertPermissionManifest(ctx context.Context, manifest PermissionManifest, idempotencyKey string) (*PermissionManifestResult, error)
+    UpsertPermissionManifest applies a manifest using an explicit idempotency
+    key.
 
 func (c *PermissionManifestClient) ValidatePermissionManifest(ctx context.Context, manifest PermissionManifest) (*PermissionManifestResult, error)
+    ValidatePermissionManifest checks a manifest without applying changes.
 
 type PermissionManifestClientConfig struct {
 	IssuerEndpoint    string
@@ -544,6 +1247,8 @@ type PermissionManifestClientConfig struct {
 	HTTPClient        *http.Client
 	Observer          func(PermissionManifestObservation)
 }
+    PermissionManifestClientConfig configures explicit issuer and Portal
+    endpoints and bounded command retries.
 
 type PermissionManifestContinueEvent struct {
 	Mode    string
@@ -551,6 +1256,8 @@ type PermissionManifestContinueEvent struct {
 	Status  int
 	Code    string
 }
+    PermissionManifestContinueEvent reports a sanitized development startup
+    failure.
 
 type PermissionManifestCounts struct {
 	Created     int `json:"created"`
@@ -560,6 +1267,7 @@ type PermissionManifestCounts struct {
 	Conflict    int `json:"conflict"`
 	Drift       int `json:"drift"`
 }
+    PermissionManifestCounts summarizes synchronization decisions and drift.
 
 type PermissionManifestDeclaration struct {
 	Resource    string  `json:"resource"`
@@ -567,14 +1275,19 @@ type PermissionManifestDeclaration struct {
 	Name        string  `json:"name"`
 	Description *string `json:"description"`
 }
+    PermissionManifestDeclaration declares one concrete permission and its
+    display metadata.
 
 func (d PermissionManifestDeclaration) Key() string
+    Key returns the exact resource:action permission key.
 
 type PermissionManifestDrift struct {
 	Key    string `json:"key"`
 	Kind   string `json:"kind"`
 	Source string `json:"source"`
 }
+    PermissionManifestDrift describes a difference between a declaration and
+    server state.
 
 type PermissionManifestError struct {
 	Status            int
@@ -584,34 +1297,47 @@ type PermissionManifestError struct {
 	RetryAfterSeconds int
 	Body              string
 }
+    PermissionManifestError exposes the manifest protocol's stable error
+    details.
 
 func (e *PermissionManifestError) Error() string
 
 type PermissionManifestFailurePolicy int
+    PermissionManifestFailurePolicy selects explicit failure handling for
+    development startup.
 
 const (
 	PermissionManifestFailurePolicyUnset PermissionManifestFailurePolicy = iota
 	PermissionManifestFailFast
 	PermissionManifestContinue
 )
+    Supported PermissionManifestFailurePolicy values.
+
 type PermissionManifestItem struct {
 	Key       string `json:"key"`
 	Operation string `json:"operation"`
 	Reason    string `json:"reason"`
 }
+    PermissionManifestItem describes a synchronization decision for one
+    permission key.
 
 type PermissionManifestMode string
+    PermissionManifestMode selects validation-only or applied synchronization.
 
 const (
 	PermissionManifestValidate PermissionManifestMode = "validate"
 	PermissionManifestUpsert   PermissionManifestMode = "upsert"
 )
+    Supported PermissionManifestMode values.
+
 type PermissionManifestObservation struct {
 	Mode     PermissionManifestMode
 	Outcome  string
 	Status   int
 	Duration time.Duration
 }
+    PermissionManifestObservation reports a sanitized command outcome without
+    tokens or response bodies.
 
 type PermissionManifestResult struct {
 	Mode        PermissionManifestMode    `json:"mode"`
@@ -623,8 +1349,11 @@ type PermissionManifestResult struct {
 	Drift       []PermissionManifestDrift `json:"drift"`
 	Counts      PermissionManifestCounts  `json:"counts"`
 }
+    PermissionManifestResult is the validated response from a manifest command.
 
 type PermissionManifestStartupMode int
+    PermissionManifestStartupMode selects whether and when a startup command is
+    attempted.
 
 const (
 	PermissionManifestDisabled PermissionManifestStartupMode = iota
@@ -632,20 +1361,28 @@ const (
 	PermissionManifestDeploymentUpsert
 	PermissionManifestDevelopmentStartup
 )
+    Supported PermissionManifestStartupMode values.
+
 type PermissionManifestStartupOptions struct {
 	Mode            PermissionManifestStartupMode
 	FailurePolicy   PermissionManifestFailurePolicy
 	IdempotencyKey  string
 	OnContinueError func(PermissionManifestContinueEvent)
 }
+    PermissionManifestStartupOptions configures startup mode, idempotency and
+    continued-error reporting.
 
 type PermissionManifestStartupResult struct {
 	NetworkAttempted bool
 	Continued        bool
 	Result           *PermissionManifestResult
 }
+    PermissionManifestStartupResult records whether a startup command was
+    attempted or continued.
 
 func RunPermissionManifestStartup(ctx context.Context, client *PermissionManifestClient, manifest PermissionManifest, options PermissionManifestStartupOptions) (PermissionManifestStartupResult, error)
+    RunPermissionManifestStartup executes only the configured startup mode and
+    explicit failure policy.
 
 type PermissionPage struct {
 	Content []Permission              `json:"content"`
@@ -687,7 +1424,7 @@ func (c *PortalOpenAPIClient) CreatePermission(ctx context.Context, req CreatePe
     CreatePermission uses only permissions:write and validates canonical grant
     grammar.
 
-func (c *PortalOpenAPIClient) CreateRegistrationGrant(ctx context.Context, request CreateRegistrationGrantRequest) (*CreatedRegistrationGrant, error)
+func (c *PortalOpenAPIClient) CreateRegistrationGrant(ctx context.Context, request CreateRegistrationGrantRequest, idempotencyKey string) (*CreatedRegistrationGrant, error)
     CreateRegistrationGrant creates an EMAIL_LINK or ACCESS_CODE grant with
     exactly one matching proof.
 
@@ -712,6 +1449,9 @@ func (c *PortalOpenAPIClient) DeleteRole(ctx context.Context, id, ifMatch string
 func (c *PortalOpenAPIClient) DeleteUserRole(ctx context.Context, userID, assignmentID, ifMatch string) error
     DeleteUserRole uses only user_roles:write and requires If-Match.
 
+func (c *PortalOpenAPIClient) DeliverRegistrationGrant(ctx context.Context, grantID string, request RegistrationGrantDeliveryRequest, idempotencyKey string) (*RegistrationGrantDelivery, error)
+    DeliverRegistrationGrant queues one email using registration_grants:write.
+
 func (c *PortalOpenAPIClient) GetMachineToken(ctx context.Context, scope PortalOpenAPIScope) (*PortalOpenAPIMachineToken, error)
     GetMachineToken returns a cached or freshly requested machine token for an
     explicit scope.
@@ -730,6 +1470,10 @@ func (c *PortalOpenAPIClient) GetPermission(ctx context.Context, id string) (*Pe
 
 func (c *PortalOpenAPIClient) GetRegistrationGrant(ctx context.Context, grantID string) (*RegistrationGrant, error)
     GetRegistrationGrant returns a safe grant detail using
+    registration_grants:read.
+
+func (c *PortalOpenAPIClient) GetRegistrationGrantDelivery(ctx context.Context, grantID, deliveryID string) (*RegistrationGrantDelivery, error)
+    GetRegistrationGrantDelivery reads authoritative status using
     registration_grants:read.
 
 func (c *PortalOpenAPIClient) GetRole(ctx context.Context, id string) (*Role, error)
@@ -793,6 +1537,10 @@ func (c *PortalOpenAPIClient) ResumeRegistrationGrant(ctx context.Context, grant
 func (c *PortalOpenAPIClient) RevokeRegistrationGrant(ctx context.Context, grantID string, reason *string) (*RegistrationGrant, error)
     RevokeRegistrationGrant revokes a grant using registration_grants:write.
     Reason is optional.
+
+func (c *PortalOpenAPIClient) RotateRegistrationGrant(ctx context.Context, grantID string, expectedVersion int64, idempotencyKey string) (*CreatedRegistrationGrant, error)
+    RotateRegistrationGrant rotates the last observed version without
+    automatically retrying.
 
 func (c *PortalOpenAPIClient) UpdateOrganization(ctx context.Context, organizationID string, request UpdateOrganizationRequest, options *OrganizationIfMatchOptions) (*Organization, error)
     UpdateOrganization uses only organizations:write and applies If-Match when
@@ -918,8 +1666,61 @@ type PreparedPermissionManifest struct {
 	Fingerprint string                          `json:"fingerprint"`
 	Permissions []PermissionManifestDeclaration `json:"permissions"`
 }
+    PreparedPermissionManifest contains validated, sorted declarations and their
+    canonical fingerprint.
 
 func PreparePermissionManifest(manifest PermissionManifest, mode PermissionManifestMode) (PreparedPermissionManifest, error)
+    PreparePermissionManifest validates declarations and computes their sorted
+    canonical fingerprint.
+
+type ProofMethod string
+    ProofMethod is an operation wire enum; unsupported response values fail
+    closed.
+
+const (
+	ProofMethodPassword    ProofMethod = "PASSWORD"
+	ProofMethodEmailOTP    ProofMethod = "EMAIL_OTP"
+	ProofMethodProvider    ProofMethod = "PROVIDER"
+	ProofMethodStepUpProof ProofMethod = "STEP_UP_PROOF"
+)
+    Supported ProofMethod wire values.
+
+type ProofRequirement string
+    ProofRequirement is an operation wire enum; unsupported response values fail
+    closed.
+
+const (
+	ProofRequirementSession          ProofRequirement = "SESSION"
+	ProofRequirementReauthentication ProofRequirement = "REAUTHENTICATION"
+	ProofRequirementStepUp           ProofRequirement = "STEP_UP"
+)
+    Supported ProofRequirement wire values.
+
+type ProviderAuthorization struct {
+	AuthorizationID  string `json:"authorizationId"`
+	AuthorizationURL string `json:"authorizationUrl"`
+	ExpiresAt        string `json:"expiresAt"`
+}
+    ProviderAuthorization mirrors the current-user producer contract.
+
+type ProviderExchange struct {
+	AuthorizationID string `json:"authorizationId"`
+	CodeVerifier    string `json:"codeVerifier"`
+}
+    ProviderExchange mirrors the current-user producer contract.
+
+func (ProviderExchange) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (ProviderExchange) String() string
+
+type ProviderTarget struct {
+	ProviderID        string  `json:"providerId"`
+	MaskedDisplayName *string `json:"maskedDisplayName,omitempty"`
+	MaskedEmail       *string `json:"maskedEmail,omitempty"`
+	Reference         string  `json:"reference"`
+}
+    ProviderTarget is the masked provider identity offered by the producer.
 
 type PublicOrganizationInvitationAcceptResponse struct {
 	Status           string `json:"status"`
@@ -944,8 +1745,31 @@ type PublicOrganizationInvitationPreview struct {
 }
     PublicOrganizationInvitationPreview is the safe public invitation preview.
 
+type Reauthentication interface {
+	// Has unexported methods.
+}
+    Reauthentication cannot carry unrelated fields or a generic step-up grant.
+
+type RecoveryCodes struct {
+	Codes []string `json:"codes"`
+	Count int64    `json:"count"`
+}
+    RecoveryCodes mirrors the current-user producer contract.
+
+func (RecoveryCodes) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (RecoveryCodes) String() string
+
+type RecoveryCodesRemaining struct {
+	Remaining int64 `json:"remaining"`
+}
+    RecoveryCodesRemaining is the current unused count, not generation-time
+    delivery.
+
 type RegistrationGrant struct {
 	ID            string                  `json:"id"`
+	Version       int64                   `json:"version"`
 	Type          RegistrationGrantType   `json:"type"`
 	Status        RegistrationGrantStatus `json:"status"`
 	DisplayName   *string                 `json:"displayName"`
@@ -961,6 +1785,37 @@ type RegistrationGrant struct {
 	RevokeReason  *string                 `json:"revokeReason"`
 }
     RegistrationGrant is a safe grant detail. It never contains a raw proof.
+
+func (grant *RegistrationGrant) UnmarshalJSON(data []byte) error
+    UnmarshalJSON validates the required nonnegative grant version.
+
+type RegistrationGrantDelivery struct {
+	ID            string  `json:"id"`
+	GrantID       string  `json:"grantId"`
+	Recipient     string  `json:"recipient"`
+	Variant       string  `json:"variant"`
+	Status        string  `json:"status"`
+	FailureCode   *string `json:"failureCode"`
+	AttemptCount  int     `json:"attemptCount"`
+	MaxAttempts   *int    `json:"maxAttempts"`
+	NextAttemptAt *string `json:"nextAttemptAt"`
+	Retryable     bool    `json:"retryable"`
+	ExpiresAt     string  `json:"expiresAt"`
+	CreatedAt     string  `json:"createdAt"`
+}
+    RegistrationGrantDelivery is safe status, never invitation credentials.
+
+func (delivery *RegistrationGrantDelivery) UnmarshalJSON(data []byte) error
+    UnmarshalJSON validates required delivery scalars, lifecycle values and
+    bindings.
+
+type RegistrationGrantDeliveryRequest struct {
+	Recipient string `json:"recipient"`
+	Locale    string `json:"locale,omitempty"`
+	Variant   string `json:"variant"`
+}
+    RegistrationGrantDeliveryRequest queues an explicitly addressed LINK or CODE
+    email.
 
 type RegistrationGrantListOptions struct {
 	Type   *RegistrationGrantType
@@ -1014,6 +1869,8 @@ const (
 	RegistrationGrantExpired  RegistrationGrantStatus = "EXPIRED"
 	RegistrationGrantRevoked  RegistrationGrantStatus = "REVOKED"
 )
+    Supported RegistrationGrantStatus wire values.
+
 type RegistrationGrantType string
     RegistrationGrantType is one safe registration-grant type returned by the
     API.
@@ -1023,6 +1880,22 @@ const (
 	RegistrationGrantAccessCode    RegistrationGrantType = "ACCESS_CODE"
 	RegistrationGrantOrgInvitation RegistrationGrantType = "ORG_INVITATION"
 )
+    Supported RegistrationGrantType wire values.
+
+type RemoveIdentity struct {
+	IdentifierID         string  `json:"identifierId"`
+	ReplacementPrimaryID *string `json:"replacementPrimaryId,omitempty" wire:"optional"`
+}
+    RemoveIdentity mirrors the current-user producer contract.
+
+type ReplaceIdentity struct {
+	IdentifierID         string          `json:"identifierId"`
+	Replacement          LoginIdentifier `json:"replacement"`
+	RemoveOld            bool            `json:"removeOld"`
+	ReplacementPrimaryID *string         `json:"replacementPrimaryId,omitempty" wire:"optional"`
+}
+    ReplaceIdentity mirrors the current-user producer contract.
+
 type ResolveMode int
     ResolveMode controls how the SDK loads role→permission mappings.
 
@@ -1113,6 +1986,31 @@ func (s *SDK) Authenticate(opts ...AuthOption) func(http.Handler) http.Handler
     Authenticate returns a net/http middleware that validates the bearer JWT and
     injects an authz.User into the request context.
 
+func (s *SDK) AuthorizeIdentityOperation(ctx context.Context, accessToken string, operationID string, request IdentityProviderAuthorize) (*ProviderAuthorization, error)
+    AuthorizeIdentityOperation delegates to the explicit current-user client.
+
+func (s *SDK) AuthorizeMFAOperation(ctx context.Context, accessToken string, operationID string, request MFAProviderAuthorize) (*ProviderAuthorization, error)
+    AuthorizeMFAOperation delegates to the explicit current-user client.
+
+func (s *SDK) BeginTOTPEnrollmentOperation(ctx context.Context, accessToken string, operationID string) (*TOTPBeginResult, error)
+    BeginTOTPEnrollmentOperation delegates to the explicit current-user client.
+
+func (s *SDK) CancelIdentityOperation(ctx context.Context, accessToken string, operationID string) (*IdentityOperation, error)
+    CancelIdentityOperation delegates to the explicit current-user client.
+
+func (s *SDK) CancelMFAOperation(ctx context.Context, accessToken string, operationID string) (*MFAOperation, error)
+    CancelMFAOperation delegates to the explicit current-user client.
+
+func (s *SDK) ChallengeIdentityCurrentAccount(ctx context.Context, accessToken string, operationID string, identifierID string) (*IdentityChallengeResult, error)
+    ChallengeIdentityCurrentAccount delegates to the explicit current-user
+    client.
+
+func (s *SDK) ChallengeIdentityOperation(ctx context.Context, accessToken string, operationID string, targetProofMethod TargetProofMethod) (*IdentityOperation, error)
+    ChallengeIdentityOperation delegates to the explicit current-user client.
+
+func (s *SDK) ChallengeMFAOperation(ctx context.Context, accessToken string, operationID string, identifierID string) (*MFAChallengeResult, error)
+    ChallengeMFAOperation delegates to the explicit current-user client.
+
 func (s *SDK) ChangePassword(ctx context.Context, accessToken string, input PasswordChangeRequest) error
     ChangePassword changes the current user's password with bearer auth.
 
@@ -1121,6 +2019,29 @@ func (s *SDK) CheckAccountPermission(ctx context.Context, accessToken, permissio
 
 func (s *SDK) Client() *Client
     Client returns the low-level HTTP client.
+
+func (s *SDK) CompleteIdentityOperation(ctx context.Context, accessToken string, operationID string, request IdentityOperationComplete) (*IdentityOperation, error)
+    CompleteIdentityOperation delegates to the explicit current-user client.
+
+func (s *SDK) CompleteIdentityProviderAuthorization(ctx context.Context, accessToken string, operationID string, request ProviderExchange) (*IdentityOperation, error)
+    CompleteIdentityProviderAuthorization delegates to the explicit current-user
+    client.
+
+func (s *SDK) CompleteMFAOperation(ctx context.Context, accessToken string, operationID string, code *string) (*MFACompletionResult, error)
+    CompleteMFAOperation delegates to the explicit current-user client.
+
+func (s *SDK) CompleteMFAProviderAuthorization(ctx context.Context, accessToken string, operationID string, request ProviderExchange) (*MFAOperation, error)
+    CompleteMFAProviderAuthorization delegates to the explicit current-user
+    client.
+
+func (s *SDK) ConfirmIdentityTransfer(ctx context.Context, accessToken string, operationID string, decision TransferDecision) (*IdentityOperation, error)
+    ConfirmIdentityTransfer delegates to the explicit current-user client.
+
+func (s *SDK) CreateIdentityOperation(ctx context.Context, accessToken string, request IdentityOperationCreate, idempotencyKey string) (*IdentityOperation, error)
+    CreateIdentityOperation delegates to the explicit current-user client.
+
+func (s *SDK) CreateMFAOperation(ctx context.Context, accessToken string, request MFAOperationCreate, idempotencyKey string) (*MFAOperation, error)
+    CreateMFAOperation delegates to the explicit current-user client.
 
 func (s *SDK) GetAccountPermissionSummary(ctx context.Context, accessToken, organizationID string) (*AccountPermissionSummary, error)
     GetAccountPermissionSummary resolves current-user permissions in IAM.
@@ -1133,6 +2054,15 @@ func (s *SDK) GetCurrentAccountOrganization(ctx context.Context, accessToken str
     GetCurrentAccountOrganization returns the selected Organization context,
     if any.
 
+func (s *SDK) GetIdentityOperation(ctx context.Context, accessToken string, operationID string) (*IdentityOperation, error)
+    GetIdentityOperation delegates to the explicit current-user client.
+
+func (s *SDK) GetMFACapabilities(ctx context.Context, accessToken string) (*MFACapabilities, error)
+    GetMFACapabilities delegates to the explicit current-user client.
+
+func (s *SDK) GetMFAOperation(ctx context.Context, accessToken string, operationID string) (*MFAOperation, error)
+    GetMFAOperation delegates to the explicit current-user client.
+
 func (s *SDK) GetMe(ctx context.Context, accessToken string, opts ...UserProfileOption) (*UserProfile, error)
     GetMe returns the current user's latest profile from GET /api/v1/auth/me.
     It uses a short local cache keyed by request user id when available, or by
@@ -1140,9 +2070,19 @@ func (s *SDK) GetMe(ctx context.Context, accessToken string, opts ...UserProfile
     use FromContext and resolved permissions instead of this profile response.
     Profile metadata is not App User authorization attributes.
 
+func (s *SDK) GetRecoveryCodesRemaining(ctx context.Context, accessToken string) (*RecoveryCodesRemaining, error)
+    GetRecoveryCodesRemaining reads the current user's unused recovery-code
+    count through the shared Client.
+
 func (s *SDK) HasAccountOrganizationMembership(ctx context.Context, accessToken, organizationID string) (bool, error)
     HasAccountOrganizationMembership derives membership from the Organization
     list.
+
+func (s *SDK) ListAccountIdentifiers(ctx context.Context, accessToken string) (*AccountIdentifiers, error)
+    ListAccountIdentifiers delegates to the explicit current-user client.
+
+func (s *SDK) ListAccountLoginMethods(ctx context.Context, accessToken string) (*AccountLoginMethods, error)
+    ListAccountLoginMethods delegates to the explicit current-user client.
 
 func (s *SDK) ListAccountOrganizations(ctx context.Context, accessToken string) ([]AccountOrganization, error)
     ListAccountOrganizations lists the current user's Application-scoped
@@ -1151,13 +2091,26 @@ func (s *SDK) ListAccountOrganizations(ctx context.Context, accessToken string) 
 func (s *SDK) ListAccountSessions(ctx context.Context, accessToken string) ([]SessionView, error)
     ListAccountSessions lists the current user's active sessions.
 
-func (s *SDK) LogoutAccount(ctx context.Context, accessToken, refreshToken string) error
-    LogoutAccount logs out the current token/session and optionally revokes a
-    refresh token.
+func (s *SDK) ListIdentityTransfers(ctx context.Context, accessToken string) ([]IdentityOperation, error)
+    ListIdentityTransfers delegates to the explicit current-user client.
+
+func (s *SDK) ListLinkableIdentityProviders(ctx context.Context, accessToken string) ([]LinkableIdentityProvider, error)
+    ListLinkableIdentityProviders delegates to the explicit current-user client.
+
+func (s *SDK) LogoutAccount(ctx context.Context, accessToken string) error
+    LogoutAccount logs out the current token/session and revokes its OAuth
+    session.
 
 func (s *SDK) PreviewOrganizationInvitation(ctx context.Context, invitationToken string) (*PublicOrganizationInvitationPreview, error)
     PreviewOrganizationInvitation returns safe public invitation metadata
     without bearer auth.
+
+func (s *SDK) ReauthenticateIdentityOperation(ctx context.Context, accessToken string, operationID string, request Reauthentication) (*IdentityOperation, error)
+    ReauthenticateIdentityOperation delegates to the explicit current-user
+    client.
+
+func (s *SDK) ReauthenticateMFAOperation(ctx context.Context, accessToken string, operationID string, request Reauthentication) (*MFAOperation, error)
+    ReauthenticateMFAOperation delegates to the explicit current-user client.
 
 func (s *SDK) RequestPasswordReset(ctx context.Context, email, redirectURI string) error
     RequestPasswordReset starts the opaque public forgot-password flow.
@@ -1194,6 +2147,19 @@ func (s *SDK) RevokeOtherAccountSessions(ctx context.Context, accessToken string
 func (s *SDK) SendEmailVerification(ctx context.Context, email string) (*EmailVerificationResponse, error)
     SendEmailVerification starts the opaque public email verification send flow.
 
+func (s *SDK) StartIdentityOperationStepUp(ctx context.Context, accessToken string, operationID string) (*OperationStepUpChallenge, error)
+    StartIdentityOperationStepUp delegates to the explicit current-user client.
+
+func (s *SDK) StartIdentityOperationWebAuthn(ctx context.Context, accessToken string, operationID string, challengeID string) (*OperationWebAuthnStart, error)
+    StartIdentityOperationWebAuthn delegates to the explicit current-user
+    client.
+
+func (s *SDK) StartMFAOperationStepUp(ctx context.Context, accessToken string, operationID string) (*OperationStepUpChallenge, error)
+    StartMFAOperationStepUp delegates to the explicit current-user client.
+
+func (s *SDK) StartMFAOperationWebAuthn(ctx context.Context, accessToken string, operationID string, challengeID string) (*OperationWebAuthnStart, error)
+    StartMFAOperationWebAuthn delegates to the explicit current-user client.
+
 func (s *SDK) SwitchAccountOrganization(ctx context.Context, accessToken, organizationID string) (*OrganizationSwitchResponse, error)
     SwitchAccountOrganization validates membership and returns a refresh/reauth
     continuation.
@@ -1208,6 +2174,19 @@ func (s *SDK) Verifier() *iamjwt.Verifier
 func (s *SDK) VerifyEmail(ctx context.Context, token string) (*EmailVerificationResponse, error)
     VerifyEmail verifies a public email-verification token.
 
+func (s *SDK) VerifyIdentityOperationStepUp(ctx context.Context, accessToken string, operationID string, request OperationStepUpVerify) (*IdentityOperation, error)
+    VerifyIdentityOperationStepUp delegates to the explicit current-user client.
+
+func (s *SDK) VerifyIdentityOperationWebAuthn(ctx context.Context, accessToken string, operationID string, request OperationWebAuthnVerify) (*IdentityOperation, error)
+    VerifyIdentityOperationWebAuthn delegates to the explicit current-user
+    client.
+
+func (s *SDK) VerifyMFAOperationStepUp(ctx context.Context, accessToken string, operationID string, request OperationStepUpVerify) (*MFAOperation, error)
+    VerifyMFAOperationStepUp delegates to the explicit current-user client.
+
+func (s *SDK) VerifyMFAOperationWebAuthn(ctx context.Context, accessToken string, operationID string, request OperationWebAuthnVerify) (*MFAOperation, error)
+    VerifyMFAOperationWebAuthn delegates to the explicit current-user client.
+
 type SDKConfig struct {
 	// Endpoint is the base URL of the IAM server, e.g. https://iam.example.com.
 	Endpoint string
@@ -1216,7 +2195,8 @@ type SDKConfig struct {
 	ClientID string
 	// ClientSecret authenticates the WEB/M2M confidential ApplicationClient.
 	ClientSecret string
-	// Audience expected in JWTs. Defaults to ClientID.
+	// Audience is Application.resourceAudience, the expected JWT aud claim.
+	// Required by New; never inferred from ClientID. Optional for HTTP-only NewClient.
 	Audience string
 	// Issuer expected in JWTs. Defaults to Endpoint.
 	Issuer string
@@ -1227,7 +2207,7 @@ type SDKConfig struct {
 	PermissionCacheTTL time.Duration
 	// PermissionCacheMax is the maximum number of cache entries. Default 10000.
 	PermissionCacheMax int64
-	// UserProfileCacheTTL is the TTL for explicit /api/v1/auth/me profile lookups. Default 1m.
+	// UserProfileCacheTTL is the TTL for explicit /api/v1/auth/me/profile lookups. Default 1m.
 	UserProfileCacheTTL time.Duration
 	// UserProfileCacheMax is the maximum number of user profile cache entries. Default 10000.
 	UserProfileCacheMax int64
@@ -1246,6 +2226,28 @@ func (c *SDKConfig) Validate() error
     Validate normalises defaults and returns an error for missing required
     fields.
 
+type SensitiveDelivery string
+    SensitiveDelivery is an operation wire enum; unsupported response values
+    fail closed.
+
+const (
+	SensitiveDeliveryAvailable        SensitiveDelivery = "AVAILABLE"
+	SensitiveDeliveryAlreadyDelivered SensitiveDelivery = "ALREADY_DELIVERED"
+	SensitiveDeliveryNotApplicable    SensitiveDelivery = "NOT_APPLICABLE"
+)
+    Supported SensitiveDelivery wire values.
+
+type SessionImpact string
+    SessionImpact is an operation wire enum; unsupported response values fail
+    closed.
+
+const (
+	SessionImpactUnchanged              SessionImpact = "UNCHANGED"
+	SessionImpactCurrentSessionRetained SessionImpact = "CURRENT_SESSION_RETAINED"
+	SessionImpactReauthenticate         SessionImpact = "REAUTHENTICATE"
+)
+    Supported SessionImpact wire values.
+
 type SessionView struct {
 	SessionID  string `json:"sessionId"`
 	IPAddress  string `json:"ipAddress,omitempty"`
@@ -1256,6 +2258,67 @@ type SessionView struct {
 	Current    bool   `json:"current"`
 }
     SessionView is the current user's session/device view.
+
+type SetPrimaryIdentity struct {
+	IdentifierID string `json:"identifierId"`
+}
+    SetPrimaryIdentity mirrors the current-user producer contract.
+
+type TOTPBeginResult struct {
+	Operation MFAOperation      `json:"operation"`
+	Delivery  SensitiveDelivery `json:"delivery"`
+	Material  *TOTPMaterial     `json:"material,omitempty" wire:"optional"`
+}
+    TOTPBeginResult mirrors the current-user producer contract.
+
+func (TOTPBeginResult) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (TOTPBeginResult) String() string
+
+type TOTPMaterial struct {
+	Secret    string `json:"secret"`
+	QRCodeURI string `json:"qrCodeUri"`
+	Issuer    string `json:"issuer"`
+}
+    TOTPMaterial mirrors the current-user producer contract.
+
+func (TOTPMaterial) GoString() string
+    GoString returns a redacted Go-syntax representation.
+
+func (TOTPMaterial) String() string
+
+type TargetProofMethod string
+    TargetProofMethod is an operation wire enum; unsupported response values
+    fail closed.
+
+const (
+	TargetProofMethodEmailOTP TargetProofMethod = "EMAIL_OTP"
+	TargetProofMethodPhoneOTP TargetProofMethod = "PHONE_OTP"
+)
+    Supported TargetProofMethod wire values.
+
+type TransferDecision string
+    TransferDecision is an operation wire enum; unsupported response values fail
+    closed.
+
+const (
+	TransferDecisionAccept TransferDecision = "ACCEPT"
+	TransferDecisionReject TransferDecision = "REJECT"
+)
+    Supported TransferDecision wire values.
+
+type TransferIdentity struct {
+	IdentifierID               string  `json:"identifierId"`
+	TargetUserID               string  `json:"targetUserId"`
+	SourceReplacementPrimaryID *string `json:"sourceReplacementPrimaryId,omitempty" wire:"optional"`
+}
+    TransferIdentity mirrors the current-user producer contract.
+
+type UnlinkIdentity struct {
+	MethodID string `json:"methodId"`
+}
+    UnlinkIdentity mirrors the current-user producer contract.
 
 type UpdateOrganizationRequest struct {
 	Name *string `json:"name,omitempty"`
@@ -1283,27 +2346,22 @@ type UpdateUserRoleRequest struct {
     UpdateUserRoleRequest replaces an assignment condition.
 
 type UserProfile struct {
-	ID                  string               `json:"id,omitempty"` // legacy /api/v1/auth/me field
 	UserID              string               `json:"userId"`
-	ApplicationID       string               `json:"applicationId,omitempty"`
-	GlobalIdentityID    string               `json:"globalIdentityId,omitempty"`
-	Email               string               `json:"email"`
+	ApplicationID       string               `json:"applicationId"`
+	GlobalIdentityID    *string              `json:"globalIdentityId"`
+	Email               *string              `json:"email"`
 	EmailVerified       bool                 `json:"emailVerified"`
-	Username            string               `json:"username"`
-	DisplayName         string               `json:"displayName,omitempty"`
-	AvatarURL           string               `json:"avatarUrl,omitempty"`
+	Username            *string              `json:"username"`
+	DisplayName         *string              `json:"displayName"`
+	AvatarURL           *string              `json:"avatarUrl"`
 	Status              string               `json:"status"`
-	CreatedAt           string               `json:"createdAt,omitempty"`
-	UpdatedAt           string               `json:"updatedAt,omitempty"`
-	CurrentOrganization *AccountOrganization `json:"currentOrganization,omitempty"`
-	Roles               []string             `json:"roles,omitempty"` // legacy /api/v1/auth/me field
-	// Metadata is /api/v1/auth/me profile metadata, not app-scoped authorization attributes.
-	Metadata map[string]any `json:"metadata,omitempty"`
+	CreatedAt           string               `json:"createdAt"`
+	UpdatedAt           string               `json:"updatedAt"`
+	CurrentOrganization *AccountOrganization `json:"currentOrganization"`
 }
     UserProfile is the response returned by GET /api/v1/auth/me/profile.
-
-    Metadata is profile metadata for display/profile reads. It is not App User
-    authorization attributes and must not be used as an authorization source.
+    Nullable profile projections remain nil. Authorization roles and permissions
+    are returned separately by GetAccountPermissionSummary.
 
 type UserProfileOption func(*userProfileOptions)
     UserProfileOption configures SDK.GetMe profile lookup behavior.
@@ -1340,13 +2398,18 @@ type UserRoleCondition struct {
     UserRoleCondition carries the optional assignment expression and
     description.
 
+type VerifyIdentity struct {
+	IdentifierID string `json:"identifierId"`
+}
+    VerifyIdentity mirrors the current-user producer contract.
+
 
 ```
 
 ## github.com/axis-iam/vertex-sdk-go/authz
 
 ```text
-package authz // import "."
+package authz // import "github.com/axis-iam/vertex-sdk-go/authz"
 
 Package authz contains the permission model primitives used by the SDK:
 PermissionKey, PermissionDefinition, the Resolver interface that maps roles →
@@ -1540,7 +2603,7 @@ See `iam-codegen help` for flag details.
 ## github.com/axis-iam/vertex-sdk-go/cmd/iam-codegen/generator
 
 ```text
-package generator // import "."
+package generator // import "github.com/axis-iam/vertex-sdk-go/cmd/iam-codegen/generator"
 
 Package generator renders Go source files for declared IAM permission
 definitions and parses existing permission.go sources.
@@ -1571,7 +2634,7 @@ type Input struct {
 ## github.com/axis-iam/vertex-sdk-go/examples/shared-permissions
 
 ```text
-package sharedpermissions // import "."
+package sharedpermissions // import "github.com/axis-iam/vertex-sdk-go/examples/shared-permissions"
 
 Code generated by iam-codegen from iam-permission-manifest.json. DO NOT EDIT.
 
@@ -1587,7 +2650,7 @@ var OrdersRead = authz.PermissionKey{Resource: "orders", Action: "read"}
 ## github.com/axis-iam/vertex-sdk-go/iamtest
 
 ```text
-package iamtest // import "."
+package iamtest // import "github.com/axis-iam/vertex-sdk-go/iamtest"
 
 Package iamtest provides testing helpers for applications built on the IAM SDK:
 an httptest-backed mock IAM server, a MockResolver, and a context helper to
@@ -1636,14 +2699,15 @@ type MockServer struct {
     the SDK needs: OIDC discovery, JWKS, resolve, and permission snapshots.
 
 func NewMockServer() (*MockServer, error)
-    NewMockServer spins up a server. Call s.Close() when done.
+    NewMockServer spins up a server with resource audience api://orders.
+    Call s.Close() when done; WithAudience overrides the token audience.
 
 func (m *MockServer) Given(role string, perms ...string) *MockServer
     Given maps a role → perms for the resolve endpoint.
 
 func (m *MockServer) GivenUserProfile(subject string, profile UserProfileDTO) *MockServer
-    GivenUserProfile configures the response returned by /api/v1/auth/me for a
-    subject.
+    GivenUserProfile configures the response returned by /api/v1/auth/me/profile
+    for a subject.
 
 func (m *MockServer) Issuer() string
     Issuer returns the URL of the server (used as the JWT issuer).
@@ -1702,24 +2766,20 @@ type PermissionDefinitionDTO struct {
 
 type UserProfileDTO struct {
 	UserID              string                  `json:"userId"`
-	ApplicationID       string                  `json:"applicationId,omitempty"`
-	GlobalIdentityID    string                  `json:"globalIdentityId,omitempty"`
-	Email               string                  `json:"email"`
+	ApplicationID       string                  `json:"applicationId"`
+	GlobalIdentityID    *string                 `json:"globalIdentityId"`
+	Email               *string                 `json:"email"`
 	EmailVerified       bool                    `json:"emailVerified"`
-	Username            string                  `json:"username"`
-	DisplayName         string                  `json:"displayName,omitempty"`
-	AvatarURL           string                  `json:"avatarUrl,omitempty"`
+	Username            *string                 `json:"username"`
+	DisplayName         *string                 `json:"displayName"`
+	AvatarURL           *string                 `json:"avatarUrl"`
 	Status              string                  `json:"status"`
-	CreatedAt           string                  `json:"createdAt,omitempty"`
-	UpdatedAt           string                  `json:"updatedAt,omitempty"`
-	CurrentOrganization *AccountOrganizationDTO `json:"currentOrganization,omitempty"`
-	Roles               []string                `json:"roles,omitempty"`
-	Metadata            map[string]any          `json:"metadata,omitempty"`
+	CreatedAt           string                  `json:"createdAt"`
+	UpdatedAt           string                  `json:"updatedAt"`
+	CurrentOrganization *AccountOrganizationDTO `json:"currentOrganization"`
 }
-    UserProfileDTO mirrors GET /api/v1/auth/me/profile.
-
-    Metadata is profile metadata for test profile responses, not App User
-    authorization attributes.
+    UserProfileDTO mirrors GET /api/v1/auth/me/profile, including nullable
+    projections.
 
 
 ```
@@ -1727,11 +2787,22 @@ type UserProfileDTO struct {
 ## github.com/axis-iam/vertex-sdk-go/jwt
 
 ```text
-package iamjwt // import "."
+package iamjwt // import "github.com/axis-iam/vertex-sdk-go/jwt"
 
 Package iamjwt provides JWT verification against an IAM JWKS endpoint.
 Package name differs from the directory (iamjwt vs. jwt) to avoid collision with
 github.com/go-jose/go-jose/v4/jwt.
+
+VARIABLES
+
+var (
+	ErrInvalidToken = errors.New("iamjwt: invalid token")
+	ErrUnknownKey   = errors.New("iamjwt: unknown signing key")
+	ErrJWKSFetch    = errors.New("iamjwt: JWKS fetch failed")
+	ErrJWKSParse    = errors.New("iamjwt: JWKS parse failed")
+)
+    Verification error categories can be inspected with errors.Is.
+
 
 TYPES
 
@@ -1770,7 +2841,7 @@ type JWKSProvider struct {
 	// Has unexported fields.
 }
     JWKSProvider fetches the IAM server's JSON Web Key Set and caches it with
-    background refresh. It is safe for concurrent use.
+    lazy, coalesced refresh. It is safe for concurrent use.
 
 func NewJWKSProvider(opts JWKSOptions) (*JWKSProvider, error)
     NewJWKSProvider constructs a provider. The first fetch is lazy; call
@@ -1783,13 +2854,35 @@ func (p *JWKSProvider) KeyByID(ctx context.Context, kid string) (*jose.JSONWebKe
 func (p *JWKSProvider) Preload(ctx context.Context) error
     Preload fetches and caches the JWKS synchronously.
 
+type JWKSStatusError struct {
+	StatusCode int
+}
+    JWKSStatusError preserves a non-success HTTP status without exposing a body.
+
+func (e *JWKSStatusError) Error() string
+
+type VerificationError struct {
+	Kind  error
+	Cause error
+}
+    VerificationError classifies a verification failure without discarding its
+    underlying cause. Error messages are for internal diagnostics, not HTTP
+    bodies.
+
+func (e *VerificationError) Error() string
+
+func (e *VerificationError) Is(target error) bool
+    Is matches the stable verification category.
+
+func (e *VerificationError) Unwrap() error
+
 type Verifier struct {
 	// Has unexported fields.
 }
     Verifier validates IAM-issued JWTs.
 
 func NewVerifier(opts VerifierOptions) (*Verifier, error)
-    NewVerifier constructs a Verifier. Both JWKS and Issuer are required.
+    NewVerifier constructs a Verifier. JWKS, Issuer, and Audience are required.
 
 func (v *Verifier) Verify(ctx context.Context, token string) (*Claims, error)
     Verify parses and validates a JWT, returning the union claims struct.
@@ -1797,7 +2890,7 @@ func (v *Verifier) Verify(ctx context.Context, token string) (*Claims, error)
 type VerifierOptions struct {
 	JWKS            *JWKSProvider
 	Issuer          string
-	Audience        string
+	Audience        string // Application.resourceAudience; required, never inferred from client ID.
 	SignatureAlgs   []jose.SignatureAlgorithm
 	ClockSkewLeeway time.Duration
 }
@@ -1809,7 +2902,7 @@ type VerifierOptions struct {
 ## github.com/axis-iam/vertex-sdk-go/middleware
 
 ```text
-package middleware // import "."
+package middleware // import "github.com/axis-iam/vertex-sdk-go/middleware"
 
 Package middleware provides framework-agnostic net/http middleware that wires
 the IAM SDK into any Go router. Framework-specific adapters (chi, gin, echo)
@@ -1865,6 +2958,106 @@ type Option func(*options)
 
 func WithResponder(r ErrorResponder) Option
     WithResponder lets callers substitute their own ErrorResponder.
+
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/chi
+
+```text
+package iamchi // import "github.com/axis-iam/vertex-sdk-go/chi"
+
+Package iamchi provides thin wrappers around the core net/http middleware for
+chi-based applications. Because chi middleware already uses the http.Handler
+signature, this package is intentionally minimal.
+
+FUNCTIONS
+
+func Authenticate(sdk *iam.SDK, opts ...iam.AuthOption) func(http.Handler) http.Handler
+    Authenticate forwards to (*iam.SDK).Authenticate.
+
+func Install(r chi.Router, sdk *iam.SDK, opts ...iam.AuthOption)
+    Install registers the Authenticate middleware on r. Separate route groups
+    still compose the RequirePerm middleware themselves.
+
+func RequireAllPerms(perms []authz.PermissionKey, opts ...middleware.Option) func(http.Handler) http.Handler
+    RequireAllPerms is an alias for middleware.RequireAllPerms.
+
+func RequireAnyPerm(perms []authz.PermissionKey, opts ...middleware.Option) func(http.Handler) http.Handler
+    RequireAnyPerm is an alias for middleware.RequireAnyPerm.
+
+func RequireNoImpersonation(opts ...middleware.Option) func(http.Handler) http.Handler
+    RequireNoImpersonation is an alias for middleware.RequireNoImpersonation.
+
+func RequirePerm(perm authz.PermissionKey, opts ...middleware.Option) func(http.Handler) http.Handler
+    RequirePerm is an alias for middleware.RequirePerm exposed under the iamchi
+    package name so user code reads iamchi.RequirePerm(...).
+
+func RequireStepUp(acr string, opts ...middleware.Option) func(http.Handler) http.Handler
+    RequireStepUp is an alias for middleware.RequireStepUp.
+
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/gin
+
+```text
+package iamgin // import "github.com/axis-iam/vertex-sdk-go/gin"
+
+Package iamgin exposes the IAM SDK as gin.HandlerFunc middleware.
+
+FUNCTIONS
+
+func Authenticate(sdk *iam.SDK, opts ...iam.AuthOption) gin.HandlerFunc
+    Authenticate validates the bearer token, resolves permissions, and stashes
+    the *authz.User in the gin context chain.
+
+func RequireAllPerms(perms []authz.PermissionKey) gin.HandlerFunc
+    RequireAllPerms accepts the request only if the caller holds every perm.
+
+func RequireAnyPerm(perms []authz.PermissionKey) gin.HandlerFunc
+    RequireAnyPerm accepts the request if the caller holds any of perms.
+
+func RequireNoImpersonation() gin.HandlerFunc
+    RequireNoImpersonation blocks requests performed under an admin
+    impersonation token.
+
+func RequirePerm(perm authz.PermissionKey) gin.HandlerFunc
+    RequirePerm rejects the request with 403 if the caller lacks perm.
+
+func RequireStepUp(acr string) gin.HandlerFunc
+    RequireStepUp requires the JWT's acr claim to match acr.
+
+
+```
+
+## github.com/axis-iam/vertex-sdk-go/echo
+
+```text
+package iamecho // import "github.com/axis-iam/vertex-sdk-go/echo"
+
+Package iamecho exposes the IAM SDK as echo.MiddlewareFunc middleware.
+
+FUNCTIONS
+
+func Authenticate(sdk *iam.SDK, opts ...iam.AuthOption) echo.MiddlewareFunc
+    Authenticate validates the bearer token and stashes the *authz.User in the
+    echo request context.
+
+func RequireAllPerms(perms []authz.PermissionKey) echo.MiddlewareFunc
+    RequireAllPerms accepts the request only if the caller holds every perm.
+
+func RequireAnyPerm(perms []authz.PermissionKey) echo.MiddlewareFunc
+    RequireAnyPerm accepts the request if the caller holds any of perms.
+
+func RequireNoImpersonation() echo.MiddlewareFunc
+    RequireNoImpersonation blocks impersonated sessions.
+
+func RequirePerm(perm authz.PermissionKey) echo.MiddlewareFunc
+    RequirePerm rejects the request with 403 if the caller lacks perm.
+
+func RequireStepUp(acr string) echo.MiddlewareFunc
+    RequireStepUp enforces an ACR level.
 
 
 ```

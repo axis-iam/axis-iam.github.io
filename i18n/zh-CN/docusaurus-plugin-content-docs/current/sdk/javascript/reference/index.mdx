@@ -9,7 +9,7 @@ pagination_prev: null
 
 ## 当前源码接入说明
 
-以下指南对应当前尚未发布的 SDK 源码候选版：
+以下指南对应源码清单记录的 SDK 提交：
 
 | 功能 | 公开入口 | 指南 |
 | --- | --- | --- |
@@ -17,14 +17,10 @@ pagination_prev: null
 | 账号管理 | `AccountCenter`、`AccountSecurityPanel`、`AccountSecurityDialog`、`useAccountSecurity`、`useIdentityOperations` | [账号安全](../../../authentication/account-security/) |
 | 邀请 | `OrganizationInvitationAccept`、`useInvitationJourney`、`InvitationJourneyClient` | [邀请旅程](../../../organizations/) |
 
-[源码接入索引](https://github.com/axis-iam/vertex-sdk-js/blob/develop/docs/current-integration.md)
-链接到各包说明和示例。选择产物前，请确认[安装状态](../)。
+[源码接入索引](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/docs/current-integration.md)
+链接到各包说明和示例。请按配套的[源码安装步骤](../)接入。
 
-## 历史 preview 参考
+## 生成参考
 
-现有生成的 TypeDoc 页面对应 `static/source-revisions.json` 记录的旧源码版本，
-**尚未为当前候选版重新生成**。其中可能包含已经退役的 `useOrganizationInvitation`、
-邀请 `token` 属性和 `onLoginRequired`，新接入不能沿用这些邀请合同，应以本页列出的当前指南为准。
-
-本次手写文档更新没有重新生成 API 参考，也没有修改旧产物的版本来源记录或发布任何包。
-历史生成页面可从英文版参考入口查看。
+TypeDoc 参考由源码清单记录的同一提交生成，包含当前公开入口与类型。
+完整符号参考共用英文生成页面：[JavaScript API 参考](pathname:///vertex/sdk/javascript/reference/)。

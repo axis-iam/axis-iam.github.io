@@ -93,7 +93,10 @@ loadScripts(document, 'script');</script>
 <li><a href="#requestJson(java.lang.String,java.lang.String,java.lang.Object,java.lang.Class)" tabindex="0">requestJson(String, String, Object, Class)</a></li>
 <li><a href="#requestJson(java.lang.String,java.lang.String,java.lang.Object,java.lang.Class,java.util.Map)" tabindex="0">requestJson(String, String, Object, Class, Map)</a></li>
 <li><a href="#listRegistrationGrants(com.chaosguide.iam.vertex.portal.RegistrationGrantListOptions)" tabindex="0">listRegistrationGrants(RegistrationGrantListOptions)</a></li>
-<li><a href="#createRegistrationGrant(com.chaosguide.iam.vertex.portal.CreateRegistrationGrantRequest)" tabindex="0">createRegistrationGrant(CreateRegistrationGrantRequest)</a></li>
+<li><a href="#createRegistrationGrant(com.chaosguide.iam.vertex.portal.CreateRegistrationGrantRequest,java.lang.String)" tabindex="0">createRegistrationGrant(CreateRegistrationGrantRequest, String)</a></li>
+<li><a href="#rotateRegistrationGrant(java.lang.String,long,java.lang.String)" tabindex="0">rotateRegistrationGrant(String, long, String)</a></li>
+<li><a href="#deliverRegistrationGrant(java.lang.String,com.chaosguide.iam.vertex.portal.RegistrationGrantDeliveryRequest,java.lang.String)" tabindex="0">deliverRegistrationGrant(String, RegistrationGrantDeliveryRequest, String)</a></li>
+<li><a href="#getRegistrationGrantDelivery(java.lang.String,java.lang.String)" tabindex="0">getRegistrationGrantDelivery(String, String)</a></li>
 <li><a href="#getRegistrationGrant(java.lang.String)" tabindex="0">getRegistrationGrant(String)</a></li>
 <li><a href="#pauseRegistrationGrant(java.lang.String)" tabindex="0">pauseRegistrationGrant(String)</a></li>
 <li><a href="#resumeRegistrationGrant(java.lang.String)" tabindex="0">resumeRegistrationGrant(String)</a></li>
@@ -307,7 +310,8 @@ sends only bearer auth to Portal resource endpoints.</div>
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CreatedRegistrationGrant.html" title="class in com.chaosguide.iam.vertex.portal">CreatedRegistrationGrant</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createRegistrationGrant(com.chaosguide.iam.vertex.portal.CreateRegistrationGrantRequest)" class="member-name-link">createRegistrationGrant</a><wbr>(<a href="CreateRegistrationGrantRequest.html" title="class in com.chaosguide.iam.vertex.portal">CreateRegistrationGrantRequest</a>&nbsp;request)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createRegistrationGrant(com.chaosguide.iam.vertex.portal.CreateRegistrationGrantRequest,java.lang.String)" class="member-name-link">createRegistrationGrant</a><wbr>(<a href="CreateRegistrationGrantRequest.html" title="class in com.chaosguide.iam.vertex.portal">CreateRegistrationGrantRequest</a>&nbsp;request,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create an EMAIL_LINK or ACCESS_CODE registration grant and return its one-time proof.</div>
 </div>
@@ -348,37 +352,50 @@ sends only bearer auth to Portal resource endpoints.</div>
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;assignmentId,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;ifMatch)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;T</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get(java.lang.String,java.lang.Class)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="RegistrationGrantDelivery.html" title="class in com.chaosguide.iam.vertex.portal">RegistrationGrantDelivery</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deliverRegistrationGrant(java.lang.String,com.chaosguide.iam.vertex.portal.RegistrationGrantDeliveryRequest,java.lang.String)" class="member-name-link">deliverRegistrationGrant</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;grantId,
+ <a href="RegistrationGrantDeliveryRequest.html" title="class in com.chaosguide.iam.vertex.portal">RegistrationGrantDeliveryRequest</a>&nbsp;request,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Queue one explicitly addressed delivery using registration_grants:write.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;T</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get(java.lang.String,java.lang.Class)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;responseType)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PortalOpenApiMachineToken.html" title="class in com.chaosguide.iam.vertex.portal">PortalOpenApiMachineToken</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMachineToken(java.lang.String)" class="member-name-link">getMachineToken</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;scope)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PortalOpenApiMachineToken.html" title="class in com.chaosguide.iam.vertex.portal">PortalOpenApiMachineToken</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMachineToken(java.lang.String)" class="member-name-link">getMachineToken</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;scope)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Return a cached or freshly requested machine token for one explicit Portal scope.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganization.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganization</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrganization(java.lang.String)" class="member-name-link">getOrganization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganization.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganization</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrganization(java.lang.String)" class="member-name-link">getOrganization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get an Organization and expose the returned ETag for a subsequent conditional write.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganizationInvitation.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganizationInvitation</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrganizationInvitation(java.lang.String,java.lang.String)" class="member-name-link">getOrganizationInvitation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganizationInvitation.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganizationInvitation</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrganizationInvitation(java.lang.String,java.lang.String)" class="member-name-link">getOrganizationInvitation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;invitationId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Return a safe invitation detail; the API never returns a raw redemption proof.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganizationMember.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganizationMember</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrganizationMember(java.lang.String,java.lang.String)" class="member-name-link">getOrganizationMember</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganizationMember.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganizationMember</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrganizationMember(java.lang.String,java.lang.String)" class="member-name-link">getOrganizationMember</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;membershipId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenPermission.html" title="class in com.chaosguide.iam.vertex.portal">OpenPermission</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPermission(java.lang.String)" class="member-name-link">getPermission</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;permissionId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="RegistrationGrant.html" title="class in com.chaosguide.iam.vertex.portal">RegistrationGrant</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRegistrationGrant(java.lang.String)" class="member-name-link">getRegistrationGrant</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;grantId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenPermission.html" title="class in com.chaosguide.iam.vertex.portal">OpenPermission</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPermission(java.lang.String)" class="member-name-link">getPermission</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;permissionId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="RegistrationGrant.html" title="class in com.chaosguide.iam.vertex.portal">RegistrationGrant</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRegistrationGrant(java.lang.String)" class="member-name-link">getRegistrationGrant</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;grantId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Return a safe registration-grant detail without any raw proof fields.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="RegistrationGrantDelivery.html" title="class in com.chaosguide.iam.vertex.portal">RegistrationGrantDelivery</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRegistrationGrantDelivery(java.lang.String,java.lang.String)" class="member-name-link">getRegistrationGrantDelivery</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;grantId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;deliveryId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Query authoritative delivery status using registration_grants:read.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenRole.html" title="class in com.chaosguide.iam.vertex.portal">OpenRole</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRole(java.lang.String)" class="member-name-link">getRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;roleId)</code></div>
@@ -490,50 +507,57 @@ sends only bearer auth to Portal resource endpoints.</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Revoke a registration grant, optionally retaining the supplied reason.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganization.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganization</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOrganization(java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOrganizationRequest)" class="member-name-link">updateOrganization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
- <a href="UpdateOrganizationRequest.html" title="class in com.chaosguide.iam.vertex.portal">UpdateOrganizationRequest</a>&nbsp;request)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CreatedRegistrationGrant.html" title="class in com.chaosguide.iam.vertex.portal">CreatedRegistrationGrant</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rotateRegistrationGrant(java.lang.String,long,java.lang.String)" class="member-name-link">rotateRegistrationGrant</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;grantId,
+ long&nbsp;expectedVersion,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Patch an Organization without an If-Match precondition.</div>
+<div class="block">Rotate using the last observed version; an ambiguous response is not retried automatically.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganization.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganization</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOrganization(java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOrganizationRequest,java.lang.String)" class="member-name-link">updateOrganization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOrganization(java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOrganizationRequest)" class="member-name-link">updateOrganization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
+ <a href="UpdateOrganizationRequest.html" title="class in com.chaosguide.iam.vertex.portal">UpdateOrganizationRequest</a>&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Patch an Organization without an If-Match precondition.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganization.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganization</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOrganization(java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOrganizationRequest,java.lang.String)" class="member-name-link">updateOrganization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
  <a href="UpdateOrganizationRequest.html" title="class in com.chaosguide.iam.vertex.portal">UpdateOrganizationRequest</a>&nbsp;request,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;ifMatch)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Patch an Organization with an optional If-Match ETag precondition.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganizationMember.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganizationMember</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOrganizationMemberRole(java.lang.String,java.lang.String,com.chaosguide.iam.vertex.portal.OrganizationMemberRole)" class="member-name-link">updateOrganizationMemberRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganizationMember.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganizationMember</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOrganizationMemberRole(java.lang.String,java.lang.String,com.chaosguide.iam.vertex.portal.OrganizationMemberRole)" class="member-name-link">updateOrganizationMemberRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;membershipId,
  <a href="OrganizationMemberRole.html" title="enum class in com.chaosguide.iam.vertex.portal">OrganizationMemberRole</a>&nbsp;role)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update a member role without an If-Match precondition.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganizationMember.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganizationMember</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOrganizationMemberRole(java.lang.String,java.lang.String,com.chaosguide.iam.vertex.portal.OrganizationMemberRole,java.lang.String)" class="member-name-link">updateOrganizationMemberRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenOrganizationMember.html" title="class in com.chaosguide.iam.vertex.portal">OpenOrganizationMember</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOrganizationMemberRole(java.lang.String,java.lang.String,com.chaosguide.iam.vertex.portal.OrganizationMemberRole,java.lang.String)" class="member-name-link">updateOrganizationMemberRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;organizationId,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;membershipId,
  <a href="OrganizationMemberRole.html" title="enum class in com.chaosguide.iam.vertex.portal">OrganizationMemberRole</a>&nbsp;role,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;ifMatch)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update a member role with an optional If-Match version precondition.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenPermission.html" title="class in com.chaosguide.iam.vertex.portal">OpenPermission</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePermission(java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOpenPermissionRequest,java.lang.String)" class="member-name-link">updatePermission</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;permissionId,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenPermission.html" title="class in com.chaosguide.iam.vertex.portal">OpenPermission</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePermission(java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOpenPermissionRequest,java.lang.String)" class="member-name-link">updatePermission</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;permissionId,
  <a href="UpdateOpenPermissionRequest.html" title="class in com.chaosguide.iam.vertex.portal">UpdateOpenPermissionRequest</a>&nbsp;request,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;ifMatch)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenRole.html" title="class in com.chaosguide.iam.vertex.portal">OpenRole</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateRole(java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOpenRoleRequest,java.lang.String)" class="member-name-link">updateRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;roleId,
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenRole.html" title="class in com.chaosguide.iam.vertex.portal">OpenRole</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateRole(java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOpenRoleRequest,java.lang.String)" class="member-name-link">updateRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;roleId,
  <a href="UpdateOpenRoleRequest.html" title="class in com.chaosguide.iam.vertex.portal">UpdateOpenRoleRequest</a>&nbsp;request,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;ifMatch)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenUserRoleAssignment.html" title="class in com.chaosguide.iam.vertex.portal">OpenUserRoleAssignment</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateUserRole(java.lang.String,java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOpenUserRoleRequest,java.lang.String)" class="member-name-link">updateUserRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;userId,
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="OpenUserRoleAssignment.html" title="class in com.chaosguide.iam.vertex.portal">OpenUserRoleAssignment</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateUserRole(java.lang.String,java.lang.String,com.chaosguide.iam.vertex.portal.UpdateOpenUserRoleRequest,java.lang.String)" class="member-name-link">updateUserRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;userId,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;assignmentId,
  <a href="UpdateOpenUserRoleRequest.html" title="class in com.chaosguide.iam.vertex.portal">UpdateOpenUserRoleRequest</a>&nbsp;request,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;ifMatch)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -953,11 +977,44 @@ and <code>X-App-Key</code> are managed or forbidden by this SDK and are rejected
 </section>
 </li>
 <li>
-<section class="detail" id="createRegistrationGrant(com.chaosguide.iam.vertex.portal.CreateRegistrationGrantRequest)">
+<section class="detail" id="createRegistrationGrant(com.chaosguide.iam.vertex.portal.CreateRegistrationGrantRequest,java.lang.String)">
 <h3>createRegistrationGrant</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CreatedRegistrationGrant.html" title="class in com.chaosguide.iam.vertex.portal">CreatedRegistrationGrant</a></span>&nbsp;<span class="element-name">createRegistrationGrant</span><wbr><span class="parameters">(<a href="CreateRegistrationGrantRequest.html" title="class in com.chaosguide.iam.vertex.portal">CreateRegistrationGrantRequest</a>&nbsp;request)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CreatedRegistrationGrant.html" title="class in com.chaosguide.iam.vertex.portal">CreatedRegistrationGrant</a></span>&nbsp;<span class="element-name">createRegistrationGrant</span><wbr><span class="parameters">(<a href="CreateRegistrationGrantRequest.html" title="class in com.chaosguide.iam.vertex.portal">CreateRegistrationGrantRequest</a>&nbsp;request,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</span></div>
 <div class="block">Create an EMAIL_LINK or ACCESS_CODE registration grant and return its one-time proof.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="rotateRegistrationGrant(java.lang.String,long,java.lang.String)">
+<h3>rotateRegistrationGrant</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CreatedRegistrationGrant.html" title="class in com.chaosguide.iam.vertex.portal">CreatedRegistrationGrant</a></span>&nbsp;<span class="element-name">rotateRegistrationGrant</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;grantId,
+ long&nbsp;expectedVersion,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</span></div>
+<div class="block">Rotate using the last observed version; an ambiguous response is not retried automatically.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="deliverRegistrationGrant(java.lang.String,com.chaosguide.iam.vertex.portal.RegistrationGrantDeliveryRequest,java.lang.String)">
+<h3>deliverRegistrationGrant</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="RegistrationGrantDelivery.html" title="class in com.chaosguide.iam.vertex.portal">RegistrationGrantDelivery</a></span>&nbsp;<span class="element-name">deliverRegistrationGrant</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;grantId,
+ <a href="RegistrationGrantDeliveryRequest.html" title="class in com.chaosguide.iam.vertex.portal">RegistrationGrantDeliveryRequest</a>&nbsp;request,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;idempotencyKey)</span></div>
+<div class="block">Queue one explicitly addressed delivery using registration_grants:write.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getRegistrationGrantDelivery(java.lang.String,java.lang.String)">
+<h3>getRegistrationGrantDelivery</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="RegistrationGrantDelivery.html" title="class in com.chaosguide.iam.vertex.portal">RegistrationGrantDelivery</a></span>&nbsp;<span class="element-name">getRegistrationGrantDelivery</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;grantId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;deliveryId)</span></div>
+<div class="block">Query authoritative delivery status using registration_grants:read.</div>
 </div>
 </section>
 </li>

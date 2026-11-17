@@ -50,6 +50,18 @@
       "status": "public"
     },
     {
+      "key": "vertex.authentication.custom",
+      "path": "/vertex/authentication/custom/",
+      "product": "vertex",
+      "status": "public"
+    },
+    {
+      "key": "vertex.authentication.account-security",
+      "path": "/vertex/authentication/account-security/",
+      "product": "vertex",
+      "status": "public"
+    },
+    {
       "key": "vertex.authorization",
       "path": "/vertex/authorization/",
       "product": "vertex",

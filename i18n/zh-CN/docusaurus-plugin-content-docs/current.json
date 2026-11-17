@@ -1,15 +1,12 @@
 {
   "version.label": {
-    "message": "预发布",
-    "description": "The label for version current"
+    "message": "当前文档"
   },
   "sidebar.vertex.category.Authentication": {
-    "message": "认证",
-    "description": "The label for category 'Authentication' in sidebar 'vertex'"
+    "message": "认证"
   },
   "sidebar.vertex.category.Authorization": {
-    "message": "授权",
-    "description": "The label for category 'Authorization' in sidebar 'vertex'"
+    "message": "授权"
   },
   "sidebar.vertex.category.Enterprise": {
     "message": "企业集成",
@@ -18,5 +15,14 @@
   "sidebar.vertex.category.SDKs": {
     "message": "SDKs",
     "description": "The label for category 'SDKs' in sidebar 'vertex'"
+  },
+  "sidebar.vertex.category.Getting started": {
+    "message": "快速入门"
+  },
+  "sidebar.vertex.category.Enterprise & operations": {
+    "message": "企业集成与运维"
+  },
+  "sidebar.vertex.category.SDKs & API": {
+    "message": "SDK 与 API"
   }
 }

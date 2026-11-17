@@ -65,12 +65,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Retention.html" title="class or interface in java.lang.annotation" class="external-link">@Retention</a>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/RetentionPolicy.html#RUNTIME" title="class or interface in java.lang.annotation" class="external-link">RUNTIME</a>)
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Target.html" title="class or interface in java.lang.annotation" class="external-link">@Target</a>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/ElementType.html#TYPE" title="class or interface in java.lang.annotation" class="external-link">TYPE</a>)
-@Import(<a href="config/IamSecurityAutoConfiguration.html" title="class in com.chaosguide.iam.vertex.config">IamSecurityAutoConfiguration</a>.class)
+@ImportAutoConfiguration(<a href="config/IamSecurityAutoConfiguration.html" title="class in com.chaosguide.iam.vertex.config">IamSecurityAutoConfiguration</a>.class)
 </span><span class="modifiers">public @interface </span><span class="element-name type-name-label">EnableIamSecurity</span></div>
 <div class="block">开启 IAM SDK 安全集成。
 
 <p>该注解会导入自动配置，包含 JWT 解码、角色到权限解析、<code>@RequirePerm</code> /
-<code>@RequireStepUp</code> / <code>@RequireNoImpersonation</code> AOP 检查，以及启动时权限上传。
+<code>@RequireStepUp</code> / <code>@RequireNoImpersonation</code> AOP 检查。用户自定义 bean 优先于 SDK 默认值。
 
 <pre>
 &#64;SpringBootApplication

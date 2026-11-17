@@ -139,13 +139,17 @@ Create an Organization invitation. No raw invitation proof is exposed by this he
 
 ### createRegistrationGrant()
 
-> **createRegistrationGrant**(`input`): `Promise`\<[`CreatedRegistrationGrant`](../interfaces/CreatedRegistrationGrant.md)\>
+> **createRegistrationGrant**(`input`, `idempotencyKey`): `Promise`\<[`CreatedRegistrationGrant`](../interfaces/CreatedRegistrationGrant.md)\>
 
 #### Parameters
 
 ##### input
 
 [`CreateRegistrationGrantInput`](../interfaces/CreateRegistrationGrantInput.md)
+
+##### idempotencyKey
+
+`string`
 
 #### Returns
 
@@ -283,6 +287,30 @@ Delete an Organization, optionally enforcing the ETag received from a prior read
 
 ***
 
+### deliverRegistrationGrant()
+
+> **deliverRegistrationGrant**(`grantId`, `input`, `idempotencyKey`): `Promise`\<[`RegistrationGrantDelivery`](../interfaces/RegistrationGrantDelivery.md)\>
+
+#### Parameters
+
+##### grantId
+
+`string`
+
+##### input
+
+[`RegistrationGrantDeliveryInput`](../interfaces/RegistrationGrantDeliveryInput.md)
+
+##### idempotencyKey
+
+`string`
+
+#### Returns
+
+`Promise`\<[`RegistrationGrantDelivery`](../interfaces/RegistrationGrantDelivery.md)\>
+
+***
+
 ### getMachineToken()
 
 > **getMachineToken**(`scope`): `Promise`\<[`PortalOpenApiMachineToken`](../interfaces/PortalOpenApiMachineToken.md)\>
@@ -386,6 +414,26 @@ Get one Organization scoped to the M2M token's Application.
 #### Returns
 
 `Promise`\<[`RegistrationGrant`](../interfaces/RegistrationGrant.md)\>
+
+***
+
+### getRegistrationGrantDelivery()
+
+> **getRegistrationGrantDelivery**(`grantId`, `deliveryId`): `Promise`\<[`RegistrationGrantDelivery`](../interfaces/RegistrationGrantDelivery.md)\>
+
+#### Parameters
+
+##### grantId
+
+`string`
+
+##### deliveryId
+
+`string`
+
+#### Returns
+
+`Promise`\<[`RegistrationGrantDelivery`](../interfaces/RegistrationGrantDelivery.md)\>
 
 ***
 
@@ -720,6 +768,30 @@ Resend a pending invitation. A 429 exposes its Retry-After header on PortalOpenA
 #### Returns
 
 `Promise`\<[`RegistrationGrant`](../interfaces/RegistrationGrant.md)\>
+
+***
+
+### rotateRegistrationGrant()
+
+> **rotateRegistrationGrant**(`grantId`, `expectedVersion`, `idempotencyKey`): `Promise`\<[`CreatedRegistrationGrant`](../interfaces/CreatedRegistrationGrant.md)\>
+
+#### Parameters
+
+##### grantId
+
+`string`
+
+##### expectedVersion
+
+`number`
+
+##### idempotencyKey
+
+`string`
+
+#### Returns
+
+`Promise`\<[`CreatedRegistrationGrant`](../interfaces/CreatedRegistrationGrant.md)\>
 
 ***
 
