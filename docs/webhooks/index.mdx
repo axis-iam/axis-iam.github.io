@@ -9,10 +9,20 @@ Vertex uses durable outbox delivery so an accepted product transaction and its n
 together. Workers claim due deliveries, sign customer webhooks, record bounded attempts, and retry according to the
 destination policy. Consumers must assume at-least-once delivery and deduplicate by the stable event identifier.
 
+## Configure the signing secret
+
+After creating a webhook in the Portal, copy the webhook secret shown in the creation dialog. Store it in the
+backend that serves your callback URL, for example in a secrets manager or through an environment variable such as
+`IAM_WEBHOOK_SECRET`. If your backend receives multiple webhooks, use the secret for the webhook configuration that
+sent the delivery.
+
+Vertex signs the request with this secret and sends the resulting signature in the `X-IAM-Signature` header.
+Your backend loads its copy of the secret, recomputes the signature, and compares it with the received value.
+
 ## Verify a delivery
 
 1. Read the raw request body before JSON parsing.
-2. Load the symmetric secret configured for this Webhook; there is no public-key identifier.
+2. Load the signing secret for this webhook from your backend configuration.
 3. Read `X-IAM-Timestamp` (Unix seconds), `X-IAM-Delivery`, `X-IAM-Event-Id`, and `X-IAM-Event`. Validate timestamp
    freshness against your allowed delivery window and retain the exact event type.
 4. Compute HMAC-SHA256 with the UTF-8 secret over the frame below. `eventTypeByteLength` is the byte length of the
@@ -25,6 +35,46 @@ destination policy. Consumers must assume at-least-once delivery and deduplicate
 ```text
 axis-vertex.webhook.{timestamp}.{deliveryId}.{eventId}.{eventTypeByteLength}:{eventType}.{rawBody}
 ```
+
+### Node.js verification example
+
+Pass the request headers as a `Headers` object, the original request body as a `Buffer`, and the signing secret
+from your backend configuration. This example accepts timestamps within five minutes of the receiver's clock.
+
+```js
+import { createHmac, timingSafeEqual } from 'node:crypto';
+
+export function verifyVertexWebhook(headers, rawBody, secret) {
+  const timestamp = headers.get('X-IAM-Timestamp');
+  const deliveryId = headers.get('X-IAM-Delivery');
+  const eventId = headers.get('X-IAM-Event-Id');
+  const eventType = headers.get('X-IAM-Event');
+  const signature = headers.get('X-IAM-Signature');
+  const received = /^sha256=([0-9a-f]{64})$/.exec(signature ?? '');
+
+  if (!secret || !timestamp || !deliveryId || !eventId || !eventType || !received) {
+    return false;
+  }
+
+  const sentAt = Number(timestamp);
+  const now = Math.floor(Date.now() / 1000);
+  if (!/^\d+$/.test(timestamp) || !Number.isSafeInteger(sentAt) || Math.abs(now - sentAt) > 300) {
+    return false;
+  }
+
+  const typeLength = Buffer.byteLength(eventType, 'utf8');
+  const prefix = `axis-vertex.webhook.${timestamp}.${deliveryId}.${eventId}.${typeLength}:${eventType}.`;
+  const expected = createHmac('sha256', Buffer.from(secret, 'utf8'))
+    .update(prefix, 'utf8')
+    .update(rawBody)
+    .digest();
+
+  return timingSafeEqual(expected, Buffer.from(received[1], 'hex'));
+}
+```
+
+The signature format check ensures both digests are 32 bytes before `timingSafeEqual` compares them. Parse the JSON
+and process the event only after verification returns `true`.
 
 Return a success status only after the consumer has durably accepted the event. Timeouts and retryable failures can
 produce another attempt.

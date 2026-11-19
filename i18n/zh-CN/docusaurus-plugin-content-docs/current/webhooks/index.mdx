@@ -7,10 +7,16 @@ slug: /webhooks/
 
 Vertex 使用 durable outbox，使已接受的产品事务与通知意图一同提交。Worker 领取到期交付、签名客户 webhook、记录有界尝试，并按目标策略重试。消费者必须按至少一次交付设计，并用稳定事件标识去重。
 
+## 配置签名密钥
+
+在 Portal 创建 Webhook 后，复制创建窗口中显示的「Webhook 密钥」。将它保存到回调 URL 对应的后端，例如存入密钥管理服务，或通过 `IAM_WEBHOOK_SECRET` 这样的环境变量提供给后端。接收多个 Webhook 时，验签要使用对应配置的密钥。
+
+Vertex 用这把密钥为请求签名，回调请求的 `X-IAM-Signature` 头携带计算出的签名值。接收方从自己的后端配置读取同一把密钥，重新计算签名并比对。
+
 ## 校验交付
 
 1. 在 JSON 解析前读取原始请求体。
-2. 读取该 Webhook 配置的对称 secret；此处不存在公钥 identifier。
+2. 从接收方的后端配置读取该 Webhook 的签名密钥。
 3. 读取 `X-IAM-Timestamp`（Unix 秒）、`X-IAM-Delivery`、`X-IAM-Event-Id` 与 `X-IAM-Event`，按允许的交付窗口校验时间，并保留精确的事件类型。
 4. 使用 UTF-8 secret 对下列 frame 计算 HMAC-SHA256。`eventTypeByteLength` 是事件类型的 UTF-8 **字节长度**，不是字符数。最后拼接原始 body 字节，不要解析后重新序列化。
 5. 读取 `X-IAM-Signature: sha256=...`，使用常量时间比较摘要与 `sha256=` 后的小写十六进制值。以上五个 header 共同构成交付契约。
@@ -19,6 +25,44 @@ Vertex 使用 durable outbox，使已接受的产品事务与通知意图一同�
 ```text
 axis-vertex.webhook.{timestamp}.{deliveryId}.{eventId}.{eventTypeByteLength}:{eventType}.{rawBody}
 ```
+
+### Node.js 验签示例
+
+将请求头作为 `Headers` 对象传入，将原始请求体作为 `Buffer` 传入，密钥从接收方的后端配置读取。示例允许请求时间戳与接收方时钟相差最多 5 分钟。
+
+```js
+import { createHmac, timingSafeEqual } from 'node:crypto';
+
+export function verifyVertexWebhook(headers, rawBody, secret) {
+  const timestamp = headers.get('X-IAM-Timestamp');
+  const deliveryId = headers.get('X-IAM-Delivery');
+  const eventId = headers.get('X-IAM-Event-Id');
+  const eventType = headers.get('X-IAM-Event');
+  const signature = headers.get('X-IAM-Signature');
+  const received = /^sha256=([0-9a-f]{64})$/.exec(signature ?? '');
+
+  if (!secret || !timestamp || !deliveryId || !eventId || !eventType || !received) {
+    return false;
+  }
+
+  const sentAt = Number(timestamp);
+  const now = Math.floor(Date.now() / 1000);
+  if (!/^\d+$/.test(timestamp) || !Number.isSafeInteger(sentAt) || Math.abs(now - sentAt) > 300) {
+    return false;
+  }
+
+  const typeLength = Buffer.byteLength(eventType, 'utf8');
+  const prefix = `axis-vertex.webhook.${timestamp}.${deliveryId}.${eventId}.${typeLength}:${eventType}.`;
+  const expected = createHmac('sha256', Buffer.from(secret, 'utf8'))
+    .update(prefix, 'utf8')
+    .update(rawBody)
+    .digest();
+
+  return timingSafeEqual(expected, Buffer.from(received[1], 'hex'));
+}
+```
+
+签名格式检查确保两个摘要都是 32 字节，再交给 `timingSafeEqual` 比较。验签返回 `true` 后，再解析 JSON 并处理事件。
 
 只有消费者持久接受事件后才返回成功状态。超时与可重试失败可能产生下一次投递。
 
