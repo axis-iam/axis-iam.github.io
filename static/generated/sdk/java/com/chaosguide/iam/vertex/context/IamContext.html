@@ -120,7 +120,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="IamContext.html" title="class in com.chaosguide.iam.vertex.context">IamContext</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#currentOptional()" class="member-name-link">currentOptional</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Returns the current IAM context if the Spring Security context contains a JWT authentication.</div>
+<div class="block">Returns the current IAM context from a verified JWT or an authenticated server-session principal.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="IamCurrentUser.html" title="class in com.chaosguide.iam.vertex.context">IamCurrentUser</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#currentUser()" class="member-name-link">currentUser</a>()</code></div>
@@ -207,7 +207,7 @@ loadScripts(document, 'script');</script>
 <h3>currentOptional</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="IamContext.html" title="class in com.chaosguide.iam.vertex.context">IamContext</a>&gt;</span>&nbsp;<span class="element-name">currentOptional</span>()</div>
-<div class="block">Returns the current IAM context if the Spring Security context contains a JWT authentication.</div>
+<div class="block">Returns the current IAM context from a verified JWT or an authenticated server-session principal.</div>
 </div>
 </section>
 </li>

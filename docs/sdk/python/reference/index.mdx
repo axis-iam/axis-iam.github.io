@@ -15,9 +15,9 @@ pagination_prev: null
 # Python API reference
 
 
+## axis_vertex
 
 ```text
-
 Help on package axis_vertex:
 
 NAME
@@ -41,6 +41,7 @@ PACKAGE CONTENTS
     portal_open_api
     profile
     testing (package)
+    web_session (package)
 
 CLASSES
     axis_vertex.account_security_client.AccountSecurityOperations(builtins.object)
@@ -15638,5 +15639,969 @@ DATA
     USER_ROLES_READ_SCOPE = 'user_roles:read'
     USER_ROLES_WRITE_SCOPE = 'user_roles:write'
     __all__ = ['AccountIdentifier', 'AccountIdentifiers', 'AccountLoginMet...
+
+```
+
+## axis_vertex.web_session
+
+```text
+Help on package axis_vertex.web_session in axis_vertex:
+
+NAME
+    axis_vertex.web_session - Optional server_session authentication; existing Bearer/oauth_tokens APIs are unchanged.
+
+PACKAGE CONTENTS
+    capabilities
+    client
+    http
+    models
+    protocol
+    store
+
+CLASSES
+    axis_vertex.errors.IamSdkError(builtins.Exception)
+        axis_vertex.web_session.models.SessionError
+            axis_vertex.web_session.models.StoreError
+    builtins.object
+        axis_vertex.web_session.client.ServerSession
+            axis_vertex.web_session.client.SyncServerSession
+        axis_vertex.web_session.models.Record
+        axis_vertex.web_session.models.SessionConfig
+        axis_vertex.web_session.models.SessionResult
+        axis_vertex.web_session.store.MemorySessionStore
+        axis_vertex.web_session.store.StoreCapabilities
+    typing.Protocol(typing.Generic)
+        axis_vertex.web_session.store.AsyncSessionStore
+        axis_vertex.web_session.store.SyncSessionStore
+
+    class AsyncSessionStore(typing.Protocol)
+     |  AsyncSessionStore(*args, **kwargs)
+     |
+     |  Method resolution order:
+     |      AsyncSessionStore
+     |      typing.Protocol
+     |      typing.Generic
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__ = _no_init_or_replace_init(self, *args, **kwargs) from typing
+     |
+     |  async compare_exchange(self, key: 'str', version: 'int', replacement: 'Record') -> 'None'
+     |
+     |  async create(self, record: 'Record') -> 'None'
+     |
+     |  async invalidate(self, key: 'str') -> 'bool'
+     |
+     |  async read(self, key: 'str') -> 'Record | None'
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |
+     |  __subclasshook__ = _proto_hook(other) from typing
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __abstractmethods__ = frozenset()
+     |
+     |  __annotations__ = {'capabilities': 'StoreCapabilities'}
+     |
+     |  __non_callable_proto_members__ = {'capabilities'}
+     |
+     |  __parameters__ = ()
+     |
+     |  __protocol_attrs__ = {'capabilities', 'compare_exchange', 'create', 'i...
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from typing.Protocol:
+     |
+     |  __init_subclass__(*args, **kwargs)
+     |      Function to initialize subclasses.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from typing.Generic:
+     |
+     |  __class_getitem__(...)
+     |      Parameterizes a generic class.
+     |
+     |      At least, parameterizing a generic class is the *main* thing this
+     |      method does. For example, for some generic class `Foo`, this is called
+     |      when we do `Foo[int]` - there, with `cls=Foo` and `params=int`.
+     |
+     |      However, note that this method is also called when defining generic
+     |      classes in the first place with `class Foo[T]: ...`.
+
+    class MemorySessionStore(builtins.object)
+     |  MemorySessionStore(*, max_sessions: 'int' = 10000, max_prelogins: 'int' = 1000, max_record_bytes: 'int' = 65536, cleanup_interval: 'float' = 60, clock: 'Callable[[], float]' = <built-in function time>)
+     |
+     |  Single-process, thread/coroutine-safe, volatile store; no implicit fallback.
+     |
+     |  Each operation copies and bounds a record while holding an instance lock.
+     |  It performs no blocking IO in its async methods. Close joins the cleanup
+     |  thread and clears credentials; closed operations report CLOSED, not ABSENT.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, *, max_sessions: 'int' = 10000, max_prelogins: 'int' = 1000, max_record_bytes: 'int' = 65536, cleanup_interval: 'float' = 60, clock: 'Callable[[], float]' = <built-in function time>)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  async aclose(self) -> 'None'
+     |
+     |  close(self) -> 'None'
+     |
+     |  async compare_exchange(self, key: 'str', version: 'int', replacement: 'Record') -> 'None'
+     |
+     |  compare_exchange_sync(self, key: 'str', version: 'int', replacement: 'Record') -> 'None'
+     |
+     |  async create(self, record: 'Record') -> 'None'
+     |
+     |  create_sync(self, record: 'Record') -> 'None'
+     |
+     |  async invalidate(self, key: 'str') -> 'bool'
+     |
+     |  invalidate_sync(self, key: 'str') -> 'bool'
+     |
+     |  async read(self, key: 'str') -> 'Record | None'
+     |
+     |  read_sync(self, key: 'str') -> 'Record | None'
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  capabilities = StoreCapabilities(atomic=True, shared=False, persistent...
+
+    class Record(builtins.object)
+     |  Record(key: 'str', kind: "Literal['prelogin', 'session', 'terminal']", created_at: 'float', absolute_expires_at: 'float', idle_expires_at: 'float', csrf: 'str' = <factory>, owner: 'str' = <factory>, version: 'int' = 0, schema_version: 'int' = 1, data: 'JsonObject' = <factory>, operation: 'str | None' = None, intent: 'bool' = False, lease_until: 'float' = 0) -> None
+     |
+     |  Provider snapshot. Sensitive fields deliberately excluded from repr.
+     |
+     |  Methods defined here:
+     |
+     |  __eq__(self, other)
+     |      Return self==value.
+     |
+     |  __init__(self, key: 'str', kind: "Literal['prelogin', 'session', 'terminal']", created_at: 'float', absolute_expires_at: 'float', idle_expires_at: 'float', csrf: 'str' = <factory>, owner: 'str' = <factory>, version: 'int' = 0, schema_version: 'int' = 1, data: 'JsonObject' = <factory>, operation: 'str | None' = None, intent: 'bool' = False, lease_until: 'float' = 0) -> None
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  absolute_expires_at
+     |
+     |  created_at
+     |
+     |  csrf
+     |
+     |  data
+     |
+     |  idle_expires_at
+     |
+     |  intent
+     |
+     |  key
+     |
+     |  kind
+     |
+     |  lease_until
+     |
+     |  operation
+     |
+     |  owner
+     |
+     |  schema_version
+     |
+     |  version
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __annotations__ = {'absolute_expires_at': 'float', 'created_at': 'floa...
+     |
+     |  __dataclass_fields__ = {'absolute_expires_at': Field(name='absolute_ex...
+     |
+     |  __dataclass_params__ = _DataclassParams(init=True,repr=False,eq=True,o...
+     |
+     |  __hash__ = None
+     |
+     |  __match_args__ = ('key', 'kind', 'created_at', 'absolute_expires_at', ...
+
+    class ServerSession(builtins.object)
+     |  ServerSession(config: 'SessionConfig', store: 'AsyncSessionStore', *, http_client: 'httpx.AsyncClient | None' = None, clock: 'Callable[[], float]' = <built-in function time>)
+     |
+     |  Explicit async server_session core. Pass one application-owned store instance.
+     |
+     |  Caller owns injected HTTP and store lifetimes. ``aclose`` closes SDK-owned HTTP.
+     |  Authentication getters never call this core implicitly.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, config: 'SessionConfig', store: 'AsyncSessionStore', *, http_client: 'httpx.AsyncClient | None' = None, clock: 'Callable[[], float]' = <built-in function time>)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  async aclose(self) -> 'None'
+     |
+     |  async bootstrap(self, key: 'str | None') -> 'SessionResult'
+     |
+     |  async callback(self, key: 'str | None', query: 'JsonObject') -> 'SessionResult'
+     |
+     |  async capabilities(self, policy: 'bool' = False) -> 'SessionResult'
+     |
+     |  csrf(self, record: 'Record', origin: 'str | None', csrf: 'str | None') -> 'None'
+     |
+     |  async hosted_login(self, key: 'str | None', return_path: 'str' = '/') -> 'SessionResult'
+     |
+     |  async login_action(self, key: 'str | None', action: 'str', body: 'JsonObject', origin: 'str | None', csrf: 'str | None') -> 'SessionResult'
+     |
+     |  async logout(self, key: 'str | None', origin: 'str | None', csrf: 'str | None') -> 'SessionResult'
+     |
+     |  async password_reset(self, key: 'str | None', complete: 'bool', body: 'JsonObject', origin: 'str | None', csrf: 'str | None') -> 'SessionResult'
+     |
+     |  async registration(self, key: 'str | None', action: 'str', body: 'JsonObject', origin: 'str | None', csrf: 'str | None', ref: 'str | None' = None) -> 'SessionResult'
+     |
+     |  async require_session(self, key: 'str | None', permission: 'str | None' = None) -> 'JsonObject'
+     |
+     |  async session(self, key: 'str | None') -> 'SessionResult'
+     |
+     |  view(self, r: 'Record') -> 'JsonObject'
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |
+     |  check_permission(view: 'JsonObject', permission: 'str | None') -> 'None'
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+    class SessionConfig(builtins.object)
+     |  SessionConfig(issuer: 'str', client_id: 'str', client_secret: 'str', resource_audience: 'str', origin: 'str', callback_uri: 'str', return_paths: 'tuple[str, ...]' = ('/',), scopes: 'tuple[str, ...]' = ('openid',), cookie_name: 'str' = '__Host-axis-session', allow_loopback_http: 'bool' = False, absolute_ttl: 'float' = 3600, idle_ttl: 'float' = 3600, prelogin_ttl: 'float' = 600, refresh_skew: 'float' = 30, lease: 'float' = 15, upstream_timeout: 'float' = 5, auth_budget: 'float' = 10, replicas: 'int' = 1, password_reset_redirect: 'str | None' = None) -> None
+     |
+     |  SessionConfig(issuer: 'str', client_id: 'str', client_secret: 'str', resource_audience: 'str', origin: 'str', callback_uri: 'str', return_paths: 'tuple[str, ...]' = ('/',), scopes: 'tuple[str, ...]' = ('openid',), cookie_name: 'str' = '__Host-axis-session', allow_loopback_http: 'bool' = False, absolute_ttl: 'float' = 3600, idle_ttl: 'float' = 3600, prelogin_ttl: 'float' = 600, refresh_skew: 'float' = 30, lease: 'float' = 15, upstream_timeout: 'float' = 5, auth_budget: 'float' = 10, replicas: 'int' = 1, password_reset_redirect: 'str | None' = None)
+     |
+     |  Methods defined here:
+     |
+     |  __delattr__(self, name)
+     |      Implement delattr(self, name).
+     |
+     |  __eq__(self, other)
+     |      Return self==value.
+     |
+     |  __getstate__ = _dataclass_getstate(self) from dataclasses
+     |      # _dataclass_getstate and _dataclass_setstate are needed for pickling frozen
+     |      # classes with slots.  These could be slightly more performant if we generated
+     |      # the code instead of iterating over fields.  But that can be a project for
+     |      # another day, if performance becomes an issue.
+     |
+     |  __hash__(self)
+     |      Return hash(self).
+     |
+     |  __init__(self, issuer: 'str', client_id: 'str', client_secret: 'str', resource_audience: 'str', origin: 'str', callback_uri: 'str', return_paths: 'tuple[str, ...]' = ('/',), scopes: 'tuple[str, ...]' = ('openid',), cookie_name: 'str' = '__Host-axis-session', allow_loopback_http: 'bool' = False, absolute_ttl: 'float' = 3600, idle_ttl: 'float' = 3600, prelogin_ttl: 'float' = 600, refresh_skew: 'float' = 30, lease: 'float' = 15, upstream_timeout: 'float' = 5, auth_budget: 'float' = 10, replicas: 'int' = 1, password_reset_redirect: 'str | None' = None) -> None
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __post_init__(self) -> 'None'
+     |
+     |  __repr__(self)
+     |      Return repr(self).
+     |
+     |  __setattr__(self, name, value)
+     |      Implement setattr(self, name, value).
+     |
+     |  __setstate__ = _dataclass_setstate(self, state) from dataclasses
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  absolute_ttl
+     |
+     |  allow_loopback_http
+     |
+     |  auth_budget
+     |
+     |  callback_uri
+     |
+     |  client_id
+     |
+     |  client_secret
+     |
+     |  cookie_name
+     |
+     |  idle_ttl
+     |
+     |  issuer
+     |
+     |  lease
+     |
+     |  origin
+     |
+     |  password_reset_redirect
+     |
+     |  prelogin_ttl
+     |
+     |  refresh_skew
+     |
+     |  replicas
+     |
+     |  resource_audience
+     |
+     |  return_paths
+     |
+     |  scopes
+     |
+     |  upstream_timeout
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __annotations__ = {'absolute_ttl': 'float', 'allow_loopback_http': 'bo...
+     |
+     |  __dataclass_fields__ = {'absolute_ttl': Field(name='absolute_ttl',type...
+     |
+     |  __dataclass_params__ = _DataclassParams(init=True,repr=True,eq=True,or...
+     |
+     |  __match_args__ = ('issuer', 'client_id', 'client_secret', 'resource_au...
+
+    class SessionError(axis_vertex.errors.IamSdkError)
+     |  SessionError(code: 'str', status: 'int' = 400, *, details: 'JsonObject | None' = None, retry_after: 'int | None' = None)
+     |
+     |  A sanitized host error; never contains an upstream body or credential.
+     |
+     |  Method resolution order:
+     |      SessionError
+     |      axis_vertex.errors.IamSdkError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, code: 'str', status: 'int' = 400, *, details: 'JsonObject | None' = None, retry_after: 'int | None' = None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  envelope(self) -> 'JsonObject'
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from axis_vertex.errors.IamSdkError:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(...)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(...)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class SessionResult(builtins.object)
+     |  SessionResult(body: 'JsonObject', cookie: 'str | None' = None, clear_cookie: 'bool' = False, status: 'int' = 200, location: 'str | None' = None, retry_after: 'int | None' = None) -> None
+     |
+     |  SessionResult(body: 'JsonObject', cookie: 'str | None' = None, clear_cookie: 'bool' = False, status: 'int' = 200, location: 'str | None' = None, retry_after: 'int | None' = None)
+     |
+     |  Methods defined here:
+     |
+     |  __eq__(self, other)
+     |      Return self==value.
+     |
+     |  __init__(self, body: 'JsonObject', cookie: 'str | None' = None, clear_cookie: 'bool' = False, status: 'int' = 200, location: 'str | None' = None, retry_after: 'int | None' = None) -> None
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  body
+     |
+     |  clear_cookie
+     |
+     |  cookie
+     |
+     |  location
+     |
+     |  retry_after
+     |
+     |  status
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __annotations__ = {'body': 'JsonObject', 'clear_cookie': 'bool', 'cook...
+     |
+     |  __dataclass_fields__ = {'body': Field(name='body',type='JsonObject',de...
+     |
+     |  __dataclass_params__ = _DataclassParams(init=True,repr=False,eq=True,o...
+     |
+     |  __hash__ = None
+     |
+     |  __match_args__ = ('body', 'cookie', 'clear_cookie', 'status', 'locatio...
+
+    class StoreCapabilities(builtins.object)
+     |  StoreCapabilities(atomic: 'bool', shared: 'bool', persistent: 'bool', server_side: 'bool' = True) -> None
+     |
+     |  StoreCapabilities(atomic: 'bool', shared: 'bool', persistent: 'bool', server_side: 'bool' = True)
+     |
+     |  Methods defined here:
+     |
+     |  __delattr__(self, name)
+     |      Implement delattr(self, name).
+     |
+     |  __eq__(self, other)
+     |      Return self==value.
+     |
+     |  __getstate__ = _dataclass_getstate(self) from dataclasses
+     |      # _dataclass_getstate and _dataclass_setstate are needed for pickling frozen
+     |      # classes with slots.  These could be slightly more performant if we generated
+     |      # the code instead of iterating over fields.  But that can be a project for
+     |      # another day, if performance becomes an issue.
+     |
+     |  __hash__(self)
+     |      Return hash(self).
+     |
+     |  __init__(self, atomic: 'bool', shared: 'bool', persistent: 'bool', server_side: 'bool' = True) -> None
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __repr__(self)
+     |      Return repr(self).
+     |
+     |  __setattr__(self, name, value)
+     |      Implement setattr(self, name, value).
+     |
+     |  __setstate__ = _dataclass_setstate(self, state) from dataclasses
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  atomic
+     |
+     |  persistent
+     |
+     |  server_side
+     |
+     |  shared
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __annotations__ = {'atomic': 'bool', 'persistent': 'bool', 'server_sid...
+     |
+     |  __dataclass_fields__ = {'atomic': Field(name='atomic',type='bool',defa...
+     |
+     |  __dataclass_params__ = _DataclassParams(init=True,repr=True,eq=True,or...
+     |
+     |  __match_args__ = ('atomic', 'shared', 'persistent', 'server_side')
+
+    class StoreError(SessionError)
+     |  StoreError(outcome: 'StoreOutcome')
+     |
+     |  Method resolution order:
+     |      StoreError
+     |      SessionError
+     |      axis_vertex.errors.IamSdkError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, outcome: 'StoreOutcome')
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SessionError:
+     |
+     |  envelope(self) -> 'JsonObject'
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from axis_vertex.errors.IamSdkError:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(...)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(...)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class SyncServerSession(ServerSession)
+     |  SyncServerSession(config: 'SessionConfig', store: 'SyncSessionStore', *, sync_http_client_factory: 'Callable[[], httpx.AsyncClient] | None' = None, clock: 'Callable[[], float]' = <built-in function time>)
+     |
+     |  Explicit sync channel, one persistent instance-owned runner/HTTP pool.
+     |
+     |  Method resolution order:
+     |      SyncServerSession
+     |      ServerSession
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, config: 'SessionConfig', store: 'SyncSessionStore', *, sync_http_client_factory: 'Callable[[], httpx.AsyncClient] | None' = None, clock: 'Callable[[], float]' = <built-in function time>)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  close(self) -> 'None'
+     |
+     |  run(self, coroutine: 'Coroutine[None, None, T]') -> 'T'
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ServerSession:
+     |
+     |  async aclose(self) -> 'None'
+     |
+     |  async bootstrap(self, key: 'str | None') -> 'SessionResult'
+     |
+     |  async callback(self, key: 'str | None', query: 'JsonObject') -> 'SessionResult'
+     |
+     |  async capabilities(self, policy: 'bool' = False) -> 'SessionResult'
+     |
+     |  csrf(self, record: 'Record', origin: 'str | None', csrf: 'str | None') -> 'None'
+     |
+     |  async hosted_login(self, key: 'str | None', return_path: 'str' = '/') -> 'SessionResult'
+     |
+     |  async login_action(self, key: 'str | None', action: 'str', body: 'JsonObject', origin: 'str | None', csrf: 'str | None') -> 'SessionResult'
+     |
+     |  async logout(self, key: 'str | None', origin: 'str | None', csrf: 'str | None') -> 'SessionResult'
+     |
+     |  async password_reset(self, key: 'str | None', complete: 'bool', body: 'JsonObject', origin: 'str | None', csrf: 'str | None') -> 'SessionResult'
+     |
+     |  async registration(self, key: 'str | None', action: 'str', body: 'JsonObject', origin: 'str | None', csrf: 'str | None', ref: 'str | None' = None) -> 'SessionResult'
+     |
+     |  async require_session(self, key: 'str | None', permission: 'str | None' = None) -> 'JsonObject'
+     |
+     |  async session(self, key: 'str | None') -> 'SessionResult'
+     |
+     |  view(self, r: 'Record') -> 'JsonObject'
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from ServerSession:
+     |
+     |  check_permission(view: 'JsonObject', permission: 'str | None') -> 'None'
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from ServerSession:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+    class SyncSessionStore(typing.Protocol)
+     |  SyncSessionStore(*args, **kwargs)
+     |
+     |  Method resolution order:
+     |      SyncSessionStore
+     |      typing.Protocol
+     |      typing.Generic
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__ = _no_init_or_replace_init(self, *args, **kwargs) from typing
+     |
+     |  compare_exchange_sync(self, key: 'str', version: 'int', replacement: 'Record') -> 'None'
+     |
+     |  create_sync(self, record: 'Record') -> 'None'
+     |
+     |  invalidate_sync(self, key: 'str') -> 'bool'
+     |
+     |  read_sync(self, key: 'str') -> 'Record | None'
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |
+     |  __subclasshook__ = _proto_hook(other) from typing
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __abstractmethods__ = frozenset()
+     |
+     |  __annotations__ = {'capabilities': 'StoreCapabilities'}
+     |
+     |  __non_callable_proto_members__ = {'capabilities'}
+     |
+     |  __parameters__ = ()
+     |
+     |  __protocol_attrs__ = {'capabilities', 'compare_exchange_sync', 'create...
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from typing.Protocol:
+     |
+     |  __init_subclass__(*args, **kwargs)
+     |      Function to initialize subclasses.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from typing.Generic:
+     |
+     |  __class_getitem__(...)
+     |      Parameterizes a generic class.
+     |
+     |      At least, parameterizing a generic class is the *main* thing this
+     |      method does. For example, for some generic class `Foo`, this is called
+     |      when we do `Foo[int]` - there, with `cls=Foo` and `params=int`.
+     |
+     |      However, note that this method is also called when defining generic
+     |      classes in the first place with `class Foo[T]: ...`.
+
+FUNCTIONS
+    parse_view(value: 'object') -> 'JsonObject'
+        Validate the browser-safe C0 shape, including proof-complete vs signed in.
+
+DATA
+    __all__ = ['ServerSession', 'SyncServerSession', 'SessionConfig', 'Ses...
+
+```
+
+## axis_vertex.fastapi
+
+```text
+Help on package axis_vertex.fastapi in axis_vertex:
+
+NAME
+    axis_vertex.fastapi - FastAPI integration for the IAM SDK.
+
+PACKAGE CONTENTS
+    dependencies
+    middleware
+    web_session
+
+CLASSES
+    starlette.middleware.base.BaseHTTPMiddleware(builtins.object)
+        axis_vertex.fastapi.middleware.IamAuthenticationMiddleware
+        axis_vertex.fastapi.web_session.WebSessionMiddleware
+
+    class IamAuthenticationMiddleware(starlette.middleware.base.BaseHTTPMiddleware)
+     |  IamAuthenticationMiddleware(app: 'object', iam: 'IamClient') -> 'None'
+     |
+     |  Authenticate bearer tokens when present and attach ``request.state.iam_context``.
+     |
+     |  Method resolution order:
+     |      IamAuthenticationMiddleware
+     |      starlette.middleware.base.BaseHTTPMiddleware
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, app: 'object', iam: 'IamClient') -> 'None'
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  async dispatch(self, request: 'Request', call_next: 'Callable[[Request], Awaitable[Response]]') -> 'Response'
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from starlette.middleware.base.BaseHTTPMiddleware:
+     |
+     |  async __call__(self, scope: 'Scope', receive: 'Receive', send: 'Send') -> 'None'
+     |      Call self as a function.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from starlette.middleware.base.BaseHTTPMiddleware:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+    class WebSessionMiddleware(starlette.middleware.base.BaseHTTPMiddleware)
+     |  WebSessionMiddleware(app: 'ASGIApp', session: 'ServerSession', *, paths: 'tuple[str, ...]') -> 'None'
+     |
+     |  Validate explicitly listed business paths before application dispatch.
+     |
+     |  Method resolution order:
+     |      WebSessionMiddleware
+     |      starlette.middleware.base.BaseHTTPMiddleware
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, app: 'ASGIApp', session: 'ServerSession', *, paths: 'tuple[str, ...]') -> 'None'
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  async dispatch(self, request: 'Request', call_next: 'Callable[[Request], Awaitable[Response]]') -> 'Response'
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from starlette.middleware.base.BaseHTTPMiddleware:
+     |
+     |  async __call__(self, scope: 'Scope', receive: 'Receive', send: 'Send') -> 'None'
+     |      Call self as a function.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from starlette.middleware.base.BaseHTTPMiddleware:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+FUNCTIONS
+    get_iam_context(iam: 'IamClient') -> 'Callable[[Request], object]'
+        Return a FastAPI dependency that authenticates the current request.
+
+    require_all_permissions(iam: 'IamClient', *permissions: 'tuple[str, str]') -> 'Callable[[Request], object]'
+        Return a dependency requiring every provided permission.
+
+    require_any_permission(iam: 'IamClient', *permissions: 'tuple[str, str]') -> 'Callable[[Request], object]'
+        Return a dependency accepting any one of the provided permissions.
+
+    require_no_impersonation(iam: 'IamClient') -> 'Callable[[Request], object]'
+        Return a dependency blocking impersonated sessions.
+
+    require_permission(iam: 'IamClient', resource: 'str | PermissionKey', action: 'str | None' = None) -> 'Callable[[Request], object]'
+        Return a dependency requiring one permission.
+
+    require_step_up(iam: 'IamClient', acr: 'str' = 'urn:iam:acr:mfa') -> 'Callable[[Request], object]'
+        Return a dependency requiring the JWT ``acr`` claim to match ``acr``.
+
+    require_web_session(session: 'ServerSession', permission: 'str | None' = None) -> 'Callable[[Request], object]'
+        Explicitly validate once per request; getters only read request.state.
+
+    session_router(session: 'ServerSession', *, prefix: 'str' = '/auth') -> 'APIRouter'
+        Mount explicitly with ``app.include_router(session_router(session))``.
+
+    web_session_from_request(request: 'Request') -> 'JsonObject | None'
+        Read only; application must mount require_web_session explicitly.
+
+DATA
+    __all__ = ['IamAuthenticationMiddleware', 'get_iam_context', 'require_...
+
+```
+
+## axis_vertex.django
+
+```text
+Help on package axis_vertex.django in axis_vertex:
+
+NAME
+    axis_vertex.django - Django integration for the IAM SDK.
+
+PACKAGE CONTENTS
+    decorators
+    middleware
+    web_session
+
+CLASSES
+    builtins.object
+        axis_vertex.django.middleware.IamAuthenticationMiddleware
+        axis_vertex.django.web_session.AsyncWebSessionMiddleware
+        axis_vertex.django.web_session.WebSessionMiddleware
+
+    class AsyncWebSessionMiddleware(builtins.object)
+     |  AsyncWebSessionMiddleware(get_response: 'Callable[[HttpRequest], Awaitable[HttpResponse]]', session: 'ServerSession', *, paths: 'tuple[str, ...]') -> 'None'
+     |
+     |  Explicit native async middleware; no sync provider or runner inside ASGI.
+     |
+     |  Methods defined here:
+     |
+     |  async __call__(self, request: 'HttpRequest') -> 'HttpResponse'
+     |      Call self as a function.
+     |
+     |  __init__(self, get_response: 'Callable[[HttpRequest], Awaitable[HttpResponse]]', session: 'ServerSession', *, paths: 'tuple[str, ...]') -> 'None'
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  async_capable = True
+     |
+     |  sync_capable = False
+
+    class IamAuthenticationMiddleware(builtins.object)
+     |  IamAuthenticationMiddleware(get_response: 'Callable[[HttpRequest], HttpResponse]') -> 'None'
+     |
+     |  Attach ``request.iam_context`` when a bearer token is present.
+     |
+     |  Methods defined here:
+     |
+     |  __call__(self, request: 'HttpRequest') -> 'HttpResponse'
+     |      Call self as a function.
+     |
+     |  __init__(self, get_response: 'Callable[[HttpRequest], HttpResponse]') -> 'None'
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+    class WebSessionMiddleware(builtins.object)
+     |  WebSessionMiddleware(get_response: 'Callable[[HttpRequest], HttpResponse]', session: 'SyncServerSession', *, paths: 'tuple[str, ...]') -> 'None'
+     |
+     |  Explicit sync middleware factory target for named protected paths.
+     |
+     |  Methods defined here:
+     |
+     |  __call__(self, request: 'HttpRequest') -> 'HttpResponse'
+     |      Call self as a function.
+     |
+     |  __init__(self, get_response: 'Callable[[HttpRequest], HttpResponse]', session: 'SyncServerSession', *, paths: 'tuple[str, ...]') -> 'None'
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+FUNCTIONS
+    async_session_middleware(session: 'ServerSession', *, paths: 'tuple[str, ...]') -> 'Callable[[Callable[[HttpRequest], Awaitable[HttpResponse]]], AsyncWebSessionMiddleware]'
+        Return a Django ASGI middleware factory with explicit async capability.
+
+    require_all_permissions(*permissions: 'tuple[str, str]') -> 'Callable[[ViewFunc[P]], ViewFunc[P]]'
+        Require every provided permission.
+
+    require_any_permission(*permissions: 'tuple[str, str]') -> 'Callable[[ViewFunc[P]], ViewFunc[P]]'
+        Require any one of the provided permissions.
+
+    require_async_web_session(session: 'ServerSession', permission: 'str | None' = None) -> 'Callable[[Callable[[HttpRequest], Awaitable[HttpResponse]]], Callable[[HttpRequest], Awaitable[HttpResponse]]]'
+
+    require_no_impersonation() -> 'Callable[[ViewFunc[P]], ViewFunc[P]]'
+        Block requests carrying an impersonation actor.
+
+    require_permission(resource: 'str', action: 'str') -> 'Callable[[ViewFunc[P]], ViewFunc[P]]'
+        Require one permission on a Django view.
+
+    require_step_up(acr: 'str' = 'urn:iam:acr:mfa') -> 'Callable[[ViewFunc[P]], ViewFunc[P]]'
+        Require the JWT ``acr`` claim to match ``acr``.
+
+    require_web_session(session: 'SyncServerSession', permission: 'str | None' = None) -> 'Callable[[Callable[[HttpRequest], HttpResponse]], Callable[[HttpRequest], HttpResponse]]'
+
+    session_urls(session: 'ServerSession', *, prefix: 'str' = '/auth') -> 'list[URLPattern]'
+        Include returned patterns in urlpatterns, once, with explicit channel.
+
+    web_session_from_request(request: 'HttpRequest') -> 'JsonObject | None'
+
+DATA
+    __all__ = ['IamAuthenticationMiddleware', 'require_all_permissions', '...
 
 ```

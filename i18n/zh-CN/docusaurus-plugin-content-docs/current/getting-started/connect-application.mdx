@@ -49,6 +49,10 @@ SPA 需要配置精确值：
 从此页复制的 `clientId` 是 SDK 和公共发现接口使用的 `ApplicationClient.clientId`。不要填 Application UUID。
 WEB/M2M secret 只能放在服务端密钥存储中，不能进入浏览器环境变量、静态产物、URL 或日志。
 
+选择 [BFF `server_session`](../../authentication/server-session/) 时，一个机密 WEB Client 就可覆盖 Hosted 与自定义
+浏览器界面。把后端 `https://app.example.com/auth/callback` 登记为回调，配置应用规范 Origin。
+浏览器使用这个 WEB Client 的上下文调用自己的 BFF，但不接收密钥。不需要额外 SPA/M2M Client，除非另有独立接入使用它。
+
 ## 3. 配置注册与认证
 
 打开**认证策略**，分别理解这些控制项：
@@ -101,6 +105,9 @@ M2M 使用独立的服务端配置，不能把它的 secret 复用到 SPA。
 必须独立创建，并且只授予后端自动化实际需要的精确 scope。
 
 ## 6. 验证接入结果
+
+前面的 SPA Token 配置适用于 `oauth_tokens`。`server_session` 应按 [BFF 指南](../../authentication/server-session/)
+和对应后端适配器接线，Token 不进入浏览器。
 
 发布接入应用前：
 

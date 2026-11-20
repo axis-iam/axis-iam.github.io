@@ -26,9 +26,9 @@
 
 ***
 
-### refreshToken
+### refreshToken?
 
-> **refreshToken**: `string`
+> `optional` **refreshToken?**: `string`
 
 ***
 

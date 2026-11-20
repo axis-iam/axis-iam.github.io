@@ -5,6 +5,9 @@ slug: /authentication/hosted/
 
 # Hosted authentication
 
+This page describes the browser-owned `oauth_tokens` sequence. For a WEB client with HttpOnly Cookie sessions,
+use the [BFF sequence](../server-session/); the BFF owns bootstrap, protocol callback and code exchange.
+
 Hosted authentication redirects the browser to the Vertex authorization endpoint. Vertex owns credential entry,
 provider choice, step-up challenges, and policy errors on its origin. The application owns starting the request,
 persisting OAuth state and the PKCE verifier, validating the callback, and establishing its own UI state.

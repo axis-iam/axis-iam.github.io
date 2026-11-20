@@ -9,8 +9,10 @@ This page describes supported integration families, not every internal controlle
 
 | Family | Authentication | Intended caller |
 | --- | --- | --- |
-| OAuth 2.0 / OIDC discovery, authorize, token, logout, JWKS | Protocol-specific | Browsers, native apps, WEB/BFF, and M2M clients |
-| Registration `/api/v1/auth/signup` | Public client context | Embedded, Dialog and Custom |
+| OAuth 2.0 / OIDC discovery, authorize, token, revoke, logout, JWKS | Protocol-specific | Browsers, native apps, WEB/BFF, and M2M clients |
+| Registration `/api/v1/auth/signup` and `/signup/operations/{operationId}` actions | Client context and registration control | Embedded, Dialog, Custom and BFF |
+| EMAIL password recovery `/api/v1/auth/password/forgot` and `/reset` | Client-bound reset proof | Browser SDK and BFF |
+| `/api/v1/auth/session/validity` | User bearer token | BFF online session validity; dependency failure is not proof of revocation |
 | Authentication transactions `/api/v1/auth/transactions` and their challenge, Provider, proof, MFA, complete and cancel actions | Transaction control and PKCE binding | Browser SDK |
 | Account recovery `/api/v1/auth/recovery` | Purpose-bound recovery authorization and proof | Hosted and account SDK |
 | Identity operations `/api/v1/auth/me/identity-operations` | User identity and operation control | Account security UI |
@@ -31,3 +33,7 @@ The build also publishes a [machine-readable API family manifest](pathname:///ap
 documentation index, not an OpenAPI contract and not a substitute for runtime OIDC discovery.
 
 Browser authentication completes proof in a controlled transaction, then exchanges its code through OAuth with the original PKCE binding. Refresh uses the OAuth token endpoint. Registration does not sign the user in.
+
+With [server sessions](../authentication/server-session/), the BFF calls these IAM APIs server-side. Its browser
+routes, such as `/auth/session/bootstrap`, live on the application origin and are not issuer API routes. Internal
+Portal/Admin notification-delivery diagnostics are not added to this public integration inventory.

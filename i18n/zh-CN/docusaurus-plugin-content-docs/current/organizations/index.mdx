@@ -54,7 +54,7 @@ export function InvitationPage() {
 登记的回调页应保持被动，由发起窗口完成回调消费，再通过明确的登录检查继续。
 Dialog、Custom 可通过 `renderLogin` 接入。
 各模式及回调要求见
-[InvitationJourney 示例](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/examples/InvitationJourney.tsx)。
+[InvitationJourney 示例](https://github.com/axis-iam/vertex-sdk-js/blob/21bccfc0079474aa655efbaddc1331b30c83e928/packages/react/examples/InvitationJourney.tsx)。
 
 自行绘制界面时，`useInvitationJourney({continuation, ref})` 提供安全状态及注册、验证、确认、取消和恢复操作。
 Core 提供 `InvitationJourneyClient`。登录期间保持邀请组件挂载，第三方认证保留原发起窗口。

@@ -8,6 +8,7 @@
         "/.well-known/openid-configuration",
         "/oauth2/authorize",
         "/oauth2/token",
+        "/oauth2/revoke",
         "/connect/logout",
         "/oauth2/jwks"
       ],
@@ -23,13 +24,43 @@
     {
       "key": "registration",
       "paths": [
-        "/api/v1/auth/signup"
+        "/api/v1/auth/signup",
+        "/api/v1/auth/signup/operations/{operationId}",
+        "/api/v1/auth/signup/operations/{operationId}/challenges",
+        "/api/v1/auth/signup/operations/{operationId}/complete",
+        "/api/v1/auth/signup/operations/{operationId}/cancel"
       ],
-      "authentication": "public-client-context",
+      "authentication": "public-client-context-and-registration-control",
       "callers": [
         "embedded-auth",
         "auth-dialog",
-        "custom-auth"
+        "custom-auth",
+        "web-bff"
+      ],
+      "stability": "pre-beta"
+    },
+    {
+      "key": "password-recovery",
+      "paths": [
+        "/api/v1/auth/password/forgot",
+        "/api/v1/auth/password/reset"
+      ],
+      "authentication": "client-bound-email-reset-proof",
+      "callers": [
+        "browser",
+        "web-bff"
+      ],
+      "stability": "pre-beta"
+    },
+    {
+      "key": "session-validity",
+      "paths": [
+        "/api/v1/auth/session/validity"
+      ],
+      "authentication": "user-bearer-token",
+      "callers": [
+        "web-bff",
+        "first-party-ui"
       ],
       "stability": "pre-beta"
     },
@@ -49,7 +80,8 @@
       "callers": [
         "embedded-auth",
         "auth-dialog",
-        "custom-auth"
+        "custom-auth",
+        "web-bff"
       ],
       "stability": "pre-beta"
     },
@@ -101,7 +133,8 @@
       "authentication": "user-bearer-token",
       "callers": [
         "first-party-ui",
-        "account-sdk"
+        "account-sdk",
+        "web-bff"
       ],
       "stability": "pre-beta"
     },
@@ -116,7 +149,8 @@
       "authentication": "public-client-context",
       "callers": [
         "hosted-auth",
-        "embedded-auth"
+        "embedded-auth",
+        "web-bff"
       ],
       "stability": "pre-beta"
     },

@@ -5,6 +5,8 @@ slug: /authentication/dialog/
 
 # 预构建认证 Dialog
 
+本页示例使用默认 `oauth_tokens`。同一界面也支持 [BFF 服务端会话](../server-session/)，改用接入应用 transport，换码与 Token 保存交给后端。
+
 React SDK 的预构建 Dialog 将 Vertex 认证状态封装在弹窗中。应用控制弹窗何时打开以及认证成功后的导航；组件控制当前认证步骤、校验展示、身份提供商启动、回调延续与焦点约束。
 
 需要在应用当前页面提供认证入口、又不想重建全部状态时使用 Dialog。`mode="redirect"` 启动 Hosted 认证，`mode="embedded"` 在弹窗中呈现受控认证事务；两者最终都通过 Authorization Code + S256 PKCE 完成。

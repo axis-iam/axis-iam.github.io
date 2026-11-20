@@ -56,6 +56,12 @@
       "status": "public"
     },
     {
+      "key": "vertex.authentication.server-session",
+      "path": "/vertex/authentication/server-session/",
+      "product": "vertex",
+      "status": "public"
+    },
+    {
       "key": "vertex.authentication.account-security",
       "path": "/vertex/authentication/account-security/",
       "product": "vertex",
@@ -148,6 +154,30 @@
     {
       "key": "vertex.sdk.python",
       "path": "/vertex/sdk/python/",
+      "product": "vertex",
+      "status": "public"
+    },
+    {
+      "key": "vertex.sdk.javascript.bff",
+      "path": "/vertex/sdk/javascript/bff/",
+      "product": "vertex",
+      "status": "public"
+    },
+    {
+      "key": "vertex.sdk.java.bff",
+      "path": "/vertex/sdk/java/bff/",
+      "product": "vertex",
+      "status": "public"
+    },
+    {
+      "key": "vertex.sdk.go.bff",
+      "path": "/vertex/sdk/go/bff/",
+      "product": "vertex",
+      "status": "public"
+    },
+    {
+      "key": "vertex.sdk.python.bff",
+      "path": "/vertex/sdk/python/bff/",
       "product": "vertex",
       "status": "public"
     },

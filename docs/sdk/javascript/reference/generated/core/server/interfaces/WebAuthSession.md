@@ -20,6 +20,18 @@
 
 ***
 
+### refreshIntent?
+
+> `optional` **refreshIntent?**: `object`
+
+Persisted before token send; a lost operation must never replay its RT.
+
+#### expiresAt
+
+> **expiresAt**: `number`
+
+***
+
 ### revision
 
 > **revision**: `string`

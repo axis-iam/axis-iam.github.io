@@ -10,6 +10,7 @@ export const navigation = [
     {id: 'authentication/embedded', label: 'Embedded', path: 'authentication/embedded/'},
     {id: 'authentication/dialog', label: 'Dialog', path: 'authentication/dialog/'},
     {id: 'authentication/custom', label: 'Custom forms', path: 'authentication/custom/'},
+    {id: 'authentication/server-session', label: 'BFF & server sessions', path: 'authentication/server-session/'},
     {id: 'authentication/account-security', label: 'Account security', path: 'authentication/account-security/'},
   ]},
   {label: 'Authorization', items: [

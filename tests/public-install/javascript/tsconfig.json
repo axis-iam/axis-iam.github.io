@@ -7,5 +7,5 @@
     "jsx": "react-jsx",
     "skipLibCheck": false
   },
-  "include": ["consumer.ts", "quickstart.tsx"]
+  "include": ["consumer.ts", "quickstart.tsx", "bff.ts", "bff-react.tsx"]
 }

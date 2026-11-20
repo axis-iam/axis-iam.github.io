@@ -15,6 +15,7 @@ export const publicRoutes: readonly PublicRoute[] = [
   {key: 'vertex.authentication.embedded', path: '/vertex/authentication/embedded/', product: 'vertex', status: 'public'},
   {key: 'vertex.authentication.dialog', path: '/vertex/authentication/dialog/', product: 'vertex', status: 'public'},
   {key: 'vertex.authentication.custom', path: '/vertex/authentication/custom/', product: 'vertex', status: 'public'},
+  {key: 'vertex.authentication.server-session', path: '/vertex/authentication/server-session/', product: 'vertex', status: 'public'},
   {key: 'vertex.authentication.account-security', path: '/vertex/authentication/account-security/', product: 'vertex', status: 'public'},
   {key: 'vertex.authorization', path: '/vertex/authorization/', product: 'vertex', status: 'public'},
   {key: 'vertex.authorization.current-user', path: '/vertex/authorization/current-user/', product: 'vertex', status: 'public'},
@@ -31,5 +32,9 @@ export const publicRoutes: readonly PublicRoute[] = [
   {key: 'vertex.sdk.java', path: '/vertex/sdk/java/', product: 'vertex', status: 'public'},
   {key: 'vertex.sdk.go', path: '/vertex/sdk/go/', product: 'vertex', status: 'public'},
   {key: 'vertex.sdk.python', path: '/vertex/sdk/python/', product: 'vertex', status: 'public'},
+  {key: 'vertex.sdk.javascript.bff', path: '/vertex/sdk/javascript/bff/', product: 'vertex', status: 'public'},
+  {key: 'vertex.sdk.java.bff', path: '/vertex/sdk/java/bff/', product: 'vertex', status: 'public'},
+  {key: 'vertex.sdk.go.bff', path: '/vertex/sdk/go/bff/', product: 'vertex', status: 'public'},
+  {key: 'vertex.sdk.python.bff', path: '/vertex/sdk/python/bff/', product: 'vertex', status: 'public'},
   {key: 'vertex.api', path: '/vertex/api/', product: 'vertex', status: 'public'},
 ] as const;

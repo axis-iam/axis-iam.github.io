@@ -6,6 +6,10 @@
 
 # Interface: WebAuthTransaction
 
+## Extended by
+
+- [`BffLogin`](BffLogin.md)
+
 ## Properties
 
 ### codeVerifier

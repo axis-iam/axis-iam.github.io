@@ -8,30 +8,32 @@ slug: /sdk/go/
 The Go SDK provides `net/http` compatible authentication and authorization middleware. It is a Vertex client SDK,
 not a separate server product. The commands pin the root, Chi, Gin and Echo modules to the same source commit through its public Go pseudo-version.
 
+To keep tokens on your application backend, use the optional [BFF server-session integration](./bff/). The existing examples below retain their browser-token/Bearer behavior.
+
 ## Install
 
 For `net/http`, install the root module:
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261120053216-18ba54527e50
 ```
 
 For Chi, install the root and adapter modules together:
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/chi@v0.1.2-0.20261114111734-3c7b9db4ec19
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261120053216-18ba54527e50 github.com/axis-iam/vertex-sdk-go/chi@v0.1.2-0.20261120053216-18ba54527e50
 ```
 
 For Gin:
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/gin@v0.1.2-0.20261114111734-3c7b9db4ec19
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261120053216-18ba54527e50 github.com/axis-iam/vertex-sdk-go/gin@v0.1.2-0.20261120053216-18ba54527e50
 ```
 
 For Echo:
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/echo@v0.1.2-0.20261114111734-3c7b9db4ec19
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261120053216-18ba54527e50 github.com/axis-iam/vertex-sdk-go/echo@v0.1.2-0.20261120053216-18ba54527e50
 ```
 
 ## Quickstart
@@ -78,8 +80,7 @@ func newVertexSDK() *vertex.SDK {
 ```
 
 `IAM_CLIENT_ID` and `IAM_CLIENT_SECRET` belong to the Go API's WEB/M2M confidential client, not the browser SPA.
-Set `Audience` explicitly to the Application resource audience; its SDK fallback to `ClientID` is not a substitute
-for the Application contract.
+Set `Audience` explicitly to the Application resource audience. The SDK does not infer it from `ClientID`.
 
 ## Resource server and management boundary
 

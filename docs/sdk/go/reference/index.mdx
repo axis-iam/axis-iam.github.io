@@ -2962,6 +2962,405 @@ func WithResponder(r ErrorResponder) Option
 
 ```
 
+## github.com/axis-iam/vertex-sdk-go/websession
+
+```text
+package websession // import "github.com/axis-iam/vertex-sdk-go/websession"
+
+Package websession provides the optional server_session authentication mode.
+OAuth credentials and transaction control remain on the application backend.
+
+CONSTANTS
+
+const (
+	SchemaVersion = 1
+	Prelogin      = "PRELOGIN"
+	SignedIn      = "SIGNED_IN"
+	Owned         = "OWNED"
+	SendIntent    = "SEND_INTENT"
+	Invalidated   = "INVALIDATED"
+)
+
+VARIABLES
+
+var (
+	ErrInvalidSession    = errors.New("websession: invalid session")
+	ErrUnavailable       = errors.New("websession: dependency unavailable")
+	ErrForbidden         = errors.New("websession: forbidden")
+	ErrRateLimited       = errors.New("websession: rate limited")
+	ErrExchangeUncertain = errors.New("websession: exchange uncertain")
+	ErrRefreshUncertain  = errors.New("websession: refresh uncertain")
+	ErrAbsent            = errors.New("websession: record absent or expired")
+	ErrConflict          = errors.New("websession: conditional operation conflict")
+	ErrCapacity          = errors.New("websession: provider capacity")
+	ErrClosed            = errors.New("websession: provider closed")
+	ErrValidation        = errors.New("websession: invalid input")
+)
+
+TYPES
+
+type AuthenticateInput struct {
+	Method     string     `json:"method"`
+	Identifier Identifier `json:"identifier"`
+	Password   string     `json:"password,omitempty"`
+	Proof      string     `json:"proof,omitempty"`
+}
+
+type Binding interface {
+	Read(ctx context.Context, r *http.Request) (string, error)
+	Write(ctx context.Context, w http.ResponseWriter, r *http.Request, id string, expires time.Time) error
+	Clear(ctx context.Context, w http.ResponseWriter, r *http.Request) error
+}
+    Binding is the single owner of the browser's host-session identity. Native
+    session bridges store the SDK handle in a dedicated server-side namespace
+    and must rotate/fence it atomically; they must never auto-save token
+    snapshots. Read must distinguish absent ("",nil) from an unavailable host
+    store. Write and Clear preserve unrelated host session fields. A bridge must
+    not be combined with a second session Cookie owner. Clear must clear browser
+    authentication Cookie state even when returning a server-side storage error;
+    failure to change that namespace is reported as local UNCONFIRMED. It must
+    not rely on a successful storage write to clear it.
+
+type Capabilities struct {
+	Atomic bool
+	Shared bool
+}
+    Capabilities describe operations whose semantics must be proved by a
+    provider. Shared must only be true for an actually coordinated multi-process
+    backend.
+
+type ChallengeInput struct {
+	Method     string     `json:"method"`
+	Identifier Identifier `json:"identifier"`
+}
+
+type Config struct {
+	Issuer, Audience, ClientID, ClientSecret string
+	Origin, CallbackURL, BasePath            string
+	Scopes                                   []string
+	ReturnTo                                 string
+	AllowedReturnTo                          []string
+	PasswordResetURL                         string
+	Provider                                 Provider
+	Binding                                  Binding
+	// AllowLoopbackHTTP is development-only and requires loopback endpoints.
+	AllowLoopbackHTTP                 bool
+	Replicas, Workers                 int
+	HTTPClient                        *http.Client
+	PreloginTTL, AbsoluteTTL, IdleTTL time.Duration
+	RefreshLease, RefreshSkew         time.Duration
+	UpstreamTimeout, AuthBudget       time.Duration
+	Clock                             func() time.Time
+}
+    Config enables server_session explicitly. None of these settings change the
+    existing JWT/Bearer SDK. Origin and redirects are never inferred from Host
+    or forwarded headers. TLS termination must enforce this configured public
+    origin.
+
+type CookieBinding struct {
+	// Has unexported fields.
+}
+
+func NewCookieBinding(opts CookieOptions) (*CookieBinding, error)
+
+func (b *CookieBinding) Clear(ctx context.Context, w http.ResponseWriter, r *http.Request) error
+
+func (b *CookieBinding) Read(ctx context.Context, r *http.Request) (string, error)
+
+func (b *CookieBinding) Write(ctx context.Context, w http.ResponseWriter, r *http.Request, id string, expires time.Time) error
+
+type CookieOptions struct {
+	Origin            string
+	Name              string
+	AllowLoopbackHTTP bool
+}
+
+type Error struct {
+	Code       string
+	Status     int
+	RetryAfter int
+	Cause      error
+}
+    Error preserves a safe machine code and cause without rendering upstream
+    diagnostics, request URLs, credentials or token bytes.
+
+func (e *Error) Error() string
+
+func (e *Error) Unwrap() error
+
+type HostBinding struct {
+	// Has unexported fields.
+}
+
+func NewHostBinding(host HostSession) (*HostBinding, error)
+
+func (b *HostBinding) Clear(ctx context.Context, w http.ResponseWriter, r *http.Request) error
+
+func (b *HostBinding) Read(ctx context.Context, r *http.Request) (string, error)
+
+func (b *HostBinding) Write(ctx context.Context, w http.ResponseWriter, r *http.Request, id string, expires time.Time) error
+
+type HostSession interface {
+	AtomicAuthentication() bool
+	ReadAuthentication(ctx context.Context, r *http.Request) (HostSnapshot, error)
+	ReplaceAuthentication(ctx context.Context, w http.ResponseWriter, r *http.Request, expected HostSnapshot, handle string, expires time.Time) error
+	// ClearAuthenticationCookie is an unconditional response-header operation
+	// owned by the host, with no storage dependency. It expires the same native
+	// Cookie when the authentication namespace could not be cleared atomically.
+	ClearAuthenticationCookie(w http.ResponseWriter, r *http.Request)
+}
+    HostSession connects an existing host session's single Cookie owner.
+    ReplaceAuthentication must atomically compare the captured snapshot,
+    rotate the native session ID on login, and change/clear only the SDK auth
+    namespace. It must reject stale auth auto-save/touch after logout or account
+    change and preserve unrelated fields. An absent session returns a zero
+    snapshot. Host-owned Cookie attributes must satisfy the C0 production Cookie
+    contract. Ordinary Get/Set session libraries need a real atomic backend
+    bridge; declaring this interface does not confer distributed safety on them.
+
+type HostSnapshot struct {
+	NativeID string
+	Version  uint64
+	Handle   string
+}
+    HostSnapshot identifies the SDK namespace in an existing native server
+    session. Version is an authentication generation, independent of unrelated
+    application fields. NativeID and Handle are backend-only.
+
+type Identifier struct {
+	Kind   string  `json:"kind"`
+	Value  string  `json:"value"`
+	Region *string `json:"region,omitempty"`
+}
+
+type LogoutResult struct {
+	Local  string `json:"local"`
+	Cookie string `json:"cookie"`
+	Remote string `json:"remote"`
+	SSO    string `json:"sso"`
+}
+
+type MFAInput struct {
+	Method string `json:"method"`
+	Code   string `json:"code"`
+}
+
+type MagicInput struct {
+	TransactionID string `json:"transactionId"`
+	State         string `json:"state"`
+	Proof         string `json:"proof"`
+}
+
+type Memory struct {
+	// Has unexported fields.
+}
+    Memory is a bounded, volatile, single-process Provider. Share one instance
+    between handlers and close it at application shutdown. It never evicts live
+    identities. Restart means reauthorization, not remote IAM revocation.
+
+func NewMemory(opts MemoryOptions) (*Memory, error)
+
+func (*Memory) Capabilities() Capabilities
+
+func (m *Memory) Close() error
+
+func (m *Memory) CompareAndSwap(ctx context.Context, id string, expected uint64, next Record) error
+
+func (m *Memory) Create(ctx context.Context, id string, r Record) error
+
+func (m *Memory) Invalidate(ctx context.Context, id string) (Record, error)
+
+func (m *Memory) Load(ctx context.Context, id string) (Record, error)
+
+func (m *Memory) Rotate(ctx context.Context, oldID string, expected uint64, newID string, next Record) error
+
+type MemoryOptions struct {
+	MaxSessions, MaxPrelogins, MaxRecordBytes int
+	CleanupInterval                           time.Duration
+	Clock                                     func() time.Time
+}
+    MemoryOptions are finite per-process limits. Zero selects the C0 default;
+    negative values reject. Clock is optional and intended for deterministic
+    tests.
+
+type Permissions struct {
+	Roles       []string `json:"roles"`
+	Permissions []string `json:"permissions"`
+}
+
+type Provider interface {
+	Capabilities() Capabilities
+	Create(ctx context.Context, id string, record Record) error
+	Load(ctx context.Context, id string) (Record, error)
+	CompareAndSwap(ctx context.Context, id string, expected uint64, record Record) error
+	Rotate(ctx context.Context, oldID string, expected uint64, newID string, record Record) error
+	Invalidate(ctx context.Context, id string) (Record, error)
+}
+    Provider owns only the SDK namespace. A normal session dictionary's Get/Set
+    does not satisfy this contract. CAS increments Version and rejects terminal
+    state, expired state, changed identity and extended absolute deadlines.
+    Rotate atomically terminates oldID and creates newID, or does neither.
+    Invalidate is terminal and returns the captured previous record for
+    revocation. It must fence every outstanding operation before returning.
+
+type ProviderInput struct {
+	ProviderID             string `json:"providerId"`
+	RegistrationGrantToken string `json:"registrationGrantToken,omitempty"`
+	RegistrationAccessCode string `json:"registrationAccessCode,omitempty"`
+}
+
+type Record struct {
+	SchemaVersion     int
+	Version           uint64
+	CreatedAt         time.Time
+	AbsoluteExpiresAt time.Time
+	IdleExpiresAt     time.Time
+	State             string
+	Kind              string // "prelogin" or "session"
+	ClientID          string
+	Owner             string
+	CSRF              string
+	OAuthState        string
+	Verifier          string
+	Nonce             string
+	ReturnTo          string
+	TransactionID     string
+	ControlSecret     string
+	LoginState        string
+	NextAction        string
+	Identifier        *Identifier
+	MagicConsumed     bool
+	Registrations     map[string]Registration
+	AccessToken       string
+	RefreshToken      string
+	AccessExpiresAt   time.Time
+	Profile           *iam.CurrentUser
+	Permissions       *Permissions
+	Operation         string
+	Fence             string
+	LeaseExpiresAt    time.Time
+}
+    Record is sensitive server-side state, never a browser DTO. Providers must
+    isolate snapshots and fence stale saves, including framework automatic
+    saves. All times are absolute; CreatedAt and AbsoluteExpiresAt cannot be
+    extended.
+
+func (Record) GoString() string
+
+func (Record) String() string
+
+type Registration struct {
+	ID            string
+	ControlSecret string
+	ExpiresAt     time.Time
+}
+
+type RegistrationView struct {
+	RegistrationID  string     `json:"registrationId"`
+	Status          string     `json:"status"`
+	ExpiresAt       time.Time  `json:"expiresAt"`
+	NextAction      string     `json:"nextAction"`
+	NextChallengeAt *time.Time `json:"nextChallengeAt"`
+}
+
+type Service struct {
+	// Has unexported fields.
+}
+
+func New(ctx context.Context, cfg Config) (*Service, error)
+    New validates explicit configuration and resolves pinned OIDC discovery
+    using ctx. No background network process or token retry is installed.
+
+func (s *Service) Action(ctx context.Context, id, action string, input any) (string, View, error)
+    Action advances only the finite C0 login surface. It returns a replacement
+    binding only after a completed code exchange.
+
+func (s *Service) Authenticate(ctx context.Context, id string) (View, error)
+    Authenticate explicitly refreshes if needed and performs one online validity
+    check. Context getters and permission checks never repeat this network work.
+
+func (s *Service) BasePath() string
+
+func (s *Service) Bootstrap(ctx context.Context, id string) (string, View, error)
+    Bootstrap returns a new binding only for known absent/expired state.
+    Provider failures propagate; an outage is never converted into an anonymous
+    success.
+
+func (s *Service) Callback(ctx context.Context, id string, q url.Values) (string, View, string, error)
+    Callback validates the complete unique branch before atomically consuming
+    it. AUTH_CONTINUATION keeps the existing controlled custom transaction for
+    MFA.
+
+func (s *Service) Handler() http.Handler
+    Handler serves the finite C0 host routes beneath BasePath. Mount the same
+    instance on any supported framework. It never proxies business URLs.
+
+func (s *Service) Hosted(ctx context.Context, id, returnTo string) (string, error)
+    Hosted starts a bound top-level navigation after bootstrap. The provider CAS
+    binds exactly one attempt; it never replaces an authenticated identity.
+
+func (s *Service) Login(ctx context.Context, id string) (View, error)
+    Login creates a custom transaction; proof collection alone cannot set a
+    user.
+
+func (s *Service) Logout(ctx context.Context, id string) (LogoutResult, error)
+    Logout invalidates before remote I/O. It never refreshes to obtain logout
+    credentials, and RT revocation is never reported as session revocation.
+
+func (s *Service) Middleware(next http.Handler) http.Handler
+    Middleware protects only explicitly mounted business endpoints. Mixing a
+    submitted Bearer/API key with Cookie auth is rejected; hosts choose their
+    credential routing before this middleware rather than falling back on error.
+
+func (s *Service) PublicConfig(ctx context.Context, kind string) (any, error)
+    PublicConfig forwards only the two configured-client public DTOs.
+
+func (s *Service) Register(ctx context.Context, id string, input SignupInput) (RegistrationView, int, error)
+    Register binds registration control to an opaque local reference. It never
+    promotes a registration response into an authenticated application session.
+
+func (s *Service) RegistrationAction(ctx context.Context, id, ref, action, code string) (RegistrationView, error)
+
+func (s *Service) RequestPasswordReset(ctx context.Context, email string) error
+
+func (s *Service) ResetPassword(ctx context.Context, token, password string) error
+
+type SignupInput struct {
+	Identifier                  Identifier `json:"identifier"`
+	Password                    string     `json:"password"`
+	UILocales                   *string    `json:"uiLocales,omitempty"`
+	RegistrationGrantToken      string     `json:"registrationGrantToken,omitempty"`
+	RegistrationAccessCode      string     `json:"registrationAccessCode,omitempty"`
+	OrganizationInvitationToken string     `json:"organizationInvitationToken,omitempty"`
+}
+
+type View struct {
+	State              string           `json:"state"`
+	ExpiresAt          time.Time        `json:"expiresAt"`
+	CSRFToken          string           `json:"csrfToken"`
+	Owner              string           `json:"owner,omitempty"`
+	Version            *uint64          `json:"version,omitempty"`
+	Profile            *iam.CurrentUser `json:"profile,omitempty"`
+	Permissions        *Permissions     `json:"permissions,omitempty"`
+	NextAction         string           `json:"nextAction,omitempty"`
+	ChallengeExpiresAt *time.Time       `json:"challengeExpiresAt,omitempty"`
+	CooldownSeconds    *int             `json:"cooldownSeconds,omitempty"`
+	AuthorizationURL   string           `json:"authorizationUrl,omitempty"`
+}
+    View is the only browser session projection. It never contains OAuth or
+    transaction credentials. A proof-complete login has NextAction "complete"
+    and no Profile; it is not yet a signed-in application session.
+
+func FromContext(ctx context.Context) *View
+    FromContext reads an isolated, already verified session without network I/O.
+
+func ParseView(data []byte) (*View, error)
+    ParseView validates C0 browser views, including explicit nullable profile
+    fields and optional matching-context permission envelopes.
+
+
+```
+
 ## github.com/axis-iam/vertex-sdk-go/chi
 
 ```text
@@ -2996,6 +3395,12 @@ func RequirePerm(perm authz.PermissionKey, opts ...middleware.Option) func(http.
 func RequireStepUp(acr string, opts ...middleware.Option) func(http.Handler) http.Handler
     RequireStepUp is an alias for middleware.RequireStepUp.
 
+func WebSession(service *websession.Service) func(http.Handler) http.Handler
+    WebSession protects an explicitly selected business route using Cookie auth.
+
+func WebSessionHandler(service *websession.Service) http.Handler
+    WebSessionHandler mounts the shared C0 routes without stripping BasePath.
+
 
 ```
 
@@ -3028,6 +3433,15 @@ func RequirePerm(perm authz.PermissionKey) gin.HandlerFunc
 func RequireStepUp(acr string) gin.HandlerFunc
     RequireStepUp requires the JWT's acr claim to match acr.
 
+func WebSession(service *websession.Service) gin.HandlerFunc
+    WebSession puts the verified identity in the native request context and
+    aborts the chain on failure. FromContext never performs implicit network
+    I/O.
+
+func WebSessionHandler(service *websession.Service) gin.HandlerFunc
+    WebSessionHandler serves the same C0 routes as net/http. Mount on
+    /auth/*path (or the configured BasePath) without stripping the prefix.
+
 
 ```
 
@@ -3059,5 +3473,7 @@ func RequirePerm(perm authz.PermissionKey) echo.MiddlewareFunc
 func RequireStepUp(acr string) echo.MiddlewareFunc
     RequireStepUp enforces an ACR level.
 
+func WebSession(service *websession.Service) echo.MiddlewareFunc
+func WebSessionHandler(service *websession.Service) echo.HandlerFunc
 
 ```

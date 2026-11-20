@@ -63,7 +63,9 @@ Configure `IamProvider` with `colorScheme="light" | "dark" | "system"`, `appeara
 `locale="en" | "zh-CN"`. The account UI inherits those settings without changing the host document's theme.
 
 A BFF uses explicit `sessionMode="server_session"` and a configured `sessionTransport`; the host must provide
-real session bootstrap, CSRF protection and matching routes. Set `sessionProviderReturnUri` to the actual
-same-origin BFF Provider callback, with no query or fragment. Do not substitute an arbitrary settings route.
-See the [React package guide](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/README.md)
+real session bootstrap, CSRF protection and matching routes. AccountCenter requires the account/identity-operation
+routes of that transport. The connected-application C0 login adapter does not supply those Console extensions;
+do not assume adding `ConnectedAppSessionTransport` enables AccountCenter.
+See [BFF scope and callback wiring](../server-session/) for the supported connected-application login flow.
+See the [React package guide](https://github.com/axis-iam/vertex-sdk-js/blob/21bccfc0079474aa655efbaddc1331b30c83e928/packages/react/README.md)
 for the supported transport and operation contracts.

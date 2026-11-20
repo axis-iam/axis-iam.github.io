@@ -8,6 +8,8 @@ slug: /sdk/javascript/
 JavaScript SDK 提供浏览器认证、React 界面与 Node.js 框架集成。
 本文示例与生成参考基于[源码清单](pathname:///source-revisions.json)记录的已提交版本。
 
+需要把 Token 留在应用后端时，使用可选 [BFF 服务端会话接入](./bff/)，本文原有示例继续用于浏览器 Token／Bearer。
+
 ## 从源码安装
 
 从同一提交构建配套的 core 与框架包。本文使用 Node.js 24 和 pnpm 11.9.0。
@@ -16,7 +18,7 @@ JavaScript SDK 提供浏览器认证、React 界面与 Node.js 框架集成。
 ```bash
 git clone https://github.com/axis-iam/vertex-sdk-js.git
 cd vertex-sdk-js
-git checkout eb5ae846da5d64283dad58426e18124420816e1e
+git checkout 21bccfc0079474aa655efbaddc1331b30c83e928
 pnpm install --frozen-lockfile
 pnpm --filter @axis-iam/vertex-react... build
 mkdir -p artifacts
@@ -30,8 +32,8 @@ pnpm --dir packages/react pack --out ../../artifacts/vertex-react.tgz
 npm install ../vertex-sdk-js/artifacts/vertex-core.tgz ../vertex-sdk-js/artifacts/vertex-react.tgz
 ```
 
-Express 或 NestJS 接入同样先构建、打包 core 和 `packages/express` 或 `packages/nestjs`，
-再把对应框架产物与 `vertex-core.tgz` 一起安装。框架包不能替代 core。
+Express 同样构建打包 core 和 `packages/express`。NestJS 另外依赖同版 Express 包，
+需要一起安装 core、Express、Nest 制品，详见 [BFF 包接线](./bff/)。框架包不能替代 core。
 
 ## React SPA 快速入门
 
@@ -100,7 +102,7 @@ export function LoginPage() {
 底层事务方法的参数顺序是**方式、验证码**，`useAuthFlow` action 的顺序则是**验证码、方式**。
 Custom 表单的第三方返回默认由 `useAuthFlow` 自动恢复；不要再让 Hosted 回调处理器消费同一返回。
 完整返回、MFA 与回调归属要求见
-[React 包接入说明](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/README.md)。
+[React 包接入说明](https://github.com/axis-iam/vertex-sdk-js/blob/21bccfc0079474aa655efbaddc1331b30c83e928/packages/react/README.md)。
 
 邀请独立窗口使用由发起窗口消费的被动回调页，不使用这里的独立回调处理器。
 

@@ -6,7 +6,8 @@ slug: /sdk/java/
 # Java SDK
 
 Java SDK 面向 Spring Security 资源服务器与服务端管理集成。
-使用 WEB 或 M2M 机密 ApplicationClient；它不负责浏览器 OAuth 导航。
+core 集成使用 WEB 或 M2M 机密 ApplicationClient。
+可选 [Java BFF 模块](./bff/)为 Spring 应用提供 Hosted/自定义服务端会话。
 
 ## 本地构建与安装
 
@@ -15,7 +16,7 @@ SDK 目前未发布到 Maven Central。使用 JDK 21 或更新版本构建清单
 ```bash
 git clone https://github.com/axis-iam/vertex-sdk-java.git
 cd vertex-sdk-java
-git checkout ef719b9d2cde32e126550789767b1c718adeb6da
+git checkout 9b7d1c84cbd051a52b08f5c51a3838c2c92cceb8
 bash gradlew :vertex-sdk-core:publishToMavenLocal
 ```
 
@@ -86,3 +87,5 @@ Permission Manifest 同步必须由服务端显式调用；自动配置不会在
 - [生成的 Java API 参考](pathname:///generated/sdk/java/index.html)
 
 Gradle Javadoc 是 Java 可调用接口的权威参考。文档构建会在链接生成结果前校验公开 class 与模块公开边界。
+
+- [生成的 Web BFF API 参考](pathname:///generated/sdk/java/web/index.html)

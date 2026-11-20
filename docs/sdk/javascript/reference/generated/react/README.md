@@ -14,6 +14,7 @@
 - [AuthFlowStateError](classes/AuthFlowStateError.md)
 - [AuthProviderWindow](classes/AuthProviderWindow.md)
 - [BrandingFetchError](classes/BrandingFetchError.md)
+- [ConnectedAppSessionTransport](classes/ConnectedAppSessionTransport.md)
 - [CookieSessionTransport](classes/CookieSessionTransport.md)
 - [IamApiError](classes/IamApiError.md)
 - [IamConfigurationError](classes/IamConfigurationError.md)

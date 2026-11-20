@@ -1,0 +1,122 @@
+---
+title: JavaScript BFF
+slug: /sdk/javascript/bff/
+---
+
+# JavaScript BFF
+
+使用 `createBff` 接入应用的完整服务端会话合同。旧的 `createWebAuth` 是独立的 Hosted 登录辅助，不是支持完整自定义
+登录的 BFF 适配器。已有 Bearer 中间件保持原有行为。先阅读[公共流程与部署要求](../../../authentication/server-session/)。
+
+## 安装同一版本的制品
+
+先按[固定源码安装说明](../)准备 SDK，然后在同一 checkout 中执行：
+
+```bash
+pnpm --filter @axis-iam/vertex-express... build
+pnpm --dir packages/express pack --out ../../artifacts/vertex-express.tgz
+```
+
+在应用中一起安装 core、适配器和 Express peer dependency：
+
+```bash
+npm install express ../vertex-sdk-js/artifacts/vertex-core.tgz ../vertex-sdk-js/artifacts/vertex-express.tgz
+```
+
+TypeScript 应用还需匹配的 `@types/express`。这些命令不表示本轮源码已经发布到 npm。
+
+## Express
+
+下面的工厂返回应用和关闭方法。配置从后端安全配置中注入，应用关闭时调用 `close`，一个进程共用一个内存 provider。
+
+```ts
+import express from 'express';
+import {MemorySessionProvider} from '@axis-iam/vertex/server';
+import {createBff, getBffUser} from '@axis-iam/vertex-express';
+
+export function createApp() {
+  const app = express();
+  const provider = new MemorySessionProvider({workers: 1, replicas: 1});
+  const bff = createBff({
+    provider,
+    issuer: process.env.IAM_ENDPOINT!,
+    audience: process.env.IAM_RESOURCE_AUDIENCE!,
+    clientId: process.env.IAM_WEB_CLIENT_ID!,
+    clientSecret: process.env.IAM_WEB_CLIENT_SECRET!,
+    applicationOrigin: 'https://app.example.com',
+    redirectUri: 'https://app.example.com/auth/callback',
+    successRedirect: '/signed-in',
+    postLogoutRedirect: '/signed-out',
+    scopes: ['openid', 'profile'],
+  });
+  app.use(bff.basePath, bff.router);
+  app.get('/api/me', bff.requireSession, (request, response) => {
+    response.json({userId: getBffUser(request)!.id});
+  });
+  return {app, close: () => provider.close()};
+}
+```
+
+`requireSession` 校验身份及写请求 CSRF；按业务需要增加权限和资源归属校验。
+`getBffUser` 与 `getBffSession` 只读取已验证的请求上下文。
+Nest 构建打包同版 Nest 制品：
+
+```bash
+pnpm --filter @axis-iam/vertex-nestjs... build
+pnpm --dir packages/nestjs pack --out ../../artifacts/vertex-nestjs.tgz
+```
+
+在 Nest 应用中把该制品与 core、Express 制品一起安装，Nest 包依赖 Express 包，沿用应用已有的 Nest/Express peer
+dependency。从 `@axis-iam/vertex-nestjs` 调用 `mountBff(app, config)`，放在 `app.init()`/`listen()` 之前。
+它支持 Nest Express 适配器，返回的 `requireSession` 中间件通过 `app.use` 显式挂到选定业务路径。
+
+## 搭配任意后端的 React 配置 {/* #react-with-any-backend */}
+
+按 [JavaScript 指南](../)构建安装同版 core 和 React 制品。这份前端也可搭配挂在 `/auth` 下的 Java、Go 或 Python BFF。
+`/signed-in`、`/signed-out` 必须是应用实际页面，并由同一个 provider 负责恢复会话。
+
+```tsx
+import {ConnectedAppSessionTransport} from '@axis-iam/vertex';
+import {IamProvider, SignIn} from '@axis-iam/vertex-react';
+
+const transport = new ConnectedAppSessionTransport({
+  origin: 'https://app.example.com',
+  basePath: '/auth',
+});
+
+export function BffApp() {
+  return (
+    <IamProvider
+      issuerUri="https://auth.example.com"
+      clientId="your-web-client-id"
+      redirectUri="https://app.example.com/auth/callback"
+      sessionMode="server_session"
+      sessionTransport={transport}
+      sessionLoginUri="/auth/login"
+      sessionProviderReturnUri="https://app.example.com/signed-in"
+    >
+      <SignIn mode="redirect" />
+    </IamProvider>
+  );
+}
+```
+
+应用自有表单页可以使用 `SignIn mode="embedded"`、现有 Dialog 或 `useAuthFlow` 组件；
+如果 `login()` 应打开该表单页，把 `sessionLoginUri` 配成实际表单地址。
+后端协议回调仍是 `/auth/callback`，`sessionProviderReturnUri` 指向干净的表单/MFA 落地页。
+需要时用 `sessionMagicReturnUri` 独立配置同源 fragment 落地地址。
+transport 执行 bootstrap 和有限 Cookie/CSRF 动作，不要再调用浏览器换码 API。
+`server_session` 不支持 `getAccessToken`、`refreshToken` 等 Token 专用方法。
+
+## 宿主存储与 Cookie
+
+自定义存储实现 `BffSessionProvider`。`MemorySessionProvider` 有容量限制、不持久化、仅支持单进程；
+声明真实 worker/副本数并在关闭时释放，它不是共享生产存储。
+
+复用已有 Express session Cookie 时，先初始化宿主 session 中间件，然后从 `@axis-iam/vertex-express` 引入
+`expressSessionBinding`，配置 `binding: expressSessionBinding('axisVertexBff')`。
+提供 binding 时不再配置独立 Cookie 选项。宿主 session 中只放命名空间下的不透明引用；
+Token 和刷新所有权仍由 provider 保存，原生 session 存储不能替代 provider 原子性要求。详见
+[固定版本适配器说明](https://github.com/axis-iam/vertex-sdk-js/blob/21bccfc0079474aa655efbaddc1331b30c83e928/packages/express/README.md)。
+
+[API 参考](../reference/)包含服务端入口、provider 和接入应用 transport。

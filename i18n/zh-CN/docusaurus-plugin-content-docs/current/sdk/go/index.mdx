@@ -7,30 +7,32 @@ slug: /sdk/go/
 
 Go SDK 提供兼容 `net/http` 的认证与授权 middleware。它是 Vertex 客户端 SDK，不是独立服务端产品。下文固定到源码清单对应的 Go 伪版本，root 与 Chi、Gin、Echo 适配器使用同一提交。
 
+需要把 Token 留在应用后端时，使用可选 [BFF 服务端会话接入](./bff/)，本文原有示例继续用于浏览器 Token／Bearer。
+
 ## 安装
 
 `net/http` 使用 root module：
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261120053216-18ba54527e50
 ```
 
 Chi 在同一条命令中安装 root 与 adapter module：
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/chi@v0.1.2-0.20261114111734-3c7b9db4ec19
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261120053216-18ba54527e50 github.com/axis-iam/vertex-sdk-go/chi@v0.1.2-0.20261120053216-18ba54527e50
 ```
 
 Gin：
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/gin@v0.1.2-0.20261114111734-3c7b9db4ec19
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261120053216-18ba54527e50 github.com/axis-iam/vertex-sdk-go/gin@v0.1.2-0.20261120053216-18ba54527e50
 ```
 
 Echo：
 
 ```bash
-go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/echo@v0.1.2-0.20261114111734-3c7b9db4ec19
+go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261120053216-18ba54527e50 github.com/axis-iam/vertex-sdk-go/echo@v0.1.2-0.20261120053216-18ba54527e50
 ```
 
 ## 快速入门
@@ -76,7 +78,7 @@ func newVertexSDK() *vertex.SDK {
 ```
 
 `IAM_CLIENT_ID` 和 `IAM_CLIENT_SECRET` 属于 Go API 的 WEB/M2M 机密 client，不是浏览器 SPA。`Audience` 应显式
-设置为 Application resource audience；SDK 回退到 `ClientID` 不能替代 Application 合同。
+设置为 Application resource audience，SDK 不会从 `ClientID` 推导。
 
 ## 资源服务器与管理边界
 

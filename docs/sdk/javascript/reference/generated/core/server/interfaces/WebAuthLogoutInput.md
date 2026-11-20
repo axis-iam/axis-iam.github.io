@@ -11,3 +11,11 @@
 ### sessionId?
 
 > `optional` **sessionId?**: `string`
+
+***
+
+### sso?
+
+> `optional` **sso?**: `boolean`
+
+Explicit SSO navigation; current-session revocation is always attempted first.

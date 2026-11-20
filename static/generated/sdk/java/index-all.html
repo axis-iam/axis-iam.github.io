@@ -1036,7 +1036,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/chaosguide/iam/vertex/context/IamContext.html#currentOptional()" class="member-name-link">currentOptional()</a> - Static method in class com.chaosguide.iam.vertex.context.<a href="com/chaosguide/iam/vertex/context/IamContext.html" title="class in com.chaosguide.iam.vertex.context">IamContext</a></dt>
 <dd>
-<div class="block">Returns the current IAM context if the Spring Security context contains a JWT authentication.</div>
+<div class="block">Returns the current IAM context from a verified JWT or an authenticated server-session principal.</div>
 </dd>
 <dt><a href="com/chaosguide/iam/vertex/client/dto/UserProfileResponse.html#currentOrganization()" class="member-name-link">currentOrganization()</a> - Method in record class com.chaosguide.iam.vertex.client.dto.<a href="com/chaosguide/iam/vertex/client/dto/UserProfileResponse.html" title="class in com.chaosguide.iam.vertex.client.dto">UserProfileResponse</a></dt>
 <dd>
@@ -2726,8 +2726,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/chaosguide/iam/vertex/context/IamCurrentUser.html" class="type-name-link" title="class in com.chaosguide.iam.vertex.context">IamCurrentUser</a> - Record Class in <a href="com/chaosguide/iam/vertex/context/package-summary.html">com.chaosguide.iam.vertex.context</a></dt>
 <dd>
-<div class="block">Request-local authenticated user derived from the verified JWT and resolved
-Spring Security authorities.</div>
+<div class="block">Request-local authenticated user from verified JWT claims or an online validated
+server session, with authoritative Spring Security permissions.</div>
 </dd>
 <dt><a href="com/chaosguide/iam/vertex/context/IamCurrentUser.html#%3Cinit%3E(java.lang.String,java.lang.String,java.lang.String,boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.Set,java.util.Set,java.util.List,java.lang.String,com.chaosguide.iam.vertex.context.IamActor,java.util.Map)" class="member-name-link">IamCurrentUser(String, String, String, boolean, String, String, String, String, String, String, Set, Set, List, String, IamActor, Map)</a> - Constructor for record class com.chaosguide.iam.vertex.context.<a href="com/chaosguide/iam/vertex/context/IamCurrentUser.html" title="class in com.chaosguide.iam.vertex.context">IamCurrentUser</a></dt>
 <dd>

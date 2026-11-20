@@ -8,10 +8,13 @@
 
 ## Classes
 
+- [BffError](classes/BffError.md)
+- [BffSessionClient](classes/BffSessionClient.md)
 - [ConfidentialInvitationClient](classes/ConfidentialInvitationClient.md)
 - [HttpPermissionResolver](classes/HttpPermissionResolver.md)
 - [IamClient](classes/IamClient.md)
 - [InvitationBff](classes/InvitationBff.md)
+- [MemorySessionProvider](classes/MemorySessionProvider.md)
 - [PermissionManifestClient](classes/PermissionManifestClient.md)
 - [PermissionManifestError](classes/PermissionManifestError.md)
 - [PortalOpenApiClient](classes/PortalOpenApiClient.md)
@@ -25,6 +28,12 @@
 - [AuthorizationIdempotencyOptions](interfaces/AuthorizationIdempotencyOptions.md)
 - [AuthorizationPageMetadata](interfaces/AuthorizationPageMetadata.md)
 - [AuthorizationPageOptions](interfaces/AuthorizationPageOptions.md)
+- [BffConfig](interfaces/BffConfig.md)
+- [BffLogin](interfaces/BffLogin.md)
+- [BffLogoutResult](interfaces/BffLogoutResult.md)
+- [BffRecord](interfaces/BffRecord.md)
+- [BffResult](interfaces/BffResult.md)
+- [BffSessionProvider](interfaces/BffSessionProvider.md)
 - [CreatedRegistrationGrant](interfaces/CreatedRegistrationGrant.md)
 - [CreateOrganizationInput](interfaces/CreateOrganizationInput.md)
 - [CreateOrganizationInvitationInput](interfaces/CreateOrganizationInvitationInput.md)
@@ -37,6 +46,7 @@
 - [IfMatchOptions](interfaces/IfMatchOptions.md)
 - [InvitationBffConfig](interfaces/InvitationBffConfig.md)
 - [InvitationBffSession](interfaces/InvitationBffSession.md)
+- [MemorySessionProviderConfig](interfaces/MemorySessionProviderConfig.md)
 - [Organization](interfaces/Organization.md)
 - [OrganizationInvitation](interfaces/OrganizationInvitation.md)
 - [OrganizationInvitationListOptions](interfaces/OrganizationInvitationListOptions.md)
@@ -100,6 +110,7 @@
 
 ## Type Aliases
 
+- [BffErrorCode](type-aliases/BffErrorCode.md)
 - [CreateRegistrationGrantType](type-aliases/CreateRegistrationGrantType.md)
 - [OrganizationInvitationDeliveryStatus](type-aliases/OrganizationInvitationDeliveryStatus.md)
 - [OrganizationInvitationStatus](type-aliases/OrganizationInvitationStatus.md)
@@ -110,6 +121,7 @@
 - [PermissionManifestStartupMode](type-aliases/PermissionManifestStartupMode.md)
 - [PortalOpenApiMethod](type-aliases/PortalOpenApiMethod.md)
 - [PortalOpenApiScope](type-aliases/PortalOpenApiScope.md)
+- [ProviderResult](type-aliases/ProviderResult.md)
 - [RegistrationGrantStatus](type-aliases/RegistrationGrantStatus.md)
 - [RegistrationGrantType](type-aliases/RegistrationGrantType.md)
 - [WebAuthErrorCode](type-aliases/WebAuthErrorCode.md)

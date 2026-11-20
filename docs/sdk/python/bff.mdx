@@ -1,0 +1,98 @@
+---
+title: Python BFF
+slug: /sdk/python/bff/
+---
+
+# Python BFF
+
+The optional `axis_vertex.web_session` module supports Hosted and custom login in FastAPI and Django.
+Existing `IamClient` Bearer APIs keep their defaults. Install the [pinned source package](../) with the framework extra
+you use, then follow the [shared configuration and flow](../../../authentication/server-session/).
+
+## FastAPI
+
+This factory creates one session core and provider for the application lifespan:
+
+```python
+from contextlib import asynccontextmanager
+from fastapi import Depends, FastAPI, Request
+from axis_vertex.fastapi import require_web_session, session_router, web_session_from_request
+from axis_vertex.web_session import MemorySessionStore, ServerSession, SessionConfig
+
+
+def create_app(issuer: str, audience: str, client_id: str, secret: str) -> FastAPI:
+    config = SessionConfig(
+        issuer=issuer, resource_audience=audience,
+        client_id=client_id, client_secret=secret,
+        origin="https://app.example.com",
+        callback_uri="https://app.example.com/auth/callback",
+        scopes=("openid", "profile"),
+        return_paths=("/signed-in", "/signed-out"), replicas=1,
+    )
+    store = MemorySessionStore()
+    session = ServerSession(config, store)
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        try:
+            yield
+        finally:
+            await session.aclose()
+            await store.aclose()
+
+    app = FastAPI(lifespan=lifespan)
+    app.include_router(session_router(session))
+
+    @app.get('/api/documents', dependencies=[Depends(require_web_session(session, 'documents:read'))])
+    async def documents(request: Request) -> dict[str, object]:
+        view = web_session_from_request(request)
+        assert view is not None
+        return {'profile': view['profile']}
+
+    return app
+```
+
+Supply arguments from server configuration. The example protects `documents:read`; register that permission and
+grant it to the intended users. `require_web_session` also checks exact Origin/current `X-CSRF-Token` on unsafe
+methods, including POST/PUT/PATCH/DELETE. `web_session_from_request` makes no additional network call.
+
+For an explicit group of paths, use `WebSessionMiddleware` from `axis_vertex.fastapi` with
+`session=session, paths=("/api/documents",)`. Dependencies still enforce each route permission.
+Do not install it globally and assume all business routes are covered.
+
+## Django sync and async
+
+Use the same source revision with its `django` extra:
+
+```bash
+python -m pip install "axis-iam-vertex[django] @ git+https://github.com/axis-iam/vertex-sdk-python.git@8a692da6f726442e6603cdd07b9f9322001a0e41"
+```
+
+| Host | Core | Routing and business protection |
+| --- | --- | --- |
+| Synchronous Django | `SyncServerSession(config, store)` | `session_urls(core)`, `@require_web_session(core, permission)` |
+| Asynchronous Django | `ServerSession(config, store)` | `session_urls(session)`, `@require_async_web_session(session, permission)` |
+
+Import routes/decorators from `axis_vertex.django`. Include `session_urls` in the root URL configuration; they already
+contain the `/auth` prefix. Optional `WebSessionMiddleware` and `async_session_middleware` select explicit paths.
+The sync core owns a persistent runner/HTTP pool and refuses an active event loop; close it with `close()`.
+Close async core and host-owned store at application shutdown.
+
+Keep Django `CsrfViewMiddleware` enabled. Its native Cookie/`X-CSRFToken`, when applicable, is required for business
+writes in addition to SDK `X-CSRF-Token`. The BFF owns a separate Cookie, not a credential snapshot in
+`request.session` or a Starlette signed-cookie session.
+
+## Browser and storage
+
+Use the [shared React example](../../javascript/bff/#react-with-any-backend). Python consumes the protocol callback;
+React renders Hosted entry, Embedded, Dialog or Custom using the same safe Cookie transport.
+
+`MemorySessionStore` is bounded, explicit and volatile; use one process with `replicas=1`, share the provider and
+close it at shutdown. `AsyncSessionStore` and `SyncSessionStore` define custom atomic provider interfaces.
+Native Django database/cache/file session stores are not automatically certified as credential providers.
+No database, schema or migration is mandated.
+
+Storage/upstream failures return typed errors and 503; do not turn them into an anonymous success or a false
+“session expired” message. See the
+[pinned module guide](https://github.com/axis-iam/vertex-sdk-python/blob/8a692da6f726442e6603cdd07b9f9322001a0e41/docs/server-session.md)
+and [generated module references](../reference/).

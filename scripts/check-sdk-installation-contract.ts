@@ -6,7 +6,7 @@ const requirements = {
   javascript: [revisions.sources.vertexSdkJavaScript, 'git clone https://github.com/axis-iam/vertex-sdk-js.git', 'pnpm install --frozen-lockfile', 'pnpm --filter @axis-iam/vertex-react... build', 'pnpm --dir packages/core pack --out ../../artifacts/vertex-core.tgz', 'npm install ../vertex-sdk-js/artifacts/vertex-core.tgz ../vertex-sdk-js/artifacts/vertex-react.tgz'],
   java: [revisions.sources.vertexSdkJava, ':vertex-sdk-core:publishToMavenLocal', 'mavenLocal()', 'includeGroup("com.chaosguide.iam")', 'com.chaosguide.iam:vertex-sdk-core:0.1.0', 'resource-audience: ${IAM_RESOURCE_AUDIENCE}'],
   python: [`axis-iam-vertex[fastapi] @ git+https://github.com/axis-iam/vertex-sdk-python.git@${revisions.sources.vertexSdkPython}`, 'axis_vertex'],
-  go: ['', '/chi', '/gin', '/echo'].map((adapter) => `github.com/axis-iam/vertex-sdk-go${adapter}@v0.1.2-0.20261114111734-${revisions.sources.vertexSdkGo.slice(0, 12)}`),
+  go: ['', '/chi', '/gin', '/echo'].map((adapter) => `github.com/axis-iam/vertex-sdk-go${adapter}@v0.1.2-0.20261120053216-${revisions.sources.vertexSdkGo.slice(0, 12)}`),
 };
 
 for (const [sdk, required] of Object.entries(requirements)) {

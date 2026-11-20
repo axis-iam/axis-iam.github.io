@@ -1,0 +1,106 @@
+---
+title: Java BFF
+slug: /sdk/java/bff/
+---
+
+# Java BFF
+
+The optional `vertex-sdk-web` module adds Hosted and custom `server_session` to Spring Servlet applications.
+The existing core Bearer integration remains independent. Read the
+[shared flow](../../../authentication/server-session/) before choosing callbacks and storage.
+
+## Add the Web module
+
+Use the same [pinned source checkout and scoped Maven local repository](../) as core:
+
+```bash
+bash gradlew :vertex-sdk-core:publishToMavenLocal :vertex-sdk-web:publishToMavenLocal
+```
+
+```kotlin
+dependencies {
+  implementation("com.chaosguide.iam:vertex-sdk-web:0.1.0")
+}
+```
+
+This coordinate is a source-built local candidate, not a Maven Central release. The module targets Java 17
+classfiles and the Spring Boot 3.4.4 / Security 6.4 baseline. It does not inherit the Java 25 backend runtime requirement.
+
+## Configure Spring
+
+```java
+import java.net.URI;
+import java.util.Set;
+import com.chaosguide.iam.vertex.web.CookieWebSessionCarrier;
+import com.chaosguide.iam.vertex.web.EnableWebBff;
+import com.chaosguide.iam.vertex.web.MemoryWebSessionStore;
+import com.chaosguide.iam.vertex.web.WebBff;
+import com.chaosguide.iam.vertex.web.WebBffConfig;
+import com.chaosguide.iam.vertex.web.WebSessionCarrier;
+import com.chaosguide.iam.vertex.web.WebSessionStore;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebBff
+public class VertexBffConfiguration {
+  @Bean
+  WebBffConfig bffConfig(Environment env) {
+    URI origin = URI.create("https://app.example.com");
+    return new WebBffConfig(
+        URI.create(env.getRequiredProperty("IAM_ENDPOINT")),
+        env.getRequiredProperty("IAM_RESOURCE_AUDIENCE"),
+        env.getRequiredProperty("IAM_WEB_CLIENT_ID"),
+        env.getRequiredProperty("IAM_WEB_CLIENT_SECRET"),
+        origin.resolve("/auth/callback"), origin, "/auth",
+        Set.of("/signed-in", "/signed-out"), "/signed-in",
+        Set.of("openid", "profile"), false, 1);
+  }
+
+  @Bean(destroyMethod = "close")
+  WebSessionStore bffStore() { return new MemoryWebSessionStore(); }
+
+  @Bean
+  WebSessionCarrier bffCarrier(WebBffConfig config) {
+    return new CookieWebSessionCarrier(config);
+  }
+
+  @Bean
+  SecurityFilterChain security(HttpSecurity http, WebBff bff) throws Exception {
+    bff.configure(http, request -> request.getRequestURI().startsWith("/api/"));
+    http.authorizeHttpRequests(rules -> rules
+        .requestMatchers("/api/**").authenticated().anyRequest().permitAll())
+        .requestCache(cache -> cache.disable())
+        .formLogin(form -> form.disable()).httpBasic(basic -> basic.disable())
+        .logout(logout -> logout.disable());
+    return http.build();
+  }
+}
+```
+
+Provide all four environment values from the [shared configuration](../../../authentication/server-session/).
+Adding the dependency alone opens no routes and creates no security chain. `@EnableWebBff` supplies the components;
+the host attaches `WebBff.configure` to its own chain. Ensure this chain selects `/auth/**` and the protected
+business paths. The example uses one chain for all paths and requires authentication for `/api/**`; add actual
+business routes and permissions, for example with `@RequirePerm` and the existing `IamContext`.
+
+The adapter checks exact Origin and `X-CSRF-Token` itself for its handled writes. Keep existing application CSRF
+rules for other paths. If Bearer routes share the chain, configure their resource-server filter explicitly;
+an invalid explicit Authorization header must never become a Cookie identity.
+
+## Browser and storage
+
+Use the [shared React example](../../javascript/bff/#react-with-any-backend). It supports Hosted and existing
+Embedded/Dialog/Custom UI; the registered callback is consumed by Java.
+
+`MemoryWebSessionStore` is a shared singleton within one JVM, bounded and volatile; more than one declared process
+is rejected. A custom provider implements `WebSessionStore` with atomic version/fence/rotation semantics.
+`CookieWebSessionCarrier` owns a standalone random Cookie. `HttpSessionWebSessionCarrier` instead stores only the SDK
+handle in a native Servlet Session and preserves unrelated fields. Configure native Cookie policy explicitly.
+Spring Session and distributed automatic-save stores require separate provider/bridge evidence.
+
+See the [standalone Maven application](https://github.com/axis-iam/vertex-sdk-java/tree/9b7d1c84cbd051a52b08f5c51a3838c2c92cceb8/examples/bff-spring)
+and the generated [Web module API](pathname:///generated/sdk/java/web/index.html).

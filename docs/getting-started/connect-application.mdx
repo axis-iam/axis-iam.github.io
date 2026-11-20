@@ -52,6 +52,11 @@ The `clientId` copied from this page is the public `ApplicationClient.clientId` 
 routes. Never substitute the Application UUID. Keep WEB and M2M secrets in server-side secret storage; do not put
 them in browser environment variables, static bundles, URLs, or logs.
 
+For [BFF `server_session`](../../authentication/server-session/), one confidential WEB client covers Hosted and
+custom browser UI. Register `https://app.example.com/auth/callback` for the backend and configure its canonical
+origin. The browser calls its own BFF using that WEB client context without receiving a secret. It does not also
+need a SPA or M2M client unless a separate integration uses one.
+
 ## 3. Configure registration and authentication
 
 Open **Auth Policies**. Treat these controls separately:
@@ -105,9 +110,12 @@ Continue with the SDK lane that matches the runtime:
 - Go HTTP API: [Go SDK](../../sdk/go/).
 - FastAPI or other Python API: [Python SDK](../../sdk/python/).
 
-The browser client starts end-user authentication. The resource-server client verifies the resulting bearer token and
+In `oauth_tokens`, the browser client starts end-user authentication. The resource-server client verifies the resulting bearer token and
 resolves permissions. A management M2M client is separate and receives only the exact scopes needed by backend
 automation.
+
+For `server_session`, follow the [BFF guide](../../authentication/server-session/) and selected backend adapter
+instead of copying SPA token-exchange configuration.
 
 ## 6. Verify the integration
 

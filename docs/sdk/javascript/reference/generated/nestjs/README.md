@@ -22,5 +22,9 @@
 
 ## Functions
 
+- [expressSessionBinding](functions/expressSessionBinding.md)
+- [getBffSession](functions/getBffSession.md)
+- [getBffUser](functions/getBffUser.md)
+- [mountBff](functions/mountBff.md)
 - [Public](functions/Public.md)
 - [RequirePerm](functions/RequirePerm.md)

@@ -12,7 +12,7 @@ Browser holds only the safe view. The BFF owns PKCE, login control and session r
 
 ### Constructor
 
-> **new ServerSession**(`transport`, `clientId?`): `ServerSession`
+> **new ServerSession**(`transport`, `clientId?`, `magicCallbackUri?`): `ServerSession`
 
 #### Parameters
 
@@ -24,11 +24,21 @@ Browser holds only the safe view. The BFF owns PKCE, login control and session r
 
 `string`
 
+##### magicCallbackUri?
+
+`string`
+
 #### Returns
 
 `ServerSession`
 
 ## Properties
+
+### magicCallbackUri?
+
+> `readonly` `optional` **magicCallbackUri?**: `string`
+
+***
 
 ### subscribe
 

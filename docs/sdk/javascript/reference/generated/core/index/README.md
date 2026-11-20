@@ -11,6 +11,7 @@
 - [AuthCapabilitiesError](classes/AuthCapabilitiesError.md)
 - [AuthenticationTransaction](classes/AuthenticationTransaction.md)
 - [AuthenticationTransactionError](classes/AuthenticationTransactionError.md)
+- [ConnectedAppSessionTransport](classes/ConnectedAppSessionTransport.md)
 - [CookieSessionTransport](classes/CookieSessionTransport.md)
 - [IdentityManagementResponseError](classes/IdentityManagementResponseError.md)
 - [IdTokenValidationError](classes/IdTokenValidationError.md)

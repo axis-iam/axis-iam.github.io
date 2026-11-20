@@ -8,10 +8,12 @@ slug: /sdk/python/
 The distribution name is `axis-iam-vertex`; the import namespace is `axis_vertex`.
 Install the recorded source commit with Python 3.12 or newer. The package is not currently published to PyPI.
 
+To keep tokens on your application backend, use the optional [BFF server-session integration](./bff/). The existing examples below retain their browser-token/Bearer behavior.
+
 ## Install from source
 
 ```bash
-python -m pip install "axis-iam-vertex[fastapi] @ git+https://github.com/axis-iam/vertex-sdk-python.git@7c4bb845855fd118abd90ccd3761fae192fd4c9a"
+python -m pip install "axis-iam-vertex[fastapi] @ git+https://github.com/axis-iam/vertex-sdk-python.git@8a692da6f726442e6603cdd07b9f9322001a0e41"
 ```
 
 Use the `django` extra for Django, or omit extras for the core client.

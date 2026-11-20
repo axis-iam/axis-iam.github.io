@@ -1,0 +1,149 @@
+---
+title: BFF 与服务端会话
+slug: /authentication/server-session/
+---
+
+# BFF 与服务端会话
+
+当应用需要由自己的后端保存 OAuth 凭据时，选择 `server_session`。浏览器只持有随机的 HttpOnly 会话 Cookie，
+读取不含凭据的用户与权限视图。已有 `oauth_tokens` 接入保持原有行为，浏览器 Token 仍默认放在内存中。
+
+登录界面和会话方式是两项独立选择：Hosted、Embedded、Dialog、Custom 都可以使用服务端会话。
+BFF 是**接入应用自己后端的一部分**；Vertex 不替第三方应用安装会话数据库。
+
+| 项目 | `oauth_tokens` | `server_session` |
+| --- | --- | --- |
+| 登录客户端 | 浏览器使用公开 SPA Client | 使用机密 WEB Client，密钥只放后端 |
+| 换码与刷新 | 浏览器 SDK | 应用后端 BFF SDK |
+| 浏览器凭据 | 按配置保存 OAuth Token | 不透明的 HttpOnly Cookie |
+| 访问业务 API | Bearer 校验 | 显式会话保护与业务权限校验 |
+| 存储 | 默认内存，可显式启用 sessionStorage | 宿主选择后端存储，也提供显式单进程内存实现 |
+
+## 配置一个 WEB Client
+
+在 Portal 的目标 Application 中创建 WEB Client，启用支持的机密客户端认证方式和 S256 PKCE，登记精确回调地址
+及应用规范 Origin。例如：
+
+```env
+IAM_ENDPOINT=https://auth.example.com
+IAM_WEB_CLIENT_ID=your-web-client-id
+IAM_WEB_CLIENT_SECRET=load-from-server-secret-storage
+IAM_RESOURCE_AUDIENCE=api://orders
+APP_ORIGIN=https://app.example.com
+APP_CALLBACK=https://app.example.com/auth/callback
+```
+
+密钥只提供给后端。`IAM_RESOURCE_AUDIENCE` 是 Application 的资源 API 标识，不是 Application UUID 或 Client ID。
+接入不需要 `IAM_APPLICATION_ID`。ID Token 的 audience 使用 WEB Client ID 校验，资源 audience 是另一项独立配置。
+不要自行在 OAuth 请求中添加任意 `audience` 参数。请求 `openid` scope；只有客户端策略允许时才请求
+`offline_access` 来获取刷新令牌。
+
+调用 BFF 的 React 前端可以使用同一个 WEB Client ID 进行配置与发现，但不换码，也不接收客户端密钥。
+只有同时提供浏览器持 Token 的 `oauth_tokens` 接入时，才需要另外的 SPA Client。
+
+## 挂载后端适配器
+
+按应用后端语言选择 SDK：
+
+| 后端 | 可选 API | 指南 |
+| --- | --- | --- |
+| Express / 使用 Express 适配器的 Nest | `createBff` / `mountBff`、`BffSessionProvider` | [JavaScript BFF](../../sdk/javascript/bff/) |
+| Spring Servlet | `vertex-sdk-web`、`@EnableWebBff`、`WebSessionStore` | [Java BFF](../../sdk/java/bff/) |
+| net/http / Chi / Gin / Echo | `websession`、框架 Handler 与中间件 | [Go BFF](../../sdk/go/bff/) |
+| FastAPI / Django 同步或异步 | `axis_vertex.web_session`、路由与依赖/装饰器 | [Python BFF](../../sdk/python/bff/) |
+
+显式挂载认证路由，并为需要保护的业务路由配置会话校验。SDK 在进入业务代码前校验会话、加载可信身份和权限。
+资源归属与业务权限判断仍由应用负责。SDK 不会自动提供通向任意上游的通用代理。
+
+接入应用的路由合同是 `connected-app-bff-c0/1.0.1`，默认前缀为 `/auth`：
+
+| 路由 | 用途 |
+| --- | --- |
+| GET `/auth/session/bootstrap` | 创建或恢复浏览器绑定，读取当前安全视图 |
+| GET `/auth/login` | bootstrap 后发起 Hosted 跳转 |
+| GET `/auth/callback` | BFF 消费绑定的 code/state，再跳到允许的应用落地页 |
+| GET `/auth/session` | 读取不含凭据的会话视图 |
+| POST `/auth/session/login` 及有限动作 | 自定义登录、挑战、Provider 授权、MFA、完成、取消、magic proof |
+| POST `/auth/session/logout` | 使本地认证失效、清除 Cookie 认证状态，并限时尝试 IAM 退出 |
+
+这些是**挂在接入应用自己域名下的接口**，不是新增在 Vertex issuer 上的接口。适配器还提供客户端绑定的发现、
+有限注册和 EMAIL 密码恢复。接入应用 C0 没有开放 Console 的 Workspace 切换、AccountCenter/身份操作管理、
+邀请和 step-up 扩展。因此 Console 的 `CookieSessionTransport` 不能直接替代 `ConnectedAppSessionTransport`。
+
+## Hosted 登录流程
+
+1. 浏览器带同源凭据调用 `GET /auth/session/bootstrap`。
+2. 跳转到 `/auth/login`。BFF 保存 state、nonce 和 PKCE verifier，再跳转 Vertex。
+3. Vertex 展示该 Application 的托管登录页，完成认证及必要 MFA。
+4. Vertex 回到 `/auth/callback`。BFF 校验绑定，使用密钥与 verifier 在后端换码。
+5. OIDC、可信用户资料、权限和会话有效性检查通过后，BFF 轮换 Cookie/CSRF，跳到允许的应用页面，例如
+   `/signed-in`。Token 不进入应用 JavaScript。
+6. 前端恢复安全会话视图并进入应用，业务请求使用同一个 Cookie。
+
+四种后端都可复用[同一份 React 配置](../../sdk/javascript/bff/#react-with-any-backend)。
+不要在服务端所有的 `/auth/callback` 上再挂 SPA 的 `handleRedirectCallback` 换码逻辑。
+
+## Embedded、Dialog 和 Custom 登录流程
+
+使用同一个 transport，搭配 `<SignIn mode="embedded" />`、`<AuthDialog mode="embedded" />` 或 `useAuthFlow()`。
+浏览器把有限动作提交给自己的 BFF，由 BFF 保存私有事务并完成换码。Provider 登录可以经过 Vertex 跳转，
+由 BFF 回调消费协议响应，再返回干净的表单/MFA 落地页。
+`sessionProviderReturnUri` 指向这个落地页；`/auth/callback` 是登记给 IAM 的协议回调。
+使用 `sessionMagicReturnUri` 时，它指向精确的 fragment 落地地址。
+
+必要 MFA 仍需要用户操作。PRELOGIN、AUTHENTICATING 等内部状态交给 SDK 处理；普通用户看到的应当是表单、
+短暂等待、必要验证步骤或明确错误与重试入口。收集完认证证明的事务，还必须完成换码和所有检查后才算应用登录成功。
+
+## 存储与多进程
+
+后端必须显式选择存储 provider。SDK 提供有容量与期限限制的后端内存实现，适合单进程，由所有请求共用一个实例，
+关闭应用时释放。它不持久化，重启后需要重新登录。不要每个请求创建一个 provider，也不要跨多个 worker/副本使用进程内存。
+
+应用已有的存储服务可以实现 SDK 的适配接口，但必须在实际部署拓扑中提供原子创建、带版本替换、轮换、最终失效和刷新
+所有权保证。只有进程锁或“支持共享”的标记并不能证明跨实例安全。SDK 不要求 PostgreSQL、Redis、特定驱动、表结构
+或迁移；持久化凭据由宿主存储机制保护。
+
+原生框架会话桥接需要按 SDK 显式接线，只保存命名空间下的不透明引用，不把 OAuth 凭据放进普通的自动保存 session bag。
+沿用框架 Cookie 不代表该框架存储已经满足原子 Token provider 要求。支持范围见各语言指南。
+
+## Cookie、CSRF 与反向代理
+
+生产默认 Secure、HttpOnly、host-only、Path=/、SameSite=Lax。本机 HTTP 开发需要显式开启 SDK 的 loopback 选项，
+并使用非 `__Host-` Cookie 配置。localhost 不同端口不隔离 Cookie，多个本地应用要选择不同名称。
+
+前端和 BFF 使用一个规范 Origin。反向代理应先把 `/auth/*` 转发给 BFF，再执行 SPA fallback；`/api/*` 进入受保护业务
+接口。issuer、回调和允许的落地地址不能从不可信 Host/转发头推导。当前合同不覆盖跨域带凭据 BFF。
+
+认证 POST 与业务写请求都要求精确 Origin 和当前安全视图中的 `X-CSRF-Token`，即使中间件已经加载身份也一样。
+登录会轮换 CSRF，登录后读取当前视图再使用。共享 transport 自动处理自己的认证动作；业务写请求例如：
+
+```ts
+await fetch('/api/orders', {
+  method: 'POST',
+  credentials: 'same-origin',
+  headers: {'Content-Type': 'application/json', 'X-CSRF-Token': currentView.csrfToken},
+  body: JSON.stringify({productId}),
+});
+```
+
+业务权限校验仍需保留。浏览器自动发送 Origin；非浏览器测试客户端需要显式设置规范 Origin。
+Cookie 入口不得在显式凭据无效时回退为另一身份。
+
+## 过期、服务故障与退出
+
+| 结果 | 应用如何处理 |
+| --- | --- |
+| 确认会话不存在、过期或失效 | 提供重新登录入口 |
+| 无权限、Origin/CSRF 不正确 | 展示本次操作错误，不替换用户身份 |
+| 存储或上游读取不可用（503） | 展示可重试服务错误，不误报已经退出 |
+| 换码/刷新结果不确定 | 按要求重新授权，不重放可能已经被消费的凭据 |
+| 退出部分确认失败（503） | 分别展示本地、Cookie、远端结果，不宣称远端撤销成功 |
+
+允许没有刷新令牌：访问令牌过期后重新授权。SDK 协调刷新所有权，不自动重试可能已经发出的换码请求。
+退出先使本地失效，再限时调用远端；不会为了退出而刷新，也不自动代表全局 SSO 退出。
+
+## 检查接入效果
+
+检查 bootstrap、所选界面和回调、必要 MFA、刷新页面恢复、受保护读写、无权限、退出及切换另一用户。
+验证故障重试不泄露凭据、不把上一账户的迟到数据写回。自定义 provider 按声明的 worker/副本拓扑验证。
+源码示例或受控 Provider 测试不能替代宿主生产存储、真实邮件/短信或外部 Provider 账号的接入证明。

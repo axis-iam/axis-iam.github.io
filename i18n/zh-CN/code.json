@@ -519,5 +519,8 @@
   },
   "home.topic.deployment.text": {
     "message": "服务隔离、运行配置与运维指南。"
+  },
+  "home.nav.authentication/server-session": {
+    "message": "BFF 与服务端会话"
   }
 }

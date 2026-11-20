@@ -1,0 +1,76 @@
+---
+title: Go BFF
+slug: /sdk/go/bff/
+---
+
+# Go BFF
+
+可选 `websession` 包提供同源服务端会话，独立于 Bearer 中间件。使用[同一固定版本的 root/adapter 模块](../)，
+无需额外数据库包。先阅读[公共配置与流程](../../../authentication/server-session/)。
+
+## net/http
+
+宿主提供 issuer、资源 audience、机密 WEB 凭据和业务 handler，应用关闭时调用返回的清理函数。
+
+```go
+package main
+
+import (
+  "context"
+  "net/http"
+  "github.com/axis-iam/vertex-sdk-go/websession"
+)
+
+func bffRoutes(ctx context.Context, issuer, audience, clientID, secret string, documents http.Handler) (http.Handler, func(), error) {
+  store, err := websession.NewMemory(websession.MemoryOptions{})
+  if err != nil { return nil, nil, err }
+  service, err := websession.New(ctx, websession.Config{
+    Issuer: issuer, Audience: audience, ClientID: clientID, ClientSecret: secret,
+    Origin: "https://app.example.com",
+    CallbackURL: "https://app.example.com/auth/callback",
+    Scopes: []string{"openid", "profile"},
+    ReturnTo: "/signed-in", AllowedReturnTo: []string{"/signed-in", "/signed-out"},
+    Provider: store, Replicas: 1, Workers: 1,
+  })
+  if err != nil { store.Close(); return nil, nil, err }
+  mux := http.NewServeMux()
+  mux.Handle("/auth/", service.Handler())
+  mux.Handle("/api/documents", service.Middleware(documents))
+  return mux, func() { store.Close() }, nil
+}
+```
+
+`Middleware` 校验身份、加载可信权限，并在业务 handler 前拒绝 Origin/CSRF 不正确的写请求。
+各项权限和资源归属使用已有授权工具或显式业务判断。`websession.FromContext`、`authz.FromContext`
+只读取已验证的请求值。Cookie 入口拒绝显式 Authorization/API-key 输入，其他凭据模式单独挂载。
+
+## 框架适配器
+
+把同一个 service 交给所选适配器，Cookie 与认证逻辑由共享核心管理：
+
+| 路由框架 | 认证路由 | 业务保护 |
+| --- | --- | --- |
+| Chi | `r.Mount("/auth", iamchi.WebSessionHandler(service))` | `r.With(iamchi.WebSession(service)).Handle(...)` |
+| Gin | `r.Any("/auth/*path", iamgin.WebSessionHandler(service))` | `r.GET(path, iamgin.WebSession(service), handler)` |
+| Echo | `e.Any("/auth/*", iamecho.WebSessionHandler(service))` | `e.GET(path, handler, iamecho.WebSession(service))` |
+
+`iamchi`、`iamgin`、`iamecho` 分别从[安装指南](../)中的 `/chi`、`/gin`、`/echo` 模块引入。
+业务写请求也通过同一中间件保护。
+
+## 浏览器与存储
+
+使用[公共 React 示例](../../javascript/bff/#react-with-any-backend)搭配 Hosted、Embedded、Dialog 或 Custom。
+Hosted 先 bootstrap 再跳 `/auth/login`，Go 回调负责换码。
+
+自定义 `websession.Provider` 提供隔离快照、仅不存在时创建、带版本替换、原子轮换和最终失效。
+`NewMemory` 是显式单进程内存存储，不持久化，不能跨 worker 或副本使用。
+`NewHostBinding` 支持宿主已有 session，但需要原子的认证引用替换与唯一 Cookie 所有者；
+普通 Get/Set session bag 不足以满足要求。SDK 不选择驱动、表结构或迁移。
+
+错误有明确类型：`errors.Is` 匹配 `websession.ErrInvalidSession`、`websession.ErrUnavailable`、
+`websession.ErrForbidden`、`websession.ErrRateLimited`、`websession.ErrExchangeUncertain`、
+`websession.ErrRefreshUncertain`；`errors.As` 读取 `*websession.Error`。
+服务故障不应误报为需要清除已确认身份。
+
+详见[固定版本包指南](https://github.com/axis-iam/vertex-sdk-go/blob/18ba54527e50cf96151dbfe354db93edc8bd4cb2/docs/websession.md)
+及生成的 [API 参考](../reference/)。

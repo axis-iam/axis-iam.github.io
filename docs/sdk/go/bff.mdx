@@ -1,0 +1,79 @@
+---
+title: Go BFF
+slug: /sdk/go/bff/
+---
+
+# Go BFF
+
+The optional `websession` package supports the same-origin server-session contract independently of Bearer
+middleware. Use the [same pinned root/adapter module versions](../); no separate database package is required.
+Read the [shared configuration and flow](../../../authentication/server-session/).
+
+## net/http
+
+The host supplies issuer, resource audience, confidential WEB credentials and its business handler.
+Call the returned cleanup action at application shutdown.
+
+```go
+package main
+
+import (
+  "context"
+  "net/http"
+  "github.com/axis-iam/vertex-sdk-go/websession"
+)
+
+func bffRoutes(ctx context.Context, issuer, audience, clientID, secret string, documents http.Handler) (http.Handler, func(), error) {
+  store, err := websession.NewMemory(websession.MemoryOptions{})
+  if err != nil { return nil, nil, err }
+  service, err := websession.New(ctx, websession.Config{
+    Issuer: issuer, Audience: audience, ClientID: clientID, ClientSecret: secret,
+    Origin: "https://app.example.com",
+    CallbackURL: "https://app.example.com/auth/callback",
+    Scopes: []string{"openid", "profile"},
+    ReturnTo: "/signed-in", AllowedReturnTo: []string{"/signed-in", "/signed-out"},
+    Provider: store, Replicas: 1, Workers: 1,
+  })
+  if err != nil { store.Close(); return nil, nil, err }
+  mux := http.NewServeMux()
+  mux.Handle("/auth/", service.Handler())
+  mux.Handle("/api/documents", service.Middleware(documents))
+  return mux, func() { store.Close() }, nil
+}
+```
+
+`Middleware` validates identity, loads trusted permissions and rejects unsafe writes with a bad Origin or CSRF
+before the handler. Use the existing authorization utilities or explicit business checks for each permission and
+resource. `websession.FromContext` and `authz.FromContext` read only already-validated request values.
+Explicit Authorization/API-key input is rejected at the Cookie entry; mount other credential modes separately.
+
+## Framework adapters
+
+Pass the same service to the selected adapter; the shared core owns the Cookie and authentication behavior:
+
+| Router | Authentication routes | Business protection |
+| --- | --- | --- |
+| Chi | `r.Mount("/auth", iamchi.WebSessionHandler(service))` | `r.With(iamchi.WebSession(service)).Handle(...)` |
+| Gin | `r.Any("/auth/*path", iamgin.WebSessionHandler(service))` | `r.GET(path, iamgin.WebSession(service), handler)` |
+| Echo | `e.Any("/auth/*", iamecho.WebSessionHandler(service))` | `e.GET(path, handler, iamecho.WebSession(service))` |
+
+Import aliases `iamchi`, `iamgin` and `iamecho` from the matching `/chi`, `/gin` and `/echo` modules listed in the
+[installation guide](../). Guard business writes through the same middleware.
+
+## Browser and storage
+
+Use the [shared React example](../../javascript/bff/#react-with-any-backend) for Hosted, Embedded, Dialog or Custom.
+First bootstrap, then navigate to `/auth/login` for Hosted; the Go callback owns code exchange.
+
+A custom `websession.Provider` supplies isolated snapshots, create-if-absent, versioned replacement, atomic rotation
+and terminal invalidation. `NewMemory` is explicit single-process volatile storage; do not share it across workers
+or replicas. `NewHostBinding` allows a host-owned session bridge with atomic authentication-reference replacement
+and one Cookie owner; a generic Get/Set session bag is insufficient. No driver, schema or migration is selected.
+
+Errors are typed: use `errors.Is` with `websession.ErrInvalidSession`, `websession.ErrUnavailable`,
+`websession.ErrForbidden`, `websession.ErrRateLimited`, `websession.ErrExchangeUncertain` and
+`websession.ErrRefreshUncertain`, and `errors.As` for `*websession.Error`. A service outage is not an
+instruction to clear a confirmed identity.
+
+See the [pinned package guide](https://github.com/axis-iam/vertex-sdk-go/blob/18ba54527e50cf96151dbfe354db93edc8bd4cb2/docs/websession.md)
+and the generated [API reference](../reference/).

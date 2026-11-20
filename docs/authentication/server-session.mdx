@@ -1,0 +1,164 @@
+---
+title: BFF and server sessions
+slug: /authentication/server-session/
+---
+
+# BFF and server sessions
+
+Choose `server_session` when your application backend should own OAuth credentials. The browser holds a random
+HttpOnly session Cookie and receives a safe profile/permission view. Existing `oauth_tokens` integrations keep their
+current behavior and memory-default browser token storage.
+
+UI and session choices are independent: Hosted, Embedded, Dialog and Custom can all use a server session.
+A BFF is part of **your application backend**; Vertex does not install a third-party application session store.
+
+| Choice | `oauth_tokens` | `server_session` |
+| --- | --- | --- |
+| Login client | Public SPA client for browser login | Confidential WEB client, secret on the backend |
+| Code exchange and refresh | Browser SDK | Application BFF SDK |
+| Browser credential | OAuth token in configured browser storage | Opaque HttpOnly Cookie |
+| Backend API access | Bearer validation | Explicit session guard and business permission checks |
+| Storage | Memory by default; optional sessionStorage | Host-selected backend provider; explicit single-process memory is available |
+
+## Configure one WEB client
+
+In Portal, create a WEB client in the target Application. Enable its supported confidential client authentication
+and S256 PKCE. Configure the exact callback and canonical application origin, for example:
+
+```env
+IAM_ENDPOINT=https://auth.example.com
+IAM_WEB_CLIENT_ID=your-web-client-id
+IAM_WEB_CLIENT_SECRET=load-from-server-secret-storage
+IAM_RESOURCE_AUDIENCE=api://orders
+APP_ORIGIN=https://app.example.com
+APP_CALLBACK=https://app.example.com/auth/callback
+```
+
+Only the backend receives the secret. `IAM_RESOURCE_AUDIENCE` identifies the Application resource API; it is not
+an Application UUID or client ID. No `IAM_APPLICATION_ID` is required. ID Token audience validation uses the WEB
+client ID; resource audience remains a separate configured value. Do not add an arbitrary `audience` OAuth parameter.
+Use `openid` scopes; request `offline_access` only when the client policy permits refresh tokens.
+
+A React frontend calling these BFF routes uses the same WEB client ID for configured discovery. It does not exchange
+codes or receive that client secret. A separate SPA client is needed only if you also implement a browser-owned
+`oauth_tokens` integration.
+
+## Mount the backend adapter
+
+Choose the SDK matching your backend:
+
+| Backend | Optional API | Guide |
+| --- | --- | --- |
+| Express / Nest with Express adapter | `createBff` / `mountBff`, `BffSessionProvider` | [JavaScript BFF](../../sdk/javascript/bff/) |
+| Spring Servlet | `vertex-sdk-web`, `@EnableWebBff`, `WebSessionStore` | [Java BFF](../../sdk/java/bff/) |
+| net/http / Chi / Gin / Echo | `websession`, framework handlers and middleware | [Go BFF](../../sdk/go/bff/) |
+| FastAPI / Django sync or async | `axis_vertex.web_session`, router/dependencies/decorators | [Python BFF](../../sdk/python/bff/) |
+
+Explicitly mount the authentication routes and guard each protected business route. The SDK validates the session
+and loads trusted identity/permissions before business code. Application resource ownership and business authorization
+remain your responsibility. There is no automatic general-purpose proxy to arbitrary upstream URLs.
+
+The connected-application route contract is `connected-app-bff-c0/1.0.1`. With the default `/auth` prefix:
+
+| Route | Purpose |
+| --- | --- |
+| GET `/auth/session/bootstrap` | Establish or restore the browser binding and current safe view |
+| GET `/auth/login` | Begin Hosted navigation after bootstrap |
+| GET `/auth/callback` | BFF consumes bound code/state, then redirects to an allowed clean application path |
+| GET `/auth/session` | Read the safe session view |
+| POST `/auth/session/login` and its finite actions | Custom login, challenges, Provider authorization, MFA, complete, cancel and magic proof |
+| POST `/auth/session/logout` | Invalidate local authentication, clear Cookie authentication state and attempt bounded IAM logout |
+
+These are **application-owned routes**, not new routes to call on the Vertex issuer. The same adapters also provide
+client-bound discovery, limited registration and EMAIL password recovery. Connected-application C0 does not expose
+Console Workspace selection, AccountCenter/identity-operation management, invitations or step-up extensions.
+A Console `CookieSessionTransport` is therefore not interchangeable with `ConnectedAppSessionTransport`.
+
+## Hosted sequence
+
+1. The browser restores `GET /auth/session/bootstrap` with same-origin credentials.
+2. It navigates to `/auth/login`. The BFF retains state, nonce and PKCE verifier, then sends the browser to Vertex.
+3. Vertex displays the Application hosted UI and performs the required authentication/MFA.
+4. Vertex returns to `/auth/callback`. The BFF validates the binding and exchanges the code with its secret and verifier.
+5. After OIDC, trusted profile, permission and validity checks, the BFF rotates Cookie/CSRF and redirects to the allowed
+   application landing, such as `/signed-in`. Tokens never enter application JavaScript.
+6. The frontend restores the safe session and enters the application. Its business requests use the same Cookie.
+
+Use the [shared React wiring](../../sdk/javascript/bff/#react-with-any-backend) with any of the four backends.
+Do not mount the SPA `handleRedirectCallback` handler on the server-owned `/auth/callback`.
+
+## Embedded, Dialog and Custom sequence
+
+Use the same transport with `<SignIn mode="embedded" />`, `<AuthDialog mode="embedded" />` or `useAuthFlow()`.
+The browser submits bounded actions to its BFF; the BFF retains the private transaction and exchanges the resulting
+code. Provider login can navigate through Vertex, then the BFF callback consumes the protocol response and returns
+to the clean form/MFA landing. Configure `sessionProviderReturnUri` to that landing; `/auth/callback` is the registered
+protocol callback. `sessionMagicReturnUri`, when used, names the exact fragment landing.
+
+Required MFA remains a user action. Internal states such as PRELOGIN and AUTHENTICATING belong to the SDK;
+ordinary users should see their form, a brief pending indicator, a required challenge, or a clear error with retry.
+A transaction with proofs collected is not a signed-in application session until code exchange and all checks finish.
+
+## Storage and multiple processes
+
+Every backend requires an explicitly chosen provider. The SDK includes bounded backend-memory storage for a single
+process, shared by all requests and closed at shutdown. It is volatile: restart requires a new login. Never create
+one provider per request or use process memory across multiple workers/replicas.
+
+An existing host storage service can implement the SDK provider interface. It must provide atomic creation,
+versioned replacement, rotation, terminal invalidation and refresh ownership across the topology you deploy.
+A process-local lock or a shared-capability flag alone is insufficient. The SDK mandates no PostgreSQL, Redis,
+database driver, schema or migration. Protect persisted credentials using the host storage controls.
+
+Native framework-session bridges are explicit and SDK-specific. They retain a namespaced opaque handle rather
+than putting OAuth credentials in an ordinary auto-saved session bag. Using an existing framework Cookie does not
+by itself certify its store as an atomic token provider. See the selected language guide for the supported bridge.
+
+## Cookie, CSRF and proxy wiring
+
+Production defaults are Secure, HttpOnly, host-only, Path=/ and SameSite=Lax. Loopback HTTP development requires
+an explicit SDK option and non-`__Host-` Cookie configuration. Different localhost ports do not isolate Cookies;
+choose distinct names for separate local applications.
+
+Expose the frontend and its BFF on one canonical origin. Configure reverse-proxy routes so `/auth/*` reaches the
+BFF before the SPA fallback, and `/api/*` reaches protected business handlers. Do not derive issuer, callback or
+allowed return destinations from untrusted Host/forwarded headers. Cross-origin credentialed BFF use is outside
+this contract.
+
+POST authentication actions and unsafe business methods require exact Origin and the current `X-CSRF-Token` from
+the safe view, including after middleware has already loaded identity. Login rotates this token; use the current
+view after login. The shared transport handles its authentication actions. For a business write:
+
+```ts
+await fetch('/api/orders', {
+  method: 'POST',
+  credentials: 'same-origin',
+  headers: {'Content-Type': 'application/json', 'X-CSRF-Token': currentView.csrfToken},
+  body: JSON.stringify({productId}),
+});
+```
+
+Keep business permission checks in place. The browser supplies Origin; nonbrowser test clients must set the exact
+configured origin. Cookie guards must never accept an invalid explicit credential by falling back to another identity.
+
+## Expiry, outages and logout
+
+| Result | Application behavior |
+| --- | --- |
+| Confirmed missing/expired/invalid session | Offer sign-in again |
+| Permission denial or bad Origin/CSRF | Show the action error; do not replace the user identity |
+| Storage or upstream read unavailable (503) | Show a retryable service error; do not report a confirmed logout |
+| Code/refresh exchange outcome uncertain | Reauthorize as required; never replay a possibly consumed credential |
+| Partial logout (503) | Report local, Cookie and remote outcomes accurately; do not claim remote revocation succeeded |
+
+The absence of a refresh token is supported: when the access token expires, authorize again. SDK refresh operations
+coordinate ownership and never automatically retry a possibly sent token exchange. Logout invalidates locally before
+bounded remote calls, never refreshes just to log out, and does not imply global SSO logout.
+
+## Check the integration
+
+Verify bootstrap, chosen UI and callback, required MFA, reload restoration, a protected read and write, permission
+denial, logout and another user login. Exercise failure/retry without exposing credentials or restoring late data
+from the previous account. Test a custom provider against its declared worker/replica topology. A source-built
+example or controlled Provider fixture is not evidence of your production storage, real email/SMS delivery or an
+external Provider account.

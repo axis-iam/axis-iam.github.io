@@ -58,6 +58,28 @@
 
 ***
 
+### exchangeAuthorizationCode()
+
+> **exchangeAuthorizationCode**(`code`, `transaction`): `Promise`\<[`WebAuthTokenSet`](../interfaces/WebAuthTokenSet.md)\>
+
+No retries. Caller owns the persisted send intent and failure fencing.
+
+#### Parameters
+
+##### code
+
+`string`
+
+##### transaction
+
+[`WebAuthTransaction`](../interfaces/WebAuthTransaction.md)
+
+#### Returns
+
+`Promise`\<[`WebAuthTokenSet`](../interfaces/WebAuthTokenSet.md)\>
+
+***
+
 ### handleCallback()
 
 > **handleCallback**(`input`): `Promise`\<[`WebAuthCallbackResult`](../interfaces/WebAuthCallbackResult.md)\>
@@ -90,6 +112,18 @@
 
 ***
 
+### prepareLogin()
+
+> **prepareLogin**(): `Promise`\<[`WebAuthBeginLoginResult`](../interfaces/WebAuthBeginLoginResult.md) & `object`\>
+
+Server-only protocol primitive. The caller must bind and atomically consume this transaction.
+
+#### Returns
+
+`Promise`\<[`WebAuthBeginLoginResult`](../interfaces/WebAuthBeginLoginResult.md) & `object`\>
+
+***
+
 ### readSession()
 
 > **readSession**(`sessionId`): `Promise`\<[`WebAuthSession`](../interfaces/WebAuthSession.md)\>
@@ -119,3 +153,37 @@
 #### Returns
 
 `Promise`\<[`WebAuthRefreshResult`](../interfaces/WebAuthRefreshResult.md)\>
+
+***
+
+### revokeTokens()
+
+> **revokeTokens**(`tokens`): `Promise`\<`"UNCONFIRMED"` \| `"SESSION_REVOKED"` \| `"REFRESH_FAMILY_REVOKED"` \| `"NOT_ATTEMPTED"`\>
+
+#### Parameters
+
+##### tokens
+
+[`WebAuthTokenSet`](../interfaces/WebAuthTokenSet.md)
+
+#### Returns
+
+`Promise`\<`"UNCONFIRMED"` \| `"SESSION_REVOKED"` \| `"REFRESH_FAMILY_REVOKED"` \| `"NOT_ATTEMPTED"`\>
+
+***
+
+### rotateTokens()
+
+> **rotateTokens**(`tokens`): `Promise`\<[`WebAuthTokenSet`](../interfaces/WebAuthTokenSet.md)\>
+
+Protocol operation only; caller must already own exclusive refresh authority.
+
+#### Parameters
+
+##### tokens
+
+[`WebAuthTokenSet`](../interfaces/WebAuthTokenSet.md)
+
+#### Returns
+
+`Promise`\<[`WebAuthTokenSet`](../interfaces/WebAuthTokenSet.md)\>

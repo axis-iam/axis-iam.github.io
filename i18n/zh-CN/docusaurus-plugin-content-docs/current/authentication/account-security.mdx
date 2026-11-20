@@ -60,7 +60,8 @@ export function AccountSettings() {
 `darkAppearance` 和 `locale="en" | "zh-CN"`。账号界面继承这些配置，不会修改宿主文档主题。
 
 BFF 模式需要显式设置 `sessionMode="server_session"` 和 `sessionTransport`，
-宿主负责真实的会话初始化、CSRF 防护及匹配路由。`sessionProviderReturnUri` 必须是实际同源的 BFF
-第三方确认回调地址，不能带查询参数或片段，也不能随意填成设置页。
+宿主负责真实的会话初始化、CSRF 防护及匹配路由。AccountCenter 还需要该 transport 对应的账号与身份操作路由。
+接入应用 C0 登录适配器不提供这些 Console 扩展，不能认为加上 `ConnectedAppSessionTransport` 就能启用 AccountCenter。
+接入应用登录支持范围与回调接线见 [BFF 指南](../server-session/)。
 完整传输与操作合同见
-[React 包接入说明](https://github.com/axis-iam/vertex-sdk-js/blob/eb5ae846da5d64283dad58426e18124420816e1e/packages/react/README.md)。
+[React 包接入说明](https://github.com/axis-iam/vertex-sdk-js/blob/21bccfc0079474aa655efbaddc1331b30c83e928/packages/react/README.md)。

@@ -1,0 +1,127 @@
+---
+title: JavaScript BFF
+slug: /sdk/javascript/bff/
+---
+
+# JavaScript BFF
+
+Use `createBff` for the connected-application server-session contract. The older `createWebAuth` helper is a separate
+Hosted-only integration; it is not the full custom-login BFF adapter. Existing Bearer middleware is unchanged.
+Read the [shared flow and deployment requirements](../../../authentication/server-session/) first.
+
+## Install matching artifacts
+
+Follow the [pinned source installation](../). From that same SDK checkout:
+
+```bash
+pnpm --filter @axis-iam/vertex-express... build
+pnpm --dir packages/express pack --out ../../artifacts/vertex-express.tgz
+```
+
+In the application, install core and the adapter together, plus the Express peer dependency:
+
+```bash
+npm install express ../vertex-sdk-js/artifacts/vertex-core.tgz ../vertex-sdk-js/artifacts/vertex-express.tgz
+```
+
+TypeScript hosts also need the matching `@types/express`. No npm release of these source changes is implied.
+
+## Express
+
+This factory returns the app and its shutdown action. Supply configuration from server-side secret storage and
+call `close` on shutdown. Use one memory provider per process.
+
+```ts
+import express from 'express';
+import {MemorySessionProvider} from '@axis-iam/vertex/server';
+import {createBff, getBffUser} from '@axis-iam/vertex-express';
+
+export function createApp() {
+  const app = express();
+  const provider = new MemorySessionProvider({workers: 1, replicas: 1});
+  const bff = createBff({
+    provider,
+    issuer: process.env.IAM_ENDPOINT!,
+    audience: process.env.IAM_RESOURCE_AUDIENCE!,
+    clientId: process.env.IAM_WEB_CLIENT_ID!,
+    clientSecret: process.env.IAM_WEB_CLIENT_SECRET!,
+    applicationOrigin: 'https://app.example.com',
+    redirectUri: 'https://app.example.com/auth/callback',
+    successRedirect: '/signed-in',
+    postLogoutRedirect: '/signed-out',
+    scopes: ['openid', 'profile'],
+  });
+  app.use(bff.basePath, bff.router);
+  app.get('/api/me', bff.requireSession, (request, response) => {
+    response.json({userId: getBffUser(request)!.id});
+  });
+  return {app, close: () => provider.close()};
+}
+```
+
+`requireSession` guards identity and CSRF on unsafe methods; add your business permission/ownership checks as
+needed. `getBffUser` and `getBffSession` only read the validated request context.
+For Nest, build and pack the matching Nest package:
+
+```bash
+pnpm --filter @axis-iam/vertex-nestjs... build
+pnpm --dir packages/nestjs pack --out ../../artifacts/vertex-nestjs.tgz
+```
+
+Install that artifact together with the core and Express artifacts in the Nest application; Nest depends on the
+Express package. Keep its existing Nest/Express peer dependencies. Call `mountBff(app, config)` from
+`@axis-iam/vertex-nestjs` before `app.init()`/`listen()`. It supports the Nest Express adapter; attach the returned
+`requireSession` middleware to your explicitly chosen business paths with `app.use`.
+
+## React with any backend
+
+Build/install the matching core and React artifacts from the [JavaScript guide](../).
+This frontend also works with the Java, Go or Python BFF mounted under `/auth`.
+Mount `/signed-in` and `/signed-out` as real application pages, with the same provider owning session restoration.
+
+```tsx
+import {ConnectedAppSessionTransport} from '@axis-iam/vertex';
+import {IamProvider, SignIn} from '@axis-iam/vertex-react';
+
+const transport = new ConnectedAppSessionTransport({
+  origin: 'https://app.example.com',
+  basePath: '/auth',
+});
+
+export function BffApp() {
+  return (
+    <IamProvider
+      issuerUri="https://auth.example.com"
+      clientId="your-web-client-id"
+      redirectUri="https://app.example.com/auth/callback"
+      sessionMode="server_session"
+      sessionTransport={transport}
+      sessionLoginUri="/auth/login"
+      sessionProviderReturnUri="https://app.example.com/signed-in"
+    >
+      <SignIn mode="redirect" />
+    </IamProvider>
+  );
+}
+```
+
+For an application-owned form page, use `SignIn mode="embedded"` or the existing Dialog/`useAuthFlow` components;
+configure `sessionLoginUri` to the actual form page when calling `login()` should open that page.
+The backend callback stays `/auth/callback`; `sessionProviderReturnUri` names the clean form/MFA landing.
+The same-origin fragment landing is controlled separately by `sessionMagicReturnUri` when needed.
+The transport performs bootstrap and bounded Cookie/CSRF actions; do not call browser token exchange APIs.
+`getAccessToken`, `refreshToken` and token-specific methods are unsupported in `server_session`.
+
+## Host storage and Cookie ownership
+
+Implement `BffSessionProvider` for a custom provider. `MemorySessionProvider` is bounded, volatile, single-process
+storage; declare actual workers/replicas and close it at shutdown. It is not a shared production store.
+
+To reuse an existing Express session Cookie, initialize the host middleware first and pass
+`binding: expressSessionBinding('axisVertexBff')` from `@axis-iam/vertex-express`.
+Omit standalone Cookie options when supplying that binding. Only an opaque namespaced reference enters the host
+session; tokens and refresh ownership remain in the provider. Native session storage does not replace the
+provider atomicity requirements. See the
+[pinned adapter guide](https://github.com/axis-iam/vertex-sdk-js/blob/21bccfc0079474aa655efbaddc1331b30c83e928/packages/express/README.md).
+
+The [API reference](../reference/) includes the server entry point, provider and connected-application transport.

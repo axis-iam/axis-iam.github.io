@@ -13,7 +13,7 @@ languages=" ${*:-javascript java go python} "
 if [[ "$languages" == *" javascript "* ]]; then
 js_root="$source_root/sdk/sdk-js"
 pnpm --dir "$js_root" install --frozen-lockfile
-pnpm --dir "$js_root" --filter @axis-iam/vertex... --filter @axis-iam/vertex-react... build
+pnpm --dir "$js_root" --filter @axis-iam/vertex... --filter @axis-iam/vertex-react... --filter @axis-iam/vertex-express... build
 rm -rf docs/sdk/javascript/reference/generated
 for package in core react express nestjs codegen test; do
   entries=("$js_root/packages/$package/src/index.ts")
@@ -34,10 +34,12 @@ fi
 
 if [[ "$languages" == *" java "* ]]; then
 java_root="$source_root/sdk/sdk-java"
-bash "$java_root/gradlew" -p "$java_root" --no-daemon :vertex-sdk-core:javadoc
+bash "$java_root/gradlew" -p "$java_root" --no-daemon :vertex-sdk-core:javadoc :vertex-sdk-web:javadoc
 rm -rf static/generated/sdk/java
 mkdir -p static/generated/sdk/java
 cp -R "$java_root/vertex-sdk-core/build/docs/javadoc/." static/generated/sdk/java/
+mkdir -p static/generated/sdk/java/web
+cp -R "$java_root/vertex-sdk-web/build/docs/javadoc/." static/generated/sdk/java/web/
 fi
 
 if [[ "$languages" == *" go "* ]]; then
@@ -58,11 +60,14 @@ fi
 if [[ "$languages" == *" python "* ]]; then
 python_root="$source_root/sdk/sdk-python"
 python_tmp="$(mktemp)"
-PYTHONDONTWRITEBYTECODE=1 uv run --python 3.12 --isolated --no-project --with "$python_root" python -m pydoc axis_vertex > "$python_tmp"
 {
-  printf '%s\n\n' '---' 'title: Python API reference' 'slug: /sdk/python/reference/' 'pagination_next: null' 'pagination_prev: null' '---' '' '# Python API reference' '' '```text'
-  sed '/^FILE$/,$d' "$python_tmp"
-  printf '%s\n' '```'
+  printf '%s\n\n' '---' 'title: Python API reference' 'slug: /sdk/python/reference/' 'pagination_next: null' 'pagination_prev: null' '---' '' '# Python API reference'
+  for package in axis_vertex axis_vertex.web_session axis_vertex.fastapi axis_vertex.django; do
+    PYTHONDONTWRITEBYTECODE=1 uv run --python 3.12 --isolated --no-project --with "$python_root[fastapi,django]" python -m pydoc "$package" > "$python_tmp"
+    printf '\n## %s\n\n```text\n' "$package"
+    sed '/^FILE$/,$d' "$python_tmp"
+    printf '%s\n' '```'
+  done
 } > docs/sdk/python/reference/index.mdx
 rm -f "$python_tmp"
 fi

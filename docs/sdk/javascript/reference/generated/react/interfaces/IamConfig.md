@@ -62,6 +62,14 @@ Required only in server_session mode; never inferred from issuer or token availa
 
 ***
 
+### sessionMagicReturnUri?
+
+> `optional` **sessionMagicReturnUri?**: `string`
+
+Exact same-origin browser fragment landing when manually using completeMagicLink.
+
+***
+
 ### sessionMode?
 
 > `optional` **sessionMode?**: `"oauth_tokens"` \| `"server_session"`
@@ -72,7 +80,7 @@ Required only in server_session mode; never inferred from issuer or token availa
 
 > `optional` **sessionProviderReturnUri?**: `string`
 
-Exact same-origin BFF provider callback path, without query/hash; BFF owns PKCE and upstream IDs.
+Exact clean same-origin landing after BFF consumes Provider callback, without query/hash.
 
 ***
 

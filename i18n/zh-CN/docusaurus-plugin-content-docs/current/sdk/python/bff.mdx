@@ -1,0 +1,96 @@
+---
+title: Python BFF
+slug: /sdk/python/bff/
+---
+
+# Python BFF
+
+可选 `axis_vertex.web_session` 模块支持 FastAPI 与 Django 的 Hosted 和自定义登录。
+已有 `IamClient` Bearer API 保持默认行为。按[固定源码安装说明](../)选择框架 extra，
+然后阅读[公共配置与流程](../../../authentication/server-session/)。
+
+## FastAPI
+
+下面的工厂在应用生命周期内创建一份 session core 和 provider：
+
+```python
+from contextlib import asynccontextmanager
+from fastapi import Depends, FastAPI, Request
+from axis_vertex.fastapi import require_web_session, session_router, web_session_from_request
+from axis_vertex.web_session import MemorySessionStore, ServerSession, SessionConfig
+
+
+def create_app(issuer: str, audience: str, client_id: str, secret: str) -> FastAPI:
+    config = SessionConfig(
+        issuer=issuer, resource_audience=audience,
+        client_id=client_id, client_secret=secret,
+        origin="https://app.example.com",
+        callback_uri="https://app.example.com/auth/callback",
+        scopes=("openid", "profile"),
+        return_paths=("/signed-in", "/signed-out"), replicas=1,
+    )
+    store = MemorySessionStore()
+    session = ServerSession(config, store)
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        try:
+            yield
+        finally:
+            await session.aclose()
+            await store.aclose()
+
+    app = FastAPI(lifespan=lifespan)
+    app.include_router(session_router(session))
+
+    @app.get('/api/documents', dependencies=[Depends(require_web_session(session, 'documents:read'))])
+    async def documents(request: Request) -> dict[str, object]:
+        view = web_session_from_request(request)
+        assert view is not None
+        return {'profile': view['profile']}
+
+    return app
+```
+
+参数从后端配置注入。示例保护 `documents:read`，需要登记该权限并授予目标用户。
+`require_web_session` 还会对 POST/PUT/PATCH/DELETE 等写请求校验精确 Origin 和当前 `X-CSRF-Token`。
+`web_session_from_request` 不会额外访问网络。
+
+如需保护明确的一组路径，从 `axis_vertex.fastapi` 配置 `WebSessionMiddleware`，
+传入 `session=session, paths=("/api/documents",)`，依赖仍校验各路由权限。
+不要全局安装后就假定所有业务入口都已经受到保护。
+
+## Django 同步与异步
+
+使用同一个源码版本并选择 `django` extra：
+
+```bash
+python -m pip install "axis-iam-vertex[django] @ git+https://github.com/axis-iam/vertex-sdk-python.git@8a692da6f726442e6603cdd07b9f9322001a0e41"
+```
+
+| 宿主 | Core | 路由与业务保护 |
+| --- | --- | --- |
+| 同步 Django | `SyncServerSession(config, store)` | `session_urls(core)`、`@require_web_session(core, permission)` |
+| 异步 Django | `ServerSession(config, store)` | `session_urls(session)`、`@require_async_web_session(session, permission)` |
+
+路由与装饰器从 `axis_vertex.django` 导入。`session_urls` 加入根 URL 配置，它已包含 `/auth` 前缀。
+可选的 `WebSessionMiddleware` 与 `async_session_middleware` 选择明确路径。
+同步 core 共用一个持久 runner/HTTP 连接池，拒绝在已有事件循环内运行，使用 `close()` 关闭；
+异步 core 与宿主所有的 store 也需要在应用关闭时释放。
+
+保留 Django `CsrfViewMiddleware`。适用时，业务写请求同时需要原生 Cookie/`X-CSRFToken` 和 SDK 的 `X-CSRF-Token`。
+BFF 使用独立 Cookie，不把凭据快照存进 `request.session` 或 Starlette 签名 Cookie session。
+
+## 浏览器与存储
+
+使用[公共 React 示例](../../javascript/bff/#react-with-any-backend)。Python 消费协议回调；
+React 使用同一个安全 Cookie transport 渲染 Hosted 入口、Embedded、Dialog 或 Custom。
+
+`MemorySessionStore` 有容量限制、显式选择、不持久化，使用单进程、`replicas=1`，共用一个 provider 并在关闭时释放。
+`AsyncSessionStore` 与 `SyncSessionStore` 定义自定义原子存储接口。
+原生 Django database/cache/file session backend 不自动具备凭据 provider 的安全保证。
+SDK 不要求数据库、表结构或迁移。
+
+存储或上游故障返回类型化错误与 503，不要转换成匿名成功，也不要误报“会话已过期”。
+详见[固定版本模块指南](https://github.com/axis-iam/vertex-sdk-python/blob/8a692da6f726442e6603cdd07b9f9322001a0e41/docs/server-session.md)
+与[生成的模块参考](../reference/)。

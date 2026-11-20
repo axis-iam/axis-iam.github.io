@@ -20,7 +20,7 @@ transaction for password, email/SMS codes, magic links, Provider authentication 
 transaction completion returns an authorization code, which the SDK exchanges through OAuth with the original
 PKCE binding. Dialog presents the Hosted or Embedded flow selected by the application.
 
-All browser modes use a public SPA client with no secret, an exact allowed origin, registered callback URIs,
+With the default `oauth_tokens`, browser modes use a public SPA client with no secret, an exact allowed origin, registered callback URIs,
 OAuth `state`, and S256 PKCE. Use the SDK rather than constructing credential or Provider requests yourself.
 `clientId` identifies a client belonging to the Application; it does not make authentication policy client-owned.
 Tokens stay in memory by default. Session storage requires explicit configuration.
@@ -29,3 +29,9 @@ Follow the [JavaScript SDK source installation guide](../sdk/javascript/) to use
 
 Server-rendered WEB integrations use a confidential client. Interactive code exchange requires both the server-held
 client secret and the matching PKCE verifier.
+
+## Choose session ownership
+
+The four UI modes can also use [BFF server sessions](./server-session/). Choose `server_session` explicitly, register
+a confidential WEB client and mount a backend SDK adapter. Tokens then remain on the application backend and the
+browser uses an HttpOnly Cookie. Embedded, Dialog and Custom do not require switching to Hosted.

@@ -9,8 +9,10 @@ slug: /api/
 
 | 系列 | 认证方式 | 目标调用方 |
 | --- | --- | --- |
-| OAuth 2.0 / OIDC discovery、authorize、token、logout、JWKS | 协议定义 | 浏览器、原生应用、WEB/BFF 与 M2M 客户端 |
-| 注册 `/api/v1/auth/signup` | 公开客户端上下文 | Embedded、Dialog 与 Custom |
+| OAuth 2.0 / OIDC discovery、authorize、token、revoke、logout、JWKS | 协议定义 | 浏览器、原生应用、WEB/BFF 与 M2M 客户端 |
+| 注册 `/api/v1/auth/signup` 与 `/signup/operations/{operationId}` 动作 | 客户端上下文与注册控制 | Embedded、Dialog、Custom 与 BFF |
+| EMAIL 密码恢复 `/api/v1/auth/password/forgot` 与 `/reset` | 客户端绑定的重置证明 | 浏览器 SDK 与 BFF |
+| `/api/v1/auth/session/validity` | 用户 bearer token | BFF 在线会话有效性；依赖故障不代表已经撤销 |
 | 认证事务 `/api/v1/auth/transactions` 及其 challenge、Provider、证明、MFA、完成与取消操作 | 事务控制与 PKCE 绑定 | 浏览器 SDK |
 | 账户恢复 `/api/v1/auth/recovery` | 目的绑定的恢复授权与证明 | Hosted 与账户 SDK |
 | 身份操作 `/api/v1/auth/me/identity-operations` | 用户身份与操作控制 | 账户安全界面 |
@@ -27,3 +29,7 @@ slug: /api/
 构建同时发布[机器可读的 API family 清单](pathname:///api/public-api-families.json)。它是文档索引，不是 OpenAPI 契约，也不能替代运行时 OIDC discovery。
 
 浏览器认证通过受控事务完成证明，再以原始 PKCE 绑定交换 OAuth 授权码；刷新使用 OAuth token endpoint。注册不会自动登录。
+
+使用[服务端会话](../authentication/server-session/)时，由 BFF 在后端调用这些 IAM API。
+`/auth/session/bootstrap` 等浏览器路由挂在应用自己的 Origin 下，不是 issuer 上的 API。
+内部 Portal/Admin 投递诊断接口不加入这份公开接入清单。

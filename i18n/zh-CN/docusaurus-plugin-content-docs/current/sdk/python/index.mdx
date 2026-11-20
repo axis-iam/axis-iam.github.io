@@ -8,10 +8,12 @@ slug: /sdk/python/
 发行包名是 `axis-iam-vertex`，导入命名空间是 `axis_vertex`。
 使用 Python 3.12 或更新版本安装清单记录的源码提交；此包目前未发布到 PyPI。
 
+需要把 Token 留在应用后端时，使用可选 [BFF 服务端会话接入](./bff/)，本文原有示例继续用于浏览器 Token／Bearer。
+
 ## 从源码安装
 
 ```bash
-python -m pip install "axis-iam-vertex[fastapi] @ git+https://github.com/axis-iam/vertex-sdk-python.git@7c4bb845855fd118abd90ccd3761fae192fd4c9a"
+python -m pip install "axis-iam-vertex[fastapi] @ git+https://github.com/axis-iam/vertex-sdk-python.git@8a692da6f726442e6603cdd07b9f9322001a0e41"
 ```
 
 Django 集成使用 `django` extra；只使用核心客户端时可省略 extra。

@@ -5,6 +5,9 @@ slug: /authentication/hosted/
 
 # Hosted 认证
 
+本页介绍浏览器持 Token 的 `oauth_tokens` 流程。WEB Client 搭配 HttpOnly Cookie 时，按 [BFF 流程](../server-session/)
+接入，bootstrap、协议回调与换码由 BFF 负责。
+
 Hosted 认证将浏览器重定向到 Vertex authorization endpoint。Vertex 在自身 origin 上负责凭据输入、身份提供商选择、加强认证挑战和策略错误；应用负责发起请求、保存 OAuth state 与 PKCE verifier、校验回调并建立自身 UI 状态。
 
 ## 浏览器流程

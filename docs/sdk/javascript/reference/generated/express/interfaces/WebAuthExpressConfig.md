@@ -72,7 +72,7 @@
 
 ###### input
 
-`RequestInfo` \| `URL`
+`URL` \| `RequestInfo`
 
 ###### init?
 
@@ -92,7 +92,7 @@
 
 ###### input
 
-`string` \| `Request` \| `URL`
+`string` \| `URL` \| `Request`
 
 ###### init?
 
@@ -199,6 +199,14 @@ Injectable deterministic clock for tests.
 #### Inherited from
 
 `WebAuthClientConfig.sessionTtlSeconds`
+
+***
+
+### ssoLogout?
+
+> `optional` **ssoLogout?**: `boolean`
+
+Explicit legacy helper SSO navigation. Default is current-session logout only.
 
 ***
 

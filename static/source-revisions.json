@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17",
+  "generatedAt": "2026-11-20",
   "sources": {
-    "vertexBackend": "bf695fae782a6b3f0872e6eab07764108970a58c",
-    "vertexPortal": "df7c207dad08d9fdc74db93fc3a381db29b9bab2",
-    "vertexAdmin": "09633daaf07b078b4273f94de1e2149c641f667d",
-    "vertexSdkJavaScript": "eb5ae846da5d64283dad58426e18124420816e1e",
-    "vertexSdkJava": "ef719b9d2cde32e126550789767b1c718adeb6da",
-    "vertexSdkGo": "3c7b9db4ec19146406d60b39092b38397d7fa513",
-    "vertexSdkPython": "7c4bb845855fd118abd90ccd3761fae192fd4c9a"
+    "vertexBackend": "cc31c684631fb068d83fddaf57b420902b05efdc",
+    "vertexPortal": "f70eff56a81b6bbf2b58cf15c5c6e5684a15ed4d",
+    "vertexAdmin": "506ab785454482aaef267cc01bc7143f40581f5b",
+    "vertexSdkJavaScript": "21bccfc0079474aa655efbaddc1331b30c83e928",
+    "vertexSdkJava": "9b7d1c84cbd051a52b08f5c51a3838c2c92cceb8",
+    "vertexSdkGo": "18ba54527e50cf96151dbfe354db93edc8bd4cb2",
+    "vertexSdkPython": "8a692da6f726442e6603cdd07b9f9322001a0e41"
   }
 }

@@ -2,15 +2,15 @@
   "schemaVersion": 1,
   "product": "vertex",
   "algorithm": "sha256",
-  "generatedAt": "2026-11-17",
+  "generatedAt": "2026-11-20",
   "sources": {
-    "vertexBackend": "bf695fae782a6b3f0872e6eab07764108970a58c",
-    "vertexPortal": "df7c207dad08d9fdc74db93fc3a381db29b9bab2",
-    "vertexAdmin": "09633daaf07b078b4273f94de1e2149c641f667d",
-    "vertexSdkJavaScript": "eb5ae846da5d64283dad58426e18124420816e1e",
-    "vertexSdkJava": "ef719b9d2cde32e126550789767b1c718adeb6da",
-    "vertexSdkGo": "3c7b9db4ec19146406d60b39092b38397d7fa513",
-    "vertexSdkPython": "7c4bb845855fd118abd90ccd3761fae192fd4c9a"
+    "vertexBackend": "cc31c684631fb068d83fddaf57b420902b05efdc",
+    "vertexPortal": "f70eff56a81b6bbf2b58cf15c5c6e5684a15ed4d",
+    "vertexAdmin": "506ab785454482aaef267cc01bc7143f40581f5b",
+    "vertexSdkJavaScript": "21bccfc0079474aa655efbaddc1331b30c83e928",
+    "vertexSdkJava": "9b7d1c84cbd051a52b08f5c51a3838c2c92cceb8",
+    "vertexSdkGo": "18ba54527e50cf96151dbfe354db93edc8bd4cb2",
+    "vertexSdkPython": "8a692da6f726442e6603cdd07b9f9322001a0e41"
   },
   "roots": [
     "docs/sdk/javascript/reference/generated",
@@ -21,8 +21,8 @@
   "files": [
     {
       "path": "docs/sdk/go/reference/index.mdx",
-      "bytes": 129317,
-      "sha256": "64b45295251488237129fb0c6c70d0d78d940194ae1a4dd4f2464f238203cc5b"
+      "bytes": 146094,
+      "sha256": "c25d98e7ebe5236427ad60576c244fadf38c56fe9ec87034967a050e3d8ab95d"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/codegen/README.md",
@@ -61,8 +61,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/README.md",
-      "bytes": 9869,
-      "sha256": "0876add86ebf01aa2d81e8724bb1c560fa10d5a077932fdba07c5cb981054c65"
+      "bytes": 9943,
+      "sha256": "31f25d01a9e83bcbc8894fc253341272ed46f42d7483ffd2789fab57502a7d11"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/classes/AuthCapabilitiesError.md",
@@ -78,6 +78,11 @@
       "path": "docs/sdk/javascript/reference/generated/core/index/classes/AuthenticationTransactionError.md",
       "bytes": 3296,
       "sha256": "ea922eae904a5cab25d0f226a135a554278219c2831eeb066db04e56961812dd"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/index/classes/ConnectedAppSessionTransport.md",
+      "bytes": 949,
+      "sha256": "21f686eccad2694154c2836040c311af469f5e40dd71cb7be3016445273d0987"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/classes/CookieSessionTransport.md",
@@ -126,8 +131,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/classes/ServerSession.md",
-      "bytes": 3876,
-      "sha256": "9022178497734626cb03d352c426955ab79122548ee555071fa3f25d21f5c008"
+      "bytes": 4017,
+      "sha256": "ca3ec8d72183899e9f7fa0e9bf66619c3d8aa886d7de2b426247e5850812b0d6"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/index/classes/SessionInvalidatedError.md",
@@ -846,8 +851,18 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/README.md",
-      "bytes": 9827,
-      "sha256": "5c9cba474f5fca385e65e23d81c3f98f481a22acc3d6ffba416f24774e4fc253"
+      "bytes": 10406,
+      "sha256": "8cd79489ea989f9a335a411e54b2c3e7bbc1a2460882baa778d466565afb7ec5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/classes/BffError.md",
+      "bytes": 3355,
+      "sha256": "0e4130ed5d32f483ca5f4c23348ba30cf6701f6337f518a3f2be99ad2ff39ecc"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/classes/BffSessionClient.md",
+      "bytes": 4543,
+      "sha256": "a8f6fd6dbb3aaf70f0e862106ae74327a0c67b59202b87d11d0dd1220931d417"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/ConfidentialInvitationClient.md",
@@ -868,6 +883,11 @@
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/InvitationBff.md",
       "bytes": 833,
       "sha256": "2b1af1a198b6d4ac2bf51528102a00fa77bd58fd06d23a75c7147c8f82ebc95b"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/classes/MemorySessionProvider.md",
+      "bytes": 3561,
+      "sha256": "7891a204df1b4266686afb0903e5f88a0fb4af084b8f2390e7a80375a3347802"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/PermissionManifestClient.md",
@@ -896,8 +916,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/WebAuthClient.md",
-      "bytes": 2044,
-      "sha256": "4088d9001cf68074269959fe754d93a75fceaecdf00c5feef80d15448af8f280"
+      "bytes": 3558,
+      "sha256": "16caac8a7b60fb084054cc161acba0fad91013cfc3beee4ef5ceaa23a2c7edf0"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/classes/WebAuthError.md",
@@ -938,6 +958,36 @@
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/AuthorizationPageOptions.md",
       "bytes": 315,
       "sha256": "a48698f5619fd1a810fa426578f0e0fa960204ac9612cb97338371d2ba001285"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/BffConfig.md",
+      "bytes": 4029,
+      "sha256": "60198aebda6d94ab72537bbb621712a7ac95e2b83c5d7dc90595e64303f149a3"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/BffLogin.md",
+      "bytes": 1756,
+      "sha256": "a84bc1ba653e4ff00b57d31c6a5a6790ef105d9902f966beca824ae91fcfa9df"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/BffLogoutResult.md",
+      "bytes": 489,
+      "sha256": "f978f3587ee71db0e36caace7ba97b7c8bfbd991740782904082688cb8634451"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/BffRecord.md",
+      "bytes": 1554,
+      "sha256": "138c14688a60a69821662c6c3768332802b205fde7df6866d58d64fef7a61d2d"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/BffResult.md",
+      "bytes": 315,
+      "sha256": "22692adb96df09989b6fb25bfd306eb60a47f3d3ab6f4a2d04143b044a78ee3e"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/BffSessionProvider.md",
+      "bytes": 2115,
+      "sha256": "9ca3a34efb6c65b2dcef1fc99a2c1dcef4cd12f6255ec8c7ff997358fef7d6ac"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/CreateOrganizationInput.md",
@@ -998,6 +1048,11 @@
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/InvitationBffSession.md",
       "bytes": 777,
       "sha256": "bdbfdce3cf97423fbbe9535b06aa630c1ea84d85f3689205785a6b2ade47fe95"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/MemorySessionProviderConfig.md",
+      "bytes": 972,
+      "sha256": "13416ac9044dddfed99d895022d7caa9186138a410c4f4c1540667f8763b09ed"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/Organization.md",
@@ -1256,13 +1311,13 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthLogoutInput.md",
-      "bytes": 263,
-      "sha256": "3cf28b25aa7f3539d4c91d7af8421639eaabe257d4ab073f480d8dc97422c47c"
+      "bytes": 392,
+      "sha256": "3f3e3e7feb78ec416013f1222426199fbe27c5042900076f56f63817a112d6ad"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthLogoutResult.md",
-      "bytes": 256,
-      "sha256": "e3cff7564ca98b9440ff0bbccafacc69f736c24fdd327b1faf76971b4724af51"
+      "bytes": 460,
+      "sha256": "531d94ccedc2de6a24221ccd909982b4be29a58de0ac995aa65c266d02bc3826"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthRefreshInput.md",
@@ -1276,8 +1331,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthSession.md",
-      "bytes": 453,
-      "sha256": "974a038a3f10a0f52462d3d2a9960542729c88fe37741f0beb588a67e233575f"
+      "bytes": 637,
+      "sha256": "57ffe5b78d9a97c79df659cade102a936388a511b4844f50e074a9e3dfcf9691"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthSessionStore.md",
@@ -1286,18 +1341,23 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthTokenSet.md",
-      "bytes": 505,
-      "sha256": "a9bcfb11a0bcab54f0e6f2c8826d14379fb1ccec4ca5341885e62ded4e52452c"
+      "bytes": 518,
+      "sha256": "652642820d62815359fb9514c07aa995fc23413cf70abbee5ef8620675464e9c"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthTransaction.md",
-      "bytes": 499,
-      "sha256": "04cf31b308f666b011a979d2f9f779d225e9a80fb853c75ab1e21eb2b02f8bbb"
+      "bytes": 544,
+      "sha256": "5211532d87446e9417a32c3416fd50784eea60b48073d0aec91b9d7a5320bb9f"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/interfaces/WebAuthTransactionStore.md",
       "bytes": 700,
       "sha256": "257d2362034c2aa055a7e3f290159dcbe81279dce83a26a952433ef7946673a9"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/core/server/type-aliases/BffErrorCode.md",
+      "bytes": 661,
+      "sha256": "7b41e01ebdebe954de5ba3149c7973245620479d6bc69ed515ee6a121588a782"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/type-aliases/CreateRegistrationGrantType.md",
@@ -1350,6 +1410,11 @@
       "sha256": "e8a22489e6015db84784deb4bf1b6b4948d356d4e1a7cc14f4705e56cfefbb86"
     },
     {
+      "path": "docs/sdk/javascript/reference/generated/core/server/type-aliases/ProviderResult.md",
+      "bytes": 240,
+      "sha256": "488ae7235a3b3c441a590c749cc1e25a1be8e89aedc9dd716a4d01c7912c50ec"
+    },
+    {
       "path": "docs/sdk/javascript/reference/generated/core/server/type-aliases/RegistrationGrantStatus.md",
       "bytes": 308,
       "sha256": "2ab7471d57dd34ea35f962858b2d77c16a15db1e11c19c0dc37c4a4a8fb7abf5"
@@ -1361,8 +1426,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/type-aliases/WebAuthErrorCode.md",
-      "bytes": 632,
-      "sha256": "116607d1503d075418189dc22e8ab96d6da376b50e22b339dde31358e238a2c5"
+      "bytes": 795,
+      "sha256": "e84cbd2ee4c944f3c9fe81d44d881bca26f13d1032764fd494d6dbbb9e96b0d1"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/core/server/variables/ORGANIZATIONS_READ_SCOPE.md",
@@ -1466,13 +1531,33 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/express/README.md",
-      "bytes": 447,
-      "sha256": "b328ad7454fd71c25a01ac7398b6fa54922aa5ed7088cf525b32b1bdb31a16f4"
+      "bytes": 837,
+      "sha256": "be715c155e48f287556a3c338981fe57b67cc87e2049db8f8cd4e1f4dda4635f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/functions/createBff.md",
+      "bytes": 448,
+      "sha256": "917811efb7a6ddabf26dbd9c08b4ecf066ca7d29dcd2af1472b22ebc4dac227c"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/express/functions/createWebAuth.md",
       "bytes": 404,
       "sha256": "0f9ba1dbda397a0f77dc394aa92159c6ede5bfd6940b0311d65600296d8e3c62"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/functions/expressSessionBinding.md",
+      "bytes": 646,
+      "sha256": "9fb088bd8c30e6e892f8175b248d7cb50df438039aef4a274c0e213212693703"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/functions/getBffSession.md",
+      "bytes": 772,
+      "sha256": "55a9ba65e93ed7f8d26ade6be857f65485ab95ffbc97ba7c3b2be4448c00cfd2"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/functions/getBffUser.md",
+      "bytes": 285,
+      "sha256": "6e494f586b985c72f58ba9f7a13936a71130f0e8fa75768b5755f41efd173aa7"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/express/functions/iamAuth.md",
@@ -1485,14 +1570,34 @@
       "sha256": "f939d49275ae9ad1ddfb8e01b5d7ed27b2b487d0edd9c26b48b286368110c20c"
     },
     {
+      "path": "docs/sdk/javascript/reference/generated/express/interfaces/BffExpressConfig.md",
+      "bytes": 4763,
+      "sha256": "65d19bd0c26c7b64782f4f4614f86c8f34455e25b72a41ddef678f35c5769ef1"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/interfaces/BffHandlers.md",
+      "bytes": 444,
+      "sha256": "26b480c13e1b857ce6687f6caa31dbc452321ede3fa0c655fed4903e07d3f6a5"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/express/interfaces/BffSessionBinding.md",
+      "bytes": 761,
+      "sha256": "e6b0b6bf2f385e55d4ed118bdabf3bd4f894e621192a1a2793254ea880012835"
+    },
+    {
       "path": "docs/sdk/javascript/reference/generated/express/interfaces/IamRequest.md",
       "bytes": 349,
       "sha256": "53b14bd1852beaa26c005d66179cc76c558f8c7db9bcfd51e6ccbb4ad6bbc676"
     },
     {
+      "path": "docs/sdk/javascript/reference/generated/express/interfaces/NativeBffSession.md",
+      "bytes": 483,
+      "sha256": "95fdfad0091ce9f9a64c7d2953f8646632334379d0dd4b6086c82aefc27fe769"
+    },
+    {
       "path": "docs/sdk/javascript/reference/generated/express/interfaces/WebAuthExpressConfig.md",
-      "bytes": 3129,
-      "sha256": "8c81325aef8b37508d1272c57f9d0ade8200dd4cf1bf7533744cb09dcf98dc6e"
+      "bytes": 3270,
+      "sha256": "d2dff02cb63eaae0800ce44edddab0886ea140122ad7cf980bbb29df38420027"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/express/interfaces/WebAuthHandlers.md",
@@ -1506,8 +1611,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/nestjs/README.md",
-      "bytes": 541,
-      "sha256": "48bce421ca6d57c76aaeac56f9f8e8c61a0fafac8ee0b7e47b9e2a3a57241a8d"
+      "bytes": 725,
+      "sha256": "dabcc955cbf6fba73aac93fb3fb7896eaf354fe9d825502071e471818ccdad6e"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/nestjs/classes/IamAuthGuard.md",
@@ -1535,6 +1640,26 @@
       "sha256": "fea7f6d18f7775e7498485045de0304f02d64ac69cb817021ab2edfcae2c8687"
     },
     {
+      "path": "docs/sdk/javascript/reference/generated/nestjs/functions/expressSessionBinding.md",
+      "bytes": 548,
+      "sha256": "1ee214fa7d3c46208b7559520d1f7aeea492f1b9169d85e72cd58c1468b2161f"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/nestjs/functions/getBffSession.md",
+      "bytes": 770,
+      "sha256": "5d61afbfbcac43b9448fac3517e9ca6ca8ee33b14ddcbd2770a7488691e9a599"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/nestjs/functions/getBffUser.md",
+      "bytes": 283,
+      "sha256": "895a303649e13b31b07405906ded0538b0ef28396d8c240b3cbd9a0a9c377671"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/nestjs/functions/mountBff.md",
+      "bytes": 455,
+      "sha256": "4215500b40b43d552c21449ea4bcb561ce001d150fb58c0a35c0aea58ce55689"
+    },
+    {
       "path": "docs/sdk/javascript/reference/generated/nestjs/interfaces/IamModuleConfig.md",
       "bytes": 2101,
       "sha256": "d452339428f00d26b4783f20af6944cbfecf521a5ae5db711a983b32bee4d7a4"
@@ -1556,8 +1681,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/README.md",
-      "bytes": 21546,
-      "sha256": "4265bd49e270936a96b5801f373bf4680aecac7ea305478710f1987b63dade2a"
+      "bytes": 21620,
+      "sha256": "2cbb49387f46c2700f18564899ba5689f754696680d05c2cf861ed0c361a8a1f"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/classes/AccountSecurityOperations.md",
@@ -1598,6 +1723,11 @@
       "path": "docs/sdk/javascript/reference/generated/react/classes/BrandingFetchError.md",
       "bytes": 4939,
       "sha256": "918a24f68cbae6e37fc66f42d10a6512ea4cb92f4db951eea2316cddd4dd8fdb"
+    },
+    {
+      "path": "docs/sdk/javascript/reference/generated/react/classes/ConnectedAppSessionTransport.md",
+      "bytes": 921,
+      "sha256": "c76e7bf86b8e9306d814cf1c1c162b69013bee52fadcd8a0f9551461a0f82779"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/classes/CookieSessionTransport.md",
@@ -1686,8 +1816,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/classes/ServerSession.md",
-      "bytes": 3836,
-      "sha256": "1d3abfdf3bea9c6d52dcd7bad2da7e0f10fdc17d78ec0fdf5c8043ab8dabf1ed"
+      "bytes": 3977,
+      "sha256": "6ffa21f672c648849aa3511c788c66b7e9a0063b91c336d081f97c44a177578c"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/classes/ServerSessionClient.md",
@@ -2446,8 +2576,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamConfig.md",
-      "bytes": 1605,
-      "sha256": "e97b61fa7b801f86f0dc2b5108fb8fd85afdac4e678829fc47c406f06db7d628"
+      "bytes": 1764,
+      "sha256": "c8918baa01fc2d4e3b35c003924aae1d860d0d108d1164a3d387c7a16260d961"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamContextValue.md",
@@ -2466,8 +2596,8 @@
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamProviderProps.md",
-      "bytes": 55143,
-      "sha256": "b09b3cb9a08327a70ab6f8524dffd527915ac76b69d235cee3af22637a2fd732"
+      "bytes": 55414,
+      "sha256": "45d5d4414ca76096cd528ab402924657c0f22459dc0fbc89a6fe2c413d1171d3"
     },
     {
       "path": "docs/sdk/javascript/reference/generated/react/interfaces/IamUser.md",
@@ -3346,13 +3476,13 @@
     },
     {
       "path": "docs/sdk/python/reference/index.mdx",
-      "bytes": 616680,
-      "sha256": "ee90fd2e0adf8899123bfaf6592fe8cd3d6c69a58125557151e62b948e36b4d2"
+      "bytes": 654480,
+      "sha256": "10ecaf8233a272b7dd20a5689d47a96dc180bf1f77201eb0a4fa9a63c769ef44"
     },
     {
       "path": "static/generated/sdk/java/allclasses-index.html",
-      "bytes": 81153,
-      "sha256": "c2a6d259b2126d57efddaa034e72d7328bca53383dddc0abf6fff78da10da370"
+      "bytes": 81193,
+      "sha256": "64c00ac9eef4172243a655426d7b69a3aaee90fe831757c5628dcc8e4604d622"
     },
     {
       "path": "static/generated/sdk/java/allpackages-index.html",
@@ -3946,18 +4076,18 @@
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/context/IamContext.html",
-      "bytes": 32010,
-      "sha256": "0179ee40a24d20225d744e406baf7fe2afd9c8d5165d24736f3cdb3a8e877128"
+      "bytes": 32018,
+      "sha256": "860e3f810283f3bf448aa94598b28c2749ea414981f87d37b18ab82669a3ff75"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/context/IamCurrentUser.html",
-      "bytes": 59376,
-      "sha256": "758d5b8d081b3e3d78cdd9cddd36e3923e07cb4931564ac96009d9909fabbac8"
+      "bytes": 59416,
+      "sha256": "2195a6f6aa1947ec7858fd3a0b165b39a32385c6342dcf1f0fd70585756f4c63"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/context/package-summary.html",
-      "bytes": 7473,
-      "sha256": "8840d0798f865f29e0eb6863dec55ffb03e8e94a6ed70e9ccaa14da195f9cbdb"
+      "bytes": 7513,
+      "sha256": "b8a244a24ba0b6bb816959e6df896e93f2f8feee5ad092f3152322a52fe142a5"
     },
     {
       "path": "static/generated/sdk/java/com/chaosguide/iam/vertex/context/package-tree.html",
@@ -4476,8 +4606,8 @@
     },
     {
       "path": "static/generated/sdk/java/index-all.html",
-      "bytes": 816357,
-      "sha256": "d640e2f284a88e5a421e82647dbaf859a93b1f73c2026b45afe039b5fcf59db6"
+      "bytes": 816401,
+      "sha256": "0b5731f93185fc26f6e75b2d238e49fb05cf72f9eb2445e4c266e745d1120187"
     },
     {
       "path": "static/generated/sdk/java/index.html",
@@ -4748,6 +4878,416 @@
       "path": "static/generated/sdk/java/type-search-index.js",
       "bytes": 17724,
       "sha256": "bf155251269ba91e4672551c2d1c164d0a2f7a6e11b7801f2a740216c26ac54f"
+    },
+    {
+      "path": "static/generated/sdk/java/web/allclasses-index.html",
+      "bytes": 12341,
+      "sha256": "a82a800bf219763cf2a31992fbc35032eab236675e5a8ef6b0bdf91f10782a93"
+    },
+    {
+      "path": "static/generated/sdk/java/web/allpackages-index.html",
+      "bytes": 2961,
+      "sha256": "4261d034805ed04c7d5ce3dc9efb191d945ac8af128798c0d4fe6d3d34fdff2b"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/CookieWebSessionCarrier.html",
+      "bytes": 17161,
+      "sha256": "d71d6c538582fe8bd93f3e6e9c0d9ac5cd2805775c7b109827521b4816523406"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/EnableWebBff.html",
+      "bytes": 5173,
+      "sha256": "dfee72fd8477d0ded7edc66b98067cf657768e7e076390339fcb4aee81940813"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/HttpSessionWebSessionCarrier.html",
+      "bytes": 19821,
+      "sha256": "2fbdca749acc2754cea7c0acebe29f54c88a2d4548c4f75acdbf93991587fe0e"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/MemoryWebSessionStore.html",
+      "bytes": 23290,
+      "sha256": "30d7891c90016dab99d2f9363408901b6298707d4ecd2d5080c14817e00aa4b1"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/SafeSessionView.html",
+      "bytes": 9899,
+      "sha256": "eba1373510e1fbbcb55d0e49ef1d51d608dd950e5f523e34022c9808a9f8e659"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebBff.html",
+      "bytes": 14732,
+      "sha256": "8595131b406448b0fc099447110647d9a4d3a63501d974e0296a82e8f0520caa"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebBffConfig.html",
+      "bytes": 43811,
+      "sha256": "bd096e5f45cef2bec5d77d760613c90fc5db449cc99db8d061bcee8c04902ff3"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebBffSpringConfiguration.html",
+      "bytes": 16532,
+      "sha256": "89906a4dad59e762683f7cf95546798210c474a95e0532f6f80c672e3bc09373"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebIamClient.Budget.html",
+      "bytes": 9124,
+      "sha256": "40cfe804033c34a9a573aec66c0f3c6e9e6d8df24f8f97f38ae3cadb39fec2a1"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebIamClient.Identity.html",
+      "bytes": 25489,
+      "sha256": "1ad48269c8365645f92d1385e04ff7cc62845c8a8024ef04250a40342ec6fa79"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebIamClient.Tokens.html",
+      "bytes": 26483,
+      "sha256": "5793a95493d6532eab2797d971cd5cdc2d3739c658dd8045072e6e4e9caf98fe"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebIamClient.html",
+      "bytes": 31627,
+      "sha256": "b99ec800a43176588e9d61de0b203da373d65427f6427150384bcd040a2e1749"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebSessionCarrier.html",
+      "bytes": 11489,
+      "sha256": "a3c4c9143f51af239921525ecac9d7e95b784bdec0b404c9a3e3e60ca4ce06c9"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebSessionException.html",
+      "bytes": 19008,
+      "sha256": "d921fe32bfa9812c71c10756f2322f7c6d7db31c64e3491379bd88dad1fafb2c"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebSessionRecord.Kind.html",
+      "bytes": 18986,
+      "sha256": "9b812dd039303b22a23b256d12d2dcd66856b993b9fde09d2b1d45407deca1f3"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebSessionRecord.Lifecycle.html",
+      "bytes": 19084,
+      "sha256": "d5097cdb1737b7419ddd208958d13117082cb7d4c277d95d5908680e9fd0152d"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebSessionRecord.html",
+      "bytes": 28098,
+      "sha256": "99358305b72e1ecaa3b4e7942c31108879289111076ef9635ea17c37b9f7728e"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebSessionService.Logout.html",
+      "bytes": 18939,
+      "sha256": "78aab593f3c52ec70d01d912f9034bf51d247c0c2d2c6e8fcce83c9233bb2c6f"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebSessionService.Result.html",
+      "bytes": 19651,
+      "sha256": "bd1b26dbb0f34e688e7c46449c43dbedb702044fa977ee8b7a1ee66ae0d1f5a1"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebSessionService.html",
+      "bytes": 37544,
+      "sha256": "3f151a038a1033a394ca4c2dd9daaec3746a3ad4fd52193d5acce7dea98575e4"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/WebSessionStore.html",
+      "bytes": 15457,
+      "sha256": "1412b96f5234d1cace1e0196bd9f04fd8780d0b576843b3648fac3d7f0d05f7c"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/package-summary.html",
+      "bytes": 12289,
+      "sha256": "67291375af3008b0f7f44cf6d9117ce3ce5459379e96345f45b7aaad00b593db"
+    },
+    {
+      "path": "static/generated/sdk/java/web/com/chaosguide/iam/vertex/web/package-tree.html",
+      "bytes": 10988,
+      "sha256": "dcf011a05bca74f7d696f05d7394e30259f6f62c8cdd0deda1a0d45d2f98257b"
+    },
+    {
+      "path": "static/generated/sdk/java/web/constant-values.html",
+      "bytes": 4579,
+      "sha256": "712dfe0a02ff2c44309d7c3ea455de59a6310c52c0ac21906fe973d9d250fb00"
+    },
+    {
+      "path": "static/generated/sdk/java/web/element-list",
+      "bytes": 30,
+      "sha256": "fce0046ff052e5df8f385775b6c30a54ec9fe2837d4b77737799794285e16674"
+    },
+    {
+      "path": "static/generated/sdk/java/web/help-doc.html",
+      "bytes": 11085,
+      "sha256": "3ddb8f1d7bcbca881907ac1a904bdec8ca7b7531ea340edb3590141a37b3454e"
+    },
+    {
+      "path": "static/generated/sdk/java/web/index-all.html",
+      "bytes": 68571,
+      "sha256": "97bcf2ac37274e904d697501ed132d861639e49effca7a2b3e5ed8286a74f5e1"
+    },
+    {
+      "path": "static/generated/sdk/java/web/index.html",
+      "bytes": 1034,
+      "sha256": "20834c2a195db1e04e0a72ed818c7ec89792ea80f967c28b75273c6ad1bbc12c"
+    },
+    {
+      "path": "static/generated/sdk/java/web/legal/ADDITIONAL_LICENSE_INFO",
+      "bytes": 2114,
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+    },
+    {
+      "path": "static/generated/sdk/java/web/legal/ASSEMBLY_EXCEPTION",
+      "bytes": 1514,
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33"
+    },
+    {
+      "path": "static/generated/sdk/java/web/legal/LICENSE",
+      "bytes": 19274,
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+    },
+    {
+      "path": "static/generated/sdk/java/web/legal/dejavufonts.md",
+      "bytes": 8841,
+      "sha256": "bcec55913c89822a8292af4e97a5ad7a07aa920dbc49524439ff7c70638dd1e8"
+    },
+    {
+      "path": "static/generated/sdk/java/web/legal/jquery.md",
+      "bytes": 1157,
+      "sha256": "b68f454c2bd58959c862d94bf0f16c3f78a2d537388ca060d354344db80ee695"
+    },
+    {
+      "path": "static/generated/sdk/java/web/legal/jqueryUI.md",
+      "bytes": 1871,
+      "sha256": "7854d2d568992ae25ff65867bd9021d655f70670142f0796b29a3b0621f19530"
+    },
+    {
+      "path": "static/generated/sdk/java/web/member-search-index.js",
+      "bytes": 18973,
+      "sha256": "c16fe3139348c63bb8735412c2186509c6d5b3dc6a43efdf9f0564ba6ae0f682"
+    },
+    {
+      "path": "static/generated/sdk/java/web/module-search-index.js",
+      "bytes": 45,
+      "sha256": "814a05983e3267d591c7e62b314eb8eb0504eee844c8a70d494f6edbaa0f4f18"
+    },
+    {
+      "path": "static/generated/sdk/java/web/overview-tree.html",
+      "bytes": 11611,
+      "sha256": "6961720aec890fa9c203eb20b112dbb592ebb9ab40b61d346a8ad62b081e2d53"
+    },
+    {
+      "path": "static/generated/sdk/java/web/package-search-index.js",
+      "bytes": 142,
+      "sha256": "f7fb6452ec85c48f0a049a19670756c1631b9bbab0650df176e1dfef66629f13"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/copy.svg",
+      "bytes": 845,
+      "sha256": "766208d2f8bda15fef5c7de875a21892441c6daaec7dc5098e09daccf197fada"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSans-Bold.woff",
+      "bytes": 280908,
+      "sha256": "101783e1c52d432cf38323b12169257eafda85dc5d8e421fef7115cae1d60bf5"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSans-Bold.woff2",
+      "bytes": 193392,
+      "sha256": "254c30239b464b57ebfeb6757c6ea71c90439d7e932909556c35dc8a08847cc1"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSans-BoldOblique.woff",
+      "bytes": 276608,
+      "sha256": "7413f14cf9feb4bc5277e5575f090a2e7aa81657762a1a13301d5413e30f537b"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSans-BoldOblique.woff2",
+      "bytes": 193548,
+      "sha256": "153f5534152121a465e3bc6d285601e1d8bdc3821f7b42f0cdcf33e5fb798f17"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSans-Oblique.woff",
+      "bytes": 273920,
+      "sha256": "acb835b179c94c9060a330912042b6dea1ca539cba2da10d471001e62a60fea0"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSans-Oblique.woff2",
+      "bytes": 192368,
+      "sha256": "ad3eef5cc00bc9b8673e56fb3eda8166d27d85232a3a7c39cadbc9a1201802de"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSans.woff",
+      "bytes": 300804,
+      "sha256": "6c9990bea12326ef975f434d43479605d80afef55191026a2aa5c7a6fff83909"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSans.woff2",
+      "bytes": 208088,
+      "sha256": "cd825e41bec67b8255d6af44b4819449a4ad20f7b5af0b524136aa3a57912d3a"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSansMono-Bold.woff",
+      "bytes": 166156,
+      "sha256": "c83c596fadc6c94e2c17b56ee5f8ad790dd93226853e8cf7a2c3d252e01f3245"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSansMono-Bold.woff2",
+      "bytes": 120496,
+      "sha256": "bf63975248750c846bd5112f10d94592b9a59ddf20b9ffc2bf4fec2d5633a49c"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSansMono-BoldOblique.woff",
+      "bytes": 131976,
+      "sha256": "99962e266bd99d979f641292d872cce733c8e3dcfecd3c3ae485d66fa77b4e4a"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSansMono-BoldOblique.woff2",
+      "bytes": 93508,
+      "sha256": "ed4a0b803174af2f790256f260ad648eaa3af3fb820b21564697fcd604dd9135"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSansMono-Oblique.woff",
+      "bytes": 131844,
+      "sha256": "8f5b67e448b5e8f3e922c44e23bd7ed4f3f49b2e5b02731031eec3e00fd739c5"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSansMono-Oblique.woff2",
+      "bytes": 94024,
+      "sha256": "d5ebd7756fc67602723df6f3eca02482106bc59198a040a7e6249d254fb223d6"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSansMono.woff",
+      "bytes": 170212,
+      "sha256": "4b68aff01a1ad6f7547095d69b3dba8ab5fb47ff1f0e348ee32ffa45fa28365c"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSansMono.woff2",
+      "bytes": 123560,
+      "sha256": "747a4c8b1f2e109a2e710abe881ba8967e7475bd4c439d0012536bc669b03876"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSerif-Bold.woff",
+      "bytes": 167488,
+      "sha256": "20615439ec5f362f3410ca6ddf18df273d58b4b52a8714e36ed2a6f1a7e91857"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSerif-Bold.woff2",
+      "bytes": 112512,
+      "sha256": "2f55e99b3a13cd9b34f41e81705deaaa1cb853c8f9b1c918ad0e55f66a74034e"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSerif-BoldItalic.woff",
+      "bytes": 165488,
+      "sha256": "1b2126e795203a5b10330c3cdae88f2df47e4f3c4658b99bfbd8d40a111e82b2"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSerif-BoldItalic.woff2",
+      "bytes": 113032,
+      "sha256": "aa24fc48aef9adb90a45f72b905e7b0a5b758f2263cbcc36ac3562c0a277ad5e"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSerif-Italic.woff",
+      "bytes": 166552,
+      "sha256": "c7038d955130d385a75929a491816ff6f9d0d4fe22c7e68da567c53f8447ec56"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSerif-Italic.woff2",
+      "bytes": 113988,
+      "sha256": "e4e50f30b7d9d9a6f4e5a333152feeaeb9db1df739cb6312c5cba6b9a1511778"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSerif.woff",
+      "bytes": 186428,
+      "sha256": "2664d2906ae707ad579847e0b14180bf7d265407267dce7faf68ef8e5ccf20b7"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/DejaVuLGCSerif.woff2",
+      "bytes": 127416,
+      "sha256": "4fcadaf15c0d025e2d46a0095c337ab13f97f8f30b367440119da92acf511b30"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/fonts/dejavu.css",
+      "bytes": 2771,
+      "sha256": "ce7e0afd65d12d2c549caa1e2f246766379a4cda3eb3ec1b3a73f1957b49f962"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/glass.svg",
+      "bytes": 743,
+      "sha256": "869d9c69e855b418e01319986966d18d6d04c06bc0c870550f9e8f3a7d91d3da"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/jquery-ui.min.css",
+      "bytes": 1710,
+      "sha256": "ab01f1e5d951f9cfa5fed84d37004ba30724d0befcde1d6b6fcedf7041936244"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/left.svg",
+      "bytes": 597,
+      "sha256": "b5585aa2a1177168bafe47381adc30ef1e2371ef1f0a5f47b966a85eca7c29b0"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/link.svg",
+      "bytes": 1100,
+      "sha256": "f2be6cad5ff857fb23f4e27a910b8111dc9e299108c604fabd7f70300366420c"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/right.svg",
+      "bytes": 590,
+      "sha256": "8e8eb727a7aea0bcdc9acd9c19c043ae1762759bc5d5bf91a45d2f59e48dbaca"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/stylesheet.css",
+      "bytes": 42485,
+      "sha256": "dd08dd924584988b9b118cea1d29d79cc7f5d7946a62f48a222449092dcc4789"
+    },
+    {
+      "path": "static/generated/sdk/java/web/resource-files/x.svg",
+      "bytes": 607,
+      "sha256": "dcb2b87eda0aea66d91e8a36ae5b23eba58cf88769429a49eacf41aac925040d"
+    },
+    {
+      "path": "static/generated/sdk/java/web/script-files/jquery-3.7.1.min.js",
+      "bytes": 87533,
+      "sha256": "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a"
+    },
+    {
+      "path": "static/generated/sdk/java/web/script-files/jquery-ui.min.js",
+      "bytes": 32272,
+      "sha256": "4c0b2b6513452adf188402da32faea446b326e0a3362eda6fa8603e73594a567"
+    },
+    {
+      "path": "static/generated/sdk/java/web/script-files/script.js",
+      "bytes": 21563,
+      "sha256": "795ddba417f4a106bbfae3c84cb2c61363e0ce9b29163eaefdc9c334db1f9b2d"
+    },
+    {
+      "path": "static/generated/sdk/java/web/script-files/search-page.js",
+      "bytes": 12825,
+      "sha256": "3bd59d168258fa81f6ffe473feec32bae0e0a5d571ecc89a1eb4fc04defed1b7"
+    },
+    {
+      "path": "static/generated/sdk/java/web/script-files/search.js",
+      "bytes": 20169,
+      "sha256": "fb8492aa12ea5e8c74045f0f909c7f9afc12cb44ce165e1b18a4d0cd1c49908c"
+    },
+    {
+      "path": "static/generated/sdk/java/web/search.html",
+      "bytes": 3604,
+      "sha256": "fb72fe82070c24b7ea6dd7d2a5f32a3c4c6906ad3c83ff11b9eb05a3949ea6d5"
+    },
+    {
+      "path": "static/generated/sdk/java/web/serialized-form.html",
+      "bytes": 4240,
+      "sha256": "a7d9a1d543d83c7201c40df49da4957d6e4cb5b4970b69fdad7984ea991f9a56"
+    },
+    {
+      "path": "static/generated/sdk/java/web/tag-search-index.js",
+      "bytes": 181,
+      "sha256": "2c68a7d29a049af9aca94ce6d94e50402908947084df988d3e2b783338eaf480"
+    },
+    {
+      "path": "static/generated/sdk/java/web/type-search-index.js",
+      "bytes": 1547,
+      "sha256": "c943ed72e0524ac91e1bfff340193c06898fe1f63829ffe2566e6056cb02f5cb"
     }
   ]
 }

@@ -61,7 +61,7 @@ test('bilingual SDK installation pages are copyable, searchable, and fit the vie
     {
       sdk: 'go',
       heading: 'Go SDK',
-      install: 'go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261114111734-3c7b9db4ec19 github.com/axis-iam/vertex-sdk-go/chi@v0.1.2-0.20261114111734-3c7b9db4ec19',
+      install: 'go get github.com/axis-iam/vertex-sdk-go@v0.1.2-0.20261120053216-18ba54527e50 github.com/axis-iam/vertex-sdk-go/chi@v0.1.2-0.20261120053216-18ba54527e50',
     },
     {
       sdk: 'python',
